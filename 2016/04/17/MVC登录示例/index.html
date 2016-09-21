@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>MVC登录示例 | 做点有意思的事情</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="自上篇iOS基于MVC的项目重构总结之后,我又思考了下面这个问题:
+在UIKit自身的设计中UIViewController是被当做C还是V呢?">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MVC登录示例">
+<meta property="og:url" content="http://www.devzhang.cn/2016/04/17/MVC登录示例/index.html">
+<meta property="og:site_name" content="做点有意思的事情">
+<meta property="og:description" content="自上篇iOS基于MVC的项目重构总结之后,我又思考了下面这个问题:
+在UIKit自身的设计中UIViewController是被当做C还是V呢?">
+<meta property="og:updated_time" content="2016-06-30T06:34:21.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MVC登录示例">
+<meta name="twitter:description" content="自上篇iOS基于MVC的项目重构总结之后,我又思考了下面这个问题:
+在UIKit自身的设计中UIViewController是被当做C还是V呢?">
+  
+  
+    <link rel="icon" href="/img/head.jpg">
+  
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  
+  
+      <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  
+  <!-- 加载特效 -->
+    <script src="/js/pace.js"></script>
+    <link href="/css/pace/pace-theme-flash.css" rel="stylesheet" />
+  <script>
+      var yiliaConfig = {
+          fancybox: true,
+          animate: false,
+          isHome: false,
+          isPost: true,
+          isArchive: false,
+          isTag: false,
+          isCategory: false,
+          open_in_new: false
+      }
+  </script>
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            
+            <img src="/img/head.jpg" class="js-avatar" style="width: 100%;height: 100%;opacity: 1;">
+            
+        </a>
+
+        <hgroup>
+          <h1 class="header-author"><a href="/">Devzhang</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">每天进步一点点</p>
+        
+        
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/categories/iOS">iOS</a></li>
+                        
+                            <li><a href="/categories/Algorithm">算法</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fl github" target="_blank" href="https://github.com/changjianfeishui" title="github">github</a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <a href="/tags/AVFoundation/" style="font-size: 20px;">AVFoundation</a> <a href="/tags/AVFoundation编程指南/" style="font-size: 17.14px;">AVFoundation编程指南</a> <a href="/tags/Kcamera/" style="font-size: 18.57px;">Kcamera</a> <a href="/tags/MVC/" style="font-size: 12.86px;">MVC</a> <a href="/tags/MVP/" style="font-size: 10px;">MVP</a> <a href="/tags/Moco/" style="font-size: 10px;">Moco</a> <a href="/tags/http/" style="font-size: 11.43px;">http</a> <a href="/tags/phoneGap/" style="font-size: 14.29px;">phoneGap</a> <a href="/tags/加密/" style="font-size: 10px;">加密</a> <a href="/tags/排序/" style="font-size: 15.71px;">排序</a> <a href="/tags/架构/" style="font-size: 14.29px;">架构</a> <a href="/tags/算法/" style="font-size: 15.71px;">算法</a> <a href="/tags/翻译/" style="font-size: 17.14px;">翻译</a> <a href="/tags/视频直播/" style="font-size: 10px;">视频直播</a>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://coderzhang.xyz/">我的WordPress</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://blog.csdn.net/qq329735967">我的CSDN</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Devzhang</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                
+                    <img src="/img/head.jpg" class="js-avatar" style="width: 100%; height: 100%; opacity: 1;">
+                
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">Devzhang</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">每天进步一点点</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/categories/iOS">iOS</a></li>
+                
+                    <li><a href="/categories/Algorithm">算法</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a class="github" target="_blank" href="https://github.com/changjianfeishui" title="github">github</a>
+                    
+                </div>
+            </nav>
+        </header>                
+    </div>
+</nav>
+      <div class="body-wrap"><article id="post-MVC登录示例" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/04/17/MVC登录示例/" class="article-date">
+      <time datetime="2016-04-16T16:00:00.000Z" itemprop="datePublished">2016-04-17</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      MVC登录示例
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/iOS/">iOS</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MVC/">MVC</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/架构/">架构</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>自上篇<a href="http://coderzhang.xyz/2016/04/12/ios基于mvp的项目重构总结/" target="_blank" rel="external">iOS基于MVC的项目重构总结</a>之后,我又思考了下面这个问题:</p>
+<p>在<code>UIKit</code>自身的设计中UIViewController是被当做C还是V呢?</p>
+<a id="more"></a>
+<p>例如我们点击View上某个Button时,可能会使用调用self.navigationController的<code>pushViewController: animated:</code>方法来跳转到一个新的界面.</p>
+<p>在这个场景中,点击事件通过View传递到UIViewController,然后跳转到一个新的MVC.事件的逻辑处理是在UIViewController中完成的,事件的处理者是<code>self</code>(一个UIViewController),可见在<code>UIKit</code>中UIViewController是被视为Controller的.</p>
+<p>那么第二个问题来了,如果需要在一个UIViewController中实现很复杂的View结构或者subViews之间的动画逻辑,那么如何合理设计<code>UIViewController</code>和<code>UIView</code>两者之间的关系呢?</p>
+<p>在上文中说过,我的想法是通过给每一个UIViewController设计一个对应的XXXContainerView,通过这样的方式来强行分离V和C,避免由于V太复杂时出现<code>MassiveViewController</code>.但这样同时也带来了一个坏处:无法像在UIViewController自带的view里添加控件一样,可以将控件的响应方法直接绑定到UIViewController的.m文件中,也无法享受类似<code>viewDidDisappear:</code>生命周期方法带来的便利了.</p>
+<p>当然,对于有一定MVC经验的开发者,也可以通过类似下面的代码来简化XXXContainerView这一层:</p>
+<pre><code>[self.view addSubview:self.topView];
+[self.view addSubview:self.midView];
+[self.view addSubview:self.bottomView];
+</code></pre><p>虽然任何Demo都不可能模拟出实际项目中遇到的问题,但通过不同横向对比还是很容易看出不同架构的区别所在.接下来,我将以我目前对MVC的理解,给出一个简单的登录示例Demo.</p>
+<p><a href="http://pan.baidu.com/s/1pLTCyEJ" target="_blank" rel="external">Demo地址:http://pan.baidu.com/s/1pLTCyEJ</a></p>
+<p>Demo十分简单,这里仅做简单说明:</p>
+<ol>
+<li>LoginContainerView:负责创建用户所能看到的界面,以及将向Controller中传递登录事件和登录参数.</li>
+<li>LoginModel:提供接口完成具体的登录业务,Demo中省略了网络层以及存储层.</li>
+<li>LoginController:负责创建LoginContainerView,以及当监听到登录事件时,调用LoginModel中的登录业务方法.</li>
+</ol>
+<p>由于仅为了明确MVC的结构,所以Demo中对很多实际项目设计到的业务没有具体处理,比如网络请求(Demo中通过本地进行了模拟),数据持久化,以及登录成功后rootViewController的切换.</p>
+<p>这里有一点值得谈论的时,对用户输入数据的校验应该放在哪一层来完成呢?为了简化调用,Demo中是直接放在View层来进行判断的.当然,好像放在任何一层都有道理.</p>
+<p>上面也提到过,MVC的一个复杂点在于,当View结构复杂之后,如果一个UIViewcontroller来管理多个的复杂的View,势必会造成View层和Controller层的交互变得复杂,并随着业务增长逐渐膨胀,直至崩溃.</p>
+<p>那么,为每个单独的View构造一个对应的Controller是否可行呢?</p>
+<p>其实UIKit就是这么做的,比如UINavigationController栈中的每一项,都是一个新的MVC,更具体的关于多重MVC的介绍可以参见<a href="http://open.163.com/movie/2015/2/M/7/MAIKHN60A_MAIPGF0M7.html" target="_blank" rel="external">斯坦福大学公开课:iOS 8开发-<br>多重 MVC</a>.</p>
+<p>但是实际开发中对于我们自定义的继承自UIView的类,好像我们都并没有对其创建一个Controller的习惯—除非你愿意加班来完成这些额外的代码.苹果也没有强制推荐这么做—否则,只要设置不能单独创建UIView,只有通过UIViewController才能创建UIView就可以了.</p>
+<p>接下来,同样对这个登录示例,我会再给出一个MVP的例子.通过二者横向对比,两者的差异会很明显的体现出来.</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2016/04/17/MVC登录示例/">MVC登录示例</a></p>
+        <p><span>文章作者:</span><a href="/" title="访问 Devzhang 的个人博客">Devzhang</a></p>
+        <p><span>发布时间:</span>2016年04月17日 - 00时00分</p>
+        <p><span>最后更新:</span>2016年06月30日 - 14时34分</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2016/04/17/MVC登录示例/" title="MVC登录示例">http://www.devzhang.cn/2016/04/17/MVC登录示例/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://www.devzhang.cn/2016/04/17/MVC登录示例/　　作者: Devzhang" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script src="/js/clipboard.min.js"></script>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target = "_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+<nav id="article-nav">
+  
+    <a href="/2016/04/17/MVP登录示例/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          MVP登录示例
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/04/12/iOS基于MVC的项目重构总结/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">iOS基于MVC的项目重构总结</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    
+</div>
+<input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script>
+    var valueHide = "隐藏目录";
+    var valueShow = "显示目录";
+
+    if ($(".left-col").is(":hidden")) {
+        $("#tocButton").attr("value", valueShow);
+    }
+    $("#tocButton").click(function() {
+        if ($("#toc").is(":hidden")) {
+            $("#tocButton").attr("value", valueHide);
+            $("#toc").slideDown(320);
+        }
+        else {
+            $("#tocButton").attr("value", valueShow);
+            $("#toc").slideUp(350);
+        }
+    })
+    if ($(".toc").length < 1) {
+        $("#toc, #tocButton").hide();
+    }
+</script>
+
+
+
+
+
+<div class="bdsharebuttonbox">
+	<a href="#" class="fx fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+	<a href="#" class="fx fa-weixin bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+	<a href="#" class="fx fa-qq bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+	<a href="#" class="fx fa-facebook-official bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+	<a href="#" class="fx fa-twitter bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+	<a href="#" class="fx fa-linkedin bds_linkedin" data-cmd="linkedin" title="分享到linkedin"></a>
+	<a href="#" class="fx fa-files-o bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+</div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+
+
+
+    
+      <div class="duoshuo" id="comments">
+    <!-- 多说评论框 start -->
+    <div class="ds-thread" data-thread-key="2016/04/17/MVC登录示例/" data-title="MVC登录示例" data-url="http://www.devzhang.cn/2016/04/17/MVC登录示例/"></div>
+    <!-- 多说评论框 end -->
+    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:"coderzhang"};
+    (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = '/js/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] 
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+    </script>
+    <!-- 多说公共JS代码 end -->
+</div>
+
+    
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2016/04/17/MVP登录示例/" title="上一篇: MVP登录示例">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+        
+            <a href="/2016/04/12/iOS基于MVC的项目重构总结/" title="下一篇: iOS基于MVC的项目重构总结">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2016/09/20/时间和媒体的表示/">时间和媒体的表示</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/20/Asset的重编码及导出/">Asset的重编码及导出</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/18/静态图片和视频捕捉/">静态图片和视频捕捉</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/09/编辑Assets/">编辑Assets</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/06/播放Assets/">播放Assets</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/31/使用Assets/">使用Assets</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/31/AVFoundation简介/">AVFoundation简介</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/30/视频直播专业名词解答/">视频直播专业名词解答</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/10/绘制音频波形图/">绘制音频波形图</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/05/高帧率视频捕捉/">高帧率视频捕捉</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/03/条码扫描/">条码扫描</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/29/人脸检测/">人脸检测</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/28/视频缩放/">视频缩放</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/22/调整闪光灯和手电筒模式/">调整闪光灯和手电筒模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/19/对焦和曝光功能的实现/">对焦和曝光功能的实现</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/18/切换摄像头/">切换摄像头</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/18/捕获视频/">捕获视频</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/15/捕捉静态图片/">捕获静态图片</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/13/使用AVCaptureSession采集视频/">使用AVCaptureSession采集视频</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/11/仿系统视频录制按钮的实现/">仿系统视频录制按钮的实现</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/08/仿系统相机模式标签切换的实现/">仿系统相机模式标签切换的实现</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/25/使用AVAudioRecorder录制音频/">使用AVAudioRecorder录制音频</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/20/AVAudioPlayer中断处理/">AVAudioPlayer中断处理</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/17/MVP登录示例/">MVP登录示例</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/17/MVC登录示例/">MVC登录示例</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/12/iOS基于MVC的项目重构总结/">iOS基于MVC的项目重构总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/02/使用AVAudioPlayer播放音频/">使用AVAudioPlayer播放音频</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/31/音频会话(Audio Session)/">音频会话(Audio Session)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/30/AVSpeechSynthesizer：文本到语音/">AVSpeechSynthesizer:文本到语音</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/28/AVFoundation入门/">AVFoundation入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/23/iOS中MVC的几个误区/">iOS中MVC的几个误区</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/15/接口安全认证/">接口安全认证</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/14/使用Moco进行http接口模拟/">使用Moco进行http接口模拟</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/05/14/phonegap|iOS|推送/">phonegap|iOS|推送</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/05/06/phoneGap在iOS上给JS传值方法/">phoneGap在iOS上给JS传值方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/04/24/phoneGap在iOS上自定义实现友盟分享插件/">phoneGap在iOS上自定义实现友盟分享插件</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/04/23/phoneGap在iOS上弹出对话框和调用相机/">phoneGap在iOS上弹出对话框和调用相机</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/03/26/菜鸟学排序：直接插入排序/">菜鸟学排序：直接插入排序</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/03/26/菜鸟学排序：折半插入排序/">菜鸟学排序：折半插入排序</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/03/25/菜鸟学排序：冒泡排序/">菜鸟学排序：冒泡排序</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/03/25/菜鸟学排序：快速排序/">菜鸟学排序：快速排序</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/03/24/菜鸟学排序：简单选择排序/">菜鸟学排序：简单选择排序</a></li></ul>
+    <script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+    <script>
+        $(".post-list").addClass("toc-article");
+        $(".post-list-item a").attr("target","_blank");
+        $("#post-nav-button > a:nth-child(2)").click(function() {
+            $(".fa-bars, .fa-times").toggle();
+            $(".post-list").toggle(300);
+            if ($(".toc").length > 0) {
+                $("#toc, #tocButton").toggle(200, function() {
+                    if ($(".switch-area").is(":visible")) {
+                        $("#tocButton").attr("value", valueHide);
+                        }
+                    })
+            }
+            else {
+            }
+        })
+    </script>
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                &copy; 2016 Devzhang
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/luuman/hexo-theme-spfk" target="_blank">spfk</a> by luuman
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" >访客数: 
+                            <span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>, </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit">本页阅读量: 
+                            <span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+
+    </div>
+    <script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var backgroundnum = 1;
+            var backgroundimg = "url(/background/bg-" + backgroundnum +".jpg)";
+            $("#mobile-nav").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+            $(".left-col").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    $(document).ready(function() {
+        if ($("#comments").length < 1) {
+            $("#scroll > a:nth-child(2)").hide();
+        };
+    })
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+  <script language="javascript">
+    $(function() {
+        $("a[title]").each(function() {
+            var a = $(this);
+            var title = a.attr('title');
+            if (title == undefined || title == "") return;
+            a.data('title', title).removeAttr('title').hover(
+
+            function() {
+                var offset = a.offset();
+                $("<div id=\"anchortitlecontainer\"></div>").appendTo($("body")).html(title).css({
+                    top: offset.top - a.outerHeight() - 15,
+                    left: offset.left + a.outerWidth()/2 + 1
+                }).fadeIn(function() {
+                    var pop = $(this);
+                    setTimeout(function() {
+                        pop.remove();
+                    }, pop.text().length * 800);
+                });
+            }, function() {
+                $("#anchortitlecontainer").remove();
+            });
+        });
+    });
+</script>
+
+
+  </div>
+</body>
+</html>

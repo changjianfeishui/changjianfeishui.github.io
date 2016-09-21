@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>仿系统相机模式标签切换的实现 | 做点有意思的事情</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="UIControl是UIView的子类，将用户的触摸事件转换为特殊的控件事件.例如通过UIControl对象处理后，按下按钮的事件就被封装成一个控件事件，而不用去判断触摸屏幕的整个操作过程。
+本文将参照系统相机实现一个简单的相机模式的标签切换功能.实现效果如下图:">
+<meta property="og:type" content="article">
+<meta property="og:title" content="仿系统相机模式标签切换的实现">
+<meta property="og:url" content="http://www.devzhang.cn/2016/07/08/仿系统相机模式标签切换的实现/index.html">
+<meta property="og:site_name" content="做点有意思的事情">
+<meta property="og:description" content="UIControl是UIView的子类，将用户的触摸事件转换为特殊的控件事件.例如通过UIControl对象处理后，按下按钮的事件就被封装成一个控件事件，而不用去判断触摸屏幕的整个操作过程。
+本文将参照系统相机实现一个简单的相机模式的标签切换功能.实现效果如下图:">
+<meta property="og:image" content="https://github.com/changjianfeishui/XBImageStore/raw/master/Hexo/1.gif">
+<meta property="og:updated_time" content="2016-07-14T07:33:46.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="仿系统相机模式标签切换的实现">
+<meta name="twitter:description" content="UIControl是UIView的子类，将用户的触摸事件转换为特殊的控件事件.例如通过UIControl对象处理后，按下按钮的事件就被封装成一个控件事件，而不用去判断触摸屏幕的整个操作过程。
+本文将参照系统相机实现一个简单的相机模式的标签切换功能.实现效果如下图:">
+<meta name="twitter:image" content="https://github.com/changjianfeishui/XBImageStore/raw/master/Hexo/1.gif">
+  
+  
+    <link rel="icon" href="/img/head.jpg">
+  
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  
+  
+      <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  
+  <!-- 加载特效 -->
+    <script src="/js/pace.js"></script>
+    <link href="/css/pace/pace-theme-flash.css" rel="stylesheet" />
+  <script>
+      var yiliaConfig = {
+          fancybox: true,
+          animate: false,
+          isHome: false,
+          isPost: true,
+          isArchive: false,
+          isTag: false,
+          isCategory: false,
+          open_in_new: false
+      }
+  </script>
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            
+            <img src="/img/head.jpg" class="js-avatar" style="width: 100%;height: 100%;opacity: 1;">
+            
+        </a>
+
+        <hgroup>
+          <h1 class="header-author"><a href="/">Devzhang</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">每天进步一点点</p>
+        
+        
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/categories/iOS">iOS</a></li>
+                        
+                            <li><a href="/categories/Algorithm">算法</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fl github" target="_blank" href="https://github.com/changjianfeishui" title="github">github</a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <a href="/tags/AVFoundation/" style="font-size: 20px;">AVFoundation</a> <a href="/tags/AVFoundation编程指南/" style="font-size: 17.14px;">AVFoundation编程指南</a> <a href="/tags/Kcamera/" style="font-size: 18.57px;">Kcamera</a> <a href="/tags/MVC/" style="font-size: 12.86px;">MVC</a> <a href="/tags/MVP/" style="font-size: 10px;">MVP</a> <a href="/tags/Moco/" style="font-size: 10px;">Moco</a> <a href="/tags/http/" style="font-size: 11.43px;">http</a> <a href="/tags/phoneGap/" style="font-size: 14.29px;">phoneGap</a> <a href="/tags/加密/" style="font-size: 10px;">加密</a> <a href="/tags/排序/" style="font-size: 15.71px;">排序</a> <a href="/tags/架构/" style="font-size: 14.29px;">架构</a> <a href="/tags/算法/" style="font-size: 15.71px;">算法</a> <a href="/tags/翻译/" style="font-size: 17.14px;">翻译</a> <a href="/tags/视频直播/" style="font-size: 10px;">视频直播</a>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://coderzhang.xyz/">我的WordPress</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://blog.csdn.net/qq329735967">我的CSDN</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Devzhang</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                
+                    <img src="/img/head.jpg" class="js-avatar" style="width: 100%; height: 100%; opacity: 1;">
+                
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">Devzhang</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">每天进步一点点</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/categories/iOS">iOS</a></li>
+                
+                    <li><a href="/categories/Algorithm">算法</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a class="github" target="_blank" href="https://github.com/changjianfeishui" title="github">github</a>
+                    
+                </div>
+            </nav>
+        </header>                
+    </div>
+</nav>
+      <div class="body-wrap"><article id="post-仿系统相机模式标签切换的实现" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/07/08/仿系统相机模式标签切换的实现/" class="article-date">
+      <time datetime="2016-07-08T06:13:19.000Z" itemprop="datePublished">2016-07-08</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      仿系统相机模式标签切换的实现
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/iOS/">iOS</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AVFoundation/">AVFoundation</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Kcamera/">Kcamera</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>UIControl是UIView的子类，将用户的触摸事件转换为特殊的控件事件.例如通过UIControl对象处理后，按下按钮的事件就被封装成一个控件事件，而不用去判断触摸屏幕的整个操作过程。</p>
+<p>本文将参照系统相机实现一个简单的相机模式的标签切换功能.实现效果如下图:</p>
+<a id="more"></a>
+<p><img src="https://github.com/changjianfeishui/XBImageStore/raw/master/Hexo/1.gif" alt=""></p>
+<h1 id="实现步骤"><a href="#实现步骤" class="headerlink" title="实现步骤:"></a>实现步骤:</h1><h2 id="创建项目"><a href="#创建项目" class="headerlink" title="创建项目"></a>创建项目</h2><p>创建一个名为<code>CameraModel</code>的Swift项目,新建<code>CameraModeView</code>类继承自<code>UIControl</code>,主要代码将在这个文件中编写.</p>
+<p>打开<code>Main.storyboard</code>,在ViewController的View底部添加一个UIView,设置其与父视图的Leading,Trailing,Bottom约束为0,高度约束为110,并修改类名为<code>CameraModeView</code>.</p>
+<p>打开<code>CameraModeView.swift</code>添加如下代码:</p>
+<pre><code>required init?(coder aDecoder: NSCoder) {
+    super.init(coder: aDecoder)
+    self.setupView()
+}
+
+func setupView() -&gt; Void {
+    self.backgroundColor = UIColor(white: 0, alpha: 0.5)        
+}
+</code></pre><p>编译运行程序,可以看到屏幕底部出现了我们所期望的颜色.</p>
+<h2 id="添加文本标签"><a href="#添加文本标签" class="headerlink" title="添加文本标签"></a>添加文本标签</h2><p>这里我们使用<code>CATextLayer</code>实现Vedio和Photo两个文本标签,并将这两个CATextLayer放到一个专门的labelContainerView容器中.</p>
+<p>在<code>CameraModeView</code>类中增加下面几个属性:</p>
+<pre><code>var labelContainerView:UIView!
+var videoTextLayer:CATextLayer!
+var photoTextLayer:CATextLayer!
+var foregroundColor:UIColor!
+</code></pre><p>并在<code>setupView()</code>方法中添加下面的代码:</p>
+<pre><code>//1. 文本容器
+self.labelContainerView = UIView(frame: CGRect(x: 0, y: 0, width: 120, height: 20))
+self.addSubview(self.labelContainerView)
+
+//2. 选中态的颜色
+self.foregroundColor = UIColor(colorLiteralRed: 1, green: 0.734, blue: 0.006, alpha: 1)
+
+//3. 生成文本
+self.videoTextLayer = self.textLayerWithTitle(&quot;Vedio&quot;)
+self.videoTextLayer.frame = CGRect(x: 0, y: 0, width: 60, height: 20)
+self.videoTextLayer.foregroundColor = self.foregroundColor.CGColor
+self.labelContainerView.layer.addSublayer(self.videoTextLayer)
+
+self.photoTextLayer = self.textLayerWithTitle(&quot;Photo&quot;)
+self.photoTextLayer.frame = CGRect(x: 60, y: 0, width: 60, height: 20)
+self.labelContainerView.layer.addSublayer(self.photoTextLayer)
+</code></pre><p>其中<code>textLayerWithTitle()</code>方法实现如下:</p>
+<pre><code>func textLayerWithTitle(title:String) -&gt; CATextLayer {
+    let layer = CATextLayer()
+    let font = UIFont(name: &quot;AvenirNextCondensed-DemiBold&quot;, size: 17)
+    layer.font = font?.fontName
+    layer.fontSize = 17
+    layer.string = title
+    layer.alignmentMode = &quot;center&quot;
+    layer.contentsScale = UIScreen.mainScreen().scale
+    return layer
+}   
+</code></pre><p>设置<code>labelContainerView</code>的显示位置:</p>
+<pre><code>override func layoutSubviews() {
+    super.layoutSubviews()
+    self.labelContainerView.center.x = self.center.x + 30
+    self.labelContainerView.frame.origin.y = 8
+}     
+</code></pre><h2 id="添加表明选中的标记圆点"><a href="#添加表明选中的标记圆点" class="headerlink" title="添加表明选中的标记圆点"></a>添加表明选中的标记圆点</h2><pre><code>override func drawRect(rect: CGRect) {
+    let context = UIGraphicsGetCurrentContext()
+    CGContextSetFillColorWithColor(context, self.foregroundColor.CGColor)
+    let circleRect = CGRect(x: rect.midX - 3, y: 2, width: 6, height: 6)
+    CGContextFillEllipseInRect(context, circleRect)
+}    
+</code></pre><h2 id="添加状态属性"><a href="#添加状态属性" class="headerlink" title="添加状态属性"></a>添加状态属性</h2><p>首先通过定义一个枚举表明CameraModeView当前的选中状态:</p>
+<pre><code>enum CameraModel {
+    case Photo
+    case Video
+}
+</code></pre><p>在CameraModeView类中增加一个表明状态的属性:</p>
+<pre><code>var cameraModel:CameraModel? = .Video{
+    didSet{
+        self.sendActionsForControlEvents(.ValueChanged)
+    }
+}    
+</code></pre><p>didSet中的代码负责当自身的<code>cameraModel</code>状态改变时,向外界监听者发送<code>ValueChanged</code>事件.    </p>
+<h2 id="添加滑动手势"><a href="#添加滑动手势" class="headerlink" title="添加滑动手势"></a>添加滑动手势</h2><p>在<code>setupView()</code>方法中添加下面的代码:</p>
+<pre><code>//4. 增加滑动手势
+let right = UISwipeGestureRecognizer(target: self, action: #selector(switchModel(_:)))
+let left = UISwipeGestureRecognizer(target: self, action: #selector(switchModel(_:)))
+left.direction = .Left
+self.addGestureRecognizer(right)
+self.addGestureRecognizer(left)
+</code></pre><p>其中<code>switchModel(_:)</code>方法实现如下:</p>
+<pre><code>func switchModel(recognizer:UISwipeGestureRecognizer) -&gt; Void {
+    //1. 判断手势滑动方向
+    if recognizer.direction == .Left {
+        UIView.animateWithDuration(0.28, animations: {
+            //2. 动画切换文本位置
+            self.labelContainerView.center.x = self.center.x - 30
+            }, completion: { (flag) in
+                //3. 更新状态及展示
+                if self.cameraModel != .Photo{
+                    self.cameraModel = .Photo
+                    self.photoTextLayer.foregroundColor = self.foregroundColor.CGColor
+                    self.videoTextLayer.foregroundColor = UIColor.whiteColor().CGColor
+                }
+        })
+
+    }else{
+        UIView.animateWithDuration(0.28, animations: {
+            self.labelContainerView.center.x = self.center.x + 30
+
+            }, completion: { (flag) in
+                if self.cameraModel != .Video{
+                    self.cameraModel = .Video
+                    self.videoTextLayer.foregroundColor = self.foregroundColor.CGColor
+                    self.photoTextLayer.foregroundColor = UIColor.whiteColor().CGColor
+                }
+        })
+    }
+}    
+</code></pre><h1 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h1><p>通过<code>@IBAction</code>在ViewController.swift中监听CameraModeView的ValueChanged方法如下:</p>
+<pre><code>@IBAction func cameraModelChanged(sender: CameraModeView) {
+    print(&quot;\(sender.cameraModel)&quot;)
+
+}
+</code></pre><p>运行程序,滑动文本标签或CameraModeView的其他位置,观察切换动画及打印信息.    </p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2016/07/08/仿系统相机模式标签切换的实现/">仿系统相机模式标签切换的实现</a></p>
+        <p><span>文章作者:</span><a href="/" title="访问 Devzhang 的个人博客">Devzhang</a></p>
+        <p><span>发布时间:</span>2016年07月08日 - 14时13分</p>
+        <p><span>最后更新:</span>2016年07月14日 - 15时33分</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2016/07/08/仿系统相机模式标签切换的实现/" title="仿系统相机模式标签切换的实现">http://www.devzhang.cn/2016/07/08/仿系统相机模式标签切换的实现/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://www.devzhang.cn/2016/07/08/仿系统相机模式标签切换的实现/　　作者: Devzhang" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script src="/js/clipboard.min.js"></script>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target = "_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+<nav id="article-nav">
+  
+    <a href="/2016/07/11/仿系统视频录制按钮的实现/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          仿系统视频录制按钮的实现
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/04/25/使用AVAudioRecorder录制音频/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">使用AVAudioRecorder录制音频</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#实现步骤"><span class="toc-number">1.</span> <span class="toc-text">实现步骤:</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#创建项目"><span class="toc-number">1.1.</span> <span class="toc-text">创建项目</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#添加文本标签"><span class="toc-number">1.2.</span> <span class="toc-text">添加文本标签</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#添加表明选中的标记圆点"><span class="toc-number">1.3.</span> <span class="toc-text">添加表明选中的标记圆点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#添加状态属性"><span class="toc-number">1.4.</span> <span class="toc-text">添加状态属性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#添加滑动手势"><span class="toc-number">1.5.</span> <span class="toc-text">添加滑动手势</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#测试"><span class="toc-number">2.</span> <span class="toc-text">测试</span></a></li></ol>
+</div>
+<input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script>
+    var valueHide = "隐藏目录";
+    var valueShow = "显示目录";
+
+    if ($(".left-col").is(":hidden")) {
+        $("#tocButton").attr("value", valueShow);
+    }
+    $("#tocButton").click(function() {
+        if ($("#toc").is(":hidden")) {
+            $("#tocButton").attr("value", valueHide);
+            $("#toc").slideDown(320);
+        }
+        else {
+            $("#tocButton").attr("value", valueShow);
+            $("#toc").slideUp(350);
+        }
+    })
+    if ($(".toc").length < 1) {
+        $("#toc, #tocButton").hide();
+    }
+</script>
+
+
+
+
+
+<div class="bdsharebuttonbox">
+	<a href="#" class="fx fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+	<a href="#" class="fx fa-weixin bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+	<a href="#" class="fx fa-qq bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+	<a href="#" class="fx fa-facebook-official bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+	<a href="#" class="fx fa-twitter bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+	<a href="#" class="fx fa-linkedin bds_linkedin" data-cmd="linkedin" title="分享到linkedin"></a>
+	<a href="#" class="fx fa-files-o bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+</div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+
+
+
+    
+      <div class="duoshuo" id="comments">
+    <!-- 多说评论框 start -->
+    <div class="ds-thread" data-thread-key="2016/07/08/仿系统相机模式标签切换的实现/" data-title="仿系统相机模式标签切换的实现" data-url="http://www.devzhang.cn/2016/07/08/仿系统相机模式标签切换的实现/"></div>
+    <!-- 多说评论框 end -->
+    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:"coderzhang"};
+    (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = '/js/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] 
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+    </script>
+    <!-- 多说公共JS代码 end -->
+</div>
+
+    
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2016/07/11/仿系统视频录制按钮的实现/" title="上一篇: 仿系统视频录制按钮的实现">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+        
+            <a href="/2016/04/25/使用AVAudioRecorder录制音频/" title="下一篇: 使用AVAudioRecorder录制音频">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2016/09/20/时间和媒体的表示/">时间和媒体的表示</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/20/Asset的重编码及导出/">Asset的重编码及导出</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/18/静态图片和视频捕捉/">静态图片和视频捕捉</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/09/编辑Assets/">编辑Assets</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/06/播放Assets/">播放Assets</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/31/使用Assets/">使用Assets</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/31/AVFoundation简介/">AVFoundation简介</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/30/视频直播专业名词解答/">视频直播专业名词解答</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/10/绘制音频波形图/">绘制音频波形图</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/05/高帧率视频捕捉/">高帧率视频捕捉</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/03/条码扫描/">条码扫描</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/29/人脸检测/">人脸检测</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/28/视频缩放/">视频缩放</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/22/调整闪光灯和手电筒模式/">调整闪光灯和手电筒模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/19/对焦和曝光功能的实现/">对焦和曝光功能的实现</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/18/切换摄像头/">切换摄像头</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/18/捕获视频/">捕获视频</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/15/捕捉静态图片/">捕获静态图片</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/13/使用AVCaptureSession采集视频/">使用AVCaptureSession采集视频</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/11/仿系统视频录制按钮的实现/">仿系统视频录制按钮的实现</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/08/仿系统相机模式标签切换的实现/">仿系统相机模式标签切换的实现</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/25/使用AVAudioRecorder录制音频/">使用AVAudioRecorder录制音频</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/20/AVAudioPlayer中断处理/">AVAudioPlayer中断处理</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/17/MVP登录示例/">MVP登录示例</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/17/MVC登录示例/">MVC登录示例</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/12/iOS基于MVC的项目重构总结/">iOS基于MVC的项目重构总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/02/使用AVAudioPlayer播放音频/">使用AVAudioPlayer播放音频</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/31/音频会话(Audio Session)/">音频会话(Audio Session)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/30/AVSpeechSynthesizer：文本到语音/">AVSpeechSynthesizer:文本到语音</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/28/AVFoundation入门/">AVFoundation入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/23/iOS中MVC的几个误区/">iOS中MVC的几个误区</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/15/接口安全认证/">接口安全认证</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/14/使用Moco进行http接口模拟/">使用Moco进行http接口模拟</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/05/14/phonegap|iOS|推送/">phonegap|iOS|推送</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/05/06/phoneGap在iOS上给JS传值方法/">phoneGap在iOS上给JS传值方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/04/24/phoneGap在iOS上自定义实现友盟分享插件/">phoneGap在iOS上自定义实现友盟分享插件</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/04/23/phoneGap在iOS上弹出对话框和调用相机/">phoneGap在iOS上弹出对话框和调用相机</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/03/26/菜鸟学排序：直接插入排序/">菜鸟学排序：直接插入排序</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/03/26/菜鸟学排序：折半插入排序/">菜鸟学排序：折半插入排序</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/03/25/菜鸟学排序：冒泡排序/">菜鸟学排序：冒泡排序</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/03/25/菜鸟学排序：快速排序/">菜鸟学排序：快速排序</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/03/24/菜鸟学排序：简单选择排序/">菜鸟学排序：简单选择排序</a></li></ul>
+    <script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+    <script>
+        $(".post-list").addClass("toc-article");
+        $(".post-list-item a").attr("target","_blank");
+        $("#post-nav-button > a:nth-child(2)").click(function() {
+            $(".fa-bars, .fa-times").toggle();
+            $(".post-list").toggle(300);
+            if ($(".toc").length > 0) {
+                $("#toc, #tocButton").toggle(200, function() {
+                    if ($(".switch-area").is(":visible")) {
+                        $("#tocButton").attr("value", valueHide);
+                        }
+                    })
+            }
+            else {
+            }
+        })
+    </script>
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                &copy; 2016 Devzhang
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/luuman/hexo-theme-spfk" target="_blank">spfk</a> by luuman
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" >访客数: 
+                            <span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>, </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit">本页阅读量: 
+                            <span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+
+    </div>
+    <script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var backgroundnum = 1;
+            var backgroundimg = "url(/background/bg-" + backgroundnum +".jpg)";
+            $("#mobile-nav").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+            $(".left-col").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    $(document).ready(function() {
+        if ($("#comments").length < 1) {
+            $("#scroll > a:nth-child(2)").hide();
+        };
+    })
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+  <script language="javascript">
+    $(function() {
+        $("a[title]").each(function() {
+            var a = $(this);
+            var title = a.attr('title');
+            if (title == undefined || title == "") return;
+            a.data('title', title).removeAttr('title').hover(
+
+            function() {
+                var offset = a.offset();
+                $("<div id=\"anchortitlecontainer\"></div>").appendTo($("body")).html(title).css({
+                    top: offset.top - a.outerHeight() - 15,
+                    left: offset.left + a.outerWidth()/2 + 1
+                }).fadeIn(function() {
+                    var pop = $(this);
+                    setTimeout(function() {
+                        pop.remove();
+                    }, pop.text().length * 800);
+                });
+            }, function() {
+                $("#anchortitlecontainer").remove();
+            });
+        });
+    });
+</script>
+
+
+  </div>
+</body>
+</html>

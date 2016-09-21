@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>做点有意思的事情</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="title: 时间和媒体的表示categories: iOStags:
+
+AVFoundation编程指南
+翻译
+
+
+本章译自Apple官方文档AVFoundation Programming Guide, 是AVFoundation系列译文终篇, 介绍了AVFoundation框架中时间和媒体的表示方法, 全部译文参见我的GitBook: AVFoundation编程指南.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="做点有意思的事情">
+<meta property="og:url" content="http://www.devzhang.cn/2016/09/20/时间和媒体的表示/index.html">
+<meta property="og:site_name" content="做点有意思的事情">
+<meta property="og:description" content="title: 时间和媒体的表示categories: iOStags:
+
+AVFoundation编程指南
+翻译
+
+
+本章译自Apple官方文档AVFoundation Programming Guide, 是AVFoundation系列译文终篇, 介绍了AVFoundation框架中时间和媒体的表示方法, 全部译文参见我的GitBook: AVFoundation编程指南.">
+<meta property="og:image" content="https://developer.apple.com/library/content/documentation/AudioVideo/Conceptual/AVFoundationPG/Art/avassetHierarchy_2x.png">
+<meta property="og:image" content="https://developer.apple.com/library/content/documentation/AudioVideo/Conceptual/AVFoundationPG/Art/avassetAndTracks_2x.png">
+<meta property="og:updated_time" content="2016-09-21T02:58:21.027Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="做点有意思的事情">
+<meta name="twitter:description" content="title: 时间和媒体的表示categories: iOStags:
+
+AVFoundation编程指南
+翻译
+
+
+本章译自Apple官方文档AVFoundation Programming Guide, 是AVFoundation系列译文终篇, 介绍了AVFoundation框架中时间和媒体的表示方法, 全部译文参见我的GitBook: AVFoundation编程指南.">
+<meta name="twitter:image" content="https://developer.apple.com/library/content/documentation/AudioVideo/Conceptual/AVFoundationPG/Art/avassetHierarchy_2x.png">
+  
+  
+    <link rel="icon" href="/img/head.jpg">
+  
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  
+  
+      <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  
+  <!-- 加载特效 -->
+    <script src="/js/pace.js"></script>
+    <link href="/css/pace/pace-theme-flash.css" rel="stylesheet" />
+  <script>
+      var yiliaConfig = {
+          fancybox: true,
+          animate: false,
+          isHome: false,
+          isPost: true,
+          isArchive: false,
+          isTag: false,
+          isCategory: false,
+          open_in_new: false
+      }
+  </script>
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            
+            <img src="/img/head.jpg" class="js-avatar" style="width: 100%;height: 100%;opacity: 1;">
+            
+        </a>
+
+        <hgroup>
+          <h1 class="header-author"><a href="/">Devzhang</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">每天进步一点点</p>
+        
+        
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/categories/iOS">iOS</a></li>
+                        
+                            <li><a href="/categories/Algorithm">算法</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fl github" target="_blank" href="https://github.com/changjianfeishui" title="github">github</a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <a href="/tags/AVFoundation/" style="font-size: 20px;">AVFoundation</a> <a href="/tags/AVFoundation编程指南/" style="font-size: 17.14px;">AVFoundation编程指南</a> <a href="/tags/Kcamera/" style="font-size: 18.57px;">Kcamera</a> <a href="/tags/MVC/" style="font-size: 12.86px;">MVC</a> <a href="/tags/MVP/" style="font-size: 10px;">MVP</a> <a href="/tags/Moco/" style="font-size: 10px;">Moco</a> <a href="/tags/http/" style="font-size: 11.43px;">http</a> <a href="/tags/phoneGap/" style="font-size: 14.29px;">phoneGap</a> <a href="/tags/加密/" style="font-size: 10px;">加密</a> <a href="/tags/排序/" style="font-size: 15.71px;">排序</a> <a href="/tags/架构/" style="font-size: 14.29px;">架构</a> <a href="/tags/算法/" style="font-size: 15.71px;">算法</a> <a href="/tags/翻译/" style="font-size: 17.14px;">翻译</a> <a href="/tags/视频直播/" style="font-size: 10px;">视频直播</a>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://coderzhang.xyz/">我的WordPress</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://blog.csdn.net/qq329735967">我的CSDN</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Devzhang</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                
+                    <img src="/img/head.jpg" class="js-avatar" style="width: 100%; height: 100%; opacity: 1;">
+                
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">Devzhang</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">每天进步一点点</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/categories/iOS">iOS</a></li>
+                
+                    <li><a href="/categories/Algorithm">算法</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a class="github" target="_blank" href="https://github.com/changjianfeishui" title="github">github</a>
+                    
+                </div>
+            </nav>
+        </header>                
+    </div>
+</nav>
+      <div class="body-wrap"><article id="post-时间和媒体的表示" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/09/20/时间和媒体的表示/" class="article-date">
+      <time datetime="2016-09-20T14:37:36.000Z" itemprop="datePublished">2016-09-20</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <hr>
+<p>title: 时间和媒体的表示<br>categories: iOS<br>tags:</p>
+<ul>
+<li>AVFoundation编程指南</li>
+<li>翻译</li>
+</ul>
+<hr>
+<p>本章译自Apple官方文档<a href="https://developer.apple.com/library/content/documentation/AudioVideo/Conceptual/AVFoundationPG/Articles/00_Introduction.html#//apple_ref/doc/uid/TP40010188-CH1-SW3" target="_blank" rel="external">AVFoundation Programming Guide</a>, 是AVFoundation系列译文终篇, 介绍了AVFoundation框架中时间和媒体的表示方法, 全部译文参见我的GitBook: <a href="https://www.gitbook.com/book/changjianfeishui/avfoundation-programming-guide/details" target="_blank" rel="external">AVFoundation编程指南</a>. </p>
+<a id="more"></a>
+<p>AV Foundation框架中用 <code>AVAsset</code> 表示基于时间的视听数据, 比如电影文件或视频流.  <code>AVAsset</code> 的结构决定了AV Foundation框架大部分的工作方式. AV Foundation框架中使用的一些用来代表时间和媒体的底层数据结构来源于 Core Media 框架. </p>
+<h1 id="Asset的表示"><a href="#Asset的表示" class="headerlink" title="Asset的表示"></a>Asset的表示</h1><p><a href="https://developer.apple.com/reference/avfoundation/avasset" target="_blank" rel="external">AVAsset</a> 是AV Foundation框架的核心关键类, 它提供了对视听数据的格式无关的抽象. 类之间的关系如下图所示. 大部分情况下, 使用的都是这些类的子类: 使用composition的子类创建新的asset,  使用<code>AVURLAsset</code>根据一个指定的URL创建asset.</p>
+<p><img src="https://developer.apple.com/library/content/documentation/AudioVideo/Conceptual/AVFoundationPG/Art/avassetHierarchy_2x.png" alt="AVAsset provides an abstraction of time-based audiovisual data"></p>
+<p>一个asset包含一组track, 每个track都有特定媒体类型, 包括但不限于audio, video, text,  closed captions 以及subtitles. Asset对象提供整个资源的信息, 比如时长和标题. Asset对象也可能包含元数据(metadata), metadata由<a href="https://developer.apple.com/reference/avfoundation/avmetadataitem" target="_blank" rel="external">AVMetadataItem</a>类表示.</p>
+<p>如下图所示, 一个track由<a href="https://developer.apple.com/reference/avfoundation/avassettrack" target="_blank" rel="external">AVAssetTrack</a>类表示. 简单场景下, 一个track代表audio component, 另一个track代表video component; 复杂场景下, 可能有多个audio 和 video 重叠的track.</p>
+<p><img src="https://developer.apple.com/library/content/documentation/AudioVideo/Conceptual/AVFoundationPG/Art/avassetAndTracks_2x.png" alt="AVAssetTrack"></p>
+<p>一个track包含多个属性, 比如类型(video or audio), 视觉或听觉特性, 元数据, 以及时间轴(表现在其父asset中). 此外, track还包含一个描述格式的数组. 这个数组中的元素为<code>CMFormatDescription</code>对象(参见<a href="https://developer.apple.com/reference/coremedia/cmformatdescriptionref" target="_blank" rel="external">CMFormatDescriptionRef</a>), 用来描述track包含的媒体格式信息.</p>
+<p>一个track可能被分为几段, 每一段由一个<a href="https://developer.apple.com/reference/avfoundation/avassettracksegment" target="_blank" rel="external">AVAssetTrackSegment</a>对象表示. 一个<code>AVAssetTrackSegment</code>对象就是一个由资源数据到track时间轴的映射.</p>
+<h1 id="时间的表示"><a href="#时间的表示" class="headerlink" title="时间的表示"></a>时间的表示</h1><p>AV Foundation框架中的时间由一个Core Media框架中的数据结构表示.</p>
+<h2 id="用CMTime表示一段时间"><a href="#用CMTime表示一段时间" class="headerlink" title="用CMTime表示一段时间"></a>用CMTime表示一段时间</h2><p><a href="https://developer.apple.com/reference/coremedia/cmtime" target="_blank" rel="external">CMTime</a>是一个以有理数表示时间的C语言结构体, 用一个<code>int64_t</code>类型作为分子, 一个<code>int32_t</code>类型作为分母. 从概念上来看, 时间段(timescale)描述了一秒中包含多少个时间单元. 如果timescale等于4, 则每个时间单元代表四分之一秒; 果timescale等于10, 则每个时间单元代表十分之一秒, 以此类推. </p>
+<p>除了用来表示时间, <code>CMTime</code>还可以用来表示非数值的值: 正无穷大, 负无穷大, 不确定.</p>
+<h3 id="使用CMTime"><a href="#使用CMTime" class="headerlink" title="使用CMTime"></a>使用CMTime</h3><p>使用方法<a href="https://developer.apple.com/reference/coremedia/1400785-cmtimemake" target="_blank" rel="external">CMTimeMake</a>或者<a href="https://developer.apple.com/reference/coremedia/1400797-cmtimemakewithseconds" target="_blank" rel="external">CMTimeMakeWithSeconds</a>创建一个时间.</p>
+<pre><code>CMTime time1 = CMTimeMake(200, 2); // 200 half-seconds
+CMTime time2 = CMTimeMake(400, 4); // 400 quarter-seconds
+
+// time1 and time2 both represent 100 seconds, but using different timescales.
+if (CMTimeCompare(time1, time2) == 0) {
+    NSLog(@&quot;time1 and time2 are the same&quot;);
+}
+
+Float64 float64Seconds = 200.0 / 3;
+CMTime time3 = CMTimeMakeWithSeconds(float64Seconds , 3); // 66.66... third-seconds
+time3 = CMTimeMultiply(time3, 3);
+// time3 now represents 200 seconds; next subtract time1 (100 seconds).
+time3 = CMTimeSubtract(time3, time1);
+CMTimeShow(time3);
+
+if (CMTIME_COMPARE_INLINE(time2, ==, time3)) {
+    NSLog(@&quot;time2 and time3 are the same&quot;);
+}
+</code></pre><p>更多详细信息参见<a href="https://developer.apple.com/reference/coremedia/1669288-cmtime" target="_blank" rel="external"><em>CMTime Reference</em></a>.    </p>
+<h3 id="CMTime的特殊值"><a href="#CMTime的特殊值" class="headerlink" title="CMTime的特殊值"></a>CMTime的特殊值</h3><p>Core Media框架提供了一些常量: <code>kCMTimeZero</code>, <code>kCMTimeInvalid</code>,<code>kCMTimePositiveInfinity</code> 和 <code>kCMTimeNegativeInfinity</code>. <code>CMTime</code>结构体能够进行很多操作, 比如要判断一个时间是否有效,  可以使用一些定义好的宏, 例如<a href="https://developer.apple.com/reference/coremedia/cmtime_is_invalid" target="_blank" rel="external">CMTIME_IS_INVALID</a>, <a href="https://developer.apple.com/reference/coremedia/cmtime_is_positive_infinity" target="_blank" rel="external">CMTIME_IS_POSITIVE_INFINITY</a> 或者 <a href="https://developer.apple.com/reference/coremedia/cmtime_is_indefinite" target="_blank" rel="external">CMTIME_IS_INDEFINITE</a>.</p>
+<pre><code>CMTime myTime = &lt;#Get a CMTime#&gt;;
+if (CMTIME_IS_INVALID(myTime)) {
+    // Perhaps treat this as an error; display a suitable alert to the user.
+}
+</code></pre><p>不能将CMTime结构体与<code>kCMTimeZero</code>直接进行比较.</p>
+<h3 id="将CMTime转换为对象"><a href="#将CMTime转换为对象" class="headerlink" title="将CMTime转换为对象"></a>将CMTime转换为对象</h3><p>如果要在注释或者<code>Core Foundation</code>容器中使用CMTime, 使用方法<a href="https://developer.apple.com/reference/coremedia/1400845-cmtimecopyasdictionary" target="_blank" rel="external">CMTimeCopyAsDictionary</a> 和 <a href="https://developer.apple.com/reference/coremedia/1400819-cmtimemakefromdictionary" target="_blank" rel="external">CMTimeMakeFromDictionary</a>  可以在CMTime结构体和<code>CFDictionary</code>类型(参见<a href="https://developer.apple.com/reference/corefoundation/cfdictionaryref" target="_blank" rel="external">CFDictionaryRef</a>)之间进行相互转换. 使用方法<a href="https://developer.apple.com/reference/coremedia/1400791-cmtimecopydescription" target="_blank" rel="external">CMTimeCopyDescription</a>可以获取CMTime结构体的字符串描述.</p>
+<h3 id="循环次数-Epochs"><a href="#循环次数-Epochs" class="headerlink" title="循环次数(Epochs)"></a>循环次数(Epochs)</h3><p><code>CMTime</code>结构体中的epoch通常被设置为0. 但是你可以使用这个值来区分不同循环次数中的同一个时间点.</p>
+<h2 id="用CMTimeRange表示一个时间范围"><a href="#用CMTimeRange表示一个时间范围" class="headerlink" title="用CMTimeRange表示一个时间范围"></a>用CMTimeRange表示一个时间范围</h2><p><a href="https://developer.apple.com/reference/coremedia/cmtimerange" target="_blank" rel="external">CMTimeRange</a>是一个C语言结构体, 包含两个<code>CMTime</code>类型的属性: 起始时间<code>start</code>和时长<code>duration</code>. 一个时间范围并不包含<code>start</code>加上<code>duration</code>得到的时间.</p>
+<p>使用方法<a href="https://developer.apple.com/reference/coremedia/1462785-cmtimerangemake" target="_blank" rel="external">CMTimeRangeMake</a> 和 <a href="https://developer.apple.com/reference/coremedia/1462817-cmtimerangefromtimetotime" target="_blank" rel="external">CMTimeRangeFromTimeToTime</a> 创建一个时间范围, 但是存在一些限制:</p>
+<ul>
+<li><code>CMTimeRange</code>不能跨过<code>epoch</code></li>
+<li>只能对<code>start</code>的<code>epoch</code>值相同的CMTimeRange进行相互操作</li>
+<li><code>duration</code>的<code>epoch</code>值应该一直为0, <code>start</code>的<code>epoch</code>值为非负</li>
+</ul>
+<h2 id="处理CMTimeRange"><a href="#处理CMTimeRange" class="headerlink" title="处理CMTimeRange"></a>处理CMTimeRange</h2><p>Core Media框架提供了一个时间范围是否包含某个时间点或者其他时间范围的方法, 以及判断两个时间范围是否相同, 对两个时间范围进行交集和并集运算的方法. 例如, <a href="https://developer.apple.com/reference/coremedia/1462775-cmtimerangecontainstime" target="_blank" rel="external">CMTimeRangeContainsTime</a>, <a href="https://developer.apple.com/reference/coremedia/1462841-cmtimerangeequal" target="_blank" rel="external">CMTimeRangeEqual</a>, <a href="https://developer.apple.com/reference/coremedia/1462830-cmtimerangecontainstimerange" target="_blank" rel="external">CMTimeRangeContainsTimeRange</a> 和 <a href="CMTimeRangeGetUnion">CMTimeRangeGetUnion</a>. </p>
+<p>注意下面的表达式永远返回false:</p>
+<pre><code>CMTimeRangeContainsTime(range, CMTimeRangeGetEnd(range))
+</code></pre><p>更多相关的详细信息, 参见<a href="https://developer.apple.com/reference/coremedia/1665980-cmtimerange" target="_blank" rel="external"><em>CMTimeRange Reference</em></a>. </p>
+<h3 id="CMTimeRange的特殊值"><a href="#CMTimeRange的特殊值" class="headerlink" title="CMTimeRange的特殊值"></a>CMTimeRange的特殊值</h3><p>Core Media提供了一个表示空范围的常量和一个表示无效范围的常量: <code>kCMTimeRangeZero</code> 和 <code>kCMTimeRangeInvalid</code>. 可以使用以下这些宏对CMTimeRange的特殊值进行判断: <a href="https://developer.apple.com/reference/coremedia/cmtimerange_is_valid" target="_blank" rel="external">CMTIMERANGE_IS_VALID</a>, <a href="https://developer.apple.com/reference/coremedia/cmtimerange_is_invalid" target="_blank" rel="external">CMTIMERANGE_IS_INVALID</a>, <a href="https://developer.apple.com/reference/coremedia/cmtimerange_is_empty" target="_blank" rel="external">CMTIMERANGE_IS_EMPTY</a>, <a href="https://developer.apple.com/reference/coremedia/cmtimerange_is_empty" target="_blank" rel="external">CMTIMERANGE_IS_EMPTY</a>.</p>
+<pre><code>CMTimeRange myTimeRange = &lt;#Get a CMTimeRange#&gt;;
+if (CMTIMERANGE_IS_EMPTY(myTimeRange)) {
+    // The time range is zero.
+}
+</code></pre><p>不能将CMTimeRange结构体与<code>kCMTimeRangeInvalid</code>直接进行比较.</p>
+<h3 id="将CMTimeRange转换为对象"><a href="#将CMTimeRange转换为对象" class="headerlink" title="将CMTimeRange转换为对象"></a>将CMTimeRange转换为对象</h3><p>如果要在注释或者<code>Core Foundation</code>容器中使用CMTimeRange, 使用方法<a href="https://developer.apple.com/reference/coremedia/1462781-cmtimerangecopyasdictionary" target="_blank" rel="external">CMTimeRangeCopyAsDictionary</a> 和 <a href="https://developer.apple.com/reference/coremedia/1462777-cmtimerangemakefromdictionary" target="_blank" rel="external">CMTimeRangeMakeFromDictionary</a>  可以在CMTimeRange结构体和<code>CFDictionary</code>类型(参见<a href="https://developer.apple.com/reference/corefoundation/cfdictionaryref" target="_blank" rel="external">CFDictionaryRef</a>)之间进行相互转换. 使用方法<a href="https://developer.apple.com/reference/coremedia/1462823-cmtimerangecopydescription" target="_blank" rel="external">CMTimeRangeCopyDescription</a>可以获取CMTimeRange结构体的字符串描述.</p>
+<h1 id="媒体的表示"><a href="#媒体的表示" class="headerlink" title="媒体的表示"></a>媒体的表示</h1><p>视频数据和与其相关联的元数据都使用Core Media框架中的对象类型来表示. Core Media使用<code>CMSampleBuffer</code>(参见<a href="https://developer.apple.com/reference/coremedia/cmsamplebuffer" target="_blank" rel="external">CMSampleBufferRef</a>)类型表示视频数据. 一个<code>CMSampleBuffer</code>对象是一个包含了视频数据帧的sample buffer,  用来作为 Core Video pixel buffer(参见<a href="https://developer.apple.com/reference/corevideo/cvpixelbufferref" target="_blank" rel="external">CVPixelBufferRef</a>). 可以使用<a href="https://developer.apple.com/reference/coremedia/1489236-cmsamplebuffergetimagebuffer" target="_blank" rel="external">CMSampleBufferGetImageBuffer</a>方法访问sample buffer中的pixel buffer.</p>
+<pre><code>CVPixelBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(&lt;#A CMSampleBuffer#&gt;);
+</code></pre><p>可以在 pixel buffer 访问到实际的视频数据, 参见下文.</p>
+<p>此外, 对于视频数据而言, 还可以视频帧其他方面的信息:</p>
+<ul>
+<li><strong>时间信息</strong>: 使用<a href="https://developer.apple.com/reference/coremedia/1489252-cmsamplebuffergetpresentationtim" target="_blank" rel="external">CMSampleBufferGetPresentationTimeStamp</a> 和 <a href="https://developer.apple.com/reference/coremedia/1489404-cmsamplebuffergetdecodetimestamp" target="_blank" rel="external">CMSampleBufferGetDecodeTimeStamp</a>可以分别获取视频帧的初始时间和解码时间</li>
+<li><strong>格式信息</strong>: 包含在一个<code>CMFormatDescription</code>对象中(参见<a href="https://developer.apple.com/reference/coremedia/cmformatdescriptionref" target="_blank" rel="external">CMFormatDescriptionRef</a>). 通过格式描述, 可以使用<code>CMVideoFormatDescriptionGetCodecType</code>获取视频的编码信息, 使用<code>CMVideoFormatDescriptionGetDimensions</code>获取视频尺寸</li>
+<li><p><strong>元数据</strong>: 以附件形式存储在一个字典中, 通过<a href="https://developer.apple.com/reference/coremedia/1470707-cmgetattachment" target="_blank" rel="external">CMGetAttachment</a>获取:</p>
+<p>  CMSampleBufferRef sampleBuffer = &lt;#Get a sample buffer#&gt;;<br>  CFDictionaryRef metadataDictionary =</p>
+<pre><code>CMGetAttachment(sampleBuffer, CFSTR(&quot;MetadataDictionary&quot;, NULL);
+</code></pre><p>  if (metadataDictionary) {</p>
+<pre><code>// Do something with the metadata.
+</code></pre><p>  }</p>
+</li>
+</ul>
+<h1 id="将CMSampleBuffer转换为UIImage"><a href="#将CMSampleBuffer转换为UIImage" class="headerlink" title="将CMSampleBuffer转换为UIImage"></a>将CMSampleBuffer转换为UIImage</h1><p>下面的代码示例了如何将<code>CMSampleBuffer</code>转换为<code>UIImage</code>. 这个转换相当消耗性能, 使用时必须进行谨慎考虑.</p>
+<pre><code>- (UIImage *) imageFromSampleBuffer:(CMSampleBufferRef) sampleBuffer
+{
+    // Get a CMSampleBuffer&apos;s Core Video image buffer for the media data
+    CVImageBufferRef imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
+    // Lock the base address of the pixel buffer
+    CVPixelBufferLockBaseAddress(imageBuffer, 0);
+
+    // Get the number of bytes per row for the pixel buffer
+    void *baseAddress = CVPixelBufferGetBaseAddress(imageBuffer);
+
+    // Get the number of bytes per row for the pixel buffer
+    size_t bytesPerRow = CVPixelBufferGetBytesPerRow(imageBuffer);
+    // Get the pixel buffer width and height
+    size_t width = CVPixelBufferGetWidth(imageBuffer);
+    size_t height = CVPixelBufferGetHeight(imageBuffer);
+
+    // Create a device-dependent RGB color space
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+
+    // Create a bitmap graphics context with the sample buffer data
+    CGContextRef context = CGBitmapContextCreate(baseAddress, width, height, 8,
+      bytesPerRow, colorSpace, kCGBitmapByteOrder32Little | kCGImageAlphaPremultipliedFirst);
+    // Create a Quartz image from the pixel data in the bitmap graphics context
+    CGImageRef quartzImage = CGBitmapContextCreateImage(context);
+    // Unlock the pixel buffer
+    CVPixelBufferUnlockBaseAddress(imageBuffer,0);
+
+    // Free up the context and color space
+    CGContextRelease(context);
+    CGColorSpaceRelease(colorSpace);
+
+    // Create an image object from the Quartz image
+    UIImage *image = [UIImage imageWithCGImage:quartzImage];
+
+    // Release the Quartz image
+    CGImageRelease(quartzImage);
+
+    return (image);
+}
+</code></pre>
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2016/09/20/时间和媒体的表示/"></a></p>
+        <p><span>文章作者:</span><a href="/" title="访问 Devzhang 的个人博客">Devzhang</a></p>
+        <p><span>发布时间:</span>2016年09月20日 - 22时37分</p>
+        <p><span>最后更新:</span>2016年09月21日 - 10时58分</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2016/09/20/时间和媒体的表示/" title="">http://www.devzhang.cn/2016/09/20/时间和媒体的表示/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://www.devzhang.cn/2016/09/20/时间和媒体的表示/　　作者: Devzhang" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script src="/js/clipboard.min.js"></script>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target = "_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+<nav id="article-nav">
+  
+  
+    <a href="/2016/09/20/Asset的重编码及导出/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Asset的重编码及导出</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Asset的表示"><span class="toc-number">1.</span> <span class="toc-text">Asset的表示</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#时间的表示"><span class="toc-number">2.</span> <span class="toc-text">时间的表示</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#用CMTime表示一段时间"><span class="toc-number">2.1.</span> <span class="toc-text">用CMTime表示一段时间</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#使用CMTime"><span class="toc-number">2.1.1.</span> <span class="toc-text">使用CMTime</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CMTime的特殊值"><span class="toc-number">2.1.2.</span> <span class="toc-text">CMTime的特殊值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#将CMTime转换为对象"><span class="toc-number">2.1.3.</span> <span class="toc-text">将CMTime转换为对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#循环次数-Epochs"><span class="toc-number">2.1.4.</span> <span class="toc-text">循环次数(Epochs)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#用CMTimeRange表示一个时间范围"><span class="toc-number">2.2.</span> <span class="toc-text">用CMTimeRange表示一个时间范围</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#处理CMTimeRange"><span class="toc-number">2.3.</span> <span class="toc-text">处理CMTimeRange</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#CMTimeRange的特殊值"><span class="toc-number">2.3.1.</span> <span class="toc-text">CMTimeRange的特殊值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#将CMTimeRange转换为对象"><span class="toc-number">2.3.2.</span> <span class="toc-text">将CMTimeRange转换为对象</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#媒体的表示"><span class="toc-number">3.</span> <span class="toc-text">媒体的表示</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#将CMSampleBuffer转换为UIImage"><span class="toc-number">4.</span> <span class="toc-text">将CMSampleBuffer转换为UIImage</span></a></li></ol>
+</div>
+<input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script>
+    var valueHide = "隐藏目录";
+    var valueShow = "显示目录";
+
+    if ($(".left-col").is(":hidden")) {
+        $("#tocButton").attr("value", valueShow);
+    }
+    $("#tocButton").click(function() {
+        if ($("#toc").is(":hidden")) {
+            $("#tocButton").attr("value", valueHide);
+            $("#toc").slideDown(320);
+        }
+        else {
+            $("#tocButton").attr("value", valueShow);
+            $("#toc").slideUp(350);
+        }
+    })
+    if ($(".toc").length < 1) {
+        $("#toc, #tocButton").hide();
+    }
+</script>
+
+
+
+
+
+<div class="bdsharebuttonbox">
+	<a href="#" class="fx fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+	<a href="#" class="fx fa-weixin bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+	<a href="#" class="fx fa-qq bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+	<a href="#" class="fx fa-facebook-official bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+	<a href="#" class="fx fa-twitter bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+	<a href="#" class="fx fa-linkedin bds_linkedin" data-cmd="linkedin" title="分享到linkedin"></a>
+	<a href="#" class="fx fa-files-o bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+</div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+
+
+
+    
+      <div class="duoshuo" id="comments">
+    <!-- 多说评论框 start -->
+    <div class="ds-thread" data-thread-key="2016/09/20/时间和媒体的表示/" data-title="" data-url="http://www.devzhang.cn/2016/09/20/时间和媒体的表示/"></div>
+    <!-- 多说评论框 end -->
+    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:"coderzhang"};
+    (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = '/js/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] 
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+    </script>
+    <!-- 多说公共JS代码 end -->
+</div>
+
+    
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
+        
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+        
+            <a href="/2016/09/20/Asset的重编码及导出/" title="下一篇: Asset的重编码及导出">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2016/09/20/时间和媒体的表示/">时间和媒体的表示</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/20/Asset的重编码及导出/">Asset的重编码及导出</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/18/静态图片和视频捕捉/">静态图片和视频捕捉</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/09/编辑Assets/">编辑Assets</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/06/播放Assets/">播放Assets</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/31/使用Assets/">使用Assets</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/31/AVFoundation简介/">AVFoundation简介</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/30/视频直播专业名词解答/">视频直播专业名词解答</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/10/绘制音频波形图/">绘制音频波形图</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/05/高帧率视频捕捉/">高帧率视频捕捉</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/03/条码扫描/">条码扫描</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/29/人脸检测/">人脸检测</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/28/视频缩放/">视频缩放</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/22/调整闪光灯和手电筒模式/">调整闪光灯和手电筒模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/19/对焦和曝光功能的实现/">对焦和曝光功能的实现</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/18/切换摄像头/">切换摄像头</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/18/捕获视频/">捕获视频</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/15/捕捉静态图片/">捕获静态图片</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/13/使用AVCaptureSession采集视频/">使用AVCaptureSession采集视频</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/11/仿系统视频录制按钮的实现/">仿系统视频录制按钮的实现</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/08/仿系统相机模式标签切换的实现/">仿系统相机模式标签切换的实现</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/25/使用AVAudioRecorder录制音频/">使用AVAudioRecorder录制音频</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/20/AVAudioPlayer中断处理/">AVAudioPlayer中断处理</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/17/MVP登录示例/">MVP登录示例</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/17/MVC登录示例/">MVC登录示例</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/12/iOS基于MVC的项目重构总结/">iOS基于MVC的项目重构总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/02/使用AVAudioPlayer播放音频/">使用AVAudioPlayer播放音频</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/31/音频会话(Audio Session)/">音频会话(Audio Session)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/30/AVSpeechSynthesizer：文本到语音/">AVSpeechSynthesizer:文本到语音</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/28/AVFoundation入门/">AVFoundation入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/23/iOS中MVC的几个误区/">iOS中MVC的几个误区</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/15/接口安全认证/">接口安全认证</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/14/使用Moco进行http接口模拟/">使用Moco进行http接口模拟</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/05/14/phonegap|iOS|推送/">phonegap|iOS|推送</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/05/06/phoneGap在iOS上给JS传值方法/">phoneGap在iOS上给JS传值方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/04/24/phoneGap在iOS上自定义实现友盟分享插件/">phoneGap在iOS上自定义实现友盟分享插件</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/04/23/phoneGap在iOS上弹出对话框和调用相机/">phoneGap在iOS上弹出对话框和调用相机</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/03/26/菜鸟学排序：直接插入排序/">菜鸟学排序：直接插入排序</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/03/26/菜鸟学排序：折半插入排序/">菜鸟学排序：折半插入排序</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/03/25/菜鸟学排序：冒泡排序/">菜鸟学排序：冒泡排序</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/03/25/菜鸟学排序：快速排序/">菜鸟学排序：快速排序</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/03/24/菜鸟学排序：简单选择排序/">菜鸟学排序：简单选择排序</a></li></ul>
+    <script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+    <script>
+        $(".post-list").addClass("toc-article");
+        $(".post-list-item a").attr("target","_blank");
+        $("#post-nav-button > a:nth-child(2)").click(function() {
+            $(".fa-bars, .fa-times").toggle();
+            $(".post-list").toggle(300);
+            if ($(".toc").length > 0) {
+                $("#toc, #tocButton").toggle(200, function() {
+                    if ($(".switch-area").is(":visible")) {
+                        $("#tocButton").attr("value", valueHide);
+                        }
+                    })
+            }
+            else {
+            }
+        })
+    </script>
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                &copy; 2016 Devzhang
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/luuman/hexo-theme-spfk" target="_blank">spfk</a> by luuman
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" >访客数: 
+                            <span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>, </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit">本页阅读量: 
+                            <span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+
+    </div>
+    <script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var backgroundnum = 1;
+            var backgroundimg = "url(/background/bg-" + backgroundnum +".jpg)";
+            $("#mobile-nav").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+            $(".left-col").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    $(document).ready(function() {
+        if ($("#comments").length < 1) {
+            $("#scroll > a:nth-child(2)").hide();
+        };
+    })
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+  <script language="javascript">
+    $(function() {
+        $("a[title]").each(function() {
+            var a = $(this);
+            var title = a.attr('title');
+            if (title == undefined || title == "") return;
+            a.data('title', title).removeAttr('title').hover(
+
+            function() {
+                var offset = a.offset();
+                $("<div id=\"anchortitlecontainer\"></div>").appendTo($("body")).html(title).css({
+                    top: offset.top - a.outerHeight() - 15,
+                    left: offset.left + a.outerWidth()/2 + 1
+                }).fadeIn(function() {
+                    var pop = $(this);
+                    setTimeout(function() {
+                        pop.remove();
+                    }, pop.text().length * 800);
+                });
+            }, function() {
+                $("#anchortitlecontainer").remove();
+            });
+        });
+    });
+</script>
+
+
+  </div>
+</body>
+</html>
