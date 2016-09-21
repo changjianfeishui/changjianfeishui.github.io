@@ -3,38 +3,20 @@
 <head>
   <meta charset="utf-8">
   
-  <title>做点有意思的事情</title>
+  <title>时间和媒体的表示 | 做点有意思的事情</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="title: 时间和媒体的表示categories: iOStags:
-
-AVFoundation编程指南
-翻译
-
-
-本章译自Apple官方文档AVFoundation Programming Guide, 是AVFoundation系列译文终篇, 介绍了AVFoundation框架中时间和媒体的表示方法, 全部译文参见我的GitBook: AVFoundation编程指南.">
+  <meta name="description" content="本章译自Apple官方文档AVFoundation Programming Guide, 是AVFoundation系列译文终篇, 介绍了AVFoundation框架中时间和媒体的表示方法, 全部译文参见我的GitBook: AVFoundation编程指南.">
 <meta property="og:type" content="article">
-<meta property="og:title" content="做点有意思的事情">
+<meta property="og:title" content="时间和媒体的表示">
 <meta property="og:url" content="http://www.devzhang.cn/2016/09/20/时间和媒体的表示/index.html">
 <meta property="og:site_name" content="做点有意思的事情">
-<meta property="og:description" content="title: 时间和媒体的表示categories: iOStags:
-
-AVFoundation编程指南
-翻译
-
-
-本章译自Apple官方文档AVFoundation Programming Guide, 是AVFoundation系列译文终篇, 介绍了AVFoundation框架中时间和媒体的表示方法, 全部译文参见我的GitBook: AVFoundation编程指南.">
+<meta property="og:description" content="本章译自Apple官方文档AVFoundation Programming Guide, 是AVFoundation系列译文终篇, 介绍了AVFoundation框架中时间和媒体的表示方法, 全部译文参见我的GitBook: AVFoundation编程指南.">
 <meta property="og:image" content="https://developer.apple.com/library/content/documentation/AudioVideo/Conceptual/AVFoundationPG/Art/avassetHierarchy_2x.png">
 <meta property="og:image" content="https://developer.apple.com/library/content/documentation/AudioVideo/Conceptual/AVFoundationPG/Art/avassetAndTracks_2x.png">
-<meta property="og:updated_time" content="2016-09-21T02:58:21.027Z">
+<meta property="og:updated_time" content="2016-09-21T03:02:27.612Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="做点有意思的事情">
-<meta name="twitter:description" content="title: 时间和媒体的表示categories: iOStags:
-
-AVFoundation编程指南
-翻译
-
-
-本章译自Apple官方文档AVFoundation Programming Guide, 是AVFoundation系列译文终篇, 介绍了AVFoundation框架中时间和媒体的表示方法, 全部译文参见我的GitBook: AVFoundation编程指南.">
+<meta name="twitter:title" content="时间和媒体的表示">
+<meta name="twitter:description" content="本章译自Apple官方文档AVFoundation Programming Guide, 是AVFoundation系列译文终篇, 介绍了AVFoundation框架中时间和媒体的表示方法, 全部译文参见我的GitBook: AVFoundation编程指南.">
 <meta name="twitter:image" content="https://developer.apple.com/library/content/documentation/AudioVideo/Conceptual/AVFoundationPG/Art/avassetHierarchy_2x.png">
   
   
@@ -218,17 +200,36 @@ AVFoundation编程指南
       <input type="hidden" class="isFancy" />
     
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      时间和媒体的表示
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/iOS/">iOS</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AVFoundation编程指南/">AVFoundation编程指南</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/翻译/">翻译</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
     <div class="article-entry" itemprop="articleBody">
       
           
-        <hr>
-<p>title: 时间和媒体的表示<br>categories: iOS<br>tags:</p>
-<ul>
-<li>AVFoundation编程指南</li>
-<li>翻译</li>
-</ul>
-<hr>
-<p>本章译自Apple官方文档<a href="https://developer.apple.com/library/content/documentation/AudioVideo/Conceptual/AVFoundationPG/Articles/00_Introduction.html#//apple_ref/doc/uid/TP40010188-CH1-SW3" target="_blank" rel="external">AVFoundation Programming Guide</a>, 是AVFoundation系列译文终篇, 介绍了AVFoundation框架中时间和媒体的表示方法, 全部译文参见我的GitBook: <a href="https://www.gitbook.com/book/changjianfeishui/avfoundation-programming-guide/details" target="_blank" rel="external">AVFoundation编程指南</a>. </p>
+        <p>本章译自Apple官方文档<a href="https://developer.apple.com/library/content/documentation/AudioVideo/Conceptual/AVFoundationPG/Articles/00_Introduction.html#//apple_ref/doc/uid/TP40010188-CH1-SW3" target="_blank" rel="external">AVFoundation Programming Guide</a>, 是AVFoundation系列译文终篇, 介绍了AVFoundation框架中时间和媒体的表示方法, 全部译文参见我的GitBook: <a href="https://www.gitbook.com/book/changjianfeishui/avfoundation-programming-guide/details" target="_blank" rel="external">AVFoundation编程指南</a>. </p>
 <a id="more"></a>
 <p>AV Foundation框架中用 <code>AVAsset</code> 表示基于时间的视听数据, 比如电影文件或视频流.  <code>AVAsset</code> 的结构决定了AV Foundation框架大部分的工作方式. AV Foundation框架中使用的一些用来代表时间和媒体的底层数据结构来源于 Core Media 框架. </p>
 <h1 id="Asset的表示"><a href="#Asset的表示" class="headerlink" title="Asset的表示"></a>Asset的表示</h1><p><a href="https://developer.apple.com/reference/avfoundation/avasset" target="_blank" rel="external">AVAsset</a> 是AV Foundation框架的核心关键类, 它提供了对视听数据的格式无关的抽象. 类之间的关系如下图所示. 大部分情况下, 使用的都是这些类的子类: 使用composition的子类创建新的asset,  使用<code>AVURLAsset</code>根据一个指定的URL创建asset.</p>
@@ -350,12 +351,12 @@ if (CMTIMERANGE_IS_EMPTY(myTimeRange)) {
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2016/09/20/时间和媒体的表示/"></a></p>
+        <p><span>本文标题:</span><a href="/2016/09/20/时间和媒体的表示/">时间和媒体的表示</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 Devzhang 的个人博客">Devzhang</a></p>
         <p><span>发布时间:</span>2016年09月20日 - 22时37分</p>
-        <p><span>最后更新:</span>2016年09月21日 - 10时58分</p>
+        <p><span>最后更新:</span>2016年09月21日 - 11时02分</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2016/09/20/时间和媒体的表示/" title="">http://www.devzhang.cn/2016/09/20/时间和媒体的表示/</a>
+            <span>原始链接:</span><a class="post-url" href="/2016/09/20/时间和媒体的表示/" title="时间和媒体的表示">http://www.devzhang.cn/2016/09/20/时间和媒体的表示/</a>
             <span class="copy-path" data-clipboard-text="原文: http://www.devzhang.cn/2016/09/20/时间和媒体的表示/　　作者: Devzhang" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script src="/js/clipboard.min.js"></script>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
@@ -430,7 +431,7 @@ if (CMTIMERANGE_IS_EMPTY(myTimeRange)) {
     
       <div class="duoshuo" id="comments">
     <!-- 多说评论框 start -->
-    <div class="ds-thread" data-thread-key="2016/09/20/时间和媒体的表示/" data-title="" data-url="http://www.devzhang.cn/2016/09/20/时间和媒体的表示/"></div>
+    <div class="ds-thread" data-thread-key="2016/09/20/时间和媒体的表示/" data-title="时间和媒体的表示" data-url="http://www.devzhang.cn/2016/09/20/时间和媒体的表示/"></div>
     <!-- 多说评论框 end -->
     <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
     <script type="text/javascript">
@@ -462,7 +463,7 @@ if (CMTIMERANGE_IS_EMPTY(myTimeRange)) {
             </a>
         
     </div>
-    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2016/09/20/时间和媒体的表示/">时间和媒体的表示</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/20/Asset的重编码及导出/">Asset的重编码及导出</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/18/静态图片和视频捕捉/">静态图片和视频捕捉</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/09/编辑Assets/">编辑Assets</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/06/播放Assets/">播放Assets</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/31/使用Assets/">使用Assets</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/31/AVFoundation简介/">AVFoundation简介</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/30/视频直播专业名词解答/">视频直播专业名词解答</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/10/绘制音频波形图/">绘制音频波形图</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/05/高帧率视频捕捉/">高帧率视频捕捉</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/03/条码扫描/">条码扫描</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/29/人脸检测/">人脸检测</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/28/视频缩放/">视频缩放</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/22/调整闪光灯和手电筒模式/">调整闪光灯和手电筒模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/19/对焦和曝光功能的实现/">对焦和曝光功能的实现</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/18/切换摄像头/">切换摄像头</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/18/捕获视频/">捕获视频</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/15/捕捉静态图片/">捕获静态图片</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/13/使用AVCaptureSession采集视频/">使用AVCaptureSession采集视频</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/11/仿系统视频录制按钮的实现/">仿系统视频录制按钮的实现</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/08/仿系统相机模式标签切换的实现/">仿系统相机模式标签切换的实现</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/25/使用AVAudioRecorder录制音频/">使用AVAudioRecorder录制音频</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/20/AVAudioPlayer中断处理/">AVAudioPlayer中断处理</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/17/MVP登录示例/">MVP登录示例</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/17/MVC登录示例/">MVC登录示例</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/12/iOS基于MVC的项目重构总结/">iOS基于MVC的项目重构总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/02/使用AVAudioPlayer播放音频/">使用AVAudioPlayer播放音频</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/31/音频会话(Audio Session)/">音频会话(Audio Session)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/30/AVSpeechSynthesizer：文本到语音/">AVSpeechSynthesizer:文本到语音</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/28/AVFoundation入门/">AVFoundation入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/23/iOS中MVC的几个误区/">iOS中MVC的几个误区</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/15/接口安全认证/">接口安全认证</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/14/使用Moco进行http接口模拟/">使用Moco进行http接口模拟</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/05/14/phonegap|iOS|推送/">phonegap|iOS|推送</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/05/06/phoneGap在iOS上给JS传值方法/">phoneGap在iOS上给JS传值方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/04/24/phoneGap在iOS上自定义实现友盟分享插件/">phoneGap在iOS上自定义实现友盟分享插件</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/04/23/phoneGap在iOS上弹出对话框和调用相机/">phoneGap在iOS上弹出对话框和调用相机</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/03/26/菜鸟学排序：直接插入排序/">菜鸟学排序：直接插入排序</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/03/26/菜鸟学排序：折半插入排序/">菜鸟学排序：折半插入排序</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/03/25/菜鸟学排序：冒泡排序/">菜鸟学排序：冒泡排序</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/03/25/菜鸟学排序：快速排序/">菜鸟学排序：快速排序</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/03/24/菜鸟学排序：简单选择排序/">菜鸟学排序：简单选择排序</a></li></ul>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2016/09/20/时间和媒体的表示/">时间和媒体的表示</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/20/Asset的重编码及导出/">Asset的重编码及导出</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/18/静态图片和视频捕捉/">静态图片和视频捕捉</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/09/编辑Assets/">编辑Assets</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/06/播放Assets/">播放Assets</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/31/使用Assets/">使用Assets</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/31/AVFoundation简介/">AVFoundation简介</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/30/视频直播专业名词解答/">视频直播专业名词解答</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/10/绘制音频波形图/">绘制音频波形图</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/05/高帧率视频捕捉/">高帧率视频捕捉</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/03/条码扫描/">条码扫描</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/29/人脸检测/">人脸检测</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/28/视频缩放/">视频缩放</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/22/调整闪光灯和手电筒模式/">调整闪光灯和手电筒模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/19/对焦和曝光功能的实现/">对焦和曝光功能的实现</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/18/切换摄像头/">切换摄像头</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/18/捕获视频/">捕获视频</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/15/捕捉静态图片/">捕获静态图片</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/13/使用AVCaptureSession采集视频/">使用AVCaptureSession采集视频</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/11/仿系统视频录制按钮的实现/">仿系统视频录制按钮的实现</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/08/仿系统相机模式标签切换的实现/">仿系统相机模式标签切换的实现</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/25/使用AVAudioRecorder录制音频/">使用AVAudioRecorder录制音频</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/20/AVAudioPlayer中断处理/">AVAudioPlayer中断处理</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/17/MVC登录示例/">MVC登录示例</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/17/MVP登录示例/">MVP登录示例</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/12/iOS基于MVC的项目重构总结/">iOS基于MVC的项目重构总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/02/使用AVAudioPlayer播放音频/">使用AVAudioPlayer播放音频</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/31/音频会话(Audio Session)/">音频会话(Audio Session)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/30/AVSpeechSynthesizer：文本到语音/">AVSpeechSynthesizer:文本到语音</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/28/AVFoundation入门/">AVFoundation入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/23/iOS中MVC的几个误区/">iOS中MVC的几个误区</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/15/接口安全认证/">接口安全认证</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/14/使用Moco进行http接口模拟/">使用Moco进行http接口模拟</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/05/14/phonegap|iOS|推送/">phonegap|iOS|推送</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/05/06/phoneGap在iOS上给JS传值方法/">phoneGap在iOS上给JS传值方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/04/24/phoneGap在iOS上自定义实现友盟分享插件/">phoneGap在iOS上自定义实现友盟分享插件</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/04/23/phoneGap在iOS上弹出对话框和调用相机/">phoneGap在iOS上弹出对话框和调用相机</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/03/26/菜鸟学排序：直接插入排序/">菜鸟学排序：直接插入排序</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/03/26/菜鸟学排序：折半插入排序/">菜鸟学排序：折半插入排序</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/03/25/菜鸟学排序：冒泡排序/">菜鸟学排序：冒泡排序</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/03/25/菜鸟学排序：快速排序/">菜鸟学排序：快速排序</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/03/24/菜鸟学排序：简单选择排序/">菜鸟学排序：简单选择排序</a></li></ul>
     <script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
     <script>
         $(".post-list").addClass("toc-article");

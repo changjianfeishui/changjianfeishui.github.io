@@ -5,14 +5,21 @@
     
   <url>
     <loc>http://www.devzhang.cn/2016/09/20/%E6%97%B6%E9%97%B4%E5%92%8C%E5%AA%92%E4%BD%93%E7%9A%84%E8%A1%A8%E7%A4%BA/</loc>
-    <lastmod>2016-09-21T02:58:21.027Z</lastmod>
+    <lastmod>2016-09-21T03:02:27.612Z</lastmod>
     <data>
         <display>
-        <title></title>
+        <title>时间和媒体的表示</title>
         <pubTime>2016-09-20T14:37:36.000Z</pubTime>
         
+        <tag>AVFoundation编程指南</tag>
+         
+        <tag>翻译</tag>
+         
          
            
+             
+              <breadCrumb title="iOS" url="http://www.devzhang.cn/categories/iOS/"/>
+          
         </display>
     </data>
     </url>
