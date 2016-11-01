@@ -3,18 +3,33 @@
 <head>
   <meta charset="utf-8">
   
-  <title>捕获静态图片 | 做点有意思的事情</title>
+  <title>C++中文件的输入和输出 | 做点有意思的事情</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="本文将为Kcamera增加拍摄相片的功能.Kcamera的代码可以在https://github.com/changjianfeishui/Kcamera上找到.">
+  <meta name="description" content="C++中文件的输入和输出机制和屏幕上输入输出相似, 主要区别在于需要显式地打开和关闭文件. 对文件进行操作时会涉及到5个相关的类:
+
+fstreambase: 公共基类, 具体文件操作中不会使用这个类.
+ifstream: 从istream派生, 负责文件的读取.
+ofstream: 从ostream派生, 负责文件的写入.
+fstream: 从fstreambase和iostream中派生, 负">
 <meta property="og:type" content="article">
-<meta property="og:title" content="捕获静态图片">
-<meta property="og:url" content="http://www.devzhang.cn/2016/07/15/捕捉静态图片/index.html">
+<meta property="og:title" content="C++中文件的输入和输出">
+<meta property="og:url" content="http://www.devzhang.cn/2016/11/01/C++中文件的输入和输出/index.html">
 <meta property="og:site_name" content="做点有意思的事情">
-<meta property="og:description" content="本文将为Kcamera增加拍摄相片的功能.Kcamera的代码可以在https://github.com/changjianfeishui/Kcamera上找到.">
-<meta property="og:updated_time" content="2016-07-18T13:42:38.000Z">
+<meta property="og:description" content="C++中文件的输入和输出机制和屏幕上输入输出相似, 主要区别在于需要显式地打开和关闭文件. 对文件进行操作时会涉及到5个相关的类:
+
+fstreambase: 公共基类, 具体文件操作中不会使用这个类.
+ifstream: 从istream派生, 负责文件的读取.
+ofstream: 从ostream派生, 负责文件的写入.
+fstream: 从fstreambase和iostream中派生, 负">
+<meta property="og:updated_time" content="2016-11-01T14:32:39.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="捕获静态图片">
-<meta name="twitter:description" content="本文将为Kcamera增加拍摄相片的功能.Kcamera的代码可以在https://github.com/changjianfeishui/Kcamera上找到.">
+<meta name="twitter:title" content="C++中文件的输入和输出">
+<meta name="twitter:description" content="C++中文件的输入和输出机制和屏幕上输入输出相似, 主要区别在于需要显式地打开和关闭文件. 对文件进行操作时会涉及到5个相关的类:
+
+fstreambase: 公共基类, 具体文件操作中不会使用这个类.
+ifstream: 从istream派生, 负责文件的读取.
+ofstream: 从ostream派生, 负责文件的写入.
+fstream: 从fstreambase和iostream中派生, 负">
   
   
     <link rel="icon" href="/img/head.jpg">
@@ -188,11 +203,11 @@
         </header>                
     </div>
 </nav>
-      <div class="body-wrap"><article id="post-捕捉静态图片" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-C++中文件的输入和输出" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016/07/15/捕捉静态图片/" class="article-date">
-      <time datetime="2016-07-15T06:25:26.000Z" itemprop="datePublished">2016-07-15</time>
+      <a href="/2016/11/01/C++中文件的输入和输出/" class="article-date">
+      <time datetime="2016-11-01T13:15:28.000Z" itemprop="datePublished">2016-11-01</time>
 </a>
     </div>
   
@@ -205,7 +220,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      捕获静态图片
+      C++中文件的输入和输出
     </h1>
   
 
@@ -214,13 +229,13 @@
       <div class="article-info article-info-post">
         
     <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/iOS/">iOS</a>
+    <a class="article-category-link" href="/categories/Cpp/">C++</a>
     </div>
 
 
         
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AVFoundation/">AVFoundation</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Kcamera/">Kcamera</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/学习笔记/">学习笔记</a></li></ul>
     </div>
 
         <div class="clearfix"></div>
@@ -230,90 +245,99 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>本文将为Kcamera增加拍摄相片的功能.Kcamera的代码可以在<a href="https://github.com/changjianfeishui/Kcamera" target="_blank" rel="external">https://github.com/changjianfeishui/Kcamera</a>上找到.</p>
-<a id="more"></a>
-<h1 id="实现步骤"><a href="#实现步骤" class="headerlink" title="实现步骤"></a>实现步骤</h1><h2 id="初始化AVCaptureStillImageOutput对象"><a href="#初始化AVCaptureStillImageOutput对象" class="headerlink" title="初始化AVCaptureStillImageOutput对象"></a>初始化AVCaptureStillImageOutput对象</h2><p>打开CaptureModel类,增加一个属性:</p>
-<pre><code>//AVCaptureOutput子类,用于捕捉静态图片
-var imageOutput:AVCaptureStillImageOutput!
-</code></pre><p>在setupSession()方法最后return之前添加如下代码:</p>
-<pre><code>//7. 创建图片输出对象并添加到捕捉会话中
-self.imageOutput = AVCaptureStillImageOutput()
-self.imageOutput.outputSettings = [AVVideoCodecKey:AVVideoCodecJPEG]
-if self.captureSession .canAddOutput(self.imageOutput) {
-    self.captureSession.addOutput(self.imageOutput)
-}
-</code></pre><h2 id="拍摄静态图片"><a href="#拍摄静态图片" class="headerlink" title="拍摄静态图片"></a>拍摄静态图片</h2><p>在setupSession()方法中,我们将一个AVCaptureStillImageOutput实例添加到了捕捉会话中.这个类是AVCaptureOutput的子类,用于捕捉静态图片.其outputSettings属性可用来配置要捕捉的图片.</p>
-<p>AVCaptureStillImageOutput类定义了captureStillImageAsynchronouslyFromConnection()方法来执行实际的拍摄.</p>
-<pre><code>//捕捉静态图片
-func captureStillImage() -&gt; Void {
-    //1. 建立输入和输出的连接
-    let connection = self.imageOutput.connectionWithMediaType(AVMediaTypeVideo)
-    //2. 设置照片方向
-    if connection.supportsVideoOrientation {
-        connection.videoOrientation = self.currentVideoOrientation()
+        <p>C++中文件的输入和输出机制和屏幕上输入输出相似, 主要区别在于需要显式地打开和关闭文件. 对文件进行操作时会涉及到5个相关的类:</p>
+<ul>
+<li>fstreambase: 公共基类, 具体文件操作中不会使用这个类.</li>
+<li>ifstream: 从istream派生, 负责文件的读取.</li>
+<li>ofstream: 从ostream派生, 负责文件的写入.</li>
+<li>fstream: 从fstreambase和iostream中派生, 负责对文件进行写入和读取.</li>
+<li>filebuf: 从streambuf中派生, 用来提供缓冲支持.</li>
+</ul>
+<p>下面的代码从一个txt读取字符(数字和字母):</p>
+<pre><code>#include &lt;iostream&gt;
+#include &lt;fstream&gt;
+using namespace std;
+int main(int argc, const char * argv[]) {
+
+    ifstream inf;
+    //打开文件
+    inf.open(&quot;/Users/zhang/Desktop/C++/fileIO/1.txt&quot;);
+    if (!inf) {
+        cerr &lt;&lt; &quot;打开文件失败!&quot; &lt;&lt; endl;
+        return -1;
     }
 
-    //3. 拍摄照片        
-    self.imageOutput.captureStillImageAsynchronouslyFromConnection(connection) { (sampleBuffer, error) in
-        if sampleBuffer != nil{
-            let imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(sampleBuffer)
-            let image = UIImage(data: imageData)
-        }else{
-            print(error.localizedDescription)
-        }
+    char x;
+    while (inf &gt;&gt; x) {
+        cout &lt;&lt; x;
     }
-}  
-</code></pre><p>其中currentVideoOrientation()方法的实现如下:</p>
-<pre><code>//获取当前视频方向
-func currentVideoOrientation() -&gt; AVCaptureVideoOrientation {
-    var orientation:AVCaptureVideoOrientation!
-    switch UIDevice.currentDevice().orientation {
-    case .Portrait:
-        orientation = .Portrait
-    case .LandscapeRight:
-        orientation = .LandscapeRight
-    case .PortraitUpsideDown:
-        orientation = .PortraitUpsideDown
-    case .LandscapeLeft:
-        orientation = .LandscapeLeft
-    default:
-        orientation = .Portrait
+    cout &lt;&lt; endl;
+    //关闭文件
+    inf.close();
+
+    return 0;
+}
+</code></pre><p>下面的代码向文件中写入1~10共10个数字:</p>
+<pre><code>#include &lt;iostream&gt;
+#include &lt;fstream&gt;
+using namespace std;
+int main(int argc, const char * argv[]) {
+    ofstream onf;
+    onf.open(&quot;/Users/zhang/Desktop/C++/fileIO/2.txt&quot;);
+
+    if (!onf) {
+        cerr &lt;&lt; &quot;打开文件失败!&quot; &lt;&lt; endl;
+        return -1;
     }
-    return orientation
+
+    for (int i = 0; i &lt;= 10; i++) {
+        onf &lt;&lt; i &lt;&lt; endl;
+    }
+
+    onf.close();
+
+    return 0;
 }    
-</code></pre><h2 id="存储图片到相册"><a href="#存储图片到相册" class="headerlink" title="存储图片到相册"></a>存储图片到相册</h2><p>在获取到拍摄图片输出对象的sampleBuffer并将其转化为UIImage对象后,就可以将其写入到系统相册中了.</p>
-<p>在获取到转换的UIImage对象后增加如下代码:</p>
-<pre><code>//4. 写入照片
-self.writeImageToAssetsLibrary(image!)
-</code></pre><p>并实现writeImageToAssetsLibrary()方法如下:</p>
-<pre><code>//将捕捉到的图片写入到相册
-func writeImageToAssetsLibrary(image:UIImage) -&gt; Void {
-    //1. 判断相册访问权限
-    let authStatus = ALAssetsLibrary.authorizationStatus()
-    if authStatus == .Denied || authStatus == .Restricted {
-        UIAlertView(title: &quot;提示&quot;, message: &quot;请打开相册访问权限&quot;, delegate: nil, cancelButtonTitle: &quot;确定&quot;).show()
-        return
+</code></pre><p>上面两个例子中的ifstream和ofstream都使用了open函数来打开文件, 其实通过ifstream和ofstream的构造函数可以实现相同的功能:</p>
+<pre><code>ifstream inf(&quot;/Users/zhang/Desktop/C++/fileIO/1.txt&quot;);
+或
+ofstream onf(&quot;/Users/zhang/Desktop/C++/fileIO/2.txt&quot;);
+</code></pre><p>此外, 还有另外一个构造函数, 可以指定文件打开的模式:</p>
+<ul>
+<li>ios::in : 打开一个可读取文件.</li>
+<li>ios::out : 打开一个可写入文件.</li>
+<li>ios::app : 在文件末尾追加数据.</li>
+<li>ios::trunk : 删除文件原来的内容.</li>
+<li>ios::nocreate : 如果要打开文件不存在, 不会创建同名文件.</li>
+<li>ios::noreplace : 如果要打开的文件已存在, 不会对已存在的文件进行替换.</li>
+<li>ios::binary : 以二进制形式打开文件.</li>
+</ul>
+<p>通过’|’操作符可以指定多个打开模式. 下面是一个使用组合模式的例子:</p>
+<pre><code>#include &lt;iostream&gt;
+#include &lt;fstream&gt;
+using namespace std;
+int main(int argc, const char * argv[]) {
+
+    fstream File(&quot;/Users/zhang/Desktop/C++/fileIO/1.txt&quot;,ios::in | ios::app);
+    if (! File) {
+        cerr &lt;&lt; &quot;打开文件失败!&quot; &lt;&lt; endl;
+        return -1;
     }
 
-    //2. 存储图片
-    let library = ALAssetsLibrary()
-    let orientation = ALAssetOrientation(rawValue: image.imageOrientation.rawValue)
-    library.writeImageToSavedPhotosAlbum(image.CGImage, orientation: orientation!) { (assetURL, error) in
-        if error != nil{
-            print(error.localizedDescription)
-        }
-    }
-}       
-</code></pre><h1 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h1><p>打开ViewController类,找到captureBtnDidClicked()方法,将其修改为:</p>
-<pre><code>@IBAction func captureBtnDidClicked(sender: CaptureButton) {
-    if self.cameraModel == CameraModel.Video{
-        sender.selected = !sender.selected
-    }else{
-        self.captureModel.captureStillImage()
-    }
+    //写入文件
+    File &lt;&lt; &quot;hello world&quot;;
+    //将文件指针移动至文件开头
+    File.seekg(ios::beg);
+    //输入文件内容
+    char str[100];
+    File.getline(str, 100);
+    cout &lt;&lt; str &lt;&lt; endl;
+
+    File.close();
+
+    return 0;
 }
-</code></pre><p>编译运行程序,切换到Photo模式,点击拍摄按钮.然后在系统相册中查看拍摄的照片.        </p>
-
+</code></pre>
       
     </div>
     
@@ -321,13 +345,13 @@ func writeImageToAssetsLibrary(image:UIImage) -&gt; Void {
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2016/07/15/捕捉静态图片/">捕获静态图片</a></p>
+        <p><span>本文标题:</span><a href="/2016/11/01/C++中文件的输入和输出/">C++中文件的输入和输出</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 Devzhang 的个人博客">Devzhang</a></p>
-        <p><span>发布时间:</span>2016年07月15日 - 14时25分</p>
-        <p><span>最后更新:</span>2016年07月18日 - 21时42分</p>
+        <p><span>发布时间:</span>2016年11月01日 - 21时15分</p>
+        <p><span>最后更新:</span>2016年11月01日 - 22时32分</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2016/07/15/捕捉静态图片/" title="捕获静态图片">http://www.devzhang.cn/2016/07/15/捕捉静态图片/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://www.devzhang.cn/2016/07/15/捕捉静态图片/　　作者: Devzhang" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2016/11/01/C++中文件的输入和输出/" title="C++中文件的输入和输出">http://www.devzhang.cn/2016/11/01/C++中文件的输入和输出/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://www.devzhang.cn/2016/11/01/C++中文件的输入和输出/　　作者: Devzhang" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script src="/js/clipboard.min.js"></script>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
@@ -340,18 +364,9 @@ func writeImageToAssetsLibrary(image:UIImage) -&gt; Void {
 
 <nav id="article-nav">
   
-    <a href="/2016/07/18/捕获视频/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption"><</strong>
-      <div class="article-nav-title">
-        
-          捕获视频
-        
-      </div>
-    </a>
   
-  
-    <a href="/2016/07/13/使用AVCaptureSession采集视频/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">使用AVCaptureSession采集视频</div>
+    <a href="/2016/10/09/标准输入输出流和标准错误流介绍/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">标准输入输出流和标准错误流介绍</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -362,7 +377,7 @@ func writeImageToAssetsLibrary(image:UIImage) -&gt; Void {
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#实现步骤"><span class="toc-number">1.</span> <span class="toc-text">实现步骤</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#初始化AVCaptureStillImageOutput对象"><span class="toc-number">1.1.</span> <span class="toc-text">初始化AVCaptureStillImageOutput对象</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#拍摄静态图片"><span class="toc-number">1.2.</span> <span class="toc-text">拍摄静态图片</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#存储图片到相册"><span class="toc-number">1.3.</span> <span class="toc-text">存储图片到相册</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#测试"><span class="toc-number">2.</span> <span class="toc-text">测试</span></a></li></ol>
+    
 </div>
 <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
 
@@ -410,7 +425,7 @@ func writeImageToAssetsLibrary(image:UIImage) -&gt; Void {
     
       <div class="duoshuo" id="comments">
     <!-- 多说评论框 start -->
-    <div class="ds-thread" data-thread-key="2016/07/15/捕捉静态图片/" data-title="捕获静态图片" data-url="http://www.devzhang.cn/2016/07/15/捕捉静态图片/"></div>
+    <div class="ds-thread" data-thread-key="2016/11/01/C++中文件的输入和输出/" data-title="C++中文件的输入和输出" data-url="http://www.devzhang.cn/2016/11/01/C++中文件的输入和输出/"></div>
     <!-- 多说评论框 end -->
     <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
     <script type="text/javascript">
@@ -433,13 +448,11 @@ func writeImageToAssetsLibrary(image:UIImage) -&gt; Void {
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2016/07/18/捕获视频/" title="上一篇: 捕获视频">
-                <i class="fa fa-angle-left"></i>
-            </a>
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
         
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
         
-            <a href="/2016/07/13/使用AVCaptureSession采集视频/" title="下一篇: 使用AVCaptureSession采集视频">
+            <a href="/2016/10/09/标准输入输出流和标准错误流介绍/" title="下一篇: 标准输入输出流和标准错误流介绍">
                 <i class="fa fa-angle-right"></i>
             </a>
         

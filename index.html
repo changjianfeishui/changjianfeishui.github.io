@@ -126,7 +126,7 @@
                 
                 <section class="switch-part switch-part2">
                     <div class="widget tagcloud" id="js-tagcloud">
-                        <a href="/tags/AVFoundation/" style="font-size: 20px;">AVFoundation</a> <a href="/tags/AVFoundation编程指南/" style="font-size: 17.14px;">AVFoundation编程指南</a> <a href="/tags/Kcamera/" style="font-size: 18.57px;">Kcamera</a> <a href="/tags/MVC/" style="font-size: 12.86px;">MVC</a> <a href="/tags/MVP/" style="font-size: 10px;">MVP</a> <a href="/tags/Moco/" style="font-size: 10px;">Moco</a> <a href="/tags/http/" style="font-size: 11.43px;">http</a> <a href="/tags/phoneGap/" style="font-size: 14.29px;">phoneGap</a> <a href="/tags/加密/" style="font-size: 10px;">加密</a> <a href="/tags/学习笔记/" style="font-size: 10px;">学习笔记</a> <a href="/tags/排序/" style="font-size: 15.71px;">排序</a> <a href="/tags/架构/" style="font-size: 14.29px;">架构</a> <a href="/tags/算法/" style="font-size: 15.71px;">算法</a> <a href="/tags/翻译/" style="font-size: 17.14px;">翻译</a> <a href="/tags/视频直播/" style="font-size: 10px;">视频直播</a>
+                        <a href="/tags/AVFoundation/" style="font-size: 20px;">AVFoundation</a> <a href="/tags/AVFoundation编程指南/" style="font-size: 17.14px;">AVFoundation编程指南</a> <a href="/tags/Kcamera/" style="font-size: 18.57px;">Kcamera</a> <a href="/tags/MVC/" style="font-size: 12.86px;">MVC</a> <a href="/tags/MVP/" style="font-size: 10px;">MVP</a> <a href="/tags/Moco/" style="font-size: 10px;">Moco</a> <a href="/tags/http/" style="font-size: 11.43px;">http</a> <a href="/tags/phoneGap/" style="font-size: 14.29px;">phoneGap</a> <a href="/tags/加密/" style="font-size: 10px;">加密</a> <a href="/tags/学习笔记/" style="font-size: 11.43px;">学习笔记</a> <a href="/tags/排序/" style="font-size: 15.71px;">排序</a> <a href="/tags/架构/" style="font-size: 14.29px;">架构</a> <a href="/tags/算法/" style="font-size: 15.71px;">算法</a> <a href="/tags/翻译/" style="font-size: 17.14px;">翻译</a> <a href="/tags/视频直播/" style="font-size: 10px;">视频直播</a>
                     </div>
                 </section>
                 
@@ -191,6 +191,159 @@
     </div>
 </nav>
       <div class="body-wrap">
+  
+    <article id="post-C++中文件的输入和输出" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/11/01/C++中文件的输入和输出/" class="article-date">
+      <time datetime="2016-11-01T13:15:28.000Z" itemprop="datePublished">2016-11-01</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/11/01/C++中文件的输入和输出/">C++中文件的输入和输出</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>C++中文件的输入和输出机制和屏幕上输入输出相似, 主要区别在于需要显式地打开和关闭文件. 对文件进行操作时会涉及到5个相关的类:</p>
+<ul>
+<li>fstreambase: 公共基类, 具体文件操作中不会使用这个类.</li>
+<li>ifstream: 从istream派生, 负责文件的读取.</li>
+<li>ofstream: 从ostream派生, 负责文件的写入.</li>
+<li>fstream: 从fstreambase和iostream中派生, 负责对文件进行写入和读取.</li>
+<li>filebuf: 从streambuf中派生, 用来提供缓冲支持.</li>
+</ul>
+<p>下面的代码从一个txt读取字符(数字和字母):</p>
+<pre><code>#include &lt;iostream&gt;
+#include &lt;fstream&gt;
+using namespace std;
+int main(int argc, const char * argv[]) {
+
+    ifstream inf;
+    //打开文件
+    inf.open(&quot;/Users/zhang/Desktop/C++/fileIO/1.txt&quot;);
+    if (!inf) {
+        cerr &lt;&lt; &quot;打开文件失败!&quot; &lt;&lt; endl;
+        return -1;
+    }
+
+    char x;
+    while (inf &gt;&gt; x) {
+        cout &lt;&lt; x;
+    }
+    cout &lt;&lt; endl;
+    //关闭文件
+    inf.close();
+
+    return 0;
+}
+</code></pre><p>下面的代码向文件中写入1~10共10个数字:</p>
+<pre><code>#include &lt;iostream&gt;
+#include &lt;fstream&gt;
+using namespace std;
+int main(int argc, const char * argv[]) {
+    ofstream onf;
+    onf.open(&quot;/Users/zhang/Desktop/C++/fileIO/2.txt&quot;);
+
+    if (!onf) {
+        cerr &lt;&lt; &quot;打开文件失败!&quot; &lt;&lt; endl;
+        return -1;
+    }
+
+    for (int i = 0; i &lt;= 10; i++) {
+        onf &lt;&lt; i &lt;&lt; endl;
+    }
+
+    onf.close();
+
+    return 0;
+}    
+</code></pre><p>上面两个例子中的ifstream和ofstream都使用了open函数来打开文件, 其实通过ifstream和ofstream的构造函数可以实现相同的功能:</p>
+<pre><code>ifstream inf(&quot;/Users/zhang/Desktop/C++/fileIO/1.txt&quot;);
+或
+ofstream onf(&quot;/Users/zhang/Desktop/C++/fileIO/2.txt&quot;);
+</code></pre><p>此外, 还有另外一个构造函数, 可以指定文件打开的模式:</p>
+<ul>
+<li>ios::in : 打开一个可读取文件.</li>
+<li>ios::out : 打开一个可写入文件.</li>
+<li>ios::app : 在文件末尾追加数据.</li>
+<li>ios::trunk : 删除文件原来的内容.</li>
+<li>ios::nocreate : 如果要打开文件不存在, 不会创建同名文件.</li>
+<li>ios::noreplace : 如果要打开的文件已存在, 不会对已存在的文件进行替换.</li>
+<li>ios::binary : 以二进制形式打开文件.</li>
+</ul>
+<p>通过’|’操作符可以指定多个打开模式. 下面是一个使用组合模式的例子:</p>
+<pre><code>#include &lt;iostream&gt;
+#include &lt;fstream&gt;
+using namespace std;
+int main(int argc, const char * argv[]) {
+
+    fstream File(&quot;/Users/zhang/Desktop/C++/fileIO/1.txt&quot;,ios::in | ios::app);
+    if (! File) {
+        cerr &lt;&lt; &quot;打开文件失败!&quot; &lt;&lt; endl;
+        return -1;
+    }
+
+    //写入文件
+    File &lt;&lt; &quot;hello world&quot;;
+    //将文件指针移动至文件开头
+    File.seekg(ios::beg);
+    //输入文件内容
+    char str[100];
+    File.getline(str, 100);
+    cout &lt;&lt; str &lt;&lt; endl;
+
+    File.close();
+
+    return 0;
+}
+</code></pre>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/Cpp/">C++</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/学习笔记/">学习笔记</a></li></ul>
+    </div>
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
   
     <article id="post-标准输入输出流和标准错误流介绍" class="article article-type-post" itemscope itemprop="blogPost">
   
@@ -774,78 +927,6 @@
       
         <p class="article-more-link">
           <a  href="/2016/08/30/视频直播专业名词解答/#more">查看全文 >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-绘制音频波形图" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/08/10/绘制音频波形图/" class="article-date">
-      <time datetime="2016-08-10T08:59:34.000Z" itemprop="datePublished">2016-08-10</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/08/10/绘制音频波形图/">绘制音频波形图</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-              <p>绘制一个音频波形基本包括以下三步:</p>
-<ol>
-<li>读取: 读取或解压音频样本 </li>
-<li>缩减: 实际读取的样本数量远比要渲染绘制的要多,缩减的过程必须作用于整个样本集.通常将样本总集分为固定大小的样本块,并在每个样本块上找到最大的样本、所有样本的平均值或min/max值.</li>
-<li>渲染: 将缩减后的样本呈现在屏幕上</li>
-</ol>
-<p>代码地址为<a href="https://github.com/changjianfeishui/WaveformView">WaveformView</a>,编译环境为Xcode 7.3</p>
-          
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/iOS/">iOS</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AVFoundation/">AVFoundation</a></li></ul>
-    </div>
-
-      
-        <p class="article-more-link">
-          <a  href="/2016/08/10/绘制音频波形图/#more">查看全文 >></a>
         </p>
       
       <div class="clearfix"></div>
