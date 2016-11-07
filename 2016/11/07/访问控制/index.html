@@ -3,33 +3,27 @@
 <head>
   <meta charset="utf-8">
   
-  <title>接口安全认证 | 做点有意思的事情</title>
+  <title>访问控制 | 做点有意思的事情</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="签名和加密流程：
-1.将请求参数按照a-z排序后，用key=value&amp;amp;key=value拼接，得到待签名字符串；
-2.使用自己的私钥，将待签名字符串进行RSA签名，得到签名参数sign；
-3.将所有参数转化为json字符串，得到所有参数json字符串明文info；
-4.随机生成16位的AES密钥key，用AES加密明文info，得到密文data参数；
-将AES密钥key，使用别人的公钥R">
+  <meta name="description" content="在C++中, 每个对象的成员(属性和方法)均可被定义为公有(public), 私有(private)和保护(protected)三种类型. 
+关键字public表示成员是完全公开的, 任何环境下都可以通过对象对其进行访问.
+关键字private声明的成员只能通过指向当前类(不包括子类)的this指针才可以访问, 其他环境下不能直接进行访问.
+关键字protected较public和private而">
 <meta property="og:type" content="article">
-<meta property="og:title" content="接口安全认证">
-<meta property="og:url" content="http://www.devzhang.cn/2016/03/15/接口安全认证/index.html">
+<meta property="og:title" content="访问控制">
+<meta property="og:url" content="http://www.devzhang.cn/2016/11/07/访问控制/index.html">
 <meta property="og:site_name" content="做点有意思的事情">
-<meta property="og:description" content="签名和加密流程：
-1.将请求参数按照a-z排序后，用key=value&amp;amp;key=value拼接，得到待签名字符串；
-2.使用自己的私钥，将待签名字符串进行RSA签名，得到签名参数sign；
-3.将所有参数转化为json字符串，得到所有参数json字符串明文info；
-4.随机生成16位的AES密钥key，用AES加密明文info，得到密文data参数；
-将AES密钥key，使用别人的公钥R">
-<meta property="og:updated_time" content="2016-06-30T06:33:04.000Z">
+<meta property="og:description" content="在C++中, 每个对象的成员(属性和方法)均可被定义为公有(public), 私有(private)和保护(protected)三种类型. 
+关键字public表示成员是完全公开的, 任何环境下都可以通过对象对其进行访问.
+关键字private声明的成员只能通过指向当前类(不包括子类)的this指针才可以访问, 其他环境下不能直接进行访问.
+关键字protected较public和private而">
+<meta property="og:updated_time" content="2016-11-07T13:49:17.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="接口安全认证">
-<meta name="twitter:description" content="签名和加密流程：
-1.将请求参数按照a-z排序后，用key=value&amp;amp;key=value拼接，得到待签名字符串；
-2.使用自己的私钥，将待签名字符串进行RSA签名，得到签名参数sign；
-3.将所有参数转化为json字符串，得到所有参数json字符串明文info；
-4.随机生成16位的AES密钥key，用AES加密明文info，得到密文data参数；
-将AES密钥key，使用别人的公钥R">
+<meta name="twitter:title" content="访问控制">
+<meta name="twitter:description" content="在C++中, 每个对象的成员(属性和方法)均可被定义为公有(public), 私有(private)和保护(protected)三种类型. 
+关键字public表示成员是完全公开的, 任何环境下都可以通过对象对其进行访问.
+关键字private声明的成员只能通过指向当前类(不包括子类)的this指针才可以访问, 其他环境下不能直接进行访问.
+关键字protected较public和private而">
   
   
     <link rel="icon" href="/img/head.jpg">
@@ -203,11 +197,11 @@
         </header>                
     </div>
 </nav>
-      <div class="body-wrap"><article id="post-接口安全认证" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-访问控制" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016/03/15/接口安全认证/" class="article-date">
-      <time datetime="2016-03-14T16:00:00.000Z" itemprop="datePublished">2016-03-15</time>
+      <a href="/2016/11/07/访问控制/" class="article-date">
+      <time datetime="2016-11-07T13:23:49.000Z" itemprop="datePublished">2016-11-07</time>
 </a>
     </div>
   
@@ -220,7 +214,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      接口安全认证
+      访问控制
     </h1>
   
 
@@ -229,13 +223,13 @@
       <div class="article-info article-info-post">
         
     <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/iOS/">iOS</a>
+    <a class="article-category-link" href="/categories/Cpp/">C++</a>
     </div>
 
 
         
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/http/">http</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/加密/">加密</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/学习笔记/">学习笔记</a></li></ul>
     </div>
 
         <div class="clearfix"></div>
@@ -245,134 +239,11 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <h1 id="签名和加密流程："><a href="#签名和加密流程：" class="headerlink" title="签名和加密流程："></a>签名和加密流程：</h1><ul>
-<li>1.将请求参数按照a-z排序后，用key=value&amp;key=value拼接，得到待签名字符串；</li>
-<li>2.使用自己的私钥，将待签名字符串进行RSA签名，得到签名参数sign；</li>
-<li>3.将所有参数转化为json字符串，得到所有参数json字符串明文info；</li>
-<li>4.随机生成16位的AES密钥key，用AES加密明文info，得到密文data参数；</li>
-<li>将AES密钥key，使用别人的公钥RSA加密，得到密文dataKey参数；</li>
-</ul>
-<a id="more"></a>
-<p>示例：</p>
-<ul>
-<li>1.原始请求：www.baidu.com?bbb=222&amp;aaa=111;</li>
-<li>2.参数排序后:aaa=111&amp;bbb=222</li>
-<li>3.RSA签名得到sign=OCr1gGGlPi9jDOUhTmIRdgQuWgHPZcokhuIDs</li>
-<li>4.参数json字符串:{“sign”:”OCr1gGGlPi9jDOUhTmIRdgQuWgHPZcokhuIDs”,”aaa”:111,”bbb”:”222”}</li>
-<li>5.data=C8BkH63OOEVy</li>
-<li>6.data=C8BkH63OOEVy&amp;dataKey=IF4z2fxeGLOgtd</li>
-</ul>
-<h1 id="ObjC实现"><a href="#ObjC实现" class="headerlink" title="ObjC实现"></a>ObjC实现</h1><h2 id="1-参数排序"><a href="#1-参数排序" class="headerlink" title="1.参数排序"></a>1.参数排序</h2><p>为NSDictionary添加一个进行排序的分类如下:</p>
-<pre><code>//  NSDictionary+SortedString.h
-#import &lt;Foundation/Foundation.h&gt;
-@interface NSDictionary(SortedString)
-/**
-*  排序时默认不忽略大小写
- *  @param type 排序方式:升序或者降序
- */
-- (NSString *)sortedStringByComparisontype:    (NSComparisonResult)type;
-@end
+        <p>在C++中, 每个对象的成员(属性和方法)均可被定义为公有(public), 私有(private)和保护(protected)三种类型. </p>
+<p>关键字public表示成员是完全公开的, 任何环境下都可以通过对象对其进行访问.</p>
+<p>关键字private声明的成员只能通过指向当前类(不包括子类)的this指针才可以访问, 其他环境下不能直接进行访问.</p>
+<p>关键字protected较public和private而言被用到的机会较少, 表示成员是半公开的, 即外界无法直接访问这个控制级别的成员, 但是指向当前类或者当前类子类的this指针可以访问. </p>
 
-//  NSDictionary+SortedString.m
-#import &quot;NSDictionary+SortedString.h&quot;
-@implementation NSDictionary(SortedString)
-- (NSString *)sortedStringByComparisontype:    (NSComparisonResult)type
-{
-       NSArray *keyArray = self.allKeys;
-    NSArray *sortedKeyArray = [keyArray sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
-    NSAssert([obj1 isKindOfClass:[NSString class]], @&quot;必须使用NSString类型的参数名&quot;);
-    NSAssert([obj2 isKindOfClass:[NSString class]], @&quot;必须使用NSString类型的参数名&quot;);
-    if (type == NSOrderedAscending) {
-        return [obj1 compare:obj2]; // options:NSCaseInsensitiveSearch
-    }else{
-        return [obj2 compare:obj1];
-    }
-}];
-//    NSLog(@&quot;array === %@&quot;,sortedKeyArray);
-
-    NSMutableString *sortedString = [NSMutableString string];
-    for (int i = 0; i &lt; sortedKeyArray.count; i++) {
-        NSString *key = sortedKeyArray[i];
-        NSString *temp = [NSString stringWithFormat:@&quot;%@=%@&amp;&quot;,key,self[key]];
-        [sortedString appendString:temp];
-}
-    [sortedString deleteCharactersInRange:NSMakeRange(sortedString.length - 1, 1)];
-    return sortedString;
-}
-@end
-</code></pre><p>示例参数:</p>
-<pre><code>self.param = [NSMutableDictionary dictionaryWithDictionary:@{@&quot;userName&quot;:@&quot;100000@qq.com&quot;,@&quot;nickName&quot;:@&quot;Jack&quot;,@&quot;exp&quot;:@&quot;99999&quot;}];
-</code></pre><p>排序后生成的字符串为:exp=99999&amp;nickName=Jack&amp;userName=100000@qq.com</p>
-<h2 id="2-RSA签名"><a href="#2-RSA签名" class="headerlink" title="2.RSA签名"></a>2.RSA签名</h2><p>为便于测试,提供一个在线生成RSA密钥对的链接:<a href="http://web.chacuo.net/netrsakeypair" target="_blank" rel="external">在线生成RSA密钥对</a>.</p>
-<p>签名使用的第三方库链接:<a href="https://github.com/HustBroventure/iOSRSAHandler" target="_blank" rel="external">iOSRSAHandler</a>.</p>
-<p>我测试所用的密钥如下:</p>
-<pre><code>//客户端私钥
-NSString *const private_key_string = @&quot;MIICdQIBADANBgkqhkiG9w0BAQEFAASCAl8wggJbAgEAAoGBAM7TTLDADuD8wJNPEi1vrq4Xu/hO+DPHjeRtSGANaD0RH/MxhL6I+G18c3ie8adqe7vbiDqXWF+bTGvaS5f7cKSxatUklI8/Ap8ul++6WYUTfiFjzrUWnHOplPnTEpwf5uppWdo++eOAMxR4mvYwJsAMZtOX7ZmhW+zoqI7r9Ax1AgMBAAECgYBqbMoqrTk6xnRlmKt22+AbzzS3KhOHuWinISC75Eo+GiDBqDpxPNPwqrhUWh1pE18GJInt9FDSKXxihxqc4xJrj6tw+nHKo/8Ih0uKoonmC410y5/XXvtjkhTtC8f2x+let5QN23G0onYi4ADc45UaP/gr/Ja+TUMZGBc7s7aU5QJBAO+O7C+kv3PHUKrQljhYHsihmMA6Ft61s1nREqP1WijaxoJZ1o0v96B3NK7HIGFatkJLdqBRSaCblkRpQP1s3CsCQQDdBUEw2zdJf+HUBn6HoGTghPFzbKKKBJDDkt7CjTeFORNiWDTUNAgJSFcbUlYz9UxJ0arksAkR9xtOj/C6CEnfAkB5sGVj8lFas9XTX2/foUvJ6OSaSSfS7AP2TREl/n1VIYUTNCWbxNEKT2OQoRBew+CvnnvdBk3baw2TJNBhq8nPAkBixARbtrpAB/t8aeKE7PHnOsFC2RrRHjUqkCknOz/CMr0sx0nkQdQNgdwbA3IuCcGrgxwg0WFcO9ZiBwSFvUp1AkBtJZ5SHSCdVj6jCHRQ/MInwVs1XPB2XSPZFki1WvsfutCYhSgysCL12gMsXM44zL8pWJ1xPN8zyZ+9o/wVzSKZ&quot;;
-
-//客户端公钥
-NSString *const public_key_string = @&quot;MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDO00ywwA7g/MCTTxItb66uF7v4Tvgzx43kbUhgDWg9ER/zMYS+iPhtfHN4nvGnanu724g6l1hfm0xr2kuX+3CksWrVJJSPPwKfLpfvulmFE34hY861FpxzqZT50xKcH+bqaVnaPvnjgDMUeJr2MCbADGbTl+2ZoVvs6KiO6/QMdQIDAQAB&quot;;
-
-//服务器公钥
-NSString *const server_public_key_string = @&quot;MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC0WcydkWlrgcRhsBq8Li+ZohY3tZnE6JKuI88YWYwadNL0NWNZ4oDzZmm7kAg+3ZYkz8dx6uUU6elIWJw2C6Bp2pHYiRFOwCUtvuCGiW0pJDEsLcpNymvJw2vuA0FKJXcc4W9oMLsuzv8wh05N12Nljy+kDrABpUi6q9Otg/y+DwIDAQAB&quot;;
-</code></pre><p>然后使用<code>HBRSAHandler</code>签名:</p>
-<pre><code>HBRSAHandler* handler = [HBRSAHandler new];
-[handler importKeyWithType:KeyTypePrivate andkeyString:private_key_string];
-[handler importKeyWithType:KeyTypePublic andkeyString:public_key_string];
-NSString *sign = [handler signString:signString];
-//将sign添加到参数列表中
-[self.param setObject:sign forKey:@&quot;sign&quot;];
-</code></pre><p>这一步中RSA签名使用的签名算法是SHA1,具体可参见相关工具类里的说明.<br>我得到的sign=bBK5EXqxyFmxTf5c6uN/g+btpFmtotYd1e+yqSxzvpHUV+ImZLth493WQzDlkeBvX7ejXGed36APs1YEURM9HIdE3PsqQKzvT+0PgdjN+PMch3EmBUwVFN+ce/B7HkUpEZz5HNH2FZZP5Rm/fP2Hru/412IiBuz5r09O258G8gk=</p>
-<p>此时,参数列表为:</p>
-<pre><code>{
-exp = 99999;
-nickName = Jack;
-sign = &quot;bBK5EXqxyFmxTf5c6uN/g+btpFmtotYd1e+yqSxzvpHUV+ImZLth493WQzDlkeBvX7ejXGed36APs1YEURM9HIdE3PsqQKzvT+0PgdjN+PMch3EmBUwVFN+ce/B7HkUpEZz5HNH2FZZP5Rm/fP2Hru/412IiBuz5r09O258G8gk=&quot;;
-userName = &quot;100000@qq.com&quot;;
-}
-</code></pre><h2 id="3-将所有参数转换为JsonString"><a href="#3-将所有参数转换为JsonString" class="headerlink" title="3.将所有参数转换为JsonString"></a>3.将所有参数转换为JsonString</h2><pre><code>NSData *jsondata = [NSJSONSerialization dataWithJSONObject:self.param options:0 error:nil];
-NSString *jsonString = [[NSString alloc]initWithData:jsondata encoding:NSUTF8StringEncoding];
-</code></pre><p>这一步我得到的jsonString是{“exp”:”99999”,”sign”:”bBK5EXqxyFmxTf5c6uN\/g+btpFmtotYd1e+yqSxzvpHUV+ImZLth493WQzDlkeBvX7ejXGed36APs1YEURM9HIdE3PsqQKzvT+0PgdjN+PMch3EmBUwVFN+ce\/B7HkUpEZz5HNH2FZZP5Rm\/fP2Hru\/412IiBuz5r09O258G8gk=”,”nickName”:”Jack”,”userName”:”100000@qq.com”}</p>
-<h2 id="4-生成16位随机串"><a href="#4-生成16位随机串" class="headerlink" title="4.生成16位随机串"></a>4.生成16位随机串</h2><p>为NSString类添加一个生成随机字符串的分类如下:</p>
-<pre><code>//  NSString+RandomString.h
-#import &lt;Foundation/Foundation.h&gt;
-@interface NSString(RandomString)
-/**
- *  @param length 要生成的随机字符串的长度
- */
-+ (NSString *)randomStringWithLength:(NSInteger)length;
-@end
-
-//  NSString+RandomString.m
-#import &quot;NSString+RandomString.h&quot;
-@implementation NSString(RandomString)
-+ (NSString *)randomStringWithLength:(NSInteger)length
-{
-    char data[length];
-
-    for (int x=0;x&lt;length;x++){
-        data[x] = (char)(&apos;A&apos; + (arc4random_uniform(26)));
-    }
-    return [[NSString alloc] initWithBytes:data length:length encoding:NSUTF8StringEncoding];
-}
-@end
-</code></pre><p>调用获取随机16位字符串作为AES加密key:</p>
-<pre><code>NSString *randomKey = [NSString randomStringWithLength:16];
-//为了便于调试,这里写死
-randomKey = @&quot;TEWLMGQWYXPQNAST&quot;;
-</code></pre><h2 id="5-AES加密参数字符串"><a href="#5-AES加密参数字符串" class="headerlink" title="5.AES加密参数字符串"></a>5.AES加密参数字符串</h2><p>这里提供一个<a href="http://www.seacha.com/tools/aes.html?src=&amp;mode=ECB&amp;keylen=128&amp;key=&amp;iv=&amp;bpkcs=pkcs5padding&amp;session=BfbJDvPa4cV5nATijC0s&amp;aes=b7bfffab762f78e7afb617b5f92a5866&amp;encoding=base64&amp;type=0" target="_blank" rel="external">AES在线加密解密网站</a></p>
-<p>加解密使用的是我一个同事提供的工具类:<a href="https://github.com/mokey1422/GBEncodeTool" target="_blank" rel="external">GBEncodeTool</a>.</p>
-<p>加密使用的是AES128位ECB模式加密,代码如下:</p>
-<pre><code>NSString *data = [GBEncodeTool AES128Encrypt:jsonString WithKey:randomKey];
-</code></pre><p>这里我得到的data是t4eBJnDCJjzabOteDXfDQzPZDKxM2ugI7Yf0vIzFZ1So7xwxuQ78vXg998fU0aFDrFEmAdRqHYJbM22gSTyKYCTYy8fN2mApyFTMH74JIiUonbqAyWueuaIlwL2TOuZS8Ps/tpq+8KgGUT9urhUOc6/iu/97dSJlbgHakb5fV4KN0yGP+jb0UXAGvrC7VMs6WaDnAiQ9UTB6jOTZh0E08o74RrSnSZjbjqhW92UP+c3BRfJNg87Q2aTB5vFrYS+JtPxNDRJ4IXsU5MiSpjDNxl1lC0F5TuLBl2S/tvO2R8kqM8whu8LUQMdWOTXpJVO6FvV5O3LSqysJ8gp62KEY4g==</p>
-<h2 id="6-RSA加密AES的key"><a href="#6-RSA加密AES的key" class="headerlink" title="6.RSA加密AES的key"></a>6.RSA加密AES的key</h2><pre><code>NSString *dataKey = [GBEncodeTool rsaEncryptString:randomKey publicKey:server_public_key_string];
-</code></pre><p>这里我得到的dataKey是K5FIL3+j5u8vB8M8Kiz+SKB++tezzg38Z647jrCYYoC8CoGVqk9z6QRbsao+uoCezgFu8dgSaqw8+mW6OXflp+7IhG5Rp1Dq2uPzuWshNmrHA38T0eqXOjPU+qblKi5+pH8LLI+q7TjizW4d65EMV10oMWBGwVc3iPn1kFLcK38=</p>
-<h2 id="7-最终传给服务器的参数"><a href="#7-最终传给服务器的参数" class="headerlink" title="7.最终传给服务器的参数"></a>7.最终传给服务器的参数</h2><pre><code>{
-data = &quot;t4eBJnDCJjzabOteDXfDQzPZDKxM2ugI7Yf0vIzFZ1So7xwxuQ78vXg998fU0aFDrFEmAdRqHYJbM22gSTyKYCTYy8fN2mApyFTMH74JIiUonbqAyWueuaIlwL2TOuZS8Ps/tpq+8KgGUT9urhUOc6/iu/97dSJlbgHakb5fV4KN0yGP+jb0UXAGvrC7VMs6WaDnAiQ9UTB6jOTZh0E08o74RrSnSZjbjqhW92UP+c3BRfJNg87Q2aTB5vFrYS+JtPxNDRJ4IXsU5MiSpjDNxl1lC0F5TuLBl2S/tvO2R8kqM8whu8LUQMdWOTXpJVO6FvV5O3LSqysJ8gp62KEY4g==&quot;;
-
-dataKey = &quot;K5FIL3+j5u8vB8M8Kiz+SKB++tezzg38Z647jrCYYoC8CoGVqk9z6QRbsao+uoCezgFu8dgSaqw8+mW6OXflp+7IhG5Rp1Dq2uPzuWshNmrHA38T0eqXOjPU+qblKi5+pH8LLI+q7TjizW4d65EMV10oMWBGwVc3iPn1kFLcK38=&quot;;
-}
-</code></pre><h2 id="8-解密服务器的返回信息"><a href="#8-解密服务器的返回信息" class="headerlink" title="8.解密服务器的返回信息"></a>8.解密服务器的返回信息</h2><pre><code>使用客户端RSA私钥解密即可.
-</code></pre>
       
     </div>
     
@@ -380,13 +251,13 @@ dataKey = &quot;K5FIL3+j5u8vB8M8Kiz+SKB++tezzg38Z647jrCYYoC8CoGVqk9z6QRbsao+uoCe
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2016/03/15/接口安全认证/">接口安全认证</a></p>
+        <p><span>本文标题:</span><a href="/2016/11/07/访问控制/">访问控制</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 Devzhang 的个人博客">Devzhang</a></p>
-        <p><span>发布时间:</span>2016年03月15日 - 00时00分</p>
-        <p><span>最后更新:</span>2016年06月30日 - 14时33分</p>
+        <p><span>发布时间:</span>2016年11月07日 - 21时23分</p>
+        <p><span>最后更新:</span>2016年11月07日 - 21时49分</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2016/03/15/接口安全认证/" title="接口安全认证">http://www.devzhang.cn/2016/03/15/接口安全认证/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://www.devzhang.cn/2016/03/15/接口安全认证/　　作者: Devzhang" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2016/11/07/访问控制/" title="访问控制">http://www.devzhang.cn/2016/11/07/访问控制/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://www.devzhang.cn/2016/11/07/访问控制/　　作者: Devzhang" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script src="/js/clipboard.min.js"></script>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
@@ -399,18 +270,9 @@ dataKey = &quot;K5FIL3+j5u8vB8M8Kiz+SKB++tezzg38Z647jrCYYoC8CoGVqk9z6QRbsao+uoCe
 
 <nav id="article-nav">
   
-    <a href="/2016/03/23/iOS中MVC的几个误区/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption"><</strong>
-      <div class="article-nav-title">
-        
-          iOS中MVC的几个误区
-        
-      </div>
-    </a>
   
-  
-    <a href="/2016/03/14/使用Moco进行http接口模拟/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">使用Moco进行http接口模拟</div>
+    <a href="/2016/11/06/命名空间/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">命名空间(namespace)</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -421,7 +283,7 @@ dataKey = &quot;K5FIL3+j5u8vB8M8Kiz+SKB++tezzg38Z647jrCYYoC8CoGVqk9z6QRbsao+uoCe
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#签名和加密流程："><span class="toc-number">1.</span> <span class="toc-text">签名和加密流程：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ObjC实现"><span class="toc-number">2.</span> <span class="toc-text">ObjC实现</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-参数排序"><span class="toc-number">2.1.</span> <span class="toc-text">1.参数排序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-RSA签名"><span class="toc-number">2.2.</span> <span class="toc-text">2.RSA签名</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-将所有参数转换为JsonString"><span class="toc-number">2.3.</span> <span class="toc-text">3.将所有参数转换为JsonString</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-生成16位随机串"><span class="toc-number">2.4.</span> <span class="toc-text">4.生成16位随机串</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-AES加密参数字符串"><span class="toc-number">2.5.</span> <span class="toc-text">5.AES加密参数字符串</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-RSA加密AES的key"><span class="toc-number">2.6.</span> <span class="toc-text">6.RSA加密AES的key</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-最终传给服务器的参数"><span class="toc-number">2.7.</span> <span class="toc-text">7.最终传给服务器的参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-解密服务器的返回信息"><span class="toc-number">2.8.</span> <span class="toc-text">8.解密服务器的返回信息</span></a></li></ol></li></ol>
+    
 </div>
 <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
 
@@ -469,7 +331,7 @@ dataKey = &quot;K5FIL3+j5u8vB8M8Kiz+SKB++tezzg38Z647jrCYYoC8CoGVqk9z6QRbsao+uoCe
     
       <div class="duoshuo" id="comments">
     <!-- 多说评论框 start -->
-    <div class="ds-thread" data-thread-key="2016/03/15/接口安全认证/" data-title="接口安全认证" data-url="http://www.devzhang.cn/2016/03/15/接口安全认证/"></div>
+    <div class="ds-thread" data-thread-key="2016/11/07/访问控制/" data-title="访问控制" data-url="http://www.devzhang.cn/2016/11/07/访问控制/"></div>
     <!-- 多说评论框 end -->
     <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
     <script type="text/javascript">
@@ -492,13 +354,11 @@ dataKey = &quot;K5FIL3+j5u8vB8M8Kiz+SKB++tezzg38Z647jrCYYoC8CoGVqk9z6QRbsao+uoCe
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2016/03/23/iOS中MVC的几个误区/" title="上一篇: iOS中MVC的几个误区">
-                <i class="fa fa-angle-left"></i>
-            </a>
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
         
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
         
-            <a href="/2016/03/14/使用Moco进行http接口模拟/" title="下一篇: 使用Moco进行http接口模拟">
+            <a href="/2016/11/06/命名空间/" title="下一篇: 命名空间(namespace)">
                 <i class="fa fa-angle-right"></i>
             </a>
         
