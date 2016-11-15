@@ -3,18 +3,36 @@
 <head>
   <meta charset="utf-8">
   
-  <title>高帧率视频捕捉 | 做点有意思的事情</title>
+  <title>拷贝构造函数 | 做点有意思的事情</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="在视频缩放功能的实现中介绍了通过捕捉设备activeFormat属性中的videoMaxZoomFactor来获取视频最大缩放倍数的方法.除此之外,还可以通过设备的formats属性获取设备所有支持的格式.formats是一个数组,其中的每个AVCaptureDeviceFormat实例都有一个videoSupportedFrameRateRanges属性,该属性包括了一个AVFrameRateR">
+  <meta name="description" content="拷贝构造函数是一种特殊的构造函数, 其形参必须是本来对象的一个引用，但并不限制为const，一般普遍的会加上const限制. 使用拷贝构造函数的目的是一个已经存在的对象来初始化同类的一个新对象. 
+声明拷贝构造函数的语法规则如下:
+类名(类名 &amp;amp;对象名)
+通常构造函数只在对象创建时被调用, 而拷贝构造函数在以下情况下会被调用:
+
+当使用类的一个对象去初始化该类的一个新对象时.
+如果一个函数">
 <meta property="og:type" content="article">
-<meta property="og:title" content="高帧率视频捕捉">
-<meta property="og:url" content="http://www.devzhang.cn/2016/08/05/高帧率视频捕捉/index.html">
+<meta property="og:title" content="拷贝构造函数">
+<meta property="og:url" content="http://www.devzhang.cn/2016/11/15/拷贝构造函数/index.html">
 <meta property="og:site_name" content="做点有意思的事情">
-<meta property="og:description" content="在视频缩放功能的实现中介绍了通过捕捉设备activeFormat属性中的videoMaxZoomFactor来获取视频最大缩放倍数的方法.除此之外,还可以通过设备的formats属性获取设备所有支持的格式.formats是一个数组,其中的每个AVCaptureDeviceFormat实例都有一个videoSupportedFrameRateRanges属性,该属性包括了一个AVFrameRateR">
-<meta property="og:updated_time" content="2016-08-10T09:18:33.000Z">
+<meta property="og:description" content="拷贝构造函数是一种特殊的构造函数, 其形参必须是本来对象的一个引用，但并不限制为const，一般普遍的会加上const限制. 使用拷贝构造函数的目的是一个已经存在的对象来初始化同类的一个新对象. 
+声明拷贝构造函数的语法规则如下:
+类名(类名 &amp;amp;对象名)
+通常构造函数只在对象创建时被调用, 而拷贝构造函数在以下情况下会被调用:
+
+当使用类的一个对象去初始化该类的一个新对象时.
+如果一个函数">
+<meta property="og:updated_time" content="2016-11-15T15:35:21.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="高帧率视频捕捉">
-<meta name="twitter:description" content="在视频缩放功能的实现中介绍了通过捕捉设备activeFormat属性中的videoMaxZoomFactor来获取视频最大缩放倍数的方法.除此之外,还可以通过设备的formats属性获取设备所有支持的格式.formats是一个数组,其中的每个AVCaptureDeviceFormat实例都有一个videoSupportedFrameRateRanges属性,该属性包括了一个AVFrameRateR">
+<meta name="twitter:title" content="拷贝构造函数">
+<meta name="twitter:description" content="拷贝构造函数是一种特殊的构造函数, 其形参必须是本来对象的一个引用，但并不限制为const，一般普遍的会加上const限制. 使用拷贝构造函数的目的是一个已经存在的对象来初始化同类的一个新对象. 
+声明拷贝构造函数的语法规则如下:
+类名(类名 &amp;amp;对象名)
+通常构造函数只在对象创建时被调用, 而拷贝构造函数在以下情况下会被调用:
+
+当使用类的一个对象去初始化该类的一个新对象时.
+如果一个函数">
   
   
     <link rel="icon" href="/img/head.jpg">
@@ -188,11 +206,11 @@
         </header>                
     </div>
 </nav>
-      <div class="body-wrap"><article id="post-高帧率视频捕捉" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-拷贝构造函数" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016/08/05/高帧率视频捕捉/" class="article-date">
-      <time datetime="2016-08-05T03:02:37.000Z" itemprop="datePublished">2016-08-05</time>
+      <a href="/2016/11/15/拷贝构造函数/" class="article-date">
+      <time datetime="2016-11-15T13:32:29.000Z" itemprop="datePublished">2016-11-15</time>
 </a>
     </div>
   
@@ -205,7 +223,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      高帧率视频捕捉
+      拷贝构造函数
     </h1>
   
 
@@ -214,13 +232,13 @@
       <div class="article-info article-info-post">
         
     <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/iOS/">iOS</a>
+    <a class="article-category-link" href="/categories/Cpp/">C++</a>
     </div>
 
 
         
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AVFoundation/">AVFoundation</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/学习笔记/">学习笔记</a></li></ul>
     </div>
 
         <div class="clearfix"></div>
@@ -230,53 +248,80 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>在<a href="http://www.devzhang.cn/2016/07/28/视频缩放/">视频缩放</a>功能的实现中介绍了通过捕捉设备activeFormat属性中的videoMaxZoomFactor来获取视频最大缩放倍数的方法.除此之外,还可以通过设备的formats属性获取设备所有支持的格式.formats是一个数组,其中的每个AVCaptureDeviceFormat实例都有一个videoSupportedFrameRateRanges属性,该属性包括了一个AVFrameRateRange数组,其中包含了格式所支持的最小帧率,最大帧率和时长信息.</p>
-<p>使用高帧率捕捉就是找到设备最高的质量格式及相关帧时长,之后进行手动设置.具体的代码参见<a href="https://github.com/changjianfeishui/HighFPS" target="_blank" rel="external">HighFPS</a>.</p>
+        <p>拷贝构造函数是一种特殊的构造函数, 其形参必须是本来对象的一个引用，但并不限制为const，一般普遍的会加上const限制. 使用拷贝构造函数的目的是一个已经存在的对象来初始化同类的一个新对象. </p>
+<p>声明拷贝构造函数的语法规则如下:</p>
+<pre><code>类名(类名 &amp;对象名)
+</code></pre><p>通常构造函数只在对象创建时被调用, 而拷贝构造函数在以下情况下会被调用:</p>
+<ul>
+<li>当使用类的一个对象去初始化该类的一个新对象时.</li>
+<li>如果一个函数的形参是类的对象, 那么当调用该函数时对应类的拷贝构造函数也会被调用.</li>
+<li>如果函数的返回值是类的对象, 那么该函数返回时对应类的拷贝构造函数也会被调用.(但一般编译器会进行返回值优化, 减少临时对象带来的开销,参考<a href="http://blog.csdn.net/sxhelijian/article/details/50977946" target="_blank" rel="external"> C++返回值为对象时复制构造函数不执行怎么破</a>)</li>
+</ul>
 <a id="more"></a>
-<h1 id="核心代码"><a href="#核心代码" class="headerlink" title="核心代码"></a>核心代码</h1><h2 id="判断当前视频设备是否支持高帧率视频采集"><a href="#判断当前视频设备是否支持高帧率视频采集" class="headerlink" title="判断当前视频设备是否支持高帧率视频采集"></a>判断当前视频设备是否支持高帧率视频采集</h2><pre><code>extension AVCaptureDevice{
-    //如果当前设备是否支持高帧率捕捉,则返回对应的高帧率format
-    func maxFPSFormat() -&gt; (AVCaptureDeviceFormat,AVFrameRateRange)? {
-        //1. 判断是否是视频设备
-        if !self.hasMediaType(AVMediaTypeVideo) {
-            return nil
-        }
-        //2. 遍历找到最大的支持帧率
-        var maxFrameRateRange:AVFrameRateRange!
-        var maxFormat:AVCaptureDeviceFormat!
-        for format in self.formats as! [AVCaptureDeviceFormat] {
-            let codecType = CMFormatDescriptionGetMediaSubType(format.formatDescription)
-            if codecType == kCVPixelFormatType_420YpCbCr8BiPlanarVideoRange {
-                let frameRateRanges = format.videoSupportedFrameRateRanges as! [AVFrameRateRange]
-                for range in frameRateRanges {
-                    if range.maxFrameRate &gt; maxFrameRateRange?.maxFrameRate {
-                        maxFrameRateRange = range
-                        maxFormat = format
-                    }
-                }
-            }
-        }
-        if maxFrameRateRange.maxFrameRate &gt; 30 {
-            return (maxFormat,maxFrameRateRange)
-        }
-        return nil
-    }
+<p>示例代码如下:</p>
+<pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+class Time
+{
+    int hour, minute, second;
+public:
+    Time():hour(0),minute(0),second(0){};
+    Time(Time const &amp;t);
+    ~Time();
+    void getTime();
+    void setTime(int h, int m, int s);
+};
+
+Time::Time(Time const &amp;t)
+{
+    hour = t.hour;
+    minute = t.minute;
+    second = t.second;
+    cout &lt;&lt; &quot;拷贝构造函数被调用!!!&quot; &lt;&lt; endl;
 }
-</code></pre><h2 id="激活高帧率视频捕捉"><a href="#激活高帧率视频捕捉" class="headerlink" title="激活高帧率视频捕捉"></a>激活高帧率视频捕捉</h2><pre><code>//激活高帧率捕捉
-func startHighFPSCapture() {
-    let device = self.videoInput.device
-    //6plus真机实测最高支持240FPS的视频录制
-    if  let (maxFormat,maxFrameRateRange) = device.maxFPSFormat() {
-        if ((try? device.lockForConfiguration()) != nil) {
-            //处理帧时长数据,比如帧率为60FPS,则duration为1/60秒
-            let minFrameDuration = maxFrameRateRange.minFrameDuration
-            device.activeFormat = maxFormat
-            device.activeVideoMaxFrameDuration = minFrameDuration
-            device.activeVideoMinFrameDuration = minFrameDuration
-            device.unlockForConfiguration()
-        }
-    }
+
+
+void Time::getTime()
+{
+    cout &lt;&lt; &quot;Time is &quot; &lt;&lt; hour &lt;&lt; &quot;:&quot; &lt;&lt; minute &lt;&lt; &quot;:&quot; &lt;&lt; second &lt;&lt; endl;
 }
-</code></pre>
+
+void Time::setTime(int h, int m, int s)
+{
+    if (m &lt; 0 || m &gt; 59 || s &lt; 0 || s &gt; 59 || h &lt; 0 || h &gt; 23) {
+        cout &lt;&lt; &quot;set time error&quot; &lt;&lt; endl;
+        return;
+    }
+    hour = h;
+    minute = m;
+    second = s;
+}
+
+Time::~Time(){
+    cout &lt;&lt; &quot;销毁&quot; &lt;&lt; endl;
+}
+
+void fun0(Time t){}
+Time fun1(){
+    Time t;
+    return t;
+}
+
+int main(int argc, const char * argv[]) {
+    Time t0;
+    t0.setTime(12, 12, 12);
+    Time t1 = t0;
+    t1.getTime();
+    fun0(t0);
+    Time t2 = fun1();
+    t2.getTime();
+    return 0;
+}
+</code></pre><p>当没有自定义拷贝构造函数时,C++会提供一个默认的拷贝构造函数,但是如果类的数据成员中包含指针类型或者静态成员变量时, 不推荐使用默认的拷贝构造函数. 因为默认的拷贝构造函数只能实现<code>浅拷贝</code>, 会带来数据安全方面的隐患.</p>
+<p>一个类中可以存在多个拷贝构造函数, 但是,一旦一个类中只存在一个参数为 X&amp; 的拷贝构造函数, 那么就不能使用const X 或 volatile X 的对象进行拷贝初始化 (即不能使用Time t2 = fun1()的方式).</p>
+<p>对于一个类X, 如果它的一个构造函数的第一个参数是这四者(X&amp;, const X&amp;, volatile X&amp;或 const volatile X&amp;)之一, 且没有其他参数或其他参数都有默认值, 那么这个就是拷贝构造函数. </p>
+
       
     </div>
     
@@ -284,13 +329,13 @@ func startHighFPSCapture() {
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2016/08/05/高帧率视频捕捉/">高帧率视频捕捉</a></p>
+        <p><span>本文标题:</span><a href="/2016/11/15/拷贝构造函数/">拷贝构造函数</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 Devzhang 的个人博客">Devzhang</a></p>
-        <p><span>发布时间:</span>2016年08月05日 - 11时02分</p>
-        <p><span>最后更新:</span>2016年08月10日 - 17时18分</p>
+        <p><span>发布时间:</span>2016年11月15日 - 21时32分</p>
+        <p><span>最后更新:</span>2016年11月15日 - 23时35分</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2016/08/05/高帧率视频捕捉/" title="高帧率视频捕捉">http://www.devzhang.cn/2016/08/05/高帧率视频捕捉/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://www.devzhang.cn/2016/08/05/高帧率视频捕捉/　　作者: Devzhang" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2016/11/15/拷贝构造函数/" title="拷贝构造函数">http://www.devzhang.cn/2016/11/15/拷贝构造函数/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://www.devzhang.cn/2016/11/15/拷贝构造函数/　　作者: Devzhang" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script src="/js/clipboard.min.js"></script>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
@@ -303,18 +348,9 @@ func startHighFPSCapture() {
 
 <nav id="article-nav">
   
-    <a href="/2016/08/10/绘制音频波形图/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption"><</strong>
-      <div class="article-nav-title">
-        
-          绘制音频波形图
-        
-      </div>
-    </a>
   
-  
-    <a href="/2016/08/03/条码扫描/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">条码扫描</div>
+    <a href="/2016/11/14/友元/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">友元</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -325,7 +361,7 @@ func startHighFPSCapture() {
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#核心代码"><span class="toc-number">1.</span> <span class="toc-text">核心代码</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#判断当前视频设备是否支持高帧率视频采集"><span class="toc-number">1.1.</span> <span class="toc-text">判断当前视频设备是否支持高帧率视频采集</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#激活高帧率视频捕捉"><span class="toc-number">1.2.</span> <span class="toc-text">激活高帧率视频捕捉</span></a></li></ol></li></ol>
+    
 </div>
 <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
 
@@ -373,7 +409,7 @@ func startHighFPSCapture() {
     
       <div class="duoshuo" id="comments">
     <!-- 多说评论框 start -->
-    <div class="ds-thread" data-thread-key="2016/08/05/高帧率视频捕捉/" data-title="高帧率视频捕捉" data-url="http://www.devzhang.cn/2016/08/05/高帧率视频捕捉/"></div>
+    <div class="ds-thread" data-thread-key="2016/11/15/拷贝构造函数/" data-title="拷贝构造函数" data-url="http://www.devzhang.cn/2016/11/15/拷贝构造函数/"></div>
     <!-- 多说评论框 end -->
     <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
     <script type="text/javascript">
@@ -396,13 +432,11 @@ func startHighFPSCapture() {
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2016/08/10/绘制音频波形图/" title="上一篇: 绘制音频波形图">
-                <i class="fa fa-angle-left"></i>
-            </a>
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
         
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
         
-            <a href="/2016/08/03/条码扫描/" title="下一篇: 条码扫描">
+            <a href="/2016/11/14/友元/" title="下一篇: 友元">
                 <i class="fa fa-angle-right"></i>
             </a>
         
