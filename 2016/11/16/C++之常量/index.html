@@ -3,18 +3,21 @@
 <head>
   <meta charset="utf-8">
   
-  <title>菜鸟学排序：简单选择排序 | 做点有意思的事情</title>
+  <title>C++之常量 | 做点有意思的事情</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="试想北宋年间某一天，梁山108好汉要上聚义厅开会，开会嘛，自然要论资排辈排排坐。但现在由于某些原因108好汉已经随机次序的坐在了108把椅子上，需要重新排定一下座次。怎么办呢？">
+  <meta name="description" content="在C++中, 常量使用关键字const标识, 常量保证了程序的安全性和可控性. const提供了严格的类型检查, 因此相遇于宏替换而言const更加安全.
+可以用一句话概括当const和指针同时出现时的语义规则, 即如果const位于*的左侧, 则const修饰的就是指针所指向的变量, 即指针所指向的是一个常量; 反之, 如果const位于*的右侧,那么const修饰的就是指针本身, 即指针本身是">
 <meta property="og:type" content="article">
-<meta property="og:title" content="菜鸟学排序：简单选择排序">
-<meta property="og:url" content="http://www.devzhang.cn/2015/03/24/菜鸟学排序：简单选择排序/index.html">
+<meta property="og:title" content="C++之常量">
+<meta property="og:url" content="http://www.devzhang.cn/2016/11/16/C++之常量/index.html">
 <meta property="og:site_name" content="做点有意思的事情">
-<meta property="og:description" content="试想北宋年间某一天，梁山108好汉要上聚义厅开会，开会嘛，自然要论资排辈排排坐。但现在由于某些原因108好汉已经随机次序的坐在了108把椅子上，需要重新排定一下座次。怎么办呢？">
-<meta property="og:updated_time" content="2016-06-30T06:14:39.000Z">
+<meta property="og:description" content="在C++中, 常量使用关键字const标识, 常量保证了程序的安全性和可控性. const提供了严格的类型检查, 因此相遇于宏替换而言const更加安全.
+可以用一句话概括当const和指针同时出现时的语义规则, 即如果const位于*的左侧, 则const修饰的就是指针所指向的变量, 即指针所指向的是一个常量; 反之, 如果const位于*的右侧,那么const修饰的就是指针本身, 即指针本身是">
+<meta property="og:updated_time" content="2016-11-16T14:31:31.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="菜鸟学排序：简单选择排序">
-<meta name="twitter:description" content="试想北宋年间某一天，梁山108好汉要上聚义厅开会，开会嘛，自然要论资排辈排排坐。但现在由于某些原因108好汉已经随机次序的坐在了108把椅子上，需要重新排定一下座次。怎么办呢？">
+<meta name="twitter:title" content="C++之常量">
+<meta name="twitter:description" content="在C++中, 常量使用关键字const标识, 常量保证了程序的安全性和可控性. const提供了严格的类型检查, 因此相遇于宏替换而言const更加安全.
+可以用一句话概括当const和指针同时出现时的语义规则, 即如果const位于*的左侧, 则const修饰的就是指针所指向的变量, 即指针所指向的是一个常量; 反之, 如果const位于*的右侧,那么const修饰的就是指针本身, 即指针本身是">
   
   
     <link rel="icon" href="/img/head.jpg">
@@ -188,11 +191,11 @@
         </header>                
     </div>
 </nav>
-      <div class="body-wrap"><article id="post-菜鸟学排序：简单选择排序" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-C++之常量" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2015/03/24/菜鸟学排序：简单选择排序/" class="article-date">
-      <time datetime="2015-03-24T06:02:00.000Z" itemprop="datePublished">2015-03-24</time>
+      <a href="/2016/11/16/C++之常量/" class="article-date">
+      <time datetime="2016-11-16T13:30:39.000Z" itemprop="datePublished">2016-11-16</time>
 </a>
     </div>
   
@@ -205,7 +208,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      菜鸟学排序：简单选择排序
+      C++之常量
     </h1>
   
 
@@ -214,13 +217,13 @@
       <div class="article-info article-info-post">
         
     <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/Algorithm/">Algorithm</a>
+    <a class="article-category-link" href="/categories/Cpp/">C++</a>
     </div>
 
 
         
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/排序/">排序</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/算法/">算法</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/学习笔记/">学习笔记</a></li></ul>
     </div>
 
         <div class="clearfix"></div>
@@ -230,56 +233,27 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>  试想北宋年间某一天，梁山108好汉要上聚义厅开会，开会嘛，自然要论资排辈排排坐。但现在由于某些原因108好汉已经随机次序的坐在了108把椅子上，需要重新排定一下座次。怎么办呢？</p>
+        <p>在C++中, 常量使用关键字<code>const</code>标识, 常量保证了程序的安全性和可控性. const提供了严格的类型检查, 因此相遇于宏替换而言const更加安全.</p>
+<p>可以用一句话概括当const和指针同时出现时的语义规则, 即如果const位于<code>*</code>的左侧, 则const修饰的就是指针所指向的变量, 即指针所指向的是一个常量; 反之, 如果const位于<code>*</code>的右侧,那么const修饰的就是指针本身, 即指针本身是常量.     </p>
 <a id="more"></a>
-<p>  这时候，坐在第一把椅子上的哥们先站起来，找一找老大宋江此时正坐在哪里，然后和宋江交换座位，接着，坐在第二把椅子上的兄弟起身，找一找卢老二坐在那里(注意此时不需要回头看第一把坐的谁，因为前面的哥们已经搞定了)，同样交换座位，当然，如果刚好卢老二正好坐在第二把椅子上就不用交换了，依次下去，第三把起身交换，第四把起身交换……等108好汉都按次序做好之后，一趟简单的选择排序也就完成了。</p>
-<p>  由此可见，选择排序的核心就是，给定一个乱序的数组a[n],排定第a[i] (i&lt;n)时（即第a[i]把椅子该坐谁）,从a[i]到a[n-1]遍历找出最值，与a[i]交换，如果a[i]刚好就是最值，则不用交换(想象卢老二正好坐在第二把椅子上的情形)。<br>  根据上面的描述，可以给出实现代码如下：</p>
-<pre><code>void selectSort(int a[],int length)  
-{  
-    int index = 0; //记录最值所在位置  
-    int temp = 0; //保存中间值  
-    //1.遍历整个数组  
-    for (int i = 0; i &lt; length; i++) {  
-        index = i;  
-        for (int j = i + 1; j &lt; length; j++) {   //遍历索引i之后的乱序数组，找出最值（前面的宋江已经做好了，不需要扫描）  
-            if (a[index] &lt; a[j]) {  
-                index = j;  
-            }  
-        }  
-        if (index != i) {         //如果自身不是最值，则交换（卢老二没有坐在第二把椅子上）  
-            temp = a[index];  
-            a[index] = a[i];  
-            a[i] = temp;  
-        }  
-    }  
-} 
-</code></pre><p> 进一步的，还可以提炼一下，第一次排序是从a[0]开始扫描到a[n-1]（共比较n-1次）,第二次是从a[1]扫描到a[n-1]（共比较n-2次）……也就是说，将未排序的数单独看成一个数组的话，每次都是从这个数组的第一个位置开始扫描比较n-i次，即可以用递归实现：</p>
-<pre><code>//递归实现  
-void selectSortByRecursion(int a[],int length)  
-{  
-    if (length == 1) {  
-        return;  
-    }  
-
-    int index = 0;  
-    int temp = 0; //保存中间值  
-    for (int i = 0; i &lt; length; i++) {  
-        if (a[index] &lt; a[i]) {  
-            index = i;  
-        }  
-    }//遍历完成后index指向最值所在索引  
-
-    if (index!=0) {  
-        temp = a[index];  
-        a[index] = a[0];  
-        a[0] = temp;  
-    }  
-
-    selectSortByRecursion(a+1,length-1);  
-
-}  
-</code></pre><p>其实就是将之前代码的外层for循环改成了递归调用.核心本质未变.           </p>
-
+<p>下面是const与指针结合时的一些代码示例:</p>
+<pre><code>int num = 500;
+const int* a = &amp;num;            //1
+int const *a = &amp;num;            //2
+int* const a = &amp;num;            //3
+const int* const a = &amp;num;      //4
+</code></pre><p>根据上面的原则, 语句1和语句2的作用是相同的, 都表示指针所指向的内容为常量, 也就是不能使用<code>*a=250</code>之类的语句修改指针指向的值. </p>
+<p>语句3表明指针本身是常量, 而指针所指向的内容不是常量. 这种情况下不能对指针本身进行操作, 例如<code>a--</code>.语句4表明表明指针本身和指针所指向的内容都是常量.</p>
+<p>上文所讨论的内容都是关于使用const来修饰变量的, 在函数声明中const的作用更大. 通常const可以用来修饰函数的返回值或某个参数. 另外, 对于成员函数, const还可以用来修饰整个函数.</p>
+<p>使用const修饰函数参数仅适用于函数参数为指针或引用的情况, 其一般形式如下:</p>
+<pre><code>类型名 func(const Type* parameter)
+或
+类型名 func(const Type&amp; parameter)
+</code></pre><p>使用const修饰函数返回值表明返回值不能被修改, 其一般形式如下:</p>
+<pre><code>const Type func(参数表)    
+</code></pre><p>使用const修饰成员函数表明被修饰的成员函数不能对成员变量进行修改,其一般形式如下:</p>
+<pre><code>void func() const    
+</code></pre>
       
     </div>
     
@@ -287,13 +261,13 @@ void selectSortByRecursion(int a[],int length)
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2015/03/24/菜鸟学排序：简单选择排序/">菜鸟学排序：简单选择排序</a></p>
+        <p><span>本文标题:</span><a href="/2016/11/16/C++之常量/">C++之常量</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 Devzhang 的个人博客">Devzhang</a></p>
-        <p><span>发布时间:</span>2015年03月24日 - 14时02分</p>
-        <p><span>最后更新:</span>2016年06月30日 - 14时14分</p>
+        <p><span>发布时间:</span>2016年11月16日 - 21时30分</p>
+        <p><span>最后更新:</span>2016年11月16日 - 22时31分</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2015/03/24/菜鸟学排序：简单选择排序/" title="菜鸟学排序：简单选择排序">http://www.devzhang.cn/2015/03/24/菜鸟学排序：简单选择排序/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://www.devzhang.cn/2015/03/24/菜鸟学排序：简单选择排序/　　作者: Devzhang" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2016/11/16/C++之常量/" title="C++之常量">http://www.devzhang.cn/2016/11/16/C++之常量/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://www.devzhang.cn/2016/11/16/C++之常量/　　作者: Devzhang" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script src="/js/clipboard.min.js"></script>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
@@ -306,15 +280,11 @@ void selectSortByRecursion(int a[],int length)
 
 <nav id="article-nav">
   
-    <a href="/2015/03/25/菜鸟学排序：快速排序/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption"><</strong>
-      <div class="article-nav-title">
-        
-          菜鸟学排序：快速排序
-        
-      </div>
-    </a>
   
+    <a href="/2016/11/15/拷贝构造函数/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">拷贝构造函数</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
   
 </nav>
 
@@ -371,7 +341,7 @@ void selectSortByRecursion(int a[],int length)
     
       <div class="duoshuo" id="comments">
     <!-- 多说评论框 start -->
-    <div class="ds-thread" data-thread-key="2015/03/24/菜鸟学排序：简单选择排序/" data-title="菜鸟学排序：简单选择排序" data-url="http://www.devzhang.cn/2015/03/24/菜鸟学排序：简单选择排序/"></div>
+    <div class="ds-thread" data-thread-key="2016/11/16/C++之常量/" data-title="C++之常量" data-url="http://www.devzhang.cn/2016/11/16/C++之常量/"></div>
     <!-- 多说评论框 end -->
     <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
     <script type="text/javascript">
@@ -394,13 +364,13 @@ void selectSortByRecursion(int a[],int length)
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2015/03/25/菜鸟学排序：快速排序/" title="上一篇: 菜鸟学排序：快速排序">
-                <i class="fa fa-angle-left"></i>
-            </a>
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
         
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
         
-            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
+            <a href="/2016/11/15/拷贝构造函数/" title="下一篇: 拷贝构造函数">
+                <i class="fa fa-angle-right"></i>
+            </a>
         
     </div>
     <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2016/11/16/C++之常量/">C++之常量</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/15/拷贝构造函数/">拷贝构造函数</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/14/友元/">友元</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/09/对象的动态创建和销毁/">对象的动态创建和销毁</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/08/类的构造函数和析构函数/">类的构造函数和析构函数</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/07/访问控制/">访问控制</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/06/命名空间/">命名空间(namespace)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/02/预处理/">预处理</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/01/C++中文件的输入和输出/">C++中文件的输入和输出</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/09/标准输入输出流和标准错误流介绍/">标准输入输出流和标准错误流介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/20/时间和媒体的表示/">时间和媒体的表示</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/20/Asset的重编码及导出/">Asset的重编码及导出</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/18/静态图片和视频捕捉/">静态图片和视频捕捉</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/09/编辑Assets/">编辑Assets</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/06/播放Assets/">播放Assets</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/31/使用Assets/">使用Assets</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/31/AVFoundation简介/">AVFoundation简介</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/30/视频直播专业名词解答/">视频直播专业名词解答</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/10/绘制音频波形图/">绘制音频波形图</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/05/高帧率视频捕捉/">高帧率视频捕捉</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/03/条码扫描/">条码扫描</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/29/人脸检测/">人脸检测</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/28/视频缩放/">视频缩放</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/22/调整闪光灯和手电筒模式/">调整闪光灯和手电筒模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/19/对焦和曝光功能的实现/">对焦和曝光功能的实现</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/18/切换摄像头/">切换摄像头</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/18/捕获视频/">捕获视频</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/15/捕捉静态图片/">捕获静态图片</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/13/使用AVCaptureSession采集视频/">使用AVCaptureSession采集视频</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/11/仿系统视频录制按钮的实现/">仿系统视频录制按钮的实现</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/08/仿系统相机模式标签切换的实现/">仿系统相机模式标签切换的实现</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/25/使用AVAudioRecorder录制音频/">使用AVAudioRecorder录制音频</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/20/AVAudioPlayer中断处理/">AVAudioPlayer中断处理</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/17/MVP登录示例/">MVP登录示例</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/17/MVC登录示例/">MVC登录示例</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/12/iOS基于MVC的项目重构总结/">iOS基于MVC的项目重构总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/02/使用AVAudioPlayer播放音频/">使用AVAudioPlayer播放音频</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/31/音频会话(Audio Session)/">音频会话(Audio Session)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/30/AVSpeechSynthesizer：文本到语音/">AVSpeechSynthesizer:文本到语音</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/28/AVFoundation入门/">AVFoundation入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/23/iOS中MVC的几个误区/">iOS中MVC的几个误区</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/15/接口安全认证/">接口安全认证</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/14/使用Moco进行http接口模拟/">使用Moco进行http接口模拟</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/05/14/phonegap|iOS|推送/">phonegap|iOS|推送</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/05/06/phoneGap在iOS上给JS传值方法/">phoneGap在iOS上给JS传值方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/04/24/phoneGap在iOS上自定义实现友盟分享插件/">phoneGap在iOS上自定义实现友盟分享插件</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/04/23/phoneGap在iOS上弹出对话框和调用相机/">phoneGap在iOS上弹出对话框和调用相机</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/03/26/菜鸟学排序：折半插入排序/">菜鸟学排序：折半插入排序</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/03/26/菜鸟学排序：直接插入排序/">菜鸟学排序：直接插入排序</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/03/25/菜鸟学排序：冒泡排序/">菜鸟学排序：冒泡排序</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/03/25/菜鸟学排序：快速排序/">菜鸟学排序：快速排序</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/03/24/菜鸟学排序：简单选择排序/">菜鸟学排序：简单选择排序</a></li></ul>
