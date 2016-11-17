@@ -3,33 +3,51 @@
 <head>
   <meta charset="utf-8">
   
-  <title>C++中文件的输入和输出 | 做点有意思的事情</title>
+  <title>Objective-C内存管理之引用计数 | 做点有意思的事情</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="C++中文件的输入和输出机制和屏幕上输入输出相似, 主要区别在于需要显式地打开和关闭文件. 对文件进行操作时会涉及到5个相关的类:
+  <meta name="description" content="Objective-C中的内存管理,也就是引用计数, 可以用如下方式进行思考:
 
-fstreambase: 公共基类, 具体文件操作中不会使用这个类.
-ifstream: 从istream派生, 负责文件的读取.
-ofstream: 从ostream派生, 负责文件的写入.
-fstream: 从fstreambase和iostream中派生, 负">
+自己生成的对象, 自己持有.
+非自己生成的对象, 自己也能持有.
+不再需要自己持有的对象时释放对象
+非自己持有的对象无法释放
+
+“生成”, “持有”, “释放”, “废弃”四个词对应的Objective-C方法如下:
+
+生成: alloc/new/copy/mutableCopy 等方法
+持有: retain方法
+释">
 <meta property="og:type" content="article">
-<meta property="og:title" content="C++中文件的输入和输出">
-<meta property="og:url" content="http://www.devzhang.cn/2016/11/01/C++中文件的输入和输出/index.html">
+<meta property="og:title" content="Objective-C内存管理之引用计数">
+<meta property="og:url" content="http://www.devzhang.cn/2016/11/17/Objective-C内存管理之引用计数/index.html">
 <meta property="og:site_name" content="做点有意思的事情">
-<meta property="og:description" content="C++中文件的输入和输出机制和屏幕上输入输出相似, 主要区别在于需要显式地打开和关闭文件. 对文件进行操作时会涉及到5个相关的类:
+<meta property="og:description" content="Objective-C中的内存管理,也就是引用计数, 可以用如下方式进行思考:
 
-fstreambase: 公共基类, 具体文件操作中不会使用这个类.
-ifstream: 从istream派生, 负责文件的读取.
-ofstream: 从ostream派生, 负责文件的写入.
-fstream: 从fstreambase和iostream中派生, 负">
-<meta property="og:updated_time" content="2016-11-01T14:50:14.000Z">
+自己生成的对象, 自己持有.
+非自己生成的对象, 自己也能持有.
+不再需要自己持有的对象时释放对象
+非自己持有的对象无法释放
+
+“生成”, “持有”, “释放”, “废弃”四个词对应的Objective-C方法如下:
+
+生成: alloc/new/copy/mutableCopy 等方法
+持有: retain方法
+释">
+<meta property="og:updated_time" content="2016-11-17T16:36:07.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="C++中文件的输入和输出">
-<meta name="twitter:description" content="C++中文件的输入和输出机制和屏幕上输入输出相似, 主要区别在于需要显式地打开和关闭文件. 对文件进行操作时会涉及到5个相关的类:
+<meta name="twitter:title" content="Objective-C内存管理之引用计数">
+<meta name="twitter:description" content="Objective-C中的内存管理,也就是引用计数, 可以用如下方式进行思考:
 
-fstreambase: 公共基类, 具体文件操作中不会使用这个类.
-ifstream: 从istream派生, 负责文件的读取.
-ofstream: 从ostream派生, 负责文件的写入.
-fstream: 从fstreambase和iostream中派生, 负">
+自己生成的对象, 自己持有.
+非自己生成的对象, 自己也能持有.
+不再需要自己持有的对象时释放对象
+非自己持有的对象无法释放
+
+“生成”, “持有”, “释放”, “废弃”四个词对应的Objective-C方法如下:
+
+生成: alloc/new/copy/mutableCopy 等方法
+持有: retain方法
+释">
   
   
     <link rel="icon" href="/img/head.jpg">
@@ -203,11 +221,11 @@ fstream: 从fstreambase和iostream中派生, 负">
         </header>                
     </div>
 </nav>
-      <div class="body-wrap"><article id="post-C++中文件的输入和输出" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-Objective-C内存管理之引用计数" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016/11/01/C++中文件的输入和输出/" class="article-date">
-      <time datetime="2016-11-01T13:15:28.000Z" itemprop="datePublished">2016-11-01</time>
+      <a href="/2016/11/17/Objective-C内存管理之引用计数/" class="article-date">
+      <time datetime="2016-11-17T14:44:59.000Z" itemprop="datePublished">2016-11-17</time>
 </a>
     </div>
   
@@ -220,7 +238,7 @@ fstream: 从fstreambase和iostream中派生, 负">
         
   
     <h1 class="article-title" itemprop="name">
-      C++中文件的输入和输出
+      Objective-C内存管理之引用计数
     </h1>
   
 
@@ -229,13 +247,13 @@ fstream: 从fstreambase和iostream中派生, 负">
       <div class="article-info article-info-post">
         
     <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/Cpp/">C++</a>
+    <a class="article-category-link" href="/categories/iOS/">iOS</a>
     </div>
 
 
         
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/学习笔记/">学习笔记</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/内存管理/">内存管理</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/学习笔记/">学习笔记</a></li></ul>
     </div>
 
         <div class="clearfix"></div>
@@ -245,99 +263,72 @@ fstream: 从fstreambase和iostream中派生, 负">
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>C++中文件的输入和输出机制和屏幕上输入输出相似, 主要区别在于需要显式地打开和关闭文件. 对文件进行操作时会涉及到5个相关的类:</p>
+        <p>Objective-C中的内存管理,也就是引用计数, 可以用如下方式进行思考:</p>
 <ul>
-<li>fstreambase: 公共基类, 具体文件操作中不会使用这个类.</li>
-<li>ifstream: 从istream派生, 负责文件的读取.</li>
-<li>ofstream: 从ostream派生, 负责文件的写入.</li>
-<li>fstream: 从fstreambase和iostream中派生, 负责对文件进行写入和读取.</li>
-<li>filebuf: 从streambuf中派生, 用来提供缓冲支持.</li>
+<li>自己生成的对象, 自己持有.</li>
+<li>非自己生成的对象, 自己也能持有.</li>
+<li>不再需要自己持有的对象时释放对象</li>
+<li>非自己持有的对象无法释放</li>
 </ul>
+<p>“生成”, “持有”, “释放”, “废弃”四个词对应的Objective-C方法如下:</p>
+<ul>
+<li>生成: alloc/new/copy/mutableCopy 等方法</li>
+<li>持有: retain方法</li>
+<li>释放: release方法</li>
+<li>废弃: dealloc方法</li>
+</ul>
+<p>这些内存管理相关的方法, 实际上不包括在语言本身中, 而是包含在Cocoa框架中. Cocoa框架中Foundation框架类库的NSObject类负责进行内存管理. </p>
 <a id="more"></a>
-<p>下面的代码从一个txt读取字符(数字和字母):</p>
-<pre><code>#include &lt;iostream&gt;
-#include &lt;fstream&gt;
-using namespace std;
-int main(int argc, const char * argv[]) {
-
-    ifstream inf;
-    //打开文件
-    inf.open(&quot;/Users/zhang/Desktop/C++/fileIO/1.txt&quot;);
-    if (!inf) {
-        cerr &lt;&lt; &quot;打开文件失败!&quot; &lt;&lt; endl;
-        return -1;
-    }
-
-    char x;
-    while (inf &gt;&gt; x) {
-        cout &lt;&lt; x;
-    }
-    cout &lt;&lt; endl;
-    //关闭文件
-    inf.close();
-
-    return 0;
-}
-</code></pre><p>下面的代码向文件中写入1~10共10个数字:</p>
-<pre><code>#include &lt;iostream&gt;
-#include &lt;fstream&gt;
-using namespace std;
-int main(int argc, const char * argv[]) {
-    ofstream onf;
-    onf.open(&quot;/Users/zhang/Desktop/C++/fileIO/2.txt&quot;);
-
-    if (!onf) {
-        cerr &lt;&lt; &quot;打开文件失败!&quot; &lt;&lt; endl;
-        return -1;
-    }
-
-    for (int i = 0; i &lt;= 10; i++) {
-        onf &lt;&lt; i &lt;&lt; endl;
-    }
-
-    onf.close();
-
-    return 0;
-}    
-</code></pre><p>上面两个例子中的ifstream和ofstream都使用了open函数来打开文件, 其实通过ifstream和ofstream的构造函数可以实现相同的功能:</p>
-<pre><code>ifstream inf(&quot;/Users/zhang/Desktop/C++/fileIO/1.txt&quot;);
-或
-ofstream onf(&quot;/Users/zhang/Desktop/C++/fileIO/2.txt&quot;);
-</code></pre><p>此外, 还有另外一个构造函数, 可以指定文件打开的模式:</p>
+<h1 id="自己生成并持有对象"><a href="#自己生成并持有对象" class="headerlink" title="自己生成并持有对象"></a>自己生成并持有对象</h1><p>使用以下名称开头的方法意味着自己生成的对象只有自己持有:</p>
 <ul>
-<li>ios::in : 打开一个可读取文件.</li>
-<li>ios::out : 打开一个可写入文件.</li>
-<li>ios::app : 在文件末尾追加数据.</li>
-<li>ios::trunk : 删除文件原来的内容.</li>
-<li>ios::nocreate : 如果要打开文件不存在, 不会创建同名文件.</li>
-<li>ios::noreplace : 如果要打开的文件已存在, 不会对已存在的文件进行替换.</li>
-<li>ios::binary : 以二进制形式打开文件.</li>
+<li>alloc</li>
+<li>new</li>
+<li>copy</li>
+<li>mutableCopy</li>
 </ul>
-<p>通过’|’操作符可以指定多个打开模式. 下面是一个使用组合模式的例子:</p>
-<pre><code>#include &lt;iostream&gt;
-#include &lt;fstream&gt;
-using namespace std;
-int main(int argc, const char * argv[]) {
+<p>alloc/new示例:</p>
+<pre><code>id obj = [[NSObject alloc]init];
+id obj = [NSObject new];
+</code></pre><p>copy方法生成不可变的对象, 而mutableCopy生成可变的对象. </p>
+<h1 id="非自己生成的对象-自己也能持有"><a href="#非自己生成的对象-自己也能持有" class="headerlink" title="非自己生成的对象, 自己也能持有"></a>非自己生成的对象, 自己也能持有</h1><p>用alloc/new/copy/mutableCopy之外的方法取得的对象, 自己也能持有:</p>
+<pre><code>//取得非自己生成的对象
+id obj = [NSMutableArray array];    
 
-    fstream File(&quot;/Users/zhang/Desktop/C++/fileIO/1.txt&quot;,ios::in | ios::app);
-    if (! File) {
-        cerr &lt;&lt; &quot;打开文件失败!&quot; &lt;&lt; endl;
-        return -1;
-    }
+//此时使用release会crash
+//[obj release];
 
-    //写入文件
-    File &lt;&lt; &quot;hello world&quot;;
-    //将文件指针移动至文件开头
-    File.seekg(ios::beg);
-    //输入文件内容
-    char str[100];
-    File.getline(str, 100);
-    cout &lt;&lt; str &lt;&lt; endl;
+//持有对象
+[obj retain];
+</code></pre><p>通过<code>retain</code>方法, 能持有非自己生成的对象.    </p>
+<h1 id="不再需要自己持有的对象时释放对象"><a href="#不再需要自己持有的对象时释放对象" class="headerlink" title="不再需要自己持有的对象时释放对象"></a>不再需要自己持有的对象时释放对象</h1><p>自己生成持有的对象, 一旦不再需要, 持有者有义务释放该对象. 释放使用release方法.</p>
+<pre><code>id obj = [[NSObject alloc]init];
+[obj release];
+</code></pre><p>非自己生成,但自己持有的对象, 若使用retain方法持有之后, 不需要时, 也要使用release方法释放.</p>
+<pre><code>NSMutableArray *array = [NSMutableArray array];
+[array retain];
+[array release];
+</code></pre><p>那么调用<code>[NSMutableArray array]</code>方法取得对象存在, 但自己不持有对象, 是怎么实现的呢?</p>
+<pre><code>- (id)object {
+    //持有对象
+    id obj = [[NSObject alloc]init];
+    //取得的对象存在, 但自己不持有对象
+    [obj autorelease];
+    return obj;
+}    
+</code></pre><p>使用<code>autorelease</code>方法可以取得对象, 但自己不持有对象. <code>autorelease</code>能使对象在超出指定的生存范围时能够自动正确的释放(release).</p>
+<h1 id="无法释放非自己持有的对象"><a href="#无法释放非自己持有的对象" class="headerlink" title="无法释放非自己持有的对象"></a>无法释放非自己持有的对象</h1><p>如果应用中释放了非自己所持有的对象就会造成崩溃, 最常见的情况就是过度释放:</p>
+<pre><code>id obj = [[NSObject alloc]init];
+[obj release];
+//下面会引起崩溃
+//[obj release];
 
-    File.close();
+或
 
-    return 0;
-}
+//取得非自己生成的对象
+id obj = [NSMutableArray array];    
+
+//此时使用release会crash
+//[obj release];
 </code></pre>
       
     </div>
@@ -346,13 +337,13 @@ int main(int argc, const char * argv[]) {
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2016/11/01/C++中文件的输入和输出/">C++中文件的输入和输出</a></p>
+        <p><span>本文标题:</span><a href="/2016/11/17/Objective-C内存管理之引用计数/">Objective-C内存管理之引用计数</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 Devzhang 的个人博客">Devzhang</a></p>
-        <p><span>发布时间:</span>2016年11月01日 - 21时15分</p>
-        <p><span>最后更新:</span>2016年11月01日 - 22时50分</p>
+        <p><span>发布时间:</span>2016年11月17日 - 22时44分</p>
+        <p><span>最后更新:</span>2016年11月18日 - 00时36分</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2016/11/01/C++中文件的输入和输出/" title="C++中文件的输入和输出">http://www.devzhang.cn/2016/11/01/C++中文件的输入和输出/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://www.devzhang.cn/2016/11/01/C++中文件的输入和输出/　　作者: Devzhang" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2016/11/17/Objective-C内存管理之引用计数/" title="Objective-C内存管理之引用计数">http://www.devzhang.cn/2016/11/17/Objective-C内存管理之引用计数/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://www.devzhang.cn/2016/11/17/Objective-C内存管理之引用计数/　　作者: Devzhang" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script src="/js/clipboard.min.js"></script>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
@@ -365,18 +356,9 @@ int main(int argc, const char * argv[]) {
 
 <nav id="article-nav">
   
-    <a href="/2016/11/02/预处理/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption"><</strong>
-      <div class="article-nav-title">
-        
-          预处理
-        
-      </div>
-    </a>
   
-  
-    <a href="/2016/10/09/标准输入输出流和标准错误流介绍/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">标准输入输出流和标准错误流介绍</div>
+    <a href="/2016/11/17/C++之函数重载/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">C++之函数重载</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -387,7 +369,7 @@ int main(int argc, const char * argv[]) {
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#自己生成并持有对象"><span class="toc-number">1.</span> <span class="toc-text">自己生成并持有对象</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#非自己生成的对象-自己也能持有"><span class="toc-number">2.</span> <span class="toc-text">非自己生成的对象, 自己也能持有</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#不再需要自己持有的对象时释放对象"><span class="toc-number">3.</span> <span class="toc-text">不再需要自己持有的对象时释放对象</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#无法释放非自己持有的对象"><span class="toc-number">4.</span> <span class="toc-text">无法释放非自己持有的对象</span></a></li></ol>
 </div>
 <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
 
@@ -435,7 +417,7 @@ int main(int argc, const char * argv[]) {
     
       <div class="duoshuo" id="comments">
     <!-- 多说评论框 start -->
-    <div class="ds-thread" data-thread-key="2016/11/01/C++中文件的输入和输出/" data-title="C++中文件的输入和输出" data-url="http://www.devzhang.cn/2016/11/01/C++中文件的输入和输出/"></div>
+    <div class="ds-thread" data-thread-key="2016/11/17/Objective-C内存管理之引用计数/" data-title="Objective-C内存管理之引用计数" data-url="http://www.devzhang.cn/2016/11/17/Objective-C内存管理之引用计数/"></div>
     <!-- 多说评论框 end -->
     <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
     <script type="text/javascript">
@@ -458,13 +440,11 @@ int main(int argc, const char * argv[]) {
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2016/11/02/预处理/" title="上一篇: 预处理">
-                <i class="fa fa-angle-left"></i>
-            </a>
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
         
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
         
-            <a href="/2016/10/09/标准输入输出流和标准错误流介绍/" title="下一篇: 标准输入输出流和标准错误流介绍">
+            <a href="/2016/11/17/C++之函数重载/" title="下一篇: C++之函数重载">
                 <i class="fa fa-angle-right"></i>
             </a>
         
