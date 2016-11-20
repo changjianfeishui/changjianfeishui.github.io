@@ -3,27 +3,24 @@
 <head>
   <meta charset="utf-8">
   
-  <title>使用Moco进行http接口模拟 | 做点有意思的事情</title>
+  <title>C++之多态 | 做点有意思的事情</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="集成步骤(Mac):
-终端中输入java,测试是否安装了JDK,如果系统弹出错误提示,根据引导前往相关页面下载
-在Moco的GitHub页面中找到Quick Start标签,点击下载Standalone Moco Runner,或者直接点击这里下载Standalone Moco Runner
-建议将下载完成后的jar文件放入某个你特定设置的文件目录下,之后启动Moco服务的时候会首先cd到这个目录">
+  <meta name="description" content="多态是面向对象程序设计语言的一个重要特点, 是一种将不同的特殊行为和单个泛化记号相关联的能力. 更加直白的表述是同样的语法结构对应不同的具体功能. 从这个角度上来说, 模板和函数重载是一种静态的多态, 而基于虚函数实现的多态则是动态多态. 
+在介绍动态多态前, 需要对虚函数进行介绍. 虚函数就是类的非static的成员函数. 虚函数声明的语法规则如下:
+virtual 类型说明符 函数名(参数表)">
 <meta property="og:type" content="article">
-<meta property="og:title" content="使用Moco进行http接口模拟">
-<meta property="og:url" content="http://www.devzhang.cn/2016/03/14/使用Moco进行http接口模拟/index.html">
+<meta property="og:title" content="C++之多态">
+<meta property="og:url" content="http://www.devzhang.cn/2016/11/20/C++之多态/index.html">
 <meta property="og:site_name" content="做点有意思的事情">
-<meta property="og:description" content="集成步骤(Mac):
-终端中输入java,测试是否安装了JDK,如果系统弹出错误提示,根据引导前往相关页面下载
-在Moco的GitHub页面中找到Quick Start标签,点击下载Standalone Moco Runner,或者直接点击这里下载Standalone Moco Runner
-建议将下载完成后的jar文件放入某个你特定设置的文件目录下,之后启动Moco服务的时候会首先cd到这个目录">
-<meta property="og:updated_time" content="2016-06-30T06:33:20.000Z">
+<meta property="og:description" content="多态是面向对象程序设计语言的一个重要特点, 是一种将不同的特殊行为和单个泛化记号相关联的能力. 更加直白的表述是同样的语法结构对应不同的具体功能. 从这个角度上来说, 模板和函数重载是一种静态的多态, 而基于虚函数实现的多态则是动态多态. 
+在介绍动态多态前, 需要对虚函数进行介绍. 虚函数就是类的非static的成员函数. 虚函数声明的语法规则如下:
+virtual 类型说明符 函数名(参数表)">
+<meta property="og:updated_time" content="2016-11-20T15:02:44.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="使用Moco进行http接口模拟">
-<meta name="twitter:description" content="集成步骤(Mac):
-终端中输入java,测试是否安装了JDK,如果系统弹出错误提示,根据引导前往相关页面下载
-在Moco的GitHub页面中找到Quick Start标签,点击下载Standalone Moco Runner,或者直接点击这里下载Standalone Moco Runner
-建议将下载完成后的jar文件放入某个你特定设置的文件目录下,之后启动Moco服务的时候会首先cd到这个目录">
+<meta name="twitter:title" content="C++之多态">
+<meta name="twitter:description" content="多态是面向对象程序设计语言的一个重要特点, 是一种将不同的特殊行为和单个泛化记号相关联的能力. 更加直白的表述是同样的语法结构对应不同的具体功能. 从这个角度上来说, 模板和函数重载是一种静态的多态, 而基于虚函数实现的多态则是动态多态. 
+在介绍动态多态前, 需要对虚函数进行介绍. 虚函数就是类的非static的成员函数. 虚函数声明的语法规则如下:
+virtual 类型说明符 函数名(参数表)">
   
   
     <link rel="icon" href="/img/head.jpg">
@@ -197,11 +194,11 @@
         </header>                
     </div>
 </nav>
-      <div class="body-wrap"><article id="post-使用Moco进行http接口模拟" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-C++之多态" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016/03/14/使用Moco进行http接口模拟/" class="article-date">
-      <time datetime="2016-03-14T05:34:00.000Z" itemprop="datePublished">2016-03-14</time>
+      <a href="/2016/11/20/C++之多态/" class="article-date">
+      <time datetime="2016-11-20T14:40:34.000Z" itemprop="datePublished">2016-11-20</time>
 </a>
     </div>
   
@@ -214,7 +211,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      使用Moco进行http接口模拟
+      C++之多态
     </h1>
   
 
@@ -223,13 +220,13 @@
       <div class="article-info article-info-post">
         
     <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/iOS/">iOS</a>
+    <a class="article-category-link" href="/categories/Cpp/">C++</a>
     </div>
 
 
         
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Moco/">Moco</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/http/">http</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/学习笔记/">学习笔记</a></li></ul>
     </div>
 
         <div class="clearfix"></div>
@@ -239,39 +236,13 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <h1 id="集成步骤-Mac"><a href="#集成步骤-Mac" class="headerlink" title="集成步骤(Mac):"></a>集成步骤(Mac):</h1><ol>
-<li>终端中输入<code>java</code>,测试是否安装了JDK,如果系统弹出错误提示,根据引导前往相关页面下载</li>
-<li>在Moco的<a href="https://github.com/dreamhead/moco" target="_blank" rel="external">GitHub页面</a>中找到<code>Quick Start</code>标签,点击下载<code>Standalone Moco Runner</code>,或者直接点击这里下载<a href="https://repo1.maven.org/maven2/com/github/dreamhead/moco-runner/0.10.2/moco-runner-0.10.2-standalone.jar" target="_blank" rel="external">Standalone Moco Runner</a></li>
-<li>建议将下载完成后的jar文件放入某个你特定设置的文件目录下,之后启动Moco服务的时候会首先cd到这个目录(在之后的使用示例中我直接放到了/Desktop下)</li>
-</ol>
-<a id="more"></a>
-<h1 id="使用示例-json"><a href="#使用示例-json" class="headerlink" title="使用示例(json)"></a>使用示例(json)</h1><p>通常来说,在移动端的开发中,我们需要模拟的请求方式是通过一个BaseURL(本地模拟为<code>localhost</code>),然后会拼接一个具体接口路径的URL,而参数是可选的.</p>
-<p>示例如下:</p>
-<p>1.打开文本编辑器(我一直使用的是Sublime Text),将如下一段信息保存为user.json:</p>
-<pre><code>[
-{
-    &quot;request&quot;: {
-        &quot;uri&quot;: &quot;/foo&quot;,
-         &quot;queries&quot; : 
-            {
-              &quot;userID&quot; : &quot;id123456&quot;
-            }
-    },
-    &quot;response&quot;: {
-        &quot;json&quot;: {
-            &quot;userID&quot;:&quot;123456&quot;,
-            &quot;nick&quot;: &quot;Tom&quot;,
-            &quot;agde&quot;:&quot;123&quot;
-        }
-    }
-}
-]
-</code></pre><p>2.在终端中cd到你之前保存<code>Standalone Moco Runner</code>的目录下,输入以下代码:</p>
-<pre><code>java -jar moco-runner-0.10.2-standalone.jar start -p 12306 -c user.json
-</code></pre><p>其中<code>0.10.2</code>是下载的Moco版本号,12306是模拟服务的端口号(最好使用1024之后的端口,1024之前为系统服务的端口号).</p>
-<p>3.这时候在浏览器中打开<code>http://localhost:12306/user?userID=id123456</code>,就会显示出你在<code>response</code>设定的返回信息了!</p>
-<h1 id="更多用法"><a href="#更多用法" class="headerlink" title="更多用法"></a>更多用法</h1><p>Moco更多的高级用法,可以参见这里<a href="https://github.com/dreamhead/moco/blob/master/moco-doc/apis.md#query-parameter" target="_blank" rel="external">HTTP(s) APIs</a></p>
-<p>最近的版本还引入了对<code>socket</code>进行模拟的功能,可参见<a href="https://github.com/dreamhead/moco/tree/master/Moco-doc" target="_blank" rel="external">moco-doc</a>.</p>
+        <p>多态是面向对象程序设计语言的一个重要特点, 是一种将不同的特殊行为和单个泛化记号相关联的能力. 更加直白的表述是同样的语法结构对应不同的具体功能. 从这个角度上来说, 模板和函数重载是一种静态的多态, 而基于虚函数实现的多态则是动态多态. </p>
+<p>在介绍动态多态前, 需要对虚函数进行介绍. 虚函数就是类的非static的成员函数. 虚函数声明的语法规则如下:</p>
+<pre><code>virtual 类型说明符 函数名(参数表)
+</code></pre><p>虚函数和继承密切相关, 如果一个类中的成员函数被标记为虚函数, 这就意味着该成员函数在子类中可能有不同的实现. 许多情况下, 基类不会具体实现虚函数, 这时可以将虚函数声明为<em>纯虚函数</em>. 纯虚函数是一种特殊的虚函数, 它在基类中只有声明但没有实现, 要求任何子类都要定义子类相关的具体实现方法. 纯虚函数的声明方式是:</p>
+<pre><code>virtual 类型说明符 函数名(参数表) = 0
+</code></pre><p>带有虚函数的类被称为抽象类, 抽象类是为了抽象和设计的目的而建立的, 通常处于继承层次结构的较上层. 抽象类提供了一组子类操作接口的通用定义 — 纯虚函数.    通常抽象类只描述这组子类共同的操作接口, 由子类负责实现.</p>
+<p>如果抽象类的子类没有实现纯虚函数, 而只是继承基类的纯虚函数, 那么这个子类仍然还是一个抽象类.         </p>
 
       
     </div>
@@ -280,13 +251,13 @@
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2016/03/14/使用Moco进行http接口模拟/">使用Moco进行http接口模拟</a></p>
+        <p><span>本文标题:</span><a href="/2016/11/20/C++之多态/">C++之多态</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 Devzhang 的个人博客">Devzhang</a></p>
-        <p><span>发布时间:</span>2016年03月14日 - 13时34分</p>
-        <p><span>最后更新:</span>2016年06月30日 - 14时33分</p>
+        <p><span>发布时间:</span>2016年11月20日 - 22时40分</p>
+        <p><span>最后更新:</span>2016年11月20日 - 23时02分</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2016/03/14/使用Moco进行http接口模拟/" title="使用Moco进行http接口模拟">http://www.devzhang.cn/2016/03/14/使用Moco进行http接口模拟/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://www.devzhang.cn/2016/03/14/使用Moco进行http接口模拟/　　作者: Devzhang" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2016/11/20/C++之多态/" title="C++之多态">http://www.devzhang.cn/2016/11/20/C++之多态/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://www.devzhang.cn/2016/11/20/C++之多态/　　作者: Devzhang" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script src="/js/clipboard.min.js"></script>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
@@ -299,18 +270,9 @@
 
 <nav id="article-nav">
   
-    <a href="/2016/03/15/接口安全认证/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption"><</strong>
-      <div class="article-nav-title">
-        
-          接口安全认证
-        
-      </div>
-    </a>
   
-  
-    <a href="/2015/05/14/phonegap|iOS|推送/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">phonegap|iOS|推送</div>
+    <a href="/2016/11/20/C++之继承/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">C++之继承</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -321,7 +283,7 @@
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#集成步骤-Mac"><span class="toc-number">1.</span> <span class="toc-text">集成步骤(Mac):</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#使用示例-json"><span class="toc-number">2.</span> <span class="toc-text">使用示例(json)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#更多用法"><span class="toc-number">3.</span> <span class="toc-text">更多用法</span></a></li></ol>
+    
 </div>
 <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
 
@@ -369,7 +331,7 @@
     
       <div class="duoshuo" id="comments">
     <!-- 多说评论框 start -->
-    <div class="ds-thread" data-thread-key="2016/03/14/使用Moco进行http接口模拟/" data-title="使用Moco进行http接口模拟" data-url="http://www.devzhang.cn/2016/03/14/使用Moco进行http接口模拟/"></div>
+    <div class="ds-thread" data-thread-key="2016/11/20/C++之多态/" data-title="C++之多态" data-url="http://www.devzhang.cn/2016/11/20/C++之多态/"></div>
     <!-- 多说评论框 end -->
     <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
     <script type="text/javascript">
@@ -392,13 +354,11 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2016/03/15/接口安全认证/" title="上一篇: 接口安全认证">
-                <i class="fa fa-angle-left"></i>
-            </a>
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
         
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
         
-            <a href="/2015/05/14/phonegap|iOS|推送/" title="下一篇: phonegap|iOS|推送">
+            <a href="/2016/11/20/C++之继承/" title="下一篇: C++之继承">
                 <i class="fa fa-angle-right"></i>
             </a>
         
