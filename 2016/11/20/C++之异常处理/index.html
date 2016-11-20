@@ -3,21 +3,21 @@
 <head>
   <meta charset="utf-8">
   
-  <title>预处理 | 做点有意思的事情</title>
+  <title>C++之异常处理 | 做点有意思的事情</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="在C++的历史发展中，有很多的语言特征（特别是语言的晦涩之处）来自于C语言，预处理就是其中的一个.
-预处理器可以通过预处理命令对一个资源进行等价替换, 预处理命令是一些以#开头的单行命令. 常见的预处理包括: 宏替换,文件包含和条件编译. 下面将分别进行介绍.">
+  <meta name="description" content="C++提供了异常处理机制来应对运行过程中可能发生的异常情况. 特别地, C++的异常处理机制被称为是不可恢复的, 这意味着一旦宜昌被处理, 程序的执行就不能在异常被抛出的地方继续.
+C++的异常处理主要使用以下几个关键词: try, catch, throw. 包含在一个try块中的代码将可能触发一个异常, 其后紧跟一个或多个catch块, 当异常在try中触发时, 程序的执行点将转移到相应的ca">
 <meta property="og:type" content="article">
-<meta property="og:title" content="预处理">
-<meta property="og:url" content="http://www.devzhang.cn/2016/11/02/预处理/index.html">
+<meta property="og:title" content="C++之异常处理">
+<meta property="og:url" content="http://www.devzhang.cn/2016/11/20/C++之异常处理/index.html">
 <meta property="og:site_name" content="做点有意思的事情">
-<meta property="og:description" content="在C++的历史发展中，有很多的语言特征（特别是语言的晦涩之处）来自于C语言，预处理就是其中的一个.
-预处理器可以通过预处理命令对一个资源进行等价替换, 预处理命令是一些以#开头的单行命令. 常见的预处理包括: 宏替换,文件包含和条件编译. 下面将分别进行介绍.">
-<meta property="og:updated_time" content="2016-11-02T15:51:38.000Z">
+<meta property="og:description" content="C++提供了异常处理机制来应对运行过程中可能发生的异常情况. 特别地, C++的异常处理机制被称为是不可恢复的, 这意味着一旦宜昌被处理, 程序的执行就不能在异常被抛出的地方继续.
+C++的异常处理主要使用以下几个关键词: try, catch, throw. 包含在一个try块中的代码将可能触发一个异常, 其后紧跟一个或多个catch块, 当异常在try中触发时, 程序的执行点将转移到相应的ca">
+<meta property="og:updated_time" content="2016-11-20T04:04:53.707Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="预处理">
-<meta name="twitter:description" content="在C++的历史发展中，有很多的语言特征（特别是语言的晦涩之处）来自于C语言，预处理就是其中的一个.
-预处理器可以通过预处理命令对一个资源进行等价替换, 预处理命令是一些以#开头的单行命令. 常见的预处理包括: 宏替换,文件包含和条件编译. 下面将分别进行介绍.">
+<meta name="twitter:title" content="C++之异常处理">
+<meta name="twitter:description" content="C++提供了异常处理机制来应对运行过程中可能发生的异常情况. 特别地, C++的异常处理机制被称为是不可恢复的, 这意味着一旦宜昌被处理, 程序的执行就不能在异常被抛出的地方继续.
+C++的异常处理主要使用以下几个关键词: try, catch, throw. 包含在一个try块中的代码将可能触发一个异常, 其后紧跟一个或多个catch块, 当异常在try中触发时, 程序的执行点将转移到相应的ca">
   
   
     <link rel="icon" href="/img/head.jpg">
@@ -191,11 +191,11 @@
         </header>                
     </div>
 </nav>
-      <div class="body-wrap"><article id="post-预处理" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-C++之异常处理" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016/11/02/预处理/" class="article-date">
-      <time datetime="2016-11-02T15:00:03.000Z" itemprop="datePublished">2016-11-02</time>
+      <a href="/2016/11/20/C++之异常处理/" class="article-date">
+      <time datetime="2016-11-20T03:42:03.000Z" itemprop="datePublished">2016-11-20</time>
 </a>
     </div>
   
@@ -208,7 +208,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      预处理
+      C++之异常处理
     </h1>
   
 
@@ -233,71 +233,23 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>在C++的历史发展中，有很多的语言特征（特别是语言的晦涩之处）来自于C语言，预处理就是其中的一个.</p>
-<p>预处理器可以通过预处理命令对一个资源进行等价替换, 预处理命令是一些以<code>#</code>开头的单行命令. 常见的预处理包括: 宏替换,文件包含和条件编译. 下面将分别进行介绍. </p>
+        <p>C++提供了异常处理机制来应对运行过程中可能发生的异常情况. 特别地, C++的异常处理机制被称为是不可恢复的, 这意味着一旦宜昌被处理, 程序的执行就不能在异常被抛出的地方继续.</p>
+<p>C++的异常处理主要使用以下几个关键词: <code>try</code>, <code>catch</code>, <code>throw</code>. 包含在一个try块中的代码将可能触发一个异常, 其后紧跟一个或多个catch块, 当异常在try中触发时, 程序的执行点将转移到相应的catch块中. catch块负责处理异常.</p>
 <a id="more"></a>
-<h1 id="宏替换"><a href="#宏替换" class="headerlink" title="宏替换"></a>宏替换</h1><p>预处理器能够在源码文件中根据定义的规则进行文本替换, 这是最常见的用法，它可以定义符号常量、函数功能、重新命名、字符串的拼接等各种功能.</p>
-<p>宏替换可以分为两种, 带参数的宏和不带参数的宏. </p>
-<p>不带参数的宏语法规则如下:</p>
-<pre><code>#define 标识符 替换文本
-
-//示例
-#define PI 3.14
-</code></pre><ol>
-<li>宏替换不是C++语句, 因此行末不需要添加分号, 如果添加了分号会被视为替换文本的一部分,</li>
-<li><code>#define</code>命令同程出现在程序的开头部分,有效范围是从其定义处到当前文件结束. 但是可以使用<code>#undef</code>命令终止宏定义的作用域,</li>
-<li>在定义宏时可以使用已经定义过的宏,</li>
-<li>宏替换只作字符替换, 不会分配内存空间</li>
-</ol>
-<p>带参数的宏语法规则如下:</p>
-<pre><code>#define 标识符(参数表) 替换文本
-
-//示例
-#define MAX(x,y) ((x) &gt; (y) ? (x):(y))
-</code></pre><p>带参数的宏看上去类似普通的C++函数, 两者之前的区别如下:</p>
-<ol>
-<li>函数调用是在程序运行时处理的, 会为形参分配临时的内存. 而宏展开则是在编译前进行的, 展开时不分配内存,也不进行值传递,</li>
-<li>宏名无类型, 参数也无类型. 而函数的参数和返回值都是有类型的,</li>
-<li>宏替换不占用运行时间, 只占用编译时间. 而函数调用则占用运行时间</li>
-</ol>
-<h1 id="文件包含"><a href="#文件包含" class="headerlink" title="文件包含"></a>文件包含</h1><p>文件包含是允许使用共享代码的一种特性, 就是指一个源文件可以将另一个源文件的全部内容包含进来. </p>
-<p>文件包含的语法规则如下: </p>
-<pre><code>#include &quot;文件名&quot;
-或
-#include &lt;文件名&gt;
-</code></pre><p>对于双引号包含, 编译器从标准库路径开始搜索; 对于尖括号包含, 编译器从用户的工作路径开始搜索.</p>
-<h1 id="条件编译"><a href="#条件编译" class="headerlink" title="条件编译"></a>条件编译</h1><p>通常, 源文件中的所有内容都要被编译, 但在某些情况下, 可能希望部分代码只在满足某种条件时才进行编译, 这就是条件编译. </p>
-<p>条件编译的语法形式主要有3种, 第一种如下:</p>
-<pre><code>#ifdef 标识符
-    //代码1
-#else
-    //代码2
-#endif
-</code></pre><p>上述语句的意思是如果标识符被#define命令定义过, 则编译代码1, 否则编译代码2, 如果代码2为空, 则#else可以省略.</p>
-<p>条件编译的第二种形式如下:</p>
-<pre><code>#ifndef 标识符
-    //代码1
-#else
-    //代码2
-#endif        
-</code></pre><p>上述语句的意思与形式一正好相反, 如果标识符没有被#define命令定义过, 则编译代码1, 否则编译代码2, 如果代码2为空, 则#else可以省略.    </p>
-<p>条件编译的第三种形式如下:</p>
-<pre><code>#if 标识符
-    //代码1
-#else
-    //代码2
-#endif
-</code></pre><p>这种形式的写法意思是, 如果标识符的值为真(true), 则编译代码1, 否则编译代码2.</p>
-<p>条件编译还常用于防止因为文件被重复包含而导致的类和函数的重定义问题:</p>
-<pre><code>#if !define(_POINT_H_)
-#define _POINT_H_
-
-class Point{
-
+<p>一个catch子句由三部分构成: 关键字catch, 异常声明及一组异常处理语句, try-catch块语法规则如下:</p>
+<pre><code>try{
+    //code
 }
-
-#endif
-</code></pre><p>上面的例子中, 条件编译命令<code>#if</code>用于检查是否定义了标识符<code>_POINT_H_</code>. </p>
+catch(异常类型声明)
+{
+    //异常处理语句
+}
+catch(异常类型声明)
+{
+    //异常处理语句
+}
+...
+</code></pre><p>也可以通过使用throw语句来触发异常. 通过关键词throw后面的语句来指定触发哪个异常.    </p>
 
       
     </div>
@@ -306,13 +258,13 @@ class Point{
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2016/11/02/预处理/">预处理</a></p>
+        <p><span>本文标题:</span><a href="/2016/11/20/C++之异常处理/">C++之异常处理</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 Devzhang 的个人博客">Devzhang</a></p>
-        <p><span>发布时间:</span>2016年11月02日 - 23时00分</p>
-        <p><span>最后更新:</span>2016年11月02日 - 23时51分</p>
+        <p><span>发布时间:</span>2016年11月20日 - 11时42分</p>
+        <p><span>最后更新:</span>2016年11月20日 - 12时04分</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2016/11/02/预处理/" title="预处理">http://www.devzhang.cn/2016/11/02/预处理/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://www.devzhang.cn/2016/11/02/预处理/　　作者: Devzhang" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2016/11/20/C++之异常处理/" title="C++之异常处理">http://www.devzhang.cn/2016/11/20/C++之异常处理/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://www.devzhang.cn/2016/11/20/C++之异常处理/　　作者: Devzhang" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script src="/js/clipboard.min.js"></script>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
@@ -325,18 +277,9 @@ class Point{
 
 <nav id="article-nav">
   
-    <a href="/2016/11/06/命名空间/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption"><</strong>
-      <div class="article-nav-title">
-        
-          命名空间(namespace)
-        
-      </div>
-    </a>
   
-  
-    <a href="/2016/11/01/C++中文件的输入和输出/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">C++中文件的输入和输出</div>
+    <a href="/2016/11/18/C++之运算符重载/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">C++之运算符重载</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -347,7 +290,7 @@ class Point{
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#宏替换"><span class="toc-number">1.</span> <span class="toc-text">宏替换</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#文件包含"><span class="toc-number">2.</span> <span class="toc-text">文件包含</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#条件编译"><span class="toc-number">3.</span> <span class="toc-text">条件编译</span></a></li></ol>
+    
 </div>
 <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
 
@@ -395,7 +338,7 @@ class Point{
     
       <div class="duoshuo" id="comments">
     <!-- 多说评论框 start -->
-    <div class="ds-thread" data-thread-key="2016/11/02/预处理/" data-title="预处理" data-url="http://www.devzhang.cn/2016/11/02/预处理/"></div>
+    <div class="ds-thread" data-thread-key="2016/11/20/C++之异常处理/" data-title="C++之异常处理" data-url="http://www.devzhang.cn/2016/11/20/C++之异常处理/"></div>
     <!-- 多说评论框 end -->
     <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
     <script type="text/javascript">
@@ -418,13 +361,11 @@ class Point{
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2016/11/06/命名空间/" title="上一篇: 命名空间(namespace)">
-                <i class="fa fa-angle-left"></i>
-            </a>
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
         
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
         
-            <a href="/2016/11/01/C++中文件的输入和输出/" title="下一篇: C++中文件的输入和输出">
+            <a href="/2016/11/18/C++之运算符重载/" title="下一篇: C++之运算符重载">
                 <i class="fa fa-angle-right"></i>
             </a>
         
