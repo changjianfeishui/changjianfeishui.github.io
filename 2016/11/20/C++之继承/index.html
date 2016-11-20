@@ -3,21 +3,21 @@
 <head>
   <meta charset="utf-8">
   
-  <title>MVC登录示例 | 做点有意思的事情</title>
+  <title>C++之继承 | 做点有意思的事情</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="自上篇iOS基于MVC的项目重构总结之后,我又思考了下面这个问题:
-在UIKit自身的设计中UIViewController是被当做C还是V呢?">
+  <meta name="description" content="继承(Inheritance)是面向对象程序设计语言中一个非常重要的机制. 这个机制可以让子类继承父类的属性和功能, 并加入一些子类特有的属性和功能.
+基类的定义和普通类一样, 也有自己的成员变量和成员函数. 也可以定义一个空类作为基类, 但这样并没有任何意义. 只有已经定义了的类才能作为基类.">
 <meta property="og:type" content="article">
-<meta property="og:title" content="MVC登录示例">
-<meta property="og:url" content="http://www.devzhang.cn/2016/04/17/MVC登录示例/index.html">
+<meta property="og:title" content="C++之继承">
+<meta property="og:url" content="http://www.devzhang.cn/2016/11/20/C++之继承/index.html">
 <meta property="og:site_name" content="做点有意思的事情">
-<meta property="og:description" content="自上篇iOS基于MVC的项目重构总结之后,我又思考了下面这个问题:
-在UIKit自身的设计中UIViewController是被当做C还是V呢?">
-<meta property="og:updated_time" content="2016-06-30T06:34:21.000Z">
+<meta property="og:description" content="继承(Inheritance)是面向对象程序设计语言中一个非常重要的机制. 这个机制可以让子类继承父类的属性和功能, 并加入一些子类特有的属性和功能.
+基类的定义和普通类一样, 也有自己的成员变量和成员函数. 也可以定义一个空类作为基类, 但这样并没有任何意义. 只有已经定义了的类才能作为基类.">
+<meta property="og:updated_time" content="2016-11-20T09:04:37.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="MVC登录示例">
-<meta name="twitter:description" content="自上篇iOS基于MVC的项目重构总结之后,我又思考了下面这个问题:
-在UIKit自身的设计中UIViewController是被当做C还是V呢?">
+<meta name="twitter:title" content="C++之继承">
+<meta name="twitter:description" content="继承(Inheritance)是面向对象程序设计语言中一个非常重要的机制. 这个机制可以让子类继承父类的属性和功能, 并加入一些子类特有的属性和功能.
+基类的定义和普通类一样, 也有自己的成员变量和成员函数. 也可以定义一个空类作为基类, 但这样并没有任何意义. 只有已经定义了的类才能作为基类.">
   
   
     <link rel="icon" href="/img/head.jpg">
@@ -191,11 +191,11 @@
         </header>                
     </div>
 </nav>
-      <div class="body-wrap"><article id="post-MVC登录示例" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-C++之继承" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016/04/17/MVC登录示例/" class="article-date">
-      <time datetime="2016-04-16T16:00:00.000Z" itemprop="datePublished">2016-04-17</time>
+      <a href="/2016/11/20/C++之继承/" class="article-date">
+      <time datetime="2016-11-20T04:14:11.000Z" itemprop="datePublished">2016-11-20</time>
 </a>
     </div>
   
@@ -208,7 +208,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      MVC登录示例
+      C++之继承
     </h1>
   
 
@@ -217,13 +217,13 @@
       <div class="article-info article-info-post">
         
     <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/iOS/">iOS</a>
+    <a class="article-category-link" href="/categories/Cpp/">C++</a>
     </div>
 
 
         
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MVC/">MVC</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/架构/">架构</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/学习笔记/">学习笔记</a></li></ul>
     </div>
 
         <div class="clearfix"></div>
@@ -233,32 +233,27 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>自上篇<a href="http://coderzhang.xyz/2016/04/12/ios基于mvp的项目重构总结/" target="_blank" rel="external">iOS基于MVC的项目重构总结</a>之后,我又思考了下面这个问题:</p>
-<p>在<code>UIKit</code>自身的设计中UIViewController是被当做C还是V呢?</p>
+        <p>继承(Inheritance)是面向对象程序设计语言中一个非常重要的机制. 这个机制可以让子类继承父类的属性和功能, 并加入一些子类特有的属性和功能.</p>
+<p>基类的定义和普通类一样, 也有自己的成员变量和成员函数. 也可以定义一个空类作为基类, 但这样并没有任何意义. 只有已经定义了的类才能作为基类.</p>
 <a id="more"></a>
-<p>例如我们点击View上某个Button时,可能会使用调用self.navigationController的<code>pushViewController: animated:</code>方法来跳转到一个新的界面.</p>
-<p>在这个场景中,点击事件通过View传递到UIViewController,然后跳转到一个新的MVC.事件的逻辑处理是在UIViewController中完成的,事件的处理者是<code>self</code>(一个UIViewController),可见在<code>UIKit</code>中UIViewController是被视为Controller的.</p>
-<p>那么第二个问题来了,如果需要在一个UIViewController中实现很复杂的View结构或者subViews之间的动画逻辑,那么如何合理设计<code>UIViewController</code>和<code>UIView</code>两者之间的关系呢?</p>
-<p>在上文中说过,我的想法是通过给每一个UIViewController设计一个对应的XXXContainerView,通过这样的方式来强行分离V和C,避免由于V太复杂时出现<code>MassiveViewController</code>.但这样同时也带来了一个坏处:无法像在UIViewController自带的view里添加控件一样,可以将控件的响应方法直接绑定到UIViewController的.m文件中,也无法享受类似<code>viewDidDisappear:</code>生命周期方法带来的便利了.</p>
-<p>当然,对于有一定MVC经验的开发者,也可以通过类似下面的代码来简化XXXContainerView这一层:</p>
-<pre><code>[self.view addSubview:self.topView];
-[self.view addSubview:self.midView];
-[self.view addSubview:self.bottomView];
-</code></pre><p>虽然任何Demo都不可能模拟出实际项目中遇到的问题,但通过不同横向对比还是很容易看出不同架构的区别所在.接下来,我将以我目前对MVC的理解,给出一个简单的登录示例Demo.</p>
-<p><a href="http://pan.baidu.com/s/1pLTCyEJ" target="_blank" rel="external">Demo地址:http://pan.baidu.com/s/1pLTCyEJ</a></p>
-<p>Demo十分简单,这里仅做简单说明:</p>
-<ol>
-<li>LoginContainerView:负责创建用户所能看到的界面,以及将向Controller中传递登录事件和登录参数.</li>
-<li>LoginModel:提供接口完成具体的登录业务,Demo中省略了网络层以及存储层.</li>
-<li>LoginController:负责创建LoginContainerView,以及当监听到登录事件时,调用LoginModel中的登录业务方法.</li>
-</ol>
-<p>由于仅为了明确MVC的结构,所以Demo中对很多实际项目设计到的业务没有具体处理,比如网络请求(Demo中通过本地进行了模拟),数据持久化,以及登录成功后rootViewController的切换.</p>
-<p>这里有一点值得谈论的时,对用户输入数据的校验应该放在哪一层来完成呢?为了简化调用,Demo中是直接放在View层来进行判断的.当然,好像放在任何一层都有道理.</p>
-<p>上面也提到过,MVC的一个复杂点在于,当View结构复杂之后,如果一个UIViewcontroller来管理多个的复杂的View,势必会造成View层和Controller层的交互变得复杂,并随着业务增长逐渐膨胀,直至崩溃.</p>
-<p>那么,为每个单独的View构造一个对应的Controller是否可行呢?</p>
-<p>其实UIKit就是这么做的,比如UINavigationController栈中的每一项,都是一个新的MVC,更具体的关于多重MVC的介绍可以参见<a href="http://open.163.com/movie/2015/2/M/7/MAIKHN60A_MAIPGF0M7.html" target="_blank" rel="external">斯坦福大学公开课:iOS 8开发-<br>多重 MVC</a>.</p>
-<p>但是实际开发中对于我们自定义的继承自UIView的类,好像我们都并没有对其创建一个Controller的习惯—除非你愿意加班来完成这些额外的代码.苹果也没有强制推荐这么做—否则,只要设置不能单独创建UIView,只有通过UIViewController才能创建UIView就可以了.</p>
-<p>接下来,同样对这个登录示例,我会再给出一个MVP的例子.通过二者横向对比,两者的差异会很明显的体现出来.</p>
+<p>子类(派生类)的定义则需要在类名后加上<code>&quot;:&quot;</code>和一个访问控制符, 然后加上所要继承的基类的名字, 这里的访问控制符默认为<code>private</code>, 可以省略. 子类定义的一般语法规则如下:</p>
+<pre><code>class 子类名: 访问控制符 基类名
+{
+    //子类成员声明
+}
+</code></pre><p>一个子类可以同时有多个基类, 这种情况称为多继承. 此外, 一个类从父类集成来的特性也可以被这个类的子类继承.</p>
+<p>通常, 子类的生成可以分为3个步骤. 第一步是吸收基类成员, 子类包含了基类中除构造函数和析构函数以外的所有成员; 第二步是改造基类成员, 主要包括两个方面, 一方面基类成员的访问控制问题,另一个方面是对基类的成员变量和成员函数的覆盖问题; 第三步是添加子类的新成员.</p>
+<p>访问控制符有三种类型, <code>public</code>, <code>private</code> 和 <code>protected</code>. 使用不同访问控制符会导致基类成员在子类中的访问属性有所不同.</p>
+<p>public继承: 基类的public和protect成员的访问属性在子类中保持不变, 但是基类private成员不能被子类直接访问.</p>
+<p>private继承:  基类的public和protect成员都作为子类的私有成员, 基类的私有成员不能被直接访问. 也就是说, 在private继承中, 基类的一切成员对子类来说都是不可以直接访问的, 且无法往下继承.</p>
+<p>protected继承: 基本与private继承一样, 区别在于基类的public成员和protected成员都作为子类的protected成员, 并且不能往下继承.</p>
+<p>由于构造函数和析构函数是不能被继承的, 因此下面将对子类的构造函数和析构函数进行说明. 构造子类对象时, 需要对基类的数据成员进行初始化. 因此, 参数表部分既要包含子类的初始化值, 也要包含基类的初始化值. </p>
+<pre><code>子类名::子类名(参数总表): 基类名1(参数表1), ... 基类名n(参数表n)
+{
+    //初始化语句
+}
+</code></pre><p>如果基类声明了带形参表的构造函数, 子类就应该声明构造函数.</p>
+<p>子类的析构函数比较简单, 主要是要注意成员的清除顺序. 应首先对子类的成员进行清理, 然后对基类的成员进行清理.</p>
 
       
     </div>
@@ -267,13 +262,13 @@
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2016/04/17/MVC登录示例/">MVC登录示例</a></p>
+        <p><span>本文标题:</span><a href="/2016/11/20/C++之继承/">C++之继承</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 Devzhang 的个人博客">Devzhang</a></p>
-        <p><span>发布时间:</span>2016年04月17日 - 00时00分</p>
-        <p><span>最后更新:</span>2016年06月30日 - 14时34分</p>
+        <p><span>发布时间:</span>2016年11月20日 - 12时14分</p>
+        <p><span>最后更新:</span>2016年11月20日 - 17时04分</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2016/04/17/MVC登录示例/" title="MVC登录示例">http://www.devzhang.cn/2016/04/17/MVC登录示例/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://www.devzhang.cn/2016/04/17/MVC登录示例/　　作者: Devzhang" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2016/11/20/C++之继承/" title="C++之继承">http://www.devzhang.cn/2016/11/20/C++之继承/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://www.devzhang.cn/2016/11/20/C++之继承/　　作者: Devzhang" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script src="/js/clipboard.min.js"></script>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
@@ -286,18 +281,9 @@
 
 <nav id="article-nav">
   
-    <a href="/2016/04/20/AVAudioPlayer中断处理/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption"><</strong>
-      <div class="article-nav-title">
-        
-          AVAudioPlayer中断处理
-        
-      </div>
-    </a>
   
-  
-    <a href="/2016/04/17/MVP登录示例/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">MVP登录示例</div>
+    <a href="/2016/11/20/C++之异常处理/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">C++之异常处理</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -356,7 +342,7 @@
     
       <div class="duoshuo" id="comments">
     <!-- 多说评论框 start -->
-    <div class="ds-thread" data-thread-key="2016/04/17/MVC登录示例/" data-title="MVC登录示例" data-url="http://www.devzhang.cn/2016/04/17/MVC登录示例/"></div>
+    <div class="ds-thread" data-thread-key="2016/11/20/C++之继承/" data-title="C++之继承" data-url="http://www.devzhang.cn/2016/11/20/C++之继承/"></div>
     <!-- 多说评论框 end -->
     <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
     <script type="text/javascript">
@@ -379,13 +365,11 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2016/04/20/AVAudioPlayer中断处理/" title="上一篇: AVAudioPlayer中断处理">
-                <i class="fa fa-angle-left"></i>
-            </a>
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
         
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
         
-            <a href="/2016/04/17/MVP登录示例/" title="下一篇: MVP登录示例">
+            <a href="/2016/11/20/C++之异常处理/" title="下一篇: C++之异常处理">
                 <i class="fa fa-angle-right"></i>
             </a>
         
