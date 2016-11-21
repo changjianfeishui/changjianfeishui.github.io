@@ -3,20 +3,24 @@
 <head>
   <meta charset="utf-8">
   
-  <title>使用AVCaptureSession采集视频 | 做点有意思的事情</title>
+  <title>C++之模板 | 做点有意思的事情</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="本文将前文的继续Kcamera项目,并使用AVCaptureSession获取摄像头采集到的视频.但是实际的视频录制和照片拍摄将在后面的文章中才会实现.">
+  <meta name="description" content="模板实现了类型参数化, 即把类型定义为参数, 从而真正实现了代码的可重用性. 使用模板的目的就是编写与类型无关的代码, 正是由于模板机制, STL才得以实现. 
+C++中的模板可分为模板函数和模板类. 
+模板的声明或定义只能在全局，命名空间或类范围内进行。即不能在局部范围，函数内进行，比如不能在main函数中声明或定义一个模板.">
 <meta property="og:type" content="article">
-<meta property="og:title" content="使用AVCaptureSession采集视频">
-<meta property="og:url" content="http://www.devzhang.cn/2016/07/13/使用AVCaptureSession采集视频/index.html">
+<meta property="og:title" content="C++之模板">
+<meta property="og:url" content="http://www.devzhang.cn/2016/11/21/C++之模板/index.html">
 <meta property="og:site_name" content="做点有意思的事情">
-<meta property="og:description" content="本文将前文的继续Kcamera项目,并使用AVCaptureSession获取摄像头采集到的视频.但是实际的视频录制和照片拍摄将在后面的文章中才会实现.">
-<meta property="og:image" content="https://github.com/changjianfeishui/XBImageStore/raw/master/Hexo/3.png">
-<meta property="og:updated_time" content="2016-07-14T07:33:48.000Z">
+<meta property="og:description" content="模板实现了类型参数化, 即把类型定义为参数, 从而真正实现了代码的可重用性. 使用模板的目的就是编写与类型无关的代码, 正是由于模板机制, STL才得以实现. 
+C++中的模板可分为模板函数和模板类. 
+模板的声明或定义只能在全局，命名空间或类范围内进行。即不能在局部范围，函数内进行，比如不能在main函数中声明或定义一个模板.">
+<meta property="og:updated_time" content="2016-11-21T14:32:23.629Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="使用AVCaptureSession采集视频">
-<meta name="twitter:description" content="本文将前文的继续Kcamera项目,并使用AVCaptureSession获取摄像头采集到的视频.但是实际的视频录制和照片拍摄将在后面的文章中才会实现.">
-<meta name="twitter:image" content="https://github.com/changjianfeishui/XBImageStore/raw/master/Hexo/3.png">
+<meta name="twitter:title" content="C++之模板">
+<meta name="twitter:description" content="模板实现了类型参数化, 即把类型定义为参数, 从而真正实现了代码的可重用性. 使用模板的目的就是编写与类型无关的代码, 正是由于模板机制, STL才得以实现. 
+C++中的模板可分为模板函数和模板类. 
+模板的声明或定义只能在全局，命名空间或类范围内进行。即不能在局部范围，函数内进行，比如不能在main函数中声明或定义一个模板.">
   
   
     <link rel="icon" href="/img/head.jpg">
@@ -190,11 +194,11 @@
         </header>                
     </div>
 </nav>
-      <div class="body-wrap"><article id="post-使用AVCaptureSession采集视频" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-C++之模板" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016/07/13/使用AVCaptureSession采集视频/" class="article-date">
-      <time datetime="2016-07-13T15:10:19.000Z" itemprop="datePublished">2016-07-13</time>
+      <a href="/2016/11/21/C++之模板/" class="article-date">
+      <time datetime="2016-11-21T13:37:06.000Z" itemprop="datePublished">2016-11-21</time>
 </a>
     </div>
   
@@ -207,7 +211,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      使用AVCaptureSession采集视频
+      C++之模板
     </h1>
   
 
@@ -216,13 +220,13 @@
       <div class="article-info article-info-post">
         
     <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/iOS/">iOS</a>
+    <a class="article-category-link" href="/categories/Cpp/">C++</a>
     </div>
 
 
         
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AVFoundation/">AVFoundation</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Kcamera/">Kcamera</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/学习笔记/">学习笔记</a></li></ul>
     </div>
 
         <div class="clearfix"></div>
@@ -232,112 +236,46 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>本文将前文的继续Kcamera项目,并使用AVCaptureSession获取摄像头采集到的视频.但是实际的视频录制和照片拍摄将在后面的文章中才会实现.</p>
+        <p>模板实现了类型参数化, 即把类型定义为参数, 从而真正实现了代码的可重用性. 使用模板的目的就是编写与类型无关的代码, 正是由于模板机制, STL才得以实现. </p>
+<p>C++中的模板可分为模板函数和模板类. </p>
+<p>模板的声明或定义只能在全局，命名空间或类范围内进行。即不能在局部范围，函数内进行，比如不能在main函数中声明或定义一个模板.</p>
 <a id="more"></a>
-<h1 id="实现步骤"><a href="#实现步骤" class="headerlink" title="实现步骤"></a>实现步骤</h1><h2 id="创建预览视图类"><a href="#创建预览视图类" class="headerlink" title="创建预览视图类"></a>创建预览视图类</h2><p>新建PreView类继承自UIView,PreView用来展示一个摄像头当前拍摄内容的实时预览视图.更具体的说,我们将使用AVCaptureVedioPreviewLayer方法实现这一预览.</p>
-<p>打开Main.storyboard,修改根view的层次结构如下:<br><img src="https://github.com/changjianfeishui/XBImageStore/raw/master/Hexo/3.png" alt=""></p>
-<p>其中preView和controlView与父视图上下左右约束都为0,CameraModeView的约束与之前相同,但其父视图修改为controlView.</p>
-<p>并在preView的identity inspector面板中将Custom Class修改为我们创建的PreView类.</p>
-<p>打开PreView.swift,添加如下代码修改Preview的图层类型:</p>
-<pre><code>override class func layerClass()-&gt;AnyClass
+<h1 id="模板函数"><a href="#模板函数" class="headerlink" title="模板函数"></a>模板函数</h1><p>在传统的概念中, 一个函数在定义时必须指定其参数的类型, 且该类型应该是唯一的. 此外其函数体也仅仅能对该类型的数据进行操作. 然而存在下面的情况:</p>
+<pre><code>int max(int x, int y){ return x &lt; y ? y : x;}
+float max(float x, float y){ return x &lt; y ? y : x;}
+string max(string&amp; x, string&amp; y){ return x &lt; y ? y : x;}
+</code></pre><p>上面的3个函数逻辑一致, 区别仅仅在于返回值和参数类型. 这种定义函数的方法不但冗杂而且会带来维护问题, 比如如果需要处理double类型,就需要新加入一个返回值和参数类型都是double的max函数.</p>
+<p>模板函数则可以通过一个泛化的数据类型创建完全独立于参数数据类型的函数. 编译器会为具体的数据类型创建不同的函数版本. 下面的代码使用模板方式重新定义了上面的max函数:</p>
+<pre><code>template &lt;class T&gt;
+const T&amp; MAX(const T&amp; x, const T&amp; y) {
+    return x &lt; y ? y : x;
+}
+</code></pre><p>使用关键词<code>template</code>定义一个模板函数, 其后跟着一对尖括号, 里面是关键词<code>class</code>和一个泛化数据类型名<code>T</code>. 在调用模板函数时编译器会使用程序中具体指定的数据类型来替换这个泛化数据类型. </p>
+<p>在定义和使用模板函数时,必须考虑实际的数据类型是否支持模板函数中所使用的操作.</p>
+<p>另外模板函数可以使用不只一个泛化数据类型, 比如:</p>
+<pre><code>template &lt;class X, class Y&gt;
+void output(X x,Y y) {
+    cout &lt;&lt; x &lt;&lt; &quot; &quot; &lt;&lt; y &lt;&lt; end;
+}
+</code></pre><h1 id="模板类"><a href="#模板类" class="headerlink" title="模板类"></a>模板类</h1><p>模板类是一种特殊类,其定义独立于特定的数据类型. 模板类的定义语法与模板函数类似: </p>
+<pre><code>template &lt;class T&gt;
+class Circle
 {
-    return AVCaptureVideoPreviewLayer.self
-}
-</code></pre><p>重写session属性的访问方法,保证采集到的数据直接输出到图层中:</p>
-<pre><code>var session:AVCaptureSession!{
-    get{
-        return (self.layer as! AVCaptureVideoPreviewLayer).session
-    }set(newValue){
-        (self.layer as! AVCaptureVideoPreviewLayer).session = newValue
-    }
-}
-</code></pre><h2 id="设置音频会话类型"><a href="#设置音频会话类型" class="headerlink" title="设置音频会话类型"></a>设置音频会话类型</h2><p>在AppDelegate的application(application:didFinishLaunchingWithOptions:)方法返回前加入如下代码:</p>
-<pre><code>let session = AVAudioSession.sharedInstance()
-try! session.setCategory(AVAudioSessionCategoryPlayAndRecord)
-try! session.setActive(true)    
-</code></pre><h2 id="创建捕捉模型"><a href="#创建捕捉模型" class="headerlink" title="创建捕捉模型"></a>创建捕捉模型</h2><p>新建CaptureModel类继承自NSObject,用来处理视频采集的具体行为.</p>
-<h2 id="初始化捕捉会话"><a href="#初始化捕捉会话" class="headerlink" title="初始化捕捉会话"></a>初始化捕捉会话</h2><p>在CaptureModel类中添加一个捕捉会话:</p>
-<pre><code>//捕捉会话
-var captureSession:AVCaptureSession!
-</code></pre><p>设置捕捉对话的代码如下:</p>
-<pre><code>//捕捉会话
-func setupSession() -&gt; Bool {
-    //1. 创建捕捉会话
-    self.captureSession = AVCaptureSession()
-    //2. 设置视频采集质量
-    self.captureSession.sessionPreset = AVCaptureSessionPresetHigh
-    //3. 设置视频采集设备(默认返回后置摄像头)
-    let videoDevice = AVCaptureDevice .defaultDeviceWithMediaType(AVMediaTypeVideo)
-    //4. 把采集设备封装为一个AVCaptureDeviceInput对象(这里忽略了错误处理)
-    let videoInput = try? AVCaptureDeviceInput(device: videoDevice)
-    //4. 在捕捉会话中添加AVCaptureDeviceInput对象
-    if videoInput != nil {
-        if self.captureSession.canAddInput(videoInput) {
-            self.captureSession.addInput(videoInput)
-        }
-    }else{
-        return false
-    }
+public:
+    Circle(T centerX, T centerY, T radius);
 
-    //5. 参照设置视频采集输入的步骤,将音频采集输入添加到捕捉会话中
-    let audioDevice = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeAudio)
-    let audioInput = try? AVCaptureDeviceInput(device: audioDevice)
-    if audioInput != nil {
-        if self.captureSession .canAddInput(audioInput) {
-            self.captureSession.addInput(audioInput)
-        }
-    }else{
-        return false
-    }
-    return true
+    T area();
+    T circumference();
+    T getX();
+    T getY();
+    T getRadius();
 
-}
-</code></pre><h2 id="启动捕捉会话"><a href="#启动捕捉会话" class="headerlink" title="启动捕捉会话"></a>启动捕捉会话</h2><p>在设置捕捉会话之后,如果需要进行实际的视频采集,还需要启动会话,用来启动数据流并使其处于准备捕捉图片或视频的状态.</p>
-<p>在CaptureModel类中增加一个属性:</p>
-<pre><code>//由于捕捉会话的启动是一个同步调用,所以需要异步调用
-let globalQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
-</code></pre><p>启动捕捉会话的方法如下:</p>
-<pre><code>//启动捕捉会话
-func startSession() -&gt; Void {
-    if !self.captureSession.running{
-        dispatch_sync(self.globalQueue, { 
-            self.captureSession.startRunning()
-        })
-    }
-}    
-</code></pre><h2 id="停止捕捉会话"><a href="#停止捕捉会话" class="headerlink" title="停止捕捉会话"></a>停止捕捉会话</h2><pre><code>//停止捕捉会话
-func stopSession() -&gt; Void {
-    if self.captureSession.running {
-        dispatch_sync(self.globalQueue, { 
-            self.captureSession.stopRunning()
-        })
-    }
-}
-</code></pre><h2 id="处理隐私需求"><a href="#处理隐私需求" class="headerlink" title="处理隐私需求"></a>处理隐私需求</h2><p>当应用程序试图访问麦克风或相机时,系统会弹出一个对话框询问用户是否同意授权.但当对话框出现时,系统并没有中断来等待用户响应,而是立即返回一个设备,比如调用音频设备则返回静音的设备,如果是相机则返回黑白帧.直到用户同意了授权,才会实际开始捕捉视频或音频.如果用户不允许授权,则这个会话期间不会记录任何内容.</p>
-<p>所以我们需要在初始化捕捉会话时,判断当前程序对相机和麦克风的访问状态,在初始化捕捉会话的setupSession()方法最前面加入如下代码:</p>
-<pre><code>//0. 判断权限
-let videoAuthStatus = AVCaptureDevice.authorizationStatusForMediaType(AVMediaTypeVideo)
-if videoAuthStatus == .Denied || videoAuthStatus == .Restricted {
-    UIAlertView(title: &quot;提示&quot;, message: &quot;请在iPhone的“设置-隐私-相机”选项中，允许访问相机 &quot;, delegate: nil, cancelButtonTitle: &quot;确定&quot;).show()
-
-    return false
-}
-let audioAuthStatus = AVCaptureDevice.authorizationStatusForMediaType(AVMediaTypeVideo)
-if audioAuthStatus == .Denied || audioAuthStatus == .Restricted {
-    UIAlertView(title: &quot;提示&quot;, message: &quot;请在iPhone的“设置-隐私-相机”选项中，允许访问麦克风 &quot;, delegate: nil, cancelButtonTitle: &quot;确定&quot;).show()
-    return false
-}
-</code></pre><h1 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h1><p>打开Main.storyboard,将preView连接为ViewController的@IBOutlet属性:</p>
-<pre><code>@IBOutlet weak var preView: PreView!
-</code></pre><p>接着在viewDidLoad()方法中添加如下代码:</p>
-<pre><code>    self.captureModel = CaptureModel()
-    if self.captureModel.setupSession() {
-        self.preView.session = self.captureModel.captureSession
-        self.captureModel.startSession()
-    }
-}
-</code></pre><p>运行程序,就可以看到后置摄像头采集到的视频内容了.</p>
-
+protected:
+    T x;
+    T y;
+    T radius;
+};
+</code></pre>
       
     </div>
     
@@ -345,13 +283,13 @@ if audioAuthStatus == .Denied || audioAuthStatus == .Restricted {
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2016/07/13/使用AVCaptureSession采集视频/">使用AVCaptureSession采集视频</a></p>
+        <p><span>本文标题:</span><a href="/2016/11/21/C++之模板/">C++之模板</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 Devzhang 的个人博客">Devzhang</a></p>
-        <p><span>发布时间:</span>2016年07月13日 - 23时10分</p>
-        <p><span>最后更新:</span>2016年07月14日 - 15时33分</p>
+        <p><span>发布时间:</span>2016年11月21日 - 21时37分</p>
+        <p><span>最后更新:</span>2016年11月21日 - 22时32分</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2016/07/13/使用AVCaptureSession采集视频/" title="使用AVCaptureSession采集视频">http://www.devzhang.cn/2016/07/13/使用AVCaptureSession采集视频/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://www.devzhang.cn/2016/07/13/使用AVCaptureSession采集视频/　　作者: Devzhang" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2016/11/21/C++之模板/" title="C++之模板">http://www.devzhang.cn/2016/11/21/C++之模板/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://www.devzhang.cn/2016/11/21/C++之模板/　　作者: Devzhang" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script src="/js/clipboard.min.js"></script>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
@@ -364,18 +302,9 @@ if audioAuthStatus == .Denied || audioAuthStatus == .Restricted {
 
 <nav id="article-nav">
   
-    <a href="/2016/07/15/捕捉静态图片/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption"><</strong>
-      <div class="article-nav-title">
-        
-          捕获静态图片
-        
-      </div>
-    </a>
   
-  
-    <a href="/2016/07/11/仿系统视频录制按钮的实现/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">仿系统视频录制按钮的实现</div>
+    <a href="/2016/11/20/C++之多态/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">C++之多态</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -386,7 +315,7 @@ if audioAuthStatus == .Denied || audioAuthStatus == .Restricted {
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#实现步骤"><span class="toc-number">1.</span> <span class="toc-text">实现步骤</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#创建预览视图类"><span class="toc-number">1.1.</span> <span class="toc-text">创建预览视图类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#设置音频会话类型"><span class="toc-number">1.2.</span> <span class="toc-text">设置音频会话类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#创建捕捉模型"><span class="toc-number">1.3.</span> <span class="toc-text">创建捕捉模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#初始化捕捉会话"><span class="toc-number">1.4.</span> <span class="toc-text">初始化捕捉会话</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#启动捕捉会话"><span class="toc-number">1.5.</span> <span class="toc-text">启动捕捉会话</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#停止捕捉会话"><span class="toc-number">1.6.</span> <span class="toc-text">停止捕捉会话</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#处理隐私需求"><span class="toc-number">1.7.</span> <span class="toc-text">处理隐私需求</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#测试"><span class="toc-number">2.</span> <span class="toc-text">测试</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#模板函数"><span class="toc-number">1.</span> <span class="toc-text">模板函数</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#模板类"><span class="toc-number">2.</span> <span class="toc-text">模板类</span></a></li></ol>
 </div>
 <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
 
@@ -434,7 +363,7 @@ if audioAuthStatus == .Denied || audioAuthStatus == .Restricted {
     
       <div class="duoshuo" id="comments">
     <!-- 多说评论框 start -->
-    <div class="ds-thread" data-thread-key="2016/07/13/使用AVCaptureSession采集视频/" data-title="使用AVCaptureSession采集视频" data-url="http://www.devzhang.cn/2016/07/13/使用AVCaptureSession采集视频/"></div>
+    <div class="ds-thread" data-thread-key="2016/11/21/C++之模板/" data-title="C++之模板" data-url="http://www.devzhang.cn/2016/11/21/C++之模板/"></div>
     <!-- 多说评论框 end -->
     <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
     <script type="text/javascript">
@@ -457,13 +386,11 @@ if audioAuthStatus == .Denied || audioAuthStatus == .Restricted {
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2016/07/15/捕捉静态图片/" title="上一篇: 捕获静态图片">
-                <i class="fa fa-angle-left"></i>
-            </a>
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
         
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
         
-            <a href="/2016/07/11/仿系统视频录制按钮的实现/" title="下一篇: 仿系统视频录制按钮的实现">
+            <a href="/2016/11/20/C++之多态/" title="下一篇: C++之多态">
                 <i class="fa fa-angle-right"></i>
             </a>
         
