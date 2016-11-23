@@ -3,21 +3,21 @@
 <head>
   <meta charset="utf-8">
   
-  <title>AVFoundation简介 | 做点有意思的事情</title>
+  <title>C++之数组 | 做点有意思的事情</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="本章译自Apple官方文档AVFoundation Programming Guide, 是AVFoundation系列译文第一篇, 大概的介绍了AVFoundation框架的结构和功能, 全部译文参见我的GitBook: AVFoundation编程指南.">
+  <meta name="description" content="数组是连续分配的非空的具有特定元素对象类型的对象集合, 组成数组的对象称为该数组的元素. 数组类型由元素类型与元素的数目确定. 
+相对于整型,浮点型和字符型数据, 数组是最简单最基本的结构型数据类型. 数组名作为数组实体的标识符，具有特殊性，不同于整型、浮点型、指针型或结构类型等变量标识符。这是因为数组是一组元素的聚集，不能把一个聚集看作一个值直接读出（即右值），也不能把一个聚集看作一个地址直接赋">
 <meta property="og:type" content="article">
-<meta property="og:title" content="AVFoundation简介">
-<meta property="og:url" content="http://www.devzhang.cn/2016/08/31/AVFoundation简介/index.html">
+<meta property="og:title" content="C++之数组">
+<meta property="og:url" content="http://www.devzhang.cn/2016/11/23/C++之数组/index.html">
 <meta property="og:site_name" content="做点有意思的事情">
-<meta property="og:description" content="本章译自Apple官方文档AVFoundation Programming Guide, 是AVFoundation系列译文第一篇, 大概的介绍了AVFoundation框架的结构和功能, 全部译文参见我的GitBook: AVFoundation编程指南.">
-<meta property="og:image" content="https://developer.apple.com/library/prerelease/content/documentation/AudioVideo/Conceptual/AVFoundationPG/Art/frameworksBlockDiagram_2x.png">
-<meta property="og:image" content="https://developer.apple.com/library/prerelease/content/documentation/AudioVideo/Conceptual/AVFoundationPG/Art/frameworksBlockDiagramOSX_2x.png">
-<meta property="og:updated_time" content="2016-09-21T02:38:28.000Z">
+<meta property="og:description" content="数组是连续分配的非空的具有特定元素对象类型的对象集合, 组成数组的对象称为该数组的元素. 数组类型由元素类型与元素的数目确定. 
+相对于整型,浮点型和字符型数据, 数组是最简单最基本的结构型数据类型. 数组名作为数组实体的标识符，具有特殊性，不同于整型、浮点型、指针型或结构类型等变量标识符。这是因为数组是一组元素的聚集，不能把一个聚集看作一个值直接读出（即右值），也不能把一个聚集看作一个地址直接赋">
+<meta property="og:updated_time" content="2016-11-23T15:11:25.079Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="AVFoundation简介">
-<meta name="twitter:description" content="本章译自Apple官方文档AVFoundation Programming Guide, 是AVFoundation系列译文第一篇, 大概的介绍了AVFoundation框架的结构和功能, 全部译文参见我的GitBook: AVFoundation编程指南.">
-<meta name="twitter:image" content="https://developer.apple.com/library/prerelease/content/documentation/AudioVideo/Conceptual/AVFoundationPG/Art/frameworksBlockDiagram_2x.png">
+<meta name="twitter:title" content="C++之数组">
+<meta name="twitter:description" content="数组是连续分配的非空的具有特定元素对象类型的对象集合, 组成数组的对象称为该数组的元素. 数组类型由元素类型与元素的数目确定. 
+相对于整型,浮点型和字符型数据, 数组是最简单最基本的结构型数据类型. 数组名作为数组实体的标识符，具有特殊性，不同于整型、浮点型、指针型或结构类型等变量标识符。这是因为数组是一组元素的聚集，不能把一个聚集看作一个值直接读出（即右值），也不能把一个聚集看作一个地址直接赋">
   
   
     <link rel="icon" href="/img/head.jpg">
@@ -191,11 +191,11 @@
         </header>                
     </div>
 </nav>
-      <div class="body-wrap"><article id="post-AVFoundation简介" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-C++之数组" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016/08/31/AVFoundation简介/" class="article-date">
-      <time datetime="2016-08-31T14:22:08.000Z" itemprop="datePublished">2016-08-31</time>
+      <a href="/2016/11/23/C++之数组/" class="article-date">
+      <time datetime="2016-11-23T12:59:38.000Z" itemprop="datePublished">2016-11-23</time>
 </a>
     </div>
   
@@ -208,7 +208,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      AVFoundation简介
+      C++之数组
     </h1>
   
 
@@ -217,13 +217,13 @@
       <div class="article-info article-info-post">
         
     <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/iOS/">iOS</a>
+    <a class="article-category-link" href="/categories/Cpp/">C++</a>
     </div>
 
 
         
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AVFoundation编程指南/">AVFoundation编程指南</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/翻译/">翻译</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/学习笔记/">学习笔记</a></li></ul>
     </div>
 
         <div class="clearfix"></div>
@@ -233,83 +233,106 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>本章译自Apple官方文档<a href="https://developer.apple.com/library/content/documentation/AudioVideo/Conceptual/AVFoundationPG/Articles/00_Introduction.html#//apple_ref/doc/uid/TP40010188-CH1-SW3" target="_blank" rel="external">AVFoundation Programming Guide</a>, 是AVFoundation系列译文第一篇, 大概的介绍了AVFoundation框架的结构和功能, 全部译文参见我的GitBook: <a href="https://www.gitbook.com/book/changjianfeishui/avfoundation-programming-guide/details" target="_blank" rel="external">AVFoundation编程指南</a>. </p>
-<a id="more"></a>
-<h1 id="关于AVFoundation"><a href="#关于AVFoundation" class="headerlink" title="关于AVFoundation"></a>关于AVFoundation</h1><blockquote>
-<p>重要提示: 本文档中包含的一些API或技术可能随时发生变化,根据本文档开发实现的软件必须在终端操作系统上进行最终测试.</p>
-</blockquote>
-<p>AVFoundation是为数不多的几个媒体框架之一,可以使用它来播放和创建基于时间的音视频资源.AVFoundation提供的接口可以精确地处理基于时间的音视频媒体数据.比如媒体文件的查找、创建、编辑甚至二次编码操作都可以使用AVFoundation框架完成.也可以对从硬件设备获取到的实时视频输入流或者视频回放进行操作处理.</p>
-<p>下图中展示了iOS上媒体框架的层次结构:</p>
-<p><img src="https://developer.apple.com/library/prerelease/content/documentation/AudioVideo/Conceptual/AVFoundationPG/Art/frameworksBlockDiagram_2x.png" alt="iOS上媒体框架的层次结构"></p>
-<p>OS X上媒体框架的层级结构图如下:</p>
-<p><img src="https://developer.apple.com/library/prerelease/content/documentation/AudioVideo/Conceptual/AVFoundationPG/Art/frameworksBlockDiagramOSX_2x.png" alt="OS X上媒体框架的层级结构图"></p>
-<p>在完成具体的开发任务时,你应该尽可能的选择更高层次的抽象框架.</p>
-<ul>
-<li>如果只需要播放视频,可以使用AVKit框架</li>
-<li>如果需要在iOS设备上录制视频,而且并不关心更具体的录制格式,可以使用UIKit中<a href="https://developer.apple.com/reference/uikit/uiimagepickercontroller" target="_blank" rel="external">UIImagePickerController</a>类</li>
-</ul>
-<p>需要注意的是,在AVFoundation框架中使用的一些原始数据结构(包括时间相关的数据结构和存储描述媒体数据的底层对象),都在Core Media 框架中声明.</p>
-<hr>
-<h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p>AVFoundation框架包含视频API和音频API两个方面.旧的音频API在中<a href="https://developer.apple.com/library/prerelease/content/documentation/AudioVideo/Conceptual/MultimediaPG/Introduction/Introduction.html#//apple_ref/doc/uid/TP40009767" target="_blank" rel="external"><em>Multimedia Programming Guide</em></a>进行了介绍,可以更便捷的处理音频.</p>
-<ul>
-<li>使用<a href="https://developer.apple.com/reference/avfoundation/avaudioplayer" target="_blank" rel="external">AVAudioPlayer</a>播放音频文件</li>
-<li>使用<a href="https://developer.apple.com/reference/avfoundation/avaudiorecorder" target="_blank" rel="external">AVAudioRecorder</a>录制音频文件</li>
-</ul>
-<p>你也可以使用<a href="https://developer.apple.com/library/prerelease/content/documentation/Audio/Conceptual/AudioSessionProgrammingGuide/Introduction/Introduction.html#//apple_ref/doc/uid/TP40007875" target="_blank" rel="external">Audio Session Programming Guide</a>中介绍的<a href="https://developer.apple.com/reference/avfoundation/avaudiosession" target="_blank" rel="external">AVAudioSession</a>来对音频进行详细配置.</p>
-<h2 id="媒体资源的表示和使用"><a href="#媒体资源的表示和使用" class="headerlink" title="媒体资源的表示和使用"></a>媒体资源的表示和使用</h2><p>AVFoundation框架中使用<a href="https://developer.apple.com/reference/avfoundation/avasset" target="_blank" rel="external">AVAsset</a>类来表示一个媒体资源,AVFoundation框架的设计很大程序上受到了这种表示方式的影响.理解<a href="https://developer.apple.com/reference/avfoundation/avasset" target="_blank" rel="external">AVAsset</a>的结构和帮你更好的理解AVFoundation框架.一个AVAsset实例是一个或多个音视频媒体数据的集合,以一个整体的形式提供媒体资源的属性,例如视频标题,时长,尺寸等等.AVAsset是一个抽象类,可以使用它的子类来从URL创建一个asset对象(参加<a href="https://developer.apple.com/library/prerelease/content/documentation/AudioVideo/Conceptual/AVFoundationPG/Articles/01_UsingAssets.html#//apple_ref/doc/uid/TP40010188-CH7-SW1" target="_blank" rel="external">Using Assets</a>),或者根据已有的媒体资源创造出一个新的媒体资源(参加<a href="https://developer.apple.com/library/prerelease/content/documentation/AudioVideo/Conceptual/AVFoundationPG/Articles/00_Introduction.html#//apple_ref/doc/uid/TP40010188-CH1-SW1" target="_blank" rel="external">Editing</a>).</p>
-<p>asset中每个独立的媒体数据都有一个统一的类型:track. 一个asset中非常典型的情况是,一个track代表音频,另一个track则代表视频.然而,在比较复杂的情况下,可能有多个同时包含音视频的track.Assets同时也可能包含元数据(译者注:元数据可以视为对媒体内容的描述信息).</p>
-<p>AVFoundation框架中一个十分重要的概念是,初始化了一个asset或track并不意味着已经可以使用它们了.即使只是资源的时长信息,框架都可能需要进行一段时间的计算. 为了不阻塞主线程,你可以在子线程中请求一个资源的相关信息,并通过一个block回调异步地获得请求结果.</p>
-<blockquote>
-<p>相关章节: <a href="https://developer.apple.com/library/prerelease/content/documentation/AudioVideo/Conceptual/AVFoundationPG/Articles/01_UsingAssets.html#//apple_ref/doc/uid/TP40010188-CH7-SW1" target="_blank" rel="external">Using Assets</a>,<a href="https://developer.apple.com/library/prerelease/content/documentation/AudioVideo/Conceptual/AVFoundationPG/Articles/06_MediaRepresentations.html#//apple_ref/doc/uid/TP40010188-CH2-SW1" target="_blank" rel="external">Time and Media Representations</a></p>
-</blockquote>
-<h2 id="回放"><a href="#回放" class="headerlink" title="回放"></a>回放</h2><p>AVFoundation允许开发者以更精确的方式来管理媒体资源的回放. 为了支持这一特性, AVFoundation将资源的呈现状态(presentation state)和资源本身区分开. 这就能让开发者在同一时刻以不同分辨率呈现同一资源的两个不同片段. 一个媒体资源的呈现状态通过一个 <em>player item</em>对象进行管理, 而媒体资源中每个track的呈现状态通过一个<em>player item track</em>对象进行管理.比如,使用 player item 和 player item tracks 可以设置资源的可视部分在播放时的尺寸, 设置audio的混音参数, 设置或禁用视频回放时的配置信息.</p>
-<p>使用 <em>player </em>对象可以播放player items对象, 或者直接指定将其输出(output)到 Core Animation layer 之上. 还可以使用播放队列(<em>player queue</em>)来顺序播放多个player items对象.</p>
-<blockquote>
-<p>相关章节: <a href="https://developer.apple.com/library/prerelease/content/documentation/AudioVideo/Conceptual/AVFoundationPG/Articles/02_Playback.html#//apple_ref/doc/uid/TP40010188-CH3-SW1" target="_blank" rel="external">Playback</a></p>
-</blockquote>
-<h2 id="资源的读取-写入以及重新编码"><a href="#资源的读取-写入以及重新编码" class="headerlink" title="资源的读取,写入以及重新编码"></a>资源的读取,写入以及重新编码</h2><p>AVFoundation允许开发者通过多种方式创建一个新的资源. 比如对一个已存在的资源进行二次编码, 在iOS 4.1之后的版本中, 还可以操作一个资源的某些内容,并将结果保存为一个新的资源.</p>
-<p>你可以通过一个导出会话(<em>export session</em>), 直接使用一些已经预设置好的常用格式(commonly-used presets),将一个已存在的资源进行重新编码. 如果需要更多的自定义设置, 则可以协同使用<em>asset reader </em>和<em> asset writer</em> 对象对资源进行转换. 比如使用这两个对象你可以选择将哪些track输出到文件中, 自定义输出格式, 以及在转换过程中对资源进行修改.</p>
-<p>如果要绘制可视化的音频波形图, 可以使用asset reader对象读取资源的音频轨道(track).</p>
-<blockquote>
-<p>相关章节: <a href="https://developer.apple.com/library/prerelease/content/documentation/AudioVideo/Conceptual/AVFoundationPG/Articles/01_UsingAssets.html#//apple_ref/doc/uid/TP40010188-CH7-SW1" target="_blank" rel="external">Using Assets</a></p>
-</blockquote>
-<h2 id="缩略图"><a href="#缩略图" class="headerlink" title="缩略图"></a>缩略图</h2><p>要创建一个视频的缩略图, 需要初始化一个 <a href="https://developer.apple.com/reference/avfoundation/avassetimagegenerator" target="_blank" rel="external">AVAssetImageGenerator</a> 对象. AVAssetImageGenerator使用默认的视频轨道生成图片.</p>
-<blockquote>
-<p>相关章节: <a href="https://developer.apple.com/library/prerelease/content/documentation/AudioVideo/Conceptual/AVFoundationPG/Articles/01_UsingAssets.html#//apple_ref/doc/uid/TP40010188-CH7-SW1" target="_blank" rel="external">Using Assets</a></p>
-</blockquote>
-<h2 id="编辑"><a href="#编辑" class="headerlink" title="编辑"></a>编辑</h2><p>AVFoundation通过组合器(<em>compositions</em>)来从已存在的媒体片段(比如一个或多个音视频轨道)中创建新资源. 通过一个可变的组合器来新增或移除track,并调整它们的时间顺序. 你可以设置一个音频轨道的相对音量和渐变效果; 设置视频轨道的透明度或透明度渐变. 一个组合器是内存中一系列媒体片段的组装, 可以通过<em>export session</em>将一个组合器导出到文件.</p>
-<p>你还可以通过一个<em>asset writer</em>对象来从媒体(比如一个简单的缓冲区或静态图像)中创建资源.</p>
-<blockquote>
-<p>相关章节: <a href="https://developer.apple.com/library/prerelease/content/documentation/AudioVideo/Conceptual/AVFoundationPG/Articles/03_Editing.html#//apple_ref/doc/uid/TP40010188-CH8-SW1" target="_blank" rel="external">Editing</a></p>
-</blockquote>
-<h2 id="静态图像及视频捕捉"><a href="#静态图像及视频捕捉" class="headerlink" title="静态图像及视频捕捉"></a>静态图像及视频捕捉</h2><p>捕捉会话(<em>capture session</em>)可以记录摄像头或者麦克风的输入信息. 一个捕捉会话协调设备的数据输入和输出(比如视频文件). 可以在一个捕捉会话中配置多个输入和输出, 哪怕这个捕捉会话当前正处于运行状态. 通过向捕捉会话发送消息来开始或停止数据流.</p>
-<blockquote>
-<p>相关章节: <a href="https://developer.apple.com/library/prerelease/content/documentation/AudioVideo/Conceptual/AVFoundationPG/Articles/04_MediaCapture.html#//apple_ref/doc/uid/TP40010188-CH5-SW2" target="_blank" rel="external">Still and Video Media Capture</a></p>
-</blockquote>
-<h1 id="AVFoundation中的并发编程"><a href="#AVFoundation中的并发编程" class="headerlink" title="AVFoundation中的并发编程"></a>AVFoundation中的并发编程</h1><p>AVFoundation中的回调(block,KVO,notification)都不能保证会在特定的线程或队列中被调用. 相反, AVFoundation会在任务执行对应的线程或队列中执行这些回调.</p>
-<p>关于通知和线程有两个基本的准则:</p>
-<ul>
-<li>UI相关的通知必须在主线程中发送</li>
-<li>通知的发送和回调都会在同一个队列中执行</li>
-</ul>
-<p>除了以上两个准则外(例外情况参见引用文档),你不能假设一个通知会在某个特定的线程中执行.<br>如果你正在编写一个多线程的应用程序, 你可以使用NSThread类的isMainThread方法或者[[NSThread currentThread] isEqual:&lt;#A stored thread reference#&gt;]来判断当前是否是你所需要的线程. 你可以使用<code>performSelectorOnMainThread:withObject:waitUntilDone:</code> 或者<code>performSelector:onThread:withObject:waitUntilDone:modes:</code>方法来切换线程. 也可以使用 <code>dispatch_async</code>将回调block放到合适的线程中执行. 更多并发编程的资料参加 _<a href="https://developer.apple.com/library/prerelease/content/documentation/General/Conceptual/ConcurrencyProgrammingGuide/Introduction/Introduction.html#//apple_ref/doc/uid/TP40008091" target="_blank" rel="external">Concurrency Programming Guide.</a><em>更多block相关资料参见 </em><a href="https://developer.apple.com/library/prerelease/content/documentation/Cocoa/Conceptual/Blocks/Articles/00_Introduction.html#//apple_ref/doc/uid/TP40007502" target="_blank" rel="external">Blocks Programming Topics</a><em>. 示例代码 </em><a href="https://developer.apple.com/library/prerelease/content/samplecode/AVCam/Introduction/Intro.html#//apple_ref/doc/uid/DTS40010112" target="_blank" rel="external">AVCam-iOS: Using AVFoundation to Capture Images and Movies </a>_是AVFoundation的一个基础示例,并展示了一些AVFoundation中线程和队列的用法.</p>
-<h1 id="前提条件"><a href="#前提条件" class="headerlink" title="前提条件"></a>前提条件</h1><p>AVFoundation是一个成熟复杂的Cocoa框架. 为了能有效的使用这一框架,你需要:</p>
-<ul>
-<li>深刻理解Cocao开发工具和技术</li>
-<li>掌握block的基本用法</li>
-<li>理解KVC和KVO编程</li>
-<li>对于回放,还需要理解掌握 Core Animation(参加<a href="https://developer.apple.com/library/prerelease/content/documentation/Cocoa/Conceptual/CoreAnimation_guide/Introduction/Introduction.html#//apple_ref/doc/uid/TP40004514" target="_blank" rel="external"><em>Core Animation Programming Guide</em></a>,简单的回放功能参见<a href="https://developer.apple.com/reference/avkit" target="_blank" rel="external"><em>AVKit Framework Reference</em></a>)</li>
-</ul>
-<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p>下面是几个使用AVFoundation的例子,其中两个是理解和实现摄像头捕捉功能的关键:</p>
-<p><a href="https://developer.apple.com/library/prerelease/content/samplecode/AVCam/Introduction/Intro.html#//apple_ref/doc/uid/DTS40010112" target="_blank" rel="external"><em>    AVCam-iOS: Using AVFoundation to Capture Images and Movies</em></a>是任何使用相机功能程序的优秀示例. 这是一个完整的示例,并且拥有良好的文档说明.</p>
-<p><a href="https://developer.apple.com/library/prerelease/content/samplecode/AVCamManual/Introduction/Intro.html#//apple_ref/doc/uid/TP40014578" target="_blank" rel="external"><em>AVCamManual: Extending AVCam to Use Manual Capture API</em></a> 是AVCam的姊妹篇, 它实现了手动管理相机的功能.</p>
-<p><a href="https://developer.apple.com/library/prerelease/content/samplecode/RosyWriter/Introduction/Intro.html#//apple_ref/doc/uid/DTS40011110" target="_blank" rel="external"><em>RosyWriter</em></a> 是一个实时处理帧数据的示例,包含了视频的实时滤镜.</p>
-<p><a href="https://developer.apple.com/library/prerelease/content/samplecode/AVLocationPlayer/Introduction/Intro.html#//apple_ref/doc/uid/TP40014495" target="_blank" rel="external"><em>AVLocationPlayer: Using AVFoundation Metadata Reading APIs </em></a>是一个元数据API的使用示例.</p>
-<blockquote>
-<p>翻译自Apple官方文档: <a href="https://developer.apple.com/library/prerelease/content/documentation/AudioVideo/Conceptual/AVFoundationPG/Articles/00_Introduction.html#//apple_ref/doc/uid/TP40010188-CH1-SW3" target="_blank" rel="external">AVFoundation Programming Guide</a></p>
-<p>翻译人: <a href="http://www.devzhang.cn">www.devzhang.cn</a></p>
-</blockquote>
+        <p>数组是连续分配的非空的具有特定元素对象类型的对象集合, 组成数组的对象称为该数组的元素. 数组类型由元素类型与元素的数目确定. </p>
+<p>相对于整型,浮点型和字符型数据, 数组是最简单最基本的结构型数据类型. 数组名作为数组实体的标识符，具有特殊性，不同于整型、浮点型、指针型或结构类型等变量标识符。这是因为数组是一组元素的聚集，不能把一个聚集看作一个值直接读出（即右值），也不能把一个聚集看作一个地址直接赋值（即左值）。</p>
+<h1 id="数组定义与初始化"><a href="#数组定义与初始化" class="headerlink" title="数组定义与初始化"></a>数组定义与初始化</h1><h2 id="数组的定义"><a href="#数组的定义" class="headerlink" title="数组的定义"></a>数组的定义</h2><p>声明数组的一般形式如下:</p>
+<pre><code>数据类型 数组名[常量表达式1][常量表达式2]...[常量表达式N];
+</code></pre><p>数组名是一个常量, 代表数组元素在内存中的起始地址, 也就是数组中第一个元素的地址. 数组可以是一维数组, 也可以是N维数组. 上述声明中的”常量表达式N”称为下标表达式, 且必须是一个正整数. 数组的下标限定了数组中元素的个数, 也用来标识数组中的元素. 下标从0开始计算. 例如:</p>
+<pre><code>int a[10];
+//表示数组a中有10个元素, a[0]到a[9].
+</code></pre><p>此外, 数组的大小必须在定义时就固定, C++不存在动态定义大小的数组, 例如下面的定义是错误的:</p>
+<pre><code>int num;
+cin&gt;&gt;num&gt;&gt;endl;
+int a[num];
 
+  /*
+ C 和 C++ 是两种不同的语言。
+ C 自 C99 开始，在特定条件下允许使用变量作为数组长度定义数组。
+ C++ 至今不允许这种用法。
+ */        
+</code></pre><h2 id="一维数组的初始化"><a href="#一维数组的初始化" class="headerlink" title="一维数组的初始化"></a>一维数组的初始化</h2><p>一维数组初始化的几种方式:</p>
+<pre><code>//1. 定义数组时对数组元素逐个赋值
+ int a[5];
+for (int i = 0; i &lt; 5; i++) {
+    a[i] = i;
+}
+
+//2. 将数组元素的初始值依次放在一对大括号内:
+int a[5] = {0,1,2,3,4};
+
+//3. 当数组容量较大不能逐一赋值时, 可以仅对其中一部分元素进行赋值, 其余元素将默认为0. 下面的代码仅对前3个元素进行了赋值:
+int a[50] = {0,1,2};
+
+//4. 可以对数组中所有元素统一赋一个初值:
+int a[5] = {0};
+
+//5. 如果对全部元素进行了赋值, 则可以省略数组长度:
+int a[] = {0,1,2,3,4};
+</code></pre><p>C++并不提供对数组的边界检查, 因此要特别注意越界访问的处理.</p>
+<h2 id="二维数组的初始化"><a href="#二维数组的初始化" class="headerlink" title="二维数组的初始化"></a>二维数组的初始化</h2><p>另一种常用的数组时二维数组, 相当于平面内的一个二维矩阵. 下面的代码定义了一个二维数组:</p>
+<pre><code>float array[2][3];
+//表示2行3列, 即第一个参数表示行数, 第二个参数表示列数. 下标仍然从0开始计算.    
+</code></pre><p>下面的代码是二维数组的几种初始化方式:</p>
+<pre><code>//1.对元素逐一赋值
+float array[2][3] = {1,2,3,4,5,6};
+//更直观易懂的写法是:
+float array[2][3] = {{1,2,3},{4,5,6}};
+
+//2. 对于数组容量比较大的情况, 可以对部分元素进行赋值:
+float array[2][3] = {{1},{4}};
+//上面的语句只对每行首列进行了赋值, 其他元素被默认赋值为0
+
+//3. 当然也可以选择某行中的任意一列或多列来赋值:
+float array[2][3] = {{1},{0,4}};
+
+//4. 也可以挑中器重的某行,对其他行进行赋值:
+float array[2][3] = {{},{0,4}};
+
+//5. 如果初始化时对二维数组里的全部元素进行了赋值, 则可以省略第一维的长度, 但第二维的长度不能省略:
+float array[][3] = {1,2,3,4,5,6};
+</code></pre><p>可以通过二维数组的用法推广到更高维数组的用法.</p>
+<h1 id="数组和指针"><a href="#数组和指针" class="headerlink" title="数组和指针"></a>数组和指针</h1><p>任何存储在内存中的变量都有地址, 数组有地址, 数组中的元素也有地址. 所以使用指针也能访问数组中的元素.</p>
+<pre><code>#include &lt;iostream&gt;
+using namespace std;
+int main(int argc, const char * argv[]) {
+
+    int a[5] = {0,1,2,3,4};
+    int *p = &amp;a[0];
+    cout &lt;&lt; a[0] &lt;&lt; endl;
+    cout &lt;&lt; &amp;a[0] &lt;&lt; endl;
+    cout &lt;&lt; &amp;a &lt;&lt; endl;
+    cout &lt;&lt; a &lt;&lt; endl;
+    cout &lt;&lt; p &lt;&lt; endl;
+    cout &lt;&lt; *p &lt;&lt; endl;
+
+    return 0;
+}
+
+输出:
+0
+0x7fff5fbff7c0
+0x7fff5fbff7c0
+0x7fff5fbff7c0
+0x7fff5fbff7c0
+0
+</code></pre><p>用指针访问数组时比较高效的, 它无须每次都重新计算地址, 而使用下标符号[]每次都需要进行变址寻址,这样的时间消耗在数组容量较大时是不可忽略的. </p>
+<p>在C++中, <code>++</code>运算和<code>*</code>运算具有相同的优先级, 且运算结合的方向是自右向左, 所以<code>*p++</code>和<code>*(p++)</code>的作用是完全相同的, 即首先得到p所指向的内容,再将p向下移动一位(指向下一个元素).<code>(*p)++</code>则表示p所指向的内容加1.</p>
+<p>特别地, 可以通过指针运算改变指针变量的值, 但是不能将同样的操作运用于a, 即不存在a++之类的运算.因为a表示的数组首元素的地址, 是一个指针常量.</p>
+<p>还需要注意的是, 指向数组的指针并不会做越界检查.</p>
+<p>二维数组可以看做一个特殊的一维数组, 内存中二维数组也是按行收尾相接线性排列的. 例如可以使用下面的代码遍历一个二维数组:</p>
+<pre><code>#include &lt;iostream&gt;
+using namespace std;
+int main(int argc, const char * argv[]) {
+
+
+    int a[][3] = {0,1,2,3,4,5,6,7,8};
+    int *p = &amp;a[0][0];
+    for(int i = 0; i &lt; 9; i++){
+        cout &lt;&lt; *p++ &lt;&lt; endl;
+    }
+    return 0;
+}
+</code></pre>
       
     </div>
     
@@ -317,13 +340,13 @@
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2016/08/31/AVFoundation简介/">AVFoundation简介</a></p>
+        <p><span>本文标题:</span><a href="/2016/11/23/C++之数组/">C++之数组</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 Devzhang 的个人博客">Devzhang</a></p>
-        <p><span>发布时间:</span>2016年08月31日 - 22时22分</p>
-        <p><span>最后更新:</span>2016年09月21日 - 10时38分</p>
+        <p><span>发布时间:</span>2016年11月23日 - 20时59分</p>
+        <p><span>最后更新:</span>2016年11月23日 - 23时11分</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2016/08/31/AVFoundation简介/" title="AVFoundation简介">http://www.devzhang.cn/2016/08/31/AVFoundation简介/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://www.devzhang.cn/2016/08/31/AVFoundation简介/　　作者: Devzhang" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2016/11/23/C++之数组/" title="C++之数组">http://www.devzhang.cn/2016/11/23/C++之数组/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://www.devzhang.cn/2016/11/23/C++之数组/　　作者: Devzhang" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script src="/js/clipboard.min.js"></script>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
@@ -336,18 +359,9 @@
 
 <nav id="article-nav">
   
-    <a href="/2016/08/31/使用Assets/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption"><</strong>
-      <div class="article-nav-title">
-        
-          使用Assets
-        
-      </div>
-    </a>
   
-  
-    <a href="/2016/08/30/视频直播专业名词解答/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">视频直播专业名词解答</div>
+    <a href="/2016/11/22/C++之指针/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">C++之指针</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -358,7 +372,7 @@
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#关于AVFoundation"><span class="toc-number">1.</span> <span class="toc-text">关于AVFoundation</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#概述"><span class="toc-number">2.</span> <span class="toc-text">概述</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#媒体资源的表示和使用"><span class="toc-number">2.1.</span> <span class="toc-text">媒体资源的表示和使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#回放"><span class="toc-number">2.2.</span> <span class="toc-text">回放</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#资源的读取-写入以及重新编码"><span class="toc-number">2.3.</span> <span class="toc-text">资源的读取,写入以及重新编码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#缩略图"><span class="toc-number">2.4.</span> <span class="toc-text">缩略图</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#编辑"><span class="toc-number">2.5.</span> <span class="toc-text">编辑</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#静态图像及视频捕捉"><span class="toc-number">2.6.</span> <span class="toc-text">静态图像及视频捕捉</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#AVFoundation中的并发编程"><span class="toc-number">3.</span> <span class="toc-text">AVFoundation中的并发编程</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#前提条件"><span class="toc-number">4.</span> <span class="toc-text">前提条件</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考资料"><span class="toc-number">5.</span> <span class="toc-text">参考资料</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#数组定义与初始化"><span class="toc-number">1.</span> <span class="toc-text">数组定义与初始化</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#数组的定义"><span class="toc-number">1.1.</span> <span class="toc-text">数组的定义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#一维数组的初始化"><span class="toc-number">1.2.</span> <span class="toc-text">一维数组的初始化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二维数组的初始化"><span class="toc-number">1.3.</span> <span class="toc-text">二维数组的初始化</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#数组和指针"><span class="toc-number">2.</span> <span class="toc-text">数组和指针</span></a></li></ol>
 </div>
 <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
 
@@ -406,7 +420,7 @@
     
       <div class="duoshuo" id="comments">
     <!-- 多说评论框 start -->
-    <div class="ds-thread" data-thread-key="2016/08/31/AVFoundation简介/" data-title="AVFoundation简介" data-url="http://www.devzhang.cn/2016/08/31/AVFoundation简介/"></div>
+    <div class="ds-thread" data-thread-key="2016/11/23/C++之数组/" data-title="C++之数组" data-url="http://www.devzhang.cn/2016/11/23/C++之数组/"></div>
     <!-- 多说评论框 end -->
     <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
     <script type="text/javascript">
@@ -429,13 +443,11 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2016/08/31/使用Assets/" title="上一篇: 使用Assets">
-                <i class="fa fa-angle-left"></i>
-            </a>
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
         
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
         
-            <a href="/2016/08/30/视频直播专业名词解答/" title="下一篇: 视频直播专业名词解答">
+            <a href="/2016/11/22/C++之指针/" title="下一篇: C++之指针">
                 <i class="fa fa-angle-right"></i>
             </a>
         
