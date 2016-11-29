@@ -3,18 +3,21 @@
 <head>
   <meta charset="utf-8">
   
-  <title>phoneGap在iOS上自定义实现友盟分享插件 | 做点有意思的事情</title>
+  <title>C++之荷兰国旗问题 | 做点有意思的事情</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="说明:本插件仅针对个人当前项目,参照支付宝支付插件类进行开发,不保证对任何项目都具有通用性,代码仅供参考.">
+  <meta name="description" content="问题描述现有红白蓝三个不同颜色的小球，乱序排列在一起，请重新排列这些小球，使得红白蓝三色的同颜色的球在一起. 之所以被称为荷兰国旗问题, 是因为荷兰国旗正好有红白蓝三种颜色构成, 将红白蓝三色小球想象成条状物，有序排列后正好组成荷兰国旗.
+问题分析荷兰国旗问题其实是一个数组排序问题, 可以将红白蓝三种颜色分别用数字0,1,2表示, 然后对数组中的数值进行排序.">
 <meta property="og:type" content="article">
-<meta property="og:title" content="phoneGap在iOS上自定义实现友盟分享插件">
-<meta property="og:url" content="http://www.devzhang.cn/2015/04/24/phoneGap在iOS上自定义实现友盟分享插件/index.html">
+<meta property="og:title" content="C++之荷兰国旗问题">
+<meta property="og:url" content="http://www.devzhang.cn/2016/11/29/C++之荷兰国旗问题/index.html">
 <meta property="og:site_name" content="做点有意思的事情">
-<meta property="og:description" content="说明:本插件仅针对个人当前项目,参照支付宝支付插件类进行开发,不保证对任何项目都具有通用性,代码仅供参考.">
-<meta property="og:updated_time" content="2016-06-30T06:36:13.000Z">
+<meta property="og:description" content="问题描述现有红白蓝三个不同颜色的小球，乱序排列在一起，请重新排列这些小球，使得红白蓝三色的同颜色的球在一起. 之所以被称为荷兰国旗问题, 是因为荷兰国旗正好有红白蓝三种颜色构成, 将红白蓝三色小球想象成条状物，有序排列后正好组成荷兰国旗.
+问题分析荷兰国旗问题其实是一个数组排序问题, 可以将红白蓝三种颜色分别用数字0,1,2表示, 然后对数组中的数值进行排序.">
+<meta property="og:updated_time" content="2016-11-29T16:27:59.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="phoneGap在iOS上自定义实现友盟分享插件">
-<meta name="twitter:description" content="说明:本插件仅针对个人当前项目,参照支付宝支付插件类进行开发,不保证对任何项目都具有通用性,代码仅供参考.">
+<meta name="twitter:title" content="C++之荷兰国旗问题">
+<meta name="twitter:description" content="问题描述现有红白蓝三个不同颜色的小球，乱序排列在一起，请重新排列这些小球，使得红白蓝三色的同颜色的球在一起. 之所以被称为荷兰国旗问题, 是因为荷兰国旗正好有红白蓝三种颜色构成, 将红白蓝三色小球想象成条状物，有序排列后正好组成荷兰国旗.
+问题分析荷兰国旗问题其实是一个数组排序问题, 可以将红白蓝三种颜色分别用数字0,1,2表示, 然后对数组中的数值进行排序.">
   
   
     <link rel="icon" href="/img/head.jpg">
@@ -188,11 +191,11 @@
         </header>                
     </div>
 </nav>
-      <div class="body-wrap"><article id="post-phoneGap在iOS上自定义实现友盟分享插件" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-C++之荷兰国旗问题" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2015/04/24/phoneGap在iOS上自定义实现友盟分享插件/" class="article-date">
-      <time datetime="2015-04-24T01:32:00.000Z" itemprop="datePublished">2015-04-24</time>
+      <a href="/2016/11/29/C++之荷兰国旗问题/" class="article-date">
+      <time datetime="2016-11-29T14:53:28.000Z" itemprop="datePublished">2016-11-29</time>
 </a>
     </div>
   
@@ -205,7 +208,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      phoneGap在iOS上自定义实现友盟分享插件
+      C++之荷兰国旗问题
     </h1>
   
 
@@ -214,13 +217,13 @@
       <div class="article-info article-info-post">
         
     <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/iOS/">iOS</a>
+    <a class="article-category-link" href="/categories/Cpp/">C++</a>
     </div>
 
 
         
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/phoneGap/">phoneGap</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/学习笔记/">学习笔记</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/算法/">算法</a></li></ul>
     </div>
 
         <div class="clearfix"></div>
@@ -230,70 +233,164 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>说明:本插件仅针对个人当前项目,参照支付宝支付插件类进行开发,不保证对任何项目都具有通用性,代码仅供参考.</p>
+        <h1 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h1><p>现有红白蓝三个不同颜色的小球，乱序排列在一起，请重新排列这些小球，使得红白蓝三色的同颜色的球在一起. 之所以被称为荷兰国旗问题, 是因为荷兰国旗正好有红白蓝三种颜色构成, 将红白蓝三色小球想象成条状物，有序排列后正好组成荷兰国旗.</p>
+<h1 id="问题分析"><a href="#问题分析" class="headerlink" title="问题分析"></a>问题分析</h1><p>荷兰国旗问题其实是一个数组排序问题, 可以将红白蓝三种颜色分别用数字0,1,2表示, 然后对数组中的数值进行排序.</p>
 <a id="more"></a>
-<p>找到项目中的config.xml文件,在相似位置插入如下代码:</p>
-<pre><code>&lt;feature name=&quot;UM_SharePlugin&quot;&gt;  
-   &lt;param name=&quot;ios-package&quot; value=&quot;UM_SharePlugin&quot;/&gt;  
-   &lt;/feature&gt;  
-</code></pre><p>具体插件类代码如下:</p>
-<pre><code>//  UM_SharePlugin.h  
-//  WDZJ  
-//  
-//  Created by Scarecrow on 15/4/23.  
+<h1 id="问题解决"><a href="#问题解决" class="headerlink" title="问题解决"></a>问题解决</h1><h2 id="思路一"><a href="#思路一" class="headerlink" title="思路一"></a>思路一</h2><ol>
+<li>遍历数组, 统计红白蓝三色球(0,1,2)的个数</li>
+<li>根据红白蓝三色球(0,1,2)的个数重新对数组赋值</li>
+</ol>
+<p>思路一代码:</p>
+<pre><code>#include &lt;iostream&gt;
+using namespace std;
 
-#import &lt;Foundation/Foundation.h&gt;  
-#import &lt;Cordova/CDVPlugin.h&gt;  
-@interface UM_SharePlugin : CDVPlugin  
-- (void) print:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;  
-@end 
+int const TotalColorCount = 100;
+int const Red_Color = 0;
+int const White_Color = 1;
+int const Blue_Color = 2;
 
+void initRandomColors(int colors[], int count){
+    for (int i = 0; i &lt; count; i++) {
+        colors[i] = rand()%3;
+    }
+}
 
-//  UM_SharePlugin.m  
-//  WDZJ  
-//  
-//  Created by Scarecrow on 15/4/23.  
+void outColors(int colors[], int count)
+{
+    for (int i = 0; i &lt; count; i++) {
+        cout &lt;&lt; colors[i];
+    }
+    cout &lt;&lt; endl;
+}
 
-#import &quot;UM_SharePlugin.h&quot;  
-@implementation UM_SharePlugin  
-- (void) print:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options  
-{            
-    NSLog(@&quot;UM_SharePlugin is called!!!&quot;);  
+void sortColors(int colors[], int count)
+{
+    int red_count = 0;
+    int white_count = 0;
+    int blue_count = 0;
+    for (int i = 0; i &lt; count; i++) {
+        switch (colors[i]) {
+            case 0:
+                red_count++;
+                break;
+            case 1:
+                white_count++;
+                break;
+            case 2:
+                blue_count++;
+                break;
+            default:
+                break;
+        }
+    }
 
-    [[NSNotificationCenter defaultCenter] postNotificationName:@&quot;UM_SharePluginCalled&quot; object:options];  
-}        
-@end             
-</code></pre><p>由于cordova项目是基于一个webview的,自动生成的控制器为MainViewController.因为在插件类中无法使用actionSheet弹出分享底框,所有需要在MainViewController.m中接收UM_SharePluginCalled通知,具体代码如下:<br>在viewDidLoad方法中增加一行代码:</p>
-<pre><code>[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(umcalled:) name:@&quot;UM_SharePluginCalled&quot; object:nil];  
-</code></pre><p>并增加下面两个方法(测试数据来源与友盟官方demo):</p>
-<pre><code>- (void)umcalled:(NSNotification *)note  
-{  
-    NSString *shareText = @&quot;友盟社会化组件可以让移动应用快速具备社会化分享、登录、评论、喜欢等功能，并提供实时、全面的社会化数据统计分析服务。 http://www.umeng.com/social&quot;;             //分享内嵌文字  
-    UIImage *shareImage = [UIImage imageNamed:@&quot;UMS_social_demo&quot;];          //分享内嵌图片  
+    for (int i = 0; i &lt; count; i++) {
+        if (red_count &gt; 0) {
+            colors[i] = Red_Color;
+            red_count--;
+            continue;
+        }
+        if (white_count &gt; 0) {
+            colors[i] = White_Color;
+            white_count--;
+            continue;
+        }
+        if (blue_count &gt; 0) {
+            colors[i] = Blue_Color;
+            blue_count--;
+            continue;
+        }
+    }
 
-    //调用快速分享接口  
-    [UMSocialSnsService presentSnsIconSheetView:self  
-                                         appKey:@&quot;5211818556240bc9ee01db2f&quot;  
-                                      shareText:shareText  
-                                     shareImage:shareImage  
-                                shareToSnsNames:@[UMShareToSina,UMShareToQzone,UMShareToWechatSession,UMShareToWechatTimeline,UMShareToQQ]  
-                                       delegate:self];  
-}  
+}
 
-- (void)didFinishGetUMSocialDataInViewController:(UMSocialResponseEntity *)response  
-{  
-    NSLog(@&quot;didFinishGetUMSocialDataInViewController with response is %@&quot;,response);  
-    //根据`responseCode`得到发送结果,如果分享成功  
-    if(response.responseCode == UMSResponseCodeSuccess)  
-    {  
-        //得到分享到的微博平台名  
-        NSLog(@&quot;share to sns name is %@&quot;,[[response.data allKeys] objectAtIndex:0]);  
-    }  
-}  
-</code></pre><p>之后可以在js文件要使用分享的地方调用:  </p>
-<pre><code>cordova.exec(function(){},function(){},&quot;UM_SharePlugin&quot;,&quot;print&quot;,obj);  
-</code></pre><p>即可实现cordova调用友盟分享功能.            </p>
+int main(int argc, const char * argv[]) {
+    int colors[TotalColorCount];
+    initRandomColors(colors, TotalColorCount);
+    cout &lt;&lt; &quot;排序前:&quot; &lt;&lt; endl;
+    outColors(colors, TotalColorCount);
 
+    cout &lt;&lt; &quot;排序后:&quot; &lt;&lt; endl;
+    sortColors(colors, TotalColorCount);
+    outColors(colors, TotalColorCount);
+
+    return 0;
+}
+</code></pre><p>输出:</p>
+<pre><code>排序前:
+1122120221020202111101021000211221201100121022210122111202011102210001111101202201012202000221021020
+排序后:
+0000000000000000000000000000000111111111111111111111111111111111111222222222222222222222222222222222
+Program ended with exit code: 0
+</code></pre><h2 id="思路二"><a href="#思路二" class="headerlink" title="思路二"></a>思路二</h2><p>将数组分别三部分, 前部(0), 中部(1), 后部(2). 只需要将前部和后部的元素归位, 中部自然就排好了.</p>
+<p>使用变量begin,end分别记录数组的开头和末尾索引.使用变量current从头遍历数组:</p>
+<ol>
+<li>若遍历到的值为0, 则交换current和begin处的值, 同时将current和begin都向后移动一个位置, 表明begin位置前的元素已经排好;</li>
+<li>若遍历到的值为1, 不需要交换, current后移一位;</li>
+<li>若遍历到的值为2, 则交换current和end处的值, 由于交换完成后current处的值可能是无序的(0,1,2)都有可能, 所以current不能移动, 只将end前移一位.</li>
+</ol>
+<p>思路二代码:</p>
+<pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+int const TotalColorCount = 100;
+int const Red_Color = 0;
+int const White_Color = 1;
+int const Blue_Color = 2;
+
+void initRandomColors(int colors[], int count){
+    for (int i = 0; i &lt; count; i++) {
+        colors[i] = rand()%3;
+    }
+}
+
+void outColors(int colors[], int count)
+{
+    for (int i = 0; i &lt; count; i++) {
+        cout &lt;&lt; colors[i];
+    }
+    cout &lt;&lt; endl;
+}
+
+void swap(int&amp; num1, int&amp; num2)
+{
+    num1 = num1 + num2;
+    num2 = num1 - num2;
+    num1 = num1 -num2;
+}
+
+void sortColors(int colors[], int count)
+{
+    int begin = 0;
+    int current = 0;
+    int end = count - 1;
+    while (current &lt;= end) {
+        if (colors[current] == Red_Color) {
+            swap(colors[begin], colors[current]);
+            begin++;
+            current++;
+        }else if (colors[current] == White_Color) {
+            current++;
+        }else{
+            swap(colors[current], colors[end]);
+            end--;
+        }
+    }
+}
+
+int main(int argc, const char * argv[]) {
+    int colors[TotalColorCount];
+    initRandomColors(colors, TotalColorCount);
+    cout &lt;&lt; &quot;排序前:&quot; &lt;&lt; endl;
+    outColors(colors, TotalColorCount);
+
+    cout &lt;&lt; &quot;排序后:&quot; &lt;&lt; endl;
+    sortColors(colors, TotalColorCount);
+    outColors(colors, TotalColorCount);
+
+    return 0;
+}
+</code></pre>
       
     </div>
     
@@ -301,13 +398,13 @@
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2015/04/24/phoneGap在iOS上自定义实现友盟分享插件/">phoneGap在iOS上自定义实现友盟分享插件</a></p>
+        <p><span>本文标题:</span><a href="/2016/11/29/C++之荷兰国旗问题/">C++之荷兰国旗问题</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 Miu 的个人博客">Miu</a></p>
-        <p><span>发布时间:</span>2015年04月24日 - 09时32分</p>
-        <p><span>最后更新:</span>2016年06月30日 - 14时36分</p>
+        <p><span>发布时间:</span>2016年11月29日 - 22时53分</p>
+        <p><span>最后更新:</span>2016年11月30日 - 00时27分</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2015/04/24/phoneGap在iOS上自定义实现友盟分享插件/" title="phoneGap在iOS上自定义实现友盟分享插件">http://www.devzhang.cn/2015/04/24/phoneGap在iOS上自定义实现友盟分享插件/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://www.devzhang.cn/2015/04/24/phoneGap在iOS上自定义实现友盟分享插件/　　作者: Miu" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2016/11/29/C++之荷兰国旗问题/" title="C++之荷兰国旗问题">http://www.devzhang.cn/2016/11/29/C++之荷兰国旗问题/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://www.devzhang.cn/2016/11/29/C++之荷兰国旗问题/　　作者: Miu" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script src="/js/clipboard.min.js"></script>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
@@ -320,18 +417,9 @@
 
 <nav id="article-nav">
   
-    <a href="/2015/05/06/phoneGap在iOS上给JS传值方法/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption"><</strong>
-      <div class="article-nav-title">
-        
-          phoneGap在iOS上给JS传值方法
-        
-      </div>
-    </a>
   
-  
-    <a href="/2015/04/23/phoneGap在iOS上弹出对话框和调用相机/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">phoneGap在iOS上弹出对话框和调用相机</div>
+    <a href="/2016/11/23/C++之数组/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">C++之数组</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -342,7 +430,7 @@
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#问题描述"><span class="toc-number">1.</span> <span class="toc-text">问题描述</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#问题分析"><span class="toc-number">2.</span> <span class="toc-text">问题分析</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#问题解决"><span class="toc-number">3.</span> <span class="toc-text">问题解决</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#思路一"><span class="toc-number">3.1.</span> <span class="toc-text">思路一</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#思路二"><span class="toc-number">3.2.</span> <span class="toc-text">思路二</span></a></li></ol></li></ol>
 </div>
 <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
 
@@ -390,7 +478,7 @@
     
       <div class="duoshuo" id="comments">
     <!-- 多说评论框 start -->
-    <div class="ds-thread" data-thread-key="2015/04/24/phoneGap在iOS上自定义实现友盟分享插件/" data-title="phoneGap在iOS上自定义实现友盟分享插件" data-url="http://www.devzhang.cn/2015/04/24/phoneGap在iOS上自定义实现友盟分享插件/"></div>
+    <div class="ds-thread" data-thread-key="2016/11/29/C++之荷兰国旗问题/" data-title="C++之荷兰国旗问题" data-url="http://www.devzhang.cn/2016/11/29/C++之荷兰国旗问题/"></div>
     <!-- 多说评论框 end -->
     <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
     <script type="text/javascript">
@@ -413,13 +501,11 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2015/05/06/phoneGap在iOS上给JS传值方法/" title="上一篇: phoneGap在iOS上给JS传值方法">
-                <i class="fa fa-angle-left"></i>
-            </a>
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
         
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
         
-            <a href="/2015/04/23/phoneGap在iOS上弹出对话框和调用相机/" title="下一篇: phoneGap在iOS上弹出对话框和调用相机">
+            <a href="/2016/11/23/C++之数组/" title="下一篇: C++之数组">
                 <i class="fa fa-angle-right"></i>
             </a>
         
