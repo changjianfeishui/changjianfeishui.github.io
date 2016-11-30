@@ -3,105 +3,21 @@
 <head>
   <meta charset="utf-8">
   
-  <title>iOS中MVC的几个误区 | 做点有意思的事情</title>
+  <title>C++之大整数乘法问题 | 做点有意思的事情</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="1.Model是有具备事务处理能力的,并不只是一个DTO,严格的说由Model决定一个APP的功能(Model和Object(bean)的区别)
-2.viewController和controller不是同一个层级的概念
-
-
-
-
-层级
-
-
-
-
-view
-
-
-viewController
-
-
-Controller
-
-
-Model
-
-
-Server
-
-
-Manager
-
-
-Helper">
+  <meta name="description" content="问题描述由于计算机的精度是有限的, 因此在某些需要高精度乘法运算的场合, 直接说是用原子数据类型来完成两个大整数乘法是不切实际的.
+问题分析可以使用两个数组分别表示需要相乘的两个大整数, 对数组中的元素分别进行乘法运算并将结果根据乘法法则有序存放在结果数据中, 然后处理进位问题.">
 <meta property="og:type" content="article">
-<meta property="og:title" content="iOS中MVC的几个误区">
-<meta property="og:url" content="http://www.devzhang.cn/2016/03/23/iOS中MVC的几个误区/index.html">
+<meta property="og:title" content="C++之大整数乘法问题">
+<meta property="og:url" content="http://www.devzhang.cn/2016/11/30/C++之大整数乘法问题/index.html">
 <meta property="og:site_name" content="做点有意思的事情">
-<meta property="og:description" content="1.Model是有具备事务处理能力的,并不只是一个DTO,严格的说由Model决定一个APP的功能(Model和Object(bean)的区别)
-2.viewController和controller不是同一个层级的概念
-
-
-
-
-层级
-
-
-
-
-view
-
-
-viewController
-
-
-Controller
-
-
-Model
-
-
-Server
-
-
-Manager
-
-
-Helper">
-<meta property="og:updated_time" content="2016-06-30T02:44:40.000Z">
+<meta property="og:description" content="问题描述由于计算机的精度是有限的, 因此在某些需要高精度乘法运算的场合, 直接说是用原子数据类型来完成两个大整数乘法是不切实际的.
+问题分析可以使用两个数组分别表示需要相乘的两个大整数, 对数组中的元素分别进行乘法运算并将结果根据乘法法则有序存放在结果数据中, 然后处理进位问题.">
+<meta property="og:updated_time" content="2016-11-30T18:06:40.848Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="iOS中MVC的几个误区">
-<meta name="twitter:description" content="1.Model是有具备事务处理能力的,并不只是一个DTO,严格的说由Model决定一个APP的功能(Model和Object(bean)的区别)
-2.viewController和controller不是同一个层级的概念
-
-
-
-
-层级
-
-
-
-
-view
-
-
-viewController
-
-
-Controller
-
-
-Model
-
-
-Server
-
-
-Manager
-
-
-Helper">
+<meta name="twitter:title" content="C++之大整数乘法问题">
+<meta name="twitter:description" content="问题描述由于计算机的精度是有限的, 因此在某些需要高精度乘法运算的场合, 直接说是用原子数据类型来完成两个大整数乘法是不切实际的.
+问题分析可以使用两个数组分别表示需要相乘的两个大整数, 对数组中的元素分别进行乘法运算并将结果根据乘法法则有序存放在结果数据中, 然后处理进位问题.">
   
   
     <link rel="icon" href="/img/head.jpg">
@@ -275,11 +191,11 @@ Helper">
         </header>                
     </div>
 </nav>
-      <div class="body-wrap"><article id="post-iOS中MVC的几个误区" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-C++之大整数乘法问题" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016/03/23/iOS中MVC的几个误区/" class="article-date">
-      <time datetime="2016-03-22T16:00:00.000Z" itemprop="datePublished">2016-03-23</time>
+      <a href="/2016/11/30/C++之大整数乘法问题/" class="article-date">
+      <time datetime="2016-11-30T14:32:45.000Z" itemprop="datePublished">2016-11-30</time>
 </a>
     </div>
   
@@ -292,7 +208,7 @@ Helper">
         
   
     <h1 class="article-title" itemprop="name">
-      iOS中MVC的几个误区
+      C++之大整数乘法问题
     </h1>
   
 
@@ -301,13 +217,13 @@ Helper">
       <div class="article-info article-info-post">
         
     <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/iOS/">iOS</a>
+    <a class="article-category-link" href="/categories/Algorithm/">数据结构和算法</a>
     </div>
 
 
         
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MVC/">MVC</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/架构/">架构</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/学习笔记/">学习笔记</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数组/">数组</a></li></ul>
     </div>
 
         <div class="clearfix"></div>
@@ -317,41 +233,124 @@ Helper">
     <div class="article-entry" itemprop="articleBody">
       
           
-        <ul>
-<li>1.Model是有具备事务处理能力的,并不只是一个DTO,严格的说由Model决定一个APP的功能(Model和Object(bean)的区别)</li>
-<li>2.viewController和controller不是同一个层级的概念</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th>层级</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>view</td>
-</tr>
-<tr>
-<td>viewController</td>
-</tr>
-<tr>
-<td>Controller</td>
-</tr>
-<tr>
-<td>Model</td>
-</tr>
-<tr>
-<td>Server</td>
-</tr>
-<tr>
-<td>Manager</td>
-</tr>
-<tr>
-<td>Helper</td>
-</tr>
-</tbody>
-</table>
+        <h1 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h1><p>由于计算机的精度是有限的, 因此在某些需要高精度乘法运算的场合, 直接说是用原子数据类型来完成两个大整数乘法是不切实际的.</p>
+<h1 id="问题分析"><a href="#问题分析" class="headerlink" title="问题分析"></a>问题分析</h1><p>可以使用两个数组分别表示需要相乘的两个大整数, 对数组中的元素分别进行乘法运算并将结果根据乘法法则有序存放在结果数据中, 然后处理进位问题.</p>
+<a id="more"></a>
+<p>举个简单的例子, 例如表达式123*456的两个因数, 数学运算如下:</p>
+<pre><code> 123
+*456
+-----
+  738    
+ 615 
+492
+------
+56088
+</code></pre><p>可以分别使用数组: a[] = {1,2,3} 和 b[] = {4,5,6}进行表示. 对应的数组运算如下:</p>
+<pre><code> {1,2,3}
+*{4,5,6}
+---------
+{18,12,6}                //Expression1
+   {15,10,5}            //Expression2
+      {12,8,4}            //Expression3
+----------------
+{18,27,28,13,4}
+----------------    
+逆序得到:{4,13,28,27,18}
 
+进位处理:56088
+</code></pre><p>为了简化代码, 可以将a[]和b[]都进行逆序, 并且在最后计算结果时,先进位,再逆序. 具体运算步骤如下: </p>
+<ol>
+<li>创建一个新数组ret[]存储乘积, 由于n位整数与m位整数的乘积的位数可能为m+n或m+n-1, 取其大者,因此可以数组ret大小可以定义为两个数的各自的位数之和; </li>
+<li>将a[]和b[]都进行逆序</li>
+<li>将a<a href="个位">0</a>分别与b[]中的元素相乘, 结果分别存储在ret[0]…ret[N]中;(Expression1)</li>
+<li>将a<a href="十位">1</a>与b[]中的元素相乘, 结果分别存储在ret[1]…ret[N]中;(Expression2)</li>
+<li>类推将a[m]与b[]中的元素相乘, 结果分别存储在ret[m]…ret[N]中;</li>
+<li>按照十进制进位法则, 对ret[]中大于10的位进行进位处理;</li>
+<li>将ret[]进行逆序</li>
+<li>输出结果</li>
+</ol>
+<p>由此可以类推到多位大整数的乘法实现.</p>
+<h1 id="问题解决"><a href="#问题解决" class="headerlink" title="问题解决"></a>问题解决</h1><pre><code>//
+//  main.cpp
+//  大整数乘法
+//
+//  Created by Miu on 16/11/30.
+//  Copyright © 2016年 XB. All rights reserved.
+//
+
+#include &lt;iostream&gt;
+using namespace std;
+void swapNum(int&amp; num1, int&amp; num2)
+{
+    num1 = num1 + num2;
+    num2 = num1 - num2;
+    num1 = num1 -num2;
+}
+
+void reverseArray(int nums[], int length)
+{
+    int begin = 0;
+    int end = length - 1;
+    while (begin &lt; end) {
+        swapNum(nums[begin++], nums[end--]);
+    }
+}
+
+void outNums(int nums[], int count)
+{
+    for (int i = 0; i &lt; count; i++) {
+        cout &lt;&lt; nums[i];
+    }
+    cout &lt;&lt; endl;
+}
+
+void multi(int num1[], int length1, int num2[], int length2)
+{
+    reverseArray(num1, length1);
+    reverseArray(num2, length2);
+
+
+    int retLength = length1+length2;
+    int *ret = new int(retLength);
+    memset(ret, 0, sizeof(int)*retLength);
+    for (int i=0; i &lt; length1; i++) {
+        int k = i;
+        for (int j = 0; j &lt; length2; j++) {
+            ret[k++] += num1[i] * num2[j];
+        }
+    }
+    for (int i = 0; i &lt; retLength; i++) {
+        if (ret[i] &gt; 10) {
+            ret[i+1] += ret[i]/10;
+            ret[i] = ret[i]%10;
+        }
+    }
+
+    //逆序
+    reverseArray(ret, retLength);
+
+    //结果位数不足时, 数组第一元素可能为0, 需要清除
+    if (ret[0] == 0) {
+        for (int i = 0; i &lt; retLength-1; i++) {
+            ret[i] = ret[i+1];
+        }
+        retLength -= 1;
+    }
+
+    outNums(ret,retLength);
+}
+
+int main(int argc, const char * argv[]) {
+    int a[] = {1,2,3};
+    int b[] = {4,5,6};
+
+    multi(a, 3, b, 3);
+
+    return 0;
+}
+
+输出: 56088
+</code></pre>
       
     </div>
     
@@ -359,13 +358,13 @@ Helper">
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2016/03/23/iOS中MVC的几个误区/">iOS中MVC的几个误区</a></p>
+        <p><span>本文标题:</span><a href="/2016/11/30/C++之大整数乘法问题/">C++之大整数乘法问题</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 Miu 的个人博客">Miu</a></p>
-        <p><span>发布时间:</span>2016年03月23日 - 00时00分</p>
-        <p><span>最后更新:</span>2016年06月30日 - 10时44分</p>
+        <p><span>发布时间:</span>2016年11月30日 - 22时32分</p>
+        <p><span>最后更新:</span>2016年12月01日 - 02时06分</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2016/03/23/iOS中MVC的几个误区/" title="iOS中MVC的几个误区">http://www.devzhang.cn/2016/03/23/iOS中MVC的几个误区/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://www.devzhang.cn/2016/03/23/iOS中MVC的几个误区/　　作者: Miu" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2016/11/30/C++之大整数乘法问题/" title="C++之大整数乘法问题">http://www.devzhang.cn/2016/11/30/C++之大整数乘法问题/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://www.devzhang.cn/2016/11/30/C++之大整数乘法问题/　　作者: Miu" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script src="/js/clipboard.min.js"></script>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
@@ -378,18 +377,9 @@ Helper">
 
 <nav id="article-nav">
   
-    <a href="/2016/03/28/AVFoundation入门/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption"><</strong>
-      <div class="article-nav-title">
-        
-          AVFoundation入门
-        
-      </div>
-    </a>
   
-  
-    <a href="/2016/03/15/接口安全认证/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">接口安全认证</div>
+    <a href="/2016/11/29/C++之荷兰国旗问题/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">C++之荷兰国旗问题</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -400,7 +390,7 @@ Helper">
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#问题描述"><span class="toc-number">1.</span> <span class="toc-text">问题描述</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#问题分析"><span class="toc-number">2.</span> <span class="toc-text">问题分析</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#问题解决"><span class="toc-number">3.</span> <span class="toc-text">问题解决</span></a></li></ol>
 </div>
 <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
 
@@ -448,7 +438,7 @@ Helper">
     
       <div class="duoshuo" id="comments">
     <!-- 多说评论框 start -->
-    <div class="ds-thread" data-thread-key="2016/03/23/iOS中MVC的几个误区/" data-title="iOS中MVC的几个误区" data-url="http://www.devzhang.cn/2016/03/23/iOS中MVC的几个误区/"></div>
+    <div class="ds-thread" data-thread-key="2016/11/30/C++之大整数乘法问题/" data-title="C++之大整数乘法问题" data-url="http://www.devzhang.cn/2016/11/30/C++之大整数乘法问题/"></div>
     <!-- 多说评论框 end -->
     <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
     <script type="text/javascript">
@@ -471,13 +461,11 @@ Helper">
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2016/03/28/AVFoundation入门/" title="上一篇: AVFoundation入门">
-                <i class="fa fa-angle-left"></i>
-            </a>
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
         
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
         
-            <a href="/2016/03/15/接口安全认证/" title="下一篇: 接口安全认证">
+            <a href="/2016/11/29/C++之荷兰国旗问题/" title="下一篇: C++之荷兰国旗问题">
                 <i class="fa fa-angle-right"></i>
             </a>
         
