@@ -3,30 +3,24 @@
 <head>
   <meta charset="utf-8">
   
-  <title>对象的动态创建和销毁 | 做点有意思的事情</title>
+  <title>C++之类的构造函数和析构函数 | 做点有意思的事情</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="使用new语句为自定义类型的对象分配存储空间. 只需要将变量声明为指向自定义类型对象的指针, 再利用new语句分配内存就可以了. 
-使用new语句来创建类对象的语法如下:
-new 类型名
-或
-new 类型名(初始值列表)">
+  <meta name="description" content="构造函数类的初始化由构造函数完成, 如果没有为某个类编写构造函数, 编译器会自动这个类生成一个默认的构造函数. 构造函数主要用来在创建类的对象时为对象的成员变量赋值. 
+一个类可以有多个构造函数, 可以根据其参数个数或参数类型的不同进行区分, 即构造函数的重载.
+构造函数的命名必须与类名完全相同; 其次, 构造函数主要用于初始化对象的状态, 因此没有返回值, 也不能用void修饰. 最后构造函数不">
 <meta property="og:type" content="article">
-<meta property="og:title" content="对象的动态创建和销毁">
-<meta property="og:url" content="http://www.devzhang.cn/2016/11/09/对象的动态创建和销毁/index.html">
+<meta property="og:title" content="C++之类的构造函数和析构函数">
+<meta property="og:url" content="http://www.devzhang.cn/2016/11/08/C++之类的构造函数和析构函数/index.html">
 <meta property="og:site_name" content="做点有意思的事情">
-<meta property="og:description" content="使用new语句为自定义类型的对象分配存储空间. 只需要将变量声明为指向自定义类型对象的指针, 再利用new语句分配内存就可以了. 
-使用new语句来创建类对象的语法如下:
-new 类型名
-或
-new 类型名(初始值列表)">
-<meta property="og:updated_time" content="2016-11-09T15:02:34.000Z">
+<meta property="og:description" content="构造函数类的初始化由构造函数完成, 如果没有为某个类编写构造函数, 编译器会自动这个类生成一个默认的构造函数. 构造函数主要用来在创建类的对象时为对象的成员变量赋值. 
+一个类可以有多个构造函数, 可以根据其参数个数或参数类型的不同进行区分, 即构造函数的重载.
+构造函数的命名必须与类名完全相同; 其次, 构造函数主要用于初始化对象的状态, 因此没有返回值, 也不能用void修饰. 最后构造函数不">
+<meta property="og:updated_time" content="2016-12-04T15:05:46.593Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="对象的动态创建和销毁">
-<meta name="twitter:description" content="使用new语句为自定义类型的对象分配存储空间. 只需要将变量声明为指向自定义类型对象的指针, 再利用new语句分配内存就可以了. 
-使用new语句来创建类对象的语法如下:
-new 类型名
-或
-new 类型名(初始值列表)">
+<meta name="twitter:title" content="C++之类的构造函数和析构函数">
+<meta name="twitter:description" content="构造函数类的初始化由构造函数完成, 如果没有为某个类编写构造函数, 编译器会自动这个类生成一个默认的构造函数. 构造函数主要用来在创建类的对象时为对象的成员变量赋值. 
+一个类可以有多个构造函数, 可以根据其参数个数或参数类型的不同进行区分, 即构造函数的重载.
+构造函数的命名必须与类名完全相同; 其次, 构造函数主要用于初始化对象的状态, 因此没有返回值, 也不能用void修饰. 最后构造函数不">
   
   
     <link rel="icon" href="/img/head.jpg">
@@ -200,11 +194,11 @@ new 类型名(初始值列表)">
         </header>                
     </div>
 </nav>
-      <div class="body-wrap"><article id="post-对象的动态创建和销毁" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-C++之类的构造函数和析构函数" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016/11/09/对象的动态创建和销毁/" class="article-date">
-      <time datetime="2016-11-09T14:26:38.000Z" itemprop="datePublished">2016-11-09</time>
+      <a href="/2016/11/08/C++之类的构造函数和析构函数/" class="article-date">
+      <time datetime="2016-11-08T14:09:58.000Z" itemprop="datePublished">2016-11-08</time>
 </a>
     </div>
   
@@ -217,7 +211,7 @@ new 类型名(初始值列表)">
         
   
     <h1 class="article-title" itemprop="name">
-      对象的动态创建和销毁
+      C++之类的构造函数和析构函数
     </h1>
   
 
@@ -242,33 +236,45 @@ new 类型名(初始值列表)">
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>使用new语句为自定义类型的对象分配存储空间. 只需要将变量声明为指向自定义类型对象的指针, 再利用new语句分配内存就可以了. </p>
-<p>使用new语句来创建类对象的语法如下:</p>
-<pre><code>new 类型名
-或
-new 类型名(初始值列表)
-</code></pre><a id="more"></a>    
-<p>例如, 使用new创建一个Person类的对象:</p>
-<pre><code>Person *p = new Person(10,&quot;xiaoming&quot;);
-</code></pre><p>上面的p是一个指针, 指向一段存储Person对象的内存空间. 可以使用sizeof操作符检测对象在内存中所占用的存储空间大小:</p>
-<pre><code>cout &lt;&lt; sizeof(*p) &lt;&lt; endl;
-cout &lt;&lt; sizeof(Person) &lt;&lt; endl;
-</code></pre><p>使用new语句创建对象也会调用    类的构造方法, 如果调用无参数的构造函数, 则有以下两种方式:</p>
-<pre><code>Person *a = new Person;
-Person *b = new Person();
-</code></pre><p>利用new语句也可以建立存储对象的数组. </p>
-<pre><code>int main(){
-    int num = 5;
-    Person *p = new Person[num];
-    return 0;
+        <h1 id="构造函数"><a href="#构造函数" class="headerlink" title="构造函数"></a>构造函数</h1><p>类的初始化由构造函数完成, 如果没有为某个类编写构造函数, 编译器会自动这个类生成一个默认的构造函数. 构造函数主要用来在创建类的对象时为对象的成员变量赋值. </p>
+<p>一个类可以有多个构造函数, 可以根据其参数个数或参数类型的不同进行区分, 即构造函数的重载.</p>
+<p>构造函数的命名必须与类名完全相同; 其次, 构造函数主要用于初始化对象的状态, 因此没有返回值, 也不能用void修饰. 最后构造函数不能被直接调用, 必须在创建对象时才会自动调用.</p>
+<a id="more"></a>
+<p>一个类的构造函数的声明应是如下形式:</p>
+<pre><code>类名(参数表)
+</code></pre><p>构造函数的实现可以在类内部完成, 也可以在类体外进行:</p>
+<pre><code>class Person{
+public:
+    int age;
+    string name;
+    Person();
+    Person(int age, string name);
+
+};
+
+Person::Person(){
+    age = 0;
+    name = &quot;hello&quot;;
 }    
-</code></pre><p>上面的代码生成了一个能存储num个Person对象的数组. 数组中每个对象都可以利用运算符<code>[]</code>进行访问, 其中每个p[i]都代表了一个Person对象.</p>
-<p>C语言中malloc语句和free语句相对应. 类似地, C++中new对应的运算符为delete, 用来释放new分配的内存. 对象被释放时, 也将调用对象的析构函数. </p>
-<pre><code>Person *c = new Person();
-delete c;
-</code></pre><p>使用delete还可以清除new分配的对象数组, 但此时需要在delete后加上运算符<code>[]</code>, 编译器将自动计算数组大小并调用每个对象的析构函数销毁对象.</p>
-<pre><code>delete[] p;    
-</code></pre><p>注意, 利用new生成对象只能由delete释放,不能用free. 当对象离开其相应的作用域时, 程序将调用其析构函数, 利用delete释放对象时析构对象也会被调用.    </p>
+
+Person::Person(int newAge, string newName){
+    age = newAge;
+    name = newName;
+}    
+</code></pre><p>另外, 构造函数还可以用一种被称为初始化列表的方式来初始化成员变量, 代码如下:</p>
+<pre><code>Person::Person():age(0),name(&quot;hello&quot;){
+
+}        
+
+Person::Person(int newAge, string newName):age(newAge), name(newName){
+
+}    
+</code></pre><p>这两种写法功能上没有任何区别, 但在使用继承时可以使用初始化列表对基类的成员属性进行初始化. 此外, 初始化列表中不能为数组类型的成员变量赋值.</p>
+<h1 id="析构函数"><a href="#析构函数" class="headerlink" title="析构函数"></a>析构函数</h1><p>析构函数的语法与构造函数类似, 区别在于析构函数名前面有一个标记符号<code>~</code>. 析构函数同样没有返回值:</p>
+<pre><code>Person::~Person(){
+    cout &lt;&lt; &quot;person die!&quot; &lt;&lt; endl;
+}
+</code></pre><p>当对象被销毁时会自动调用析构函数.</p>
 
       
     </div>
@@ -277,13 +283,13 @@ delete c;
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2016/11/09/对象的动态创建和销毁/">对象的动态创建和销毁</a></p>
+        <p><span>本文标题:</span><a href="/2016/11/08/C++之类的构造函数和析构函数/">C++之类的构造函数和析构函数</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 Miu 的个人博客">Miu</a></p>
-        <p><span>发布时间:</span>2016年11月09日 - 22时26分</p>
-        <p><span>最后更新:</span>2016年11月09日 - 23时02分</p>
+        <p><span>发布时间:</span>2016年11月08日 - 22时09分</p>
+        <p><span>最后更新:</span>2016年12月04日 - 23时05分</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2016/11/09/对象的动态创建和销毁/" title="对象的动态创建和销毁">http://www.devzhang.cn/2016/11/09/对象的动态创建和销毁/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://www.devzhang.cn/2016/11/09/对象的动态创建和销毁/　　作者: Miu" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2016/11/08/C++之类的构造函数和析构函数/" title="C++之类的构造函数和析构函数">http://www.devzhang.cn/2016/11/08/C++之类的构造函数和析构函数/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://www.devzhang.cn/2016/11/08/C++之类的构造函数和析构函数/　　作者: Miu" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script src="/js/clipboard.min.js"></script>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
@@ -296,18 +302,18 @@ delete c;
 
 <nav id="article-nav">
   
-    <a href="/2016/11/14/友元/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2016/11/09/C++之对象的动态创建和销毁/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption"><</strong>
       <div class="article-nav-title">
         
-          友元
+          C++之对象的动态创建和销毁
         
       </div>
     </a>
   
   
-    <a href="/2016/11/08/类的构造函数和析构函数/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">类的构造函数和析构函数</div>
+    <a href="/2016/11/07/C++之访问控制/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">C++之访问控制</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -318,7 +324,7 @@ delete c;
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#构造函数"><span class="toc-number">1.</span> <span class="toc-text">构造函数</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#析构函数"><span class="toc-number">2.</span> <span class="toc-text">析构函数</span></a></li></ol>
 </div>
 <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
 
@@ -366,7 +372,7 @@ delete c;
     
       <div class="duoshuo" id="comments">
     <!-- 多说评论框 start -->
-    <div class="ds-thread" data-thread-key="2016/11/09/对象的动态创建和销毁/" data-title="对象的动态创建和销毁" data-url="http://www.devzhang.cn/2016/11/09/对象的动态创建和销毁/"></div>
+    <div class="ds-thread" data-thread-key="2016/11/08/C++之类的构造函数和析构函数/" data-title="C++之类的构造函数和析构函数" data-url="http://www.devzhang.cn/2016/11/08/C++之类的构造函数和析构函数/"></div>
     <!-- 多说评论框 end -->
     <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
     <script type="text/javascript">
@@ -389,18 +395,18 @@ delete c;
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2016/11/14/友元/" title="上一篇: 友元">
+            <a href="/2016/11/09/C++之对象的动态创建和销毁/" title="上一篇: C++之对象的动态创建和销毁">
                 <i class="fa fa-angle-left"></i>
             </a>
         
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
         
-            <a href="/2016/11/08/类的构造函数和析构函数/" title="下一篇: 类的构造函数和析构函数">
+            <a href="/2016/11/07/C++之访问控制/" title="下一篇: C++之访问控制">
                 <i class="fa fa-angle-right"></i>
             </a>
         
     </div>
-    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2016/11/30/C++之大整数乘法问题/">C++之大整数乘法问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/29/C++之荷兰国旗问题/">C++之荷兰国旗问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/23/C++之数组/">C++之数组</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/22/C++之指针/">C++之指针</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/21/Objective-C内存管理之Autorelease/">Objective-C内存管理之Autorelease</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/21/C++之模板/">C++之模板</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/20/C++之多态/">C++之多态</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/20/C++之继承/">C++之继承</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/20/C++之异常处理/">C++之异常处理</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/18/C++之运算符重载/">C++之运算符重载</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/17/Objective-C内存管理之引用计数/">Objective-C内存管理之引用计数</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/17/C++之函数重载/">C++之函数重载</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/16/C++之常量/">C++之常量</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/15/拷贝构造函数/">拷贝构造函数</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/14/友元/">友元</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/09/对象的动态创建和销毁/">对象的动态创建和销毁</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/08/类的构造函数和析构函数/">类的构造函数和析构函数</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/07/访问控制/">访问控制</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/06/命名空间/">命名空间(namespace)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/02/预处理/">预处理</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/01/C++中文件的输入和输出/">C++中文件的输入和输出</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/09/标准输入输出流和标准错误流介绍/">标准输入输出流和标准错误流介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/20/时间和媒体的表示/">时间和媒体的表示</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/20/Asset的重编码及导出/">Asset的重编码及导出</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/18/静态图片和视频捕捉/">静态图片和视频捕捉</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/09/编辑Assets/">编辑Assets</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/06/播放Assets/">播放Assets</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/31/使用Assets/">使用Assets</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/31/AVFoundation简介/">AVFoundation简介</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/30/视频直播专业名词解答/">视频直播专业名词解答</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/10/绘制音频波形图/">绘制音频波形图</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/05/高帧率视频捕捉/">高帧率视频捕捉</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/03/条码扫描/">条码扫描</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/29/人脸检测/">人脸检测</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/28/视频缩放/">视频缩放</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/22/调整闪光灯和手电筒模式/">调整闪光灯和手电筒模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/19/对焦和曝光功能的实现/">对焦和曝光功能的实现</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/18/切换摄像头/">切换摄像头</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/18/捕获视频/">捕获视频</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/15/捕捉静态图片/">捕获静态图片</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/13/使用AVCaptureSession采集视频/">使用AVCaptureSession采集视频</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/11/仿系统视频录制按钮的实现/">仿系统视频录制按钮的实现</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/08/仿系统相机模式标签切换的实现/">仿系统相机模式标签切换的实现</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/25/使用AVAudioRecorder录制音频/">使用AVAudioRecorder录制音频</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/20/AVAudioPlayer中断处理/">AVAudioPlayer中断处理</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/17/MVP登录示例/">MVP登录示例</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/17/MVC登录示例/">MVC登录示例</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/12/iOS基于MVC的项目重构总结/">iOS基于MVC的项目重构总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/02/使用AVAudioPlayer播放音频/">使用AVAudioPlayer播放音频</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/31/音频会话(Audio Session)/">音频会话(Audio Session)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/30/AVSpeechSynthesizer：文本到语音/">AVSpeechSynthesizer:文本到语音</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/28/AVFoundation入门/">AVFoundation入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/23/iOS中MVC的几个误区/">iOS中MVC的几个误区</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/15/接口安全认证/">接口安全认证</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/14/使用Moco进行http接口模拟/">使用Moco进行http接口模拟</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/05/14/phonegap|iOS|推送/">phonegap|iOS|推送</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/05/06/phoneGap在iOS上给JS传值方法/">phoneGap在iOS上给JS传值方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/04/24/phoneGap在iOS上自定义实现友盟分享插件/">phoneGap在iOS上自定义实现友盟分享插件</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/04/23/phoneGap在iOS上弹出对话框和调用相机/">phoneGap在iOS上弹出对话框和调用相机</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/03/26/菜鸟学排序：折半插入排序/">菜鸟学排序：折半插入排序</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/03/26/菜鸟学排序：直接插入排序/">菜鸟学排序：直接插入排序</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/03/25/菜鸟学排序：冒泡排序/">菜鸟学排序：冒泡排序</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/03/25/菜鸟学排序：快速排序/">菜鸟学排序：快速排序</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/03/24/菜鸟学排序：简单选择排序/">菜鸟学排序：简单选择排序</a></li></ul>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2016/12/04/C++之字符串/">C++之字符串</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/30/C++之大整数乘法问题/">C++之大整数乘法问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/29/C++之荷兰国旗问题/">C++之荷兰国旗问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/23/C++之数组/">C++之数组</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/22/C++之指针/">C++之指针</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/21/Objective-C内存管理之Autorelease/">Objective-C内存管理之Autorelease</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/21/C++之模板/">C++之模板</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/20/C++之多态/">C++之多态</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/20/C++之继承/">C++之继承</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/20/C++之异常处理/">C++之异常处理</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/18/C++之运算符重载/">C++之运算符重载</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/17/Objective-C内存管理之引用计数/">Objective-C内存管理之引用计数</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/17/C++之函数重载/">C++之函数重载</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/16/C++之常量/">C++之常量</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/15/C++之拷贝构造函数/">C++之拷贝构造函数</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/14/C++之友元/">C++之友元</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/09/C++之对象的动态创建和销毁/">C++之对象的动态创建和销毁</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/08/C++之类的构造函数和析构函数/">C++之类的构造函数和析构函数</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/07/C++之访问控制/">C++之访问控制</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/06/C++之命名空间/">C++之命名空间(namespace)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/02/C++之预处理/">C++之预处理</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/01/C++中文件的输入和输出/">C++中文件的输入和输出</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/09/标准输入输出流和标准错误流介绍/">标准输入输出流和标准错误流介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/20/时间和媒体的表示/">时间和媒体的表示</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/20/Asset的重编码及导出/">Asset的重编码及导出</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/18/静态图片和视频捕捉/">静态图片和视频捕捉</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/09/编辑Assets/">编辑Assets</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/06/播放Assets/">播放Assets</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/31/使用Assets/">使用Assets</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/31/AVFoundation简介/">AVFoundation简介</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/30/视频直播专业名词解答/">视频直播专业名词解答</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/10/绘制音频波形图/">绘制音频波形图</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/05/高帧率视频捕捉/">高帧率视频捕捉</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/03/条码扫描/">条码扫描</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/29/人脸检测/">人脸检测</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/28/视频缩放/">视频缩放</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/22/调整闪光灯和手电筒模式/">调整闪光灯和手电筒模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/19/对焦和曝光功能的实现/">对焦和曝光功能的实现</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/18/切换摄像头/">切换摄像头</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/18/捕获视频/">捕获视频</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/15/捕捉静态图片/">捕获静态图片</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/13/使用AVCaptureSession采集视频/">使用AVCaptureSession采集视频</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/11/仿系统视频录制按钮的实现/">仿系统视频录制按钮的实现</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/08/仿系统相机模式标签切换的实现/">仿系统相机模式标签切换的实现</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/25/使用AVAudioRecorder录制音频/">使用AVAudioRecorder录制音频</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/20/AVAudioPlayer中断处理/">AVAudioPlayer中断处理</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/17/MVC登录示例/">MVC登录示例</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/17/MVP登录示例/">MVP登录示例</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/12/iOS基于MVC的项目重构总结/">iOS基于MVC的项目重构总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/02/使用AVAudioPlayer播放音频/">使用AVAudioPlayer播放音频</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/31/音频会话(Audio Session)/">音频会话(Audio Session)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/30/AVSpeechSynthesizer：文本到语音/">AVSpeechSynthesizer:文本到语音</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/28/AVFoundation入门/">AVFoundation入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/23/iOS中MVC的几个误区/">iOS中MVC的几个误区</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/15/接口安全认证/">接口安全认证</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/14/使用Moco进行http接口模拟/">使用Moco进行http接口模拟</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/05/14/phonegap|iOS|推送/">phonegap|iOS|推送</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/05/06/phoneGap在iOS上给JS传值方法/">phoneGap在iOS上给JS传值方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/04/24/phoneGap在iOS上自定义实现友盟分享插件/">phoneGap在iOS上自定义实现友盟分享插件</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/04/23/phoneGap在iOS上弹出对话框和调用相机/">phoneGap在iOS上弹出对话框和调用相机</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/03/26/菜鸟学排序：折半插入排序/">菜鸟学排序：折半插入排序</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/03/26/菜鸟学排序：直接插入排序/">菜鸟学排序：直接插入排序</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/03/25/菜鸟学排序：冒泡排序/">菜鸟学排序：冒泡排序</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/03/25/菜鸟学排序：快速排序/">菜鸟学排序：快速排序</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/03/24/菜鸟学排序：简单选择排序/">菜鸟学排序：简单选择排序</a></li></ul>
     <script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
     <script>
         $(".post-list").addClass("toc-article");

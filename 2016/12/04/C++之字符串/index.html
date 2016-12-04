@@ -3,36 +3,21 @@
 <head>
   <meta charset="utf-8">
   
-  <title>拷贝构造函数 | 做点有意思的事情</title>
+  <title>C++之字符串 | 做点有意思的事情</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="拷贝构造函数是一种特殊的构造函数, 其形参必须是本来对象的一个引用，但并不限制为const，一般普遍的会加上const限制. 使用拷贝构造函数的目的是一个已经存在的对象来初始化同类的一个新对象. 
-声明拷贝构造函数的语法规则如下:
-类名(类名 &amp;amp;对象名)
-通常构造函数只在对象创建时被调用, 而拷贝构造函数在以下情况下会被调用:
-
-当使用类的一个对象去初始化该类的一个新对象时.
-如果一个函数">
+  <meta name="description" content="字符串是n(&amp;gt;=0)个字符的有限序列, 是一种典型的线性数据结构. 这些字符在内存中按顺序逐个存放, 并以结束符”\0“结尾. 字符串可以视为一个特殊的数组, 其中每个元素都是一个字符型的变量.
+在C语言中, 使用字符数组存放字符串. 标准C++库中定义了string类, 并为其提供了必要的抽象来支持字符串的一些基本操作.">
 <meta property="og:type" content="article">
-<meta property="og:title" content="拷贝构造函数">
-<meta property="og:url" content="http://www.devzhang.cn/2016/11/15/拷贝构造函数/index.html">
+<meta property="og:title" content="C++之字符串">
+<meta property="og:url" content="http://www.devzhang.cn/2016/12/04/C++之字符串/index.html">
 <meta property="og:site_name" content="做点有意思的事情">
-<meta property="og:description" content="拷贝构造函数是一种特殊的构造函数, 其形参必须是本来对象的一个引用，但并不限制为const，一般普遍的会加上const限制. 使用拷贝构造函数的目的是一个已经存在的对象来初始化同类的一个新对象. 
-声明拷贝构造函数的语法规则如下:
-类名(类名 &amp;amp;对象名)
-通常构造函数只在对象创建时被调用, 而拷贝构造函数在以下情况下会被调用:
-
-当使用类的一个对象去初始化该类的一个新对象时.
-如果一个函数">
-<meta property="og:updated_time" content="2016-11-15T15:35:21.000Z">
+<meta property="og:description" content="字符串是n(&amp;gt;=0)个字符的有限序列, 是一种典型的线性数据结构. 这些字符在内存中按顺序逐个存放, 并以结束符”\0“结尾. 字符串可以视为一个特殊的数组, 其中每个元素都是一个字符型的变量.
+在C语言中, 使用字符数组存放字符串. 标准C++库中定义了string类, 并为其提供了必要的抽象来支持字符串的一些基本操作.">
+<meta property="og:updated_time" content="2016-12-04T15:03:57.331Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="拷贝构造函数">
-<meta name="twitter:description" content="拷贝构造函数是一种特殊的构造函数, 其形参必须是本来对象的一个引用，但并不限制为const，一般普遍的会加上const限制. 使用拷贝构造函数的目的是一个已经存在的对象来初始化同类的一个新对象. 
-声明拷贝构造函数的语法规则如下:
-类名(类名 &amp;amp;对象名)
-通常构造函数只在对象创建时被调用, 而拷贝构造函数在以下情况下会被调用:
-
-当使用类的一个对象去初始化该类的一个新对象时.
-如果一个函数">
+<meta name="twitter:title" content="C++之字符串">
+<meta name="twitter:description" content="字符串是n(&amp;gt;=0)个字符的有限序列, 是一种典型的线性数据结构. 这些字符在内存中按顺序逐个存放, 并以结束符”\0“结尾. 字符串可以视为一个特殊的数组, 其中每个元素都是一个字符型的变量.
+在C语言中, 使用字符数组存放字符串. 标准C++库中定义了string类, 并为其提供了必要的抽象来支持字符串的一些基本操作.">
   
   
     <link rel="icon" href="/img/head.jpg">
@@ -206,11 +191,11 @@
         </header>                
     </div>
 </nav>
-      <div class="body-wrap"><article id="post-拷贝构造函数" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-C++之字符串" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016/11/15/拷贝构造函数/" class="article-date">
-      <time datetime="2016-11-15T13:32:29.000Z" itemprop="datePublished">2016-11-15</time>
+      <a href="/2016/12/04/C++之字符串/" class="article-date">
+      <time datetime="2016-12-04T14:23:45.000Z" itemprop="datePublished">2016-12-04</time>
 </a>
     </div>
   
@@ -223,7 +208,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      拷贝构造函数
+      C++之字符串
     </h1>
   
 
@@ -248,80 +233,71 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>拷贝构造函数是一种特殊的构造函数, 其形参必须是本来对象的一个引用，但并不限制为const，一般普遍的会加上const限制. 使用拷贝构造函数的目的是一个已经存在的对象来初始化同类的一个新对象. </p>
-<p>声明拷贝构造函数的语法规则如下:</p>
-<pre><code>类名(类名 &amp;对象名)
-</code></pre><p>通常构造函数只在对象创建时被调用, 而拷贝构造函数在以下情况下会被调用:</p>
-<ul>
-<li>当使用类的一个对象去初始化该类的一个新对象时.</li>
-<li>如果一个函数的形参是类的对象, 那么当调用该函数时对应类的拷贝构造函数也会被调用.</li>
-<li>如果函数的返回值是类的对象, 那么该函数返回时对应类的拷贝构造函数也会被调用.(但一般编译器会进行返回值优化, 减少临时对象带来的开销,参考<a href="http://blog.csdn.net/sxhelijian/article/details/50977946" target="_blank" rel="external"> C++返回值为对象时复制构造函数不执行怎么破</a>)</li>
-</ul>
+        <p>字符串是n(&gt;=0)个字符的有限序列, 是一种典型的线性数据结构. 这些字符在内存中按顺序逐个存放, 并以结束符”<code>\0</code>“结尾. 字符串可以视为一个特殊的数组, 其中每个元素都是一个字符型的变量.</p>
+<p>在C语言中, 使用字符数组存放字符串. 标准C++库中定义了string类, 并为其提供了必要的抽象来支持字符串的一些基本操作. </p>
 <a id="more"></a>
-<p>示例代码如下:</p>
-<pre><code>#include &lt;iostream&gt;
+<p>下面是一个示例程序, 首先接受一个含有3个空格的字符串作为输入, 然后将字符串按空格进行拆分, 得到四个独立的子串. 然后重新进行拼接, 最后用拼接后的新串判断与原字符串进行比较.</p>
+<pre><code>//
+//  main.cpp
+//  字符串
+//
+//  Created by Scarecrow on 16/12/4.
+//  Copyright © 2016年 XB. All rights reserved.
+//
+
+#include &lt;iostream&gt;
+#include &lt;string&gt;
 using namespace std;
-
-class Time
-{
-    int hour, minute, second;
-public:
-    Time():hour(0),minute(0),second(0){};
-    Time(Time const &amp;t);
-    ~Time();
-    void getTime();
-    void setTime(int h, int m, int s);
-};
-
-Time::Time(Time const &amp;t)
-{
-    hour = t.hour;
-    minute = t.minute;
-    second = t.second;
-    cout &lt;&lt; &quot;拷贝构造函数被调用!!!&quot; &lt;&lt; endl;
-}
-
-
-void Time::getTime()
-{
-    cout &lt;&lt; &quot;Time is &quot; &lt;&lt; hour &lt;&lt; &quot;:&quot; &lt;&lt; minute &lt;&lt; &quot;:&quot; &lt;&lt; second &lt;&lt; endl;
-}
-
-void Time::setTime(int h, int m, int s)
-{
-    if (m &lt; 0 || m &gt; 59 || s &lt; 0 || s &gt; 59 || h &lt; 0 || h &gt; 23) {
-        cout &lt;&lt; &quot;set time error&quot; &lt;&lt; endl;
-        return;
-    }
-    hour = h;
-    minute = m;
-    second = s;
-}
-
-Time::~Time(){
-    cout &lt;&lt; &quot;销毁&quot; &lt;&lt; endl;
-}
-
-void fun0(Time t){}
-Time fun1(){
-    Time t;
-    return t;
-}
-
 int main(int argc, const char * argv[]) {
-    Time t0;
-    t0.setTime(12, 12, 12);
-    Time t1 = t0;
-    t1.getTime();
-    fun0(t0);
-    Time t2 = fun1();
-    t2.getTime();
+    // insert code here...
+
+    string str = &quot;中国 北京 五星红旗 义勇军进行曲&quot;;
+    string str_temp = &quot;&quot;;
+
+    //将str的值赋给str_temp
+    str_temp.assign(str);
+
+    string result[4] = {&quot;&quot;};
+    int position = 0;
+    for (int i = 0; i &lt; 3; i++) {
+        //找到空格的索引
+        position = (int)str_temp.find(&quot; &quot;);
+
+        //截取0到position位置的子串赋值给result[i]
+        result[i] = str_temp.substr(0 ,position);
+
+        //更新str_temp的值, 删除从0到第一个空格索引的子串
+        str_temp = str_temp.substr(position + 1,str_temp.length() - position);
+
+    }
+    //for循环结束后,str_temp为空格后最后一个子串
+    result[3] = str_temp;
+
+    cout&lt;&lt;&quot;国家: &quot;&lt;&lt;result[0]&lt;&lt;endl;
+    cout&lt;&lt;&quot;首都: &quot;&lt;&lt;result[1]&lt;&lt;endl;
+    cout&lt;&lt;&quot;国旗: &quot;&lt;&lt;result[2]&lt;&lt;endl;
+    cout&lt;&lt;&quot;国歌: &quot;&lt;&lt;result[3]&lt;&lt;endl;
+
+    //交换str_temp和result[0]的值
+    str_temp.swap(result[0]);
+
+    for(int j = 1; j &lt; 4; j++) {
+        //拼接字符串
+        str_temp+=&quot; &quot;;
+        str_temp.append(result[j]);
+    }
+
+    //比较拼接后的字符串和原字符串是否相同
+    int equal = str.compare(str_temp);
+    if (equal == 0) {
+        cout &lt;&lt; &quot;匹配成功&quot;&lt;&lt; endl;
+    }else{
+        cout &lt;&lt; &quot;匹配失败&quot;&lt;&lt; endl;
+    }
+
     return 0;
 }
-</code></pre><p>当没有自定义拷贝构造函数时,C++会提供一个默认的拷贝构造函数,但是如果类的数据成员中包含指针类型或者静态成员变量时, 不推荐使用默认的拷贝构造函数. 因为默认的拷贝构造函数只能实现<code>浅拷贝</code>, 会带来数据安全方面的隐患.</p>
-<p>一个类中可以存在多个拷贝构造函数, 但是,一旦一个类中只存在一个参数为 X&amp; 的拷贝构造函数, 那么就不能使用const X 或 volatile X 的对象进行拷贝初始化 (即不能使用Time t2 = fun1()的方式).</p>
-<p>对于一个类X, 如果它的一个构造函数的第一个参数是这四者(X&amp;, const X&amp;, volatile X&amp;或 const volatile X&amp;)之一, 且没有其他参数或其他参数都有默认值, 那么这个就是拷贝构造函数. </p>
-
+</code></pre>
       
     </div>
     
@@ -329,13 +305,13 @@ int main(int argc, const char * argv[]) {
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2016/11/15/拷贝构造函数/">拷贝构造函数</a></p>
+        <p><span>本文标题:</span><a href="/2016/12/04/C++之字符串/">C++之字符串</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 Miu 的个人博客">Miu</a></p>
-        <p><span>发布时间:</span>2016年11月15日 - 21时32分</p>
-        <p><span>最后更新:</span>2016年11月15日 - 23时35分</p>
+        <p><span>发布时间:</span>2016年12月04日 - 22时23分</p>
+        <p><span>最后更新:</span>2016年12月04日 - 23时03分</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2016/11/15/拷贝构造函数/" title="拷贝构造函数">http://www.devzhang.cn/2016/11/15/拷贝构造函数/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://www.devzhang.cn/2016/11/15/拷贝构造函数/　　作者: Miu" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2016/12/04/C++之字符串/" title="C++之字符串">http://www.devzhang.cn/2016/12/04/C++之字符串/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://www.devzhang.cn/2016/12/04/C++之字符串/　　作者: Miu" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script src="/js/clipboard.min.js"></script>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
@@ -348,18 +324,9 @@ int main(int argc, const char * argv[]) {
 
 <nav id="article-nav">
   
-    <a href="/2016/11/16/C++之常量/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption"><</strong>
-      <div class="article-nav-title">
-        
-          C++之常量
-        
-      </div>
-    </a>
   
-  
-    <a href="/2016/11/14/友元/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">友元</div>
+    <a href="/2016/11/30/C++之大整数乘法问题/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">C++之大整数乘法问题</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -418,7 +385,7 @@ int main(int argc, const char * argv[]) {
     
       <div class="duoshuo" id="comments">
     <!-- 多说评论框 start -->
-    <div class="ds-thread" data-thread-key="2016/11/15/拷贝构造函数/" data-title="拷贝构造函数" data-url="http://www.devzhang.cn/2016/11/15/拷贝构造函数/"></div>
+    <div class="ds-thread" data-thread-key="2016/12/04/C++之字符串/" data-title="C++之字符串" data-url="http://www.devzhang.cn/2016/12/04/C++之字符串/"></div>
     <!-- 多说评论框 end -->
     <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
     <script type="text/javascript">
@@ -441,18 +408,16 @@ int main(int argc, const char * argv[]) {
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2016/11/16/C++之常量/" title="上一篇: C++之常量">
-                <i class="fa fa-angle-left"></i>
-            </a>
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
         
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
         
-            <a href="/2016/11/14/友元/" title="下一篇: 友元">
+            <a href="/2016/11/30/C++之大整数乘法问题/" title="下一篇: C++之大整数乘法问题">
                 <i class="fa fa-angle-right"></i>
             </a>
         
     </div>
-    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2016/11/30/C++之大整数乘法问题/">C++之大整数乘法问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/29/C++之荷兰国旗问题/">C++之荷兰国旗问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/23/C++之数组/">C++之数组</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/22/C++之指针/">C++之指针</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/21/Objective-C内存管理之Autorelease/">Objective-C内存管理之Autorelease</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/21/C++之模板/">C++之模板</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/20/C++之多态/">C++之多态</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/20/C++之继承/">C++之继承</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/20/C++之异常处理/">C++之异常处理</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/18/C++之运算符重载/">C++之运算符重载</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/17/Objective-C内存管理之引用计数/">Objective-C内存管理之引用计数</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/17/C++之函数重载/">C++之函数重载</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/16/C++之常量/">C++之常量</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/15/拷贝构造函数/">拷贝构造函数</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/14/友元/">友元</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/09/对象的动态创建和销毁/">对象的动态创建和销毁</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/08/类的构造函数和析构函数/">类的构造函数和析构函数</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/07/访问控制/">访问控制</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/06/命名空间/">命名空间(namespace)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/02/预处理/">预处理</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/01/C++中文件的输入和输出/">C++中文件的输入和输出</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/09/标准输入输出流和标准错误流介绍/">标准输入输出流和标准错误流介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/20/时间和媒体的表示/">时间和媒体的表示</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/20/Asset的重编码及导出/">Asset的重编码及导出</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/18/静态图片和视频捕捉/">静态图片和视频捕捉</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/09/编辑Assets/">编辑Assets</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/06/播放Assets/">播放Assets</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/31/使用Assets/">使用Assets</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/31/AVFoundation简介/">AVFoundation简介</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/30/视频直播专业名词解答/">视频直播专业名词解答</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/10/绘制音频波形图/">绘制音频波形图</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/05/高帧率视频捕捉/">高帧率视频捕捉</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/03/条码扫描/">条码扫描</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/29/人脸检测/">人脸检测</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/28/视频缩放/">视频缩放</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/22/调整闪光灯和手电筒模式/">调整闪光灯和手电筒模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/19/对焦和曝光功能的实现/">对焦和曝光功能的实现</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/18/切换摄像头/">切换摄像头</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/18/捕获视频/">捕获视频</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/15/捕捉静态图片/">捕获静态图片</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/13/使用AVCaptureSession采集视频/">使用AVCaptureSession采集视频</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/11/仿系统视频录制按钮的实现/">仿系统视频录制按钮的实现</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/08/仿系统相机模式标签切换的实现/">仿系统相机模式标签切换的实现</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/25/使用AVAudioRecorder录制音频/">使用AVAudioRecorder录制音频</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/20/AVAudioPlayer中断处理/">AVAudioPlayer中断处理</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/17/MVP登录示例/">MVP登录示例</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/17/MVC登录示例/">MVC登录示例</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/12/iOS基于MVC的项目重构总结/">iOS基于MVC的项目重构总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/02/使用AVAudioPlayer播放音频/">使用AVAudioPlayer播放音频</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/31/音频会话(Audio Session)/">音频会话(Audio Session)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/30/AVSpeechSynthesizer：文本到语音/">AVSpeechSynthesizer:文本到语音</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/28/AVFoundation入门/">AVFoundation入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/23/iOS中MVC的几个误区/">iOS中MVC的几个误区</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/15/接口安全认证/">接口安全认证</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/14/使用Moco进行http接口模拟/">使用Moco进行http接口模拟</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/05/14/phonegap|iOS|推送/">phonegap|iOS|推送</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/05/06/phoneGap在iOS上给JS传值方法/">phoneGap在iOS上给JS传值方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/04/24/phoneGap在iOS上自定义实现友盟分享插件/">phoneGap在iOS上自定义实现友盟分享插件</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/04/23/phoneGap在iOS上弹出对话框和调用相机/">phoneGap在iOS上弹出对话框和调用相机</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/03/26/菜鸟学排序：折半插入排序/">菜鸟学排序：折半插入排序</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/03/26/菜鸟学排序：直接插入排序/">菜鸟学排序：直接插入排序</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/03/25/菜鸟学排序：冒泡排序/">菜鸟学排序：冒泡排序</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/03/25/菜鸟学排序：快速排序/">菜鸟学排序：快速排序</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/03/24/菜鸟学排序：简单选择排序/">菜鸟学排序：简单选择排序</a></li></ul>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2016/12/04/C++之字符串/">C++之字符串</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/30/C++之大整数乘法问题/">C++之大整数乘法问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/29/C++之荷兰国旗问题/">C++之荷兰国旗问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/23/C++之数组/">C++之数组</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/22/C++之指针/">C++之指针</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/21/Objective-C内存管理之Autorelease/">Objective-C内存管理之Autorelease</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/21/C++之模板/">C++之模板</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/20/C++之多态/">C++之多态</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/20/C++之继承/">C++之继承</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/20/C++之异常处理/">C++之异常处理</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/18/C++之运算符重载/">C++之运算符重载</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/17/Objective-C内存管理之引用计数/">Objective-C内存管理之引用计数</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/17/C++之函数重载/">C++之函数重载</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/16/C++之常量/">C++之常量</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/15/C++之拷贝构造函数/">C++之拷贝构造函数</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/14/C++之友元/">C++之友元</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/09/C++之对象的动态创建和销毁/">C++之对象的动态创建和销毁</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/08/C++之类的构造函数和析构函数/">C++之类的构造函数和析构函数</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/07/C++之访问控制/">C++之访问控制</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/06/C++之命名空间/">C++之命名空间(namespace)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/02/C++之预处理/">C++之预处理</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/01/C++中文件的输入和输出/">C++中文件的输入和输出</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/09/标准输入输出流和标准错误流介绍/">标准输入输出流和标准错误流介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/20/时间和媒体的表示/">时间和媒体的表示</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/20/Asset的重编码及导出/">Asset的重编码及导出</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/18/静态图片和视频捕捉/">静态图片和视频捕捉</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/09/编辑Assets/">编辑Assets</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/06/播放Assets/">播放Assets</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/31/使用Assets/">使用Assets</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/31/AVFoundation简介/">AVFoundation简介</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/30/视频直播专业名词解答/">视频直播专业名词解答</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/10/绘制音频波形图/">绘制音频波形图</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/05/高帧率视频捕捉/">高帧率视频捕捉</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/03/条码扫描/">条码扫描</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/29/人脸检测/">人脸检测</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/28/视频缩放/">视频缩放</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/22/调整闪光灯和手电筒模式/">调整闪光灯和手电筒模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/19/对焦和曝光功能的实现/">对焦和曝光功能的实现</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/18/切换摄像头/">切换摄像头</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/18/捕获视频/">捕获视频</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/15/捕捉静态图片/">捕获静态图片</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/13/使用AVCaptureSession采集视频/">使用AVCaptureSession采集视频</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/11/仿系统视频录制按钮的实现/">仿系统视频录制按钮的实现</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/08/仿系统相机模式标签切换的实现/">仿系统相机模式标签切换的实现</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/25/使用AVAudioRecorder录制音频/">使用AVAudioRecorder录制音频</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/20/AVAudioPlayer中断处理/">AVAudioPlayer中断处理</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/17/MVC登录示例/">MVC登录示例</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/17/MVP登录示例/">MVP登录示例</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/12/iOS基于MVC的项目重构总结/">iOS基于MVC的项目重构总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/02/使用AVAudioPlayer播放音频/">使用AVAudioPlayer播放音频</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/31/音频会话(Audio Session)/">音频会话(Audio Session)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/30/AVSpeechSynthesizer：文本到语音/">AVSpeechSynthesizer:文本到语音</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/28/AVFoundation入门/">AVFoundation入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/23/iOS中MVC的几个误区/">iOS中MVC的几个误区</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/15/接口安全认证/">接口安全认证</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/14/使用Moco进行http接口模拟/">使用Moco进行http接口模拟</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/05/14/phonegap|iOS|推送/">phonegap|iOS|推送</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/05/06/phoneGap在iOS上给JS传值方法/">phoneGap在iOS上给JS传值方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/04/24/phoneGap在iOS上自定义实现友盟分享插件/">phoneGap在iOS上自定义实现友盟分享插件</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/04/23/phoneGap在iOS上弹出对话框和调用相机/">phoneGap在iOS上弹出对话框和调用相机</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/03/26/菜鸟学排序：折半插入排序/">菜鸟学排序：折半插入排序</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/03/26/菜鸟学排序：直接插入排序/">菜鸟学排序：直接插入排序</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/03/25/菜鸟学排序：冒泡排序/">菜鸟学排序：冒泡排序</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/03/25/菜鸟学排序：快速排序/">菜鸟学排序：快速排序</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/03/24/菜鸟学排序：简单选择排序/">菜鸟学排序：简单选择排序</a></li></ul>
     <script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
     <script>
         $(".post-list").addClass("toc-article");
