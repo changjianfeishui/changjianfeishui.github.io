@@ -5,16 +5,16 @@
   
   <title>字符串匹配之BF算法 | 做点有意思的事情</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="BF(BRUTE FORCE)算法是模式匹配中最简单最直观的算法, 其基本思想是从主串T(t0,t1,t2,t3…t(n-1))中的第start个自字符起和模式P的第一个字符进行比较, 如果相等, 则继续比较后续字符; 如果不相等, 则回溯至主串中的第start+1个字符位置继续和模式P进行比较. 以此类推, 直到模式P中每个字符都和主串T中的一个连续字符序列完全相同, 则匹配成功, 否则,匹配失">
+  <meta name="description" content="BF(Brute Force)算法是模式匹配中最简单最直观的算法, 其基本思想是从主串T(t0,t1,t2,t3…t(n-1))中的第start个自字符起和模式P的第一个字符进行比较, 如果相等, 则继续比较后续字符; 如果不相等, 则回溯至主串中的第start+1个字符位置继续和模式P进行比较. 以此类推, 直到模式P中每个字符都和主串T中的一个连续字符序列完全相同, 则匹配成功, 否则,匹配失">
 <meta property="og:type" content="article">
 <meta property="og:title" content="字符串匹配之BF算法">
 <meta property="og:url" content="http://www.devzhang.cn/2016/12/07/字符串匹配之BF算法/index.html">
 <meta property="og:site_name" content="做点有意思的事情">
-<meta property="og:description" content="BF(BRUTE FORCE)算法是模式匹配中最简单最直观的算法, 其基本思想是从主串T(t0,t1,t2,t3…t(n-1))中的第start个自字符起和模式P的第一个字符进行比较, 如果相等, 则继续比较后续字符; 如果不相等, 则回溯至主串中的第start+1个字符位置继续和模式P进行比较. 以此类推, 直到模式P中每个字符都和主串T中的一个连续字符序列完全相同, 则匹配成功, 否则,匹配失">
-<meta property="og:updated_time" content="2016-12-07T15:32:03.725Z">
+<meta property="og:description" content="BF(Brute Force)算法是模式匹配中最简单最直观的算法, 其基本思想是从主串T(t0,t1,t2,t3…t(n-1))中的第start个自字符起和模式P的第一个字符进行比较, 如果相等, 则继续比较后续字符; 如果不相等, 则回溯至主串中的第start+1个字符位置继续和模式P进行比较. 以此类推, 直到模式P中每个字符都和主串T中的一个连续字符序列完全相同, 则匹配成功, 否则,匹配失">
+<meta property="og:updated_time" content="2016-12-07T15:33:37.365Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="字符串匹配之BF算法">
-<meta name="twitter:description" content="BF(BRUTE FORCE)算法是模式匹配中最简单最直观的算法, 其基本思想是从主串T(t0,t1,t2,t3…t(n-1))中的第start个自字符起和模式P的第一个字符进行比较, 如果相等, 则继续比较后续字符; 如果不相等, 则回溯至主串中的第start+1个字符位置继续和模式P进行比较. 以此类推, 直到模式P中每个字符都和主串T中的一个连续字符序列完全相同, 则匹配成功, 否则,匹配失">
+<meta name="twitter:description" content="BF(Brute Force)算法是模式匹配中最简单最直观的算法, 其基本思想是从主串T(t0,t1,t2,t3…t(n-1))中的第start个自字符起和模式P的第一个字符进行比较, 如果相等, 则继续比较后续字符; 如果不相等, 则回溯至主串中的第start+1个字符位置继续和模式P进行比较. 以此类推, 直到模式P中每个字符都和主串T中的一个连续字符序列完全相同, 则匹配成功, 否则,匹配失">
   
   
     <link rel="icon" href="/img/head.jpg">
@@ -230,7 +230,7 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>BF(BRUTE FORCE)算法是模式匹配中最简单最直观的算法, 其基本思想是从主串T(t0,t1,t2,t3…t(n-1))中的第start个自字符起和模式P的第一个字符进行比较, 如果相等, 则继续比较后续字符; 如果不相等, 则回溯至主串中的第start+1个字符位置继续和模式P进行比较. 以此类推, 直到模式P中每个字符都和主串T中的一个连续字符序列完全相同, 则匹配成功, 否则,匹配失败.</p>
+        <p>BF(Brute Force)算法是模式匹配中最简单最直观的算法, 其基本思想是从主串T(t0,t1,t2,t3…t(n-1))中的第start个自字符起和模式P的第一个字符进行比较, 如果相等, 则继续比较后续字符; 如果不相等, 则回溯至主串中的第start+1个字符位置继续和模式P进行比较. 以此类推, 直到模式P中每个字符都和主串T中的一个连续字符序列完全相同, 则匹配成功, 否则,匹配失败.</p>
 <p>BF算法是一种蛮力算法, 其特点是简单直观, 但由于涉及到多次回溯, 算法效率很低. 不适用于信息量较大的情况.</p>
 <a id="more"></a>
 <p>下面给出BF的一个实现如下:</p>
@@ -306,7 +306,7 @@ int main(int argc, const char * argv[]) {
         <p><span>本文标题:</span><a href="/2016/12/07/字符串匹配之BF算法/">字符串匹配之BF算法</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 Miu 的个人博客">Miu</a></p>
         <p><span>发布时间:</span>2016年12月07日 - 22时37分</p>
-        <p><span>最后更新:</span>2016年12月07日 - 23时32分</p>
+        <p><span>最后更新:</span>2016年12月07日 - 23时33分</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2016/12/07/字符串匹配之BF算法/" title="字符串匹配之BF算法">http://www.devzhang.cn/2016/12/07/字符串匹配之BF算法/</a>
             <span class="copy-path" data-clipboard-text="原文: http://www.devzhang.cn/2016/12/07/字符串匹配之BF算法/　　作者: Miu" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
