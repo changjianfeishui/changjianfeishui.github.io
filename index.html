@@ -126,7 +126,7 @@
                 
                 <section class="switch-part switch-part2">
                     <div class="widget tagcloud" id="js-tagcloud">
-                        <a href="/tags/AVFoundation/" style="font-size: 18.75px;">AVFoundation</a> <a href="/tags/AVFoundation编程指南/" style="font-size: 16.25px;">AVFoundation编程指南</a> <a href="/tags/Kcamera/" style="font-size: 17.5px;">Kcamera</a> <a href="/tags/MVC/" style="font-size: 12.5px;">MVC</a> <a href="/tags/MVP/" style="font-size: 10px;">MVP</a> <a href="/tags/Moco/" style="font-size: 10px;">Moco</a> <a href="/tags/http/" style="font-size: 11.25px;">http</a> <a href="/tags/phoneGap/" style="font-size: 13.75px;">phoneGap</a> <a href="/tags/内存管理/" style="font-size: 11.25px;">内存管理</a> <a href="/tags/加密/" style="font-size: 10px;">加密</a> <a href="/tags/学习笔记/" style="font-size: 20px;">学习笔记</a> <a href="/tags/排序/" style="font-size: 15px;">排序</a> <a href="/tags/数组/" style="font-size: 10px;">数组</a> <a href="/tags/架构/" style="font-size: 13.75px;">架构</a> <a href="/tags/翻译/" style="font-size: 16.25px;">翻译</a> <a href="/tags/视频直播/" style="font-size: 10px;">视频直播</a>
+                        <a href="/tags/AVFoundation/" style="font-size: 18.75px;">AVFoundation</a> <a href="/tags/AVFoundation编程指南/" style="font-size: 16.25px;">AVFoundation编程指南</a> <a href="/tags/Kcamera/" style="font-size: 17.5px;">Kcamera</a> <a href="/tags/MVC/" style="font-size: 12.5px;">MVC</a> <a href="/tags/MVP/" style="font-size: 10px;">MVP</a> <a href="/tags/Moco/" style="font-size: 10px;">Moco</a> <a href="/tags/http/" style="font-size: 11.25px;">http</a> <a href="/tags/phoneGap/" style="font-size: 13.75px;">phoneGap</a> <a href="/tags/内存管理/" style="font-size: 11.25px;">内存管理</a> <a href="/tags/加密/" style="font-size: 10px;">加密</a> <a href="/tags/字符串匹配/" style="font-size: 10px;">字符串匹配</a> <a href="/tags/学习笔记/" style="font-size: 20px;">学习笔记</a> <a href="/tags/排序/" style="font-size: 15px;">排序</a> <a href="/tags/数组/" style="font-size: 10px;">数组</a> <a href="/tags/架构/" style="font-size: 13.75px;">架构</a> <a href="/tags/翻译/" style="font-size: 16.25px;">翻译</a> <a href="/tags/视频直播/" style="font-size: 10px;">视频直播</a>
                     </div>
                 </section>
                 
@@ -191,6 +191,131 @@
     </div>
 </nav>
       <div class="body-wrap">
+  
+    <article id="post-字符串匹配之BF算法" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/12/07/字符串匹配之BF算法/" class="article-date">
+      <time datetime="2016-12-07T14:37:16.000Z" itemprop="datePublished">2016-12-07</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/07/字符串匹配之BF算法/">字符串匹配之BF算法</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>BF(BRUTE FORCE)算法是模式匹配中最简单最直观的算法, 其基本思想是从主串T(t0,t1,t2,t3…t(n-1))中的第start个自字符起和模式P的第一个字符进行比较, 如果相等, 则继续比较后续字符; 如果不相等, 则回溯至主串中的第start+1个字符位置继续和模式P进行比较. 以此类推, 直到模式P中每个字符都和主串T中的一个连续字符序列完全相同, 则匹配成功, 否则,匹配失败.</p>
+<p>BF算法是一种蛮力算法, 其特点是简单直观, 但由于涉及到多次回溯, 算法效率很低. 不适用于信息量较大的情况.</p>
+<p>下面给出BF的一个实现如下:</p>
+<pre><code>//
+//  main.cpp
+//  BF
+//
+//  Created by Scarecrow on 16/12/7.
+//  Copyright © 2016年 XB. All rights reserved.
+//
+
+#include &lt;iostream&gt;
+using namespace std;
+
+#define NO_MATCH -1
+#define LEN_ERROR -2
+
+/**
+ 字符串模式匹配之BF算法
+
+ @param t 主串
+ @param p 模式(子串)
+ @param start 起始匹配索引(t)
+ @return 匹配结果
+ */
+int bruteForce(char const t[], char const p[], int const start)
+{
+    size_t len_t = strlen(t);
+    size_t len_p = strlen(p);
+
+    //如果要匹配的子串长度大于主串长度
+    if (len_t &lt; len_p) {
+        return LEN_ERROR;
+    }
+
+    int index_t = start;
+    int index_p = 0;
+    while (index_p &lt; len_p &amp;&amp; index_t &lt; len_t) {
+        if (t[index_t] == p[index_p]) {
+            ++index_p;
+            ++index_t;
+        }else{
+            index_t = index_t - index_p + 1;
+            index_p = 0;
+        }
+    }
+
+    if (index_p &gt;= len_p) {
+        return index_t - index_p;
+    }
+
+    return NO_MATCH;
+}
+
+
+int main(int argc, const char * argv[]) {
+
+    char p[] = &quot;fe&quot;;
+    char t[] = &quot;feherrrfe&quot;;
+    int start = 3;
+    int index = bruteForce(t, p, start);
+    cout &lt;&lt; index &lt;&lt; endl;
+    return 0;
+}
+</code></pre>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/Algorithm/">数据结构和算法</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/字符串匹配/">字符串匹配</a></li></ul>
+    </div>
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
   
     <article id="post-C++之字符串" class="article article-type-post" itemscope itemprop="blogPost">
   
@@ -785,73 +910,6 @@
       
         <p class="article-more-link">
           <a  href="/2016/11/20/C++之继承/#more">查看全文 >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-C++之异常处理" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/11/20/C++之异常处理/" class="article-date">
-      <time datetime="2016-11-20T03:42:03.000Z" itemprop="datePublished">2016-11-20</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/11/20/C++之异常处理/">C++之异常处理</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-              <p>C++提供了异常处理机制来应对运行过程中可能发生的异常情况. 特别地, C++的异常处理机制被称为是不可恢复的, 这意味着一旦宜昌被处理, 程序的执行就不能在异常被抛出的地方继续.</p>
-<p>C++的异常处理主要使用以下几个关键词: <code>try</code>, <code>catch</code>, <code>throw</code>. 包含在一个try块中的代码将可能触发一个异常, 其后紧跟一个或多个catch块, 当异常在try中触发时, 程序的执行点将转移到相应的catch块中. catch块负责处理异常.</p>
-          
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/Cpp/">C++</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/学习笔记/">学习笔记</a></li></ul>
-    </div>
-
-      
-        <p class="article-more-link">
-          <a  href="/2016/11/20/C++之异常处理/#more">查看全文 >></a>
         </p>
       
       <div class="clearfix"></div>

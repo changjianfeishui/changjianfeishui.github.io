@@ -3,21 +3,18 @@
 <head>
   <meta charset="utf-8">
   
-  <title>C++之常量 | 做点有意思的事情</title>
+  <title>字符串匹配之BF算法 | 做点有意思的事情</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="在C++中, 常量使用关键字const标识, 常量保证了程序的安全性和可控性. const提供了严格的类型检查, 因此相遇于宏替换而言const更加安全.
-可以用一句话概括当const和指针同时出现时的语义规则, 即如果const位于*的左侧, 则const修饰的就是指针所指向的变量, 即指针所指向的是一个常量; 反之, 如果const位于*的右侧,那么const修饰的就是指针本身, 即指针本身是">
+  <meta name="description" content="BF(BRUTE FORCE)算法是模式匹配中最简单最直观的算法, 其基本思想是从主串T(t0,t1,t2,t3…t(n-1))中的第start个自字符起和模式P的第一个字符进行比较, 如果相等, 则继续比较后续字符; 如果不相等, 则回溯至主串中的第start+1个字符位置继续和模式P进行比较. 以此类推, 直到模式P中每个字符都和主串T中的一个连续字符序列完全相同, 则匹配成功, 否则,匹配失">
 <meta property="og:type" content="article">
-<meta property="og:title" content="C++之常量">
-<meta property="og:url" content="http://www.devzhang.cn/2016/11/16/C++之常量/index.html">
+<meta property="og:title" content="字符串匹配之BF算法">
+<meta property="og:url" content="http://www.devzhang.cn/2016/12/07/字符串匹配之BF算法/index.html">
 <meta property="og:site_name" content="做点有意思的事情">
-<meta property="og:description" content="在C++中, 常量使用关键字const标识, 常量保证了程序的安全性和可控性. const提供了严格的类型检查, 因此相遇于宏替换而言const更加安全.
-可以用一句话概括当const和指针同时出现时的语义规则, 即如果const位于*的左侧, 则const修饰的就是指针所指向的变量, 即指针所指向的是一个常量; 反之, 如果const位于*的右侧,那么const修饰的就是指针本身, 即指针本身是">
-<meta property="og:updated_time" content="2016-11-16T14:31:31.000Z">
+<meta property="og:description" content="BF(BRUTE FORCE)算法是模式匹配中最简单最直观的算法, 其基本思想是从主串T(t0,t1,t2,t3…t(n-1))中的第start个自字符起和模式P的第一个字符进行比较, 如果相等, 则继续比较后续字符; 如果不相等, 则回溯至主串中的第start+1个字符位置继续和模式P进行比较. 以此类推, 直到模式P中每个字符都和主串T中的一个连续字符序列完全相同, 则匹配成功, 否则,匹配失">
+<meta property="og:updated_time" content="2016-12-07T15:30:12.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="C++之常量">
-<meta name="twitter:description" content="在C++中, 常量使用关键字const标识, 常量保证了程序的安全性和可控性. const提供了严格的类型检查, 因此相遇于宏替换而言const更加安全.
-可以用一句话概括当const和指针同时出现时的语义规则, 即如果const位于*的左侧, 则const修饰的就是指针所指向的变量, 即指针所指向的是一个常量; 反之, 如果const位于*的右侧,那么const修饰的就是指针本身, 即指针本身是">
+<meta name="twitter:title" content="字符串匹配之BF算法">
+<meta name="twitter:description" content="BF(BRUTE FORCE)算法是模式匹配中最简单最直观的算法, 其基本思想是从主串T(t0,t1,t2,t3…t(n-1))中的第start个自字符起和模式P的第一个字符进行比较, 如果相等, 则继续比较后续字符; 如果不相等, 则回溯至主串中的第start+1个字符位置继续和模式P进行比较. 以此类推, 直到模式P中每个字符都和主串T中的一个连续字符序列完全相同, 则匹配成功, 否则,匹配失">
   
   
     <link rel="icon" href="/img/head.jpg">
@@ -191,11 +188,11 @@
         </header>                
     </div>
 </nav>
-      <div class="body-wrap"><article id="post-C++之常量" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-字符串匹配之BF算法" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016/11/16/C++之常量/" class="article-date">
-      <time datetime="2016-11-16T13:30:39.000Z" itemprop="datePublished">2016-11-16</time>
+      <a href="/2016/12/07/字符串匹配之BF算法/" class="article-date">
+      <time datetime="2016-12-07T14:37:16.000Z" itemprop="datePublished">2016-12-07</time>
 </a>
     </div>
   
@@ -208,7 +205,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      C++之常量
+      字符串匹配之BF算法
     </h1>
   
 
@@ -217,13 +214,13 @@
       <div class="article-info article-info-post">
         
     <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/Cpp/">C++</a>
+    <a class="article-category-link" href="/categories/Algorithm/">数据结构和算法</a>
     </div>
 
 
         
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/学习笔记/">学习笔记</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/字符串匹配/">字符串匹配</a></li></ul>
     </div>
 
         <div class="clearfix"></div>
@@ -233,26 +230,70 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>在C++中, 常量使用关键字<code>const</code>标识, 常量保证了程序的安全性和可控性. const提供了严格的类型检查, 因此相遇于宏替换而言const更加安全.</p>
-<p>可以用一句话概括当const和指针同时出现时的语义规则, 即如果const位于<code>*</code>的左侧, 则const修饰的就是指针所指向的变量, 即指针所指向的是一个常量; 反之, 如果const位于<code>*</code>的右侧,那么const修饰的就是指针本身, 即指针本身是常量.     </p>
-<a id="more"></a>
-<p>下面是const与指针结合时的一些代码示例:</p>
-<pre><code>int num = 500;
-const int* a = &amp;num;            //1
-int const *a = &amp;num;            //2
-int* const a = &amp;num;            //3
-const int* const a = &amp;num;      //4
-</code></pre><p>根据上面的原则, 语句1和语句2的作用是相同的, 都表示指针所指向的内容为常量, 也就是不能使用<code>*a=250</code>之类的语句修改指针指向的值. </p>
-<p>语句3表明指针本身是常量, 而指针所指向的内容不是常量. 这种情况下不能对指针本身进行操作, 例如<code>a--</code>.语句4表明表明指针本身和指针所指向的内容都是常量.</p>
-<p>上文所讨论的内容都是关于使用const来修饰变量的, 在函数声明中const的作用更大. 通常const可以用来修饰函数的返回值或某个参数. 另外, 对于成员函数, const还可以用来修饰整个函数.</p>
-<p>使用const修饰函数参数仅适用于函数参数为指针或引用的情况, 其一般形式如下:</p>
-<pre><code>类型名 func(const Type* parameter)
-或
-类型名 func(const Type&amp; parameter)
-</code></pre><p>使用const修饰函数返回值表明返回值不能被修改, 其一般形式如下:</p>
-<pre><code>const Type func(参数表)    
-</code></pre><p>使用const修饰成员函数表明被修饰的成员函数不能对成员变量进行修改,其一般形式如下:</p>
-<pre><code>void func() const    
+        <p>BF(BRUTE FORCE)算法是模式匹配中最简单最直观的算法, 其基本思想是从主串T(t0,t1,t2,t3…t(n-1))中的第start个自字符起和模式P的第一个字符进行比较, 如果相等, 则继续比较后续字符; 如果不相等, 则回溯至主串中的第start+1个字符位置继续和模式P进行比较. 以此类推, 直到模式P中每个字符都和主串T中的一个连续字符序列完全相同, 则匹配成功, 否则,匹配失败.</p>
+<p>BF算法是一种蛮力算法, 其特点是简单直观, 但由于涉及到多次回溯, 算法效率很低. 不适用于信息量较大的情况.</p>
+<p>下面给出BF的一个实现如下:</p>
+<pre><code>//
+//  main.cpp
+//  BF
+//
+//  Created by Scarecrow on 16/12/7.
+//  Copyright © 2016年 XB. All rights reserved.
+//
+
+#include &lt;iostream&gt;
+using namespace std;
+
+#define NO_MATCH -1
+#define LEN_ERROR -2
+
+/**
+ 字符串模式匹配之BF算法
+
+ @param t 主串
+ @param p 模式(子串)
+ @param start 起始匹配索引(t)
+ @return 匹配结果
+ */
+int bruteForce(char const t[], char const p[], int const start)
+{
+    size_t len_t = strlen(t);
+    size_t len_p = strlen(p);
+
+    //如果要匹配的子串长度大于主串长度
+    if (len_t &lt; len_p) {
+        return LEN_ERROR;
+    }
+
+    int index_t = start;
+    int index_p = 0;
+    while (index_p &lt; len_p &amp;&amp; index_t &lt; len_t) {
+        if (t[index_t] == p[index_p]) {
+            ++index_p;
+            ++index_t;
+        }else{
+            index_t = index_t - index_p + 1;
+            index_p = 0;
+        }
+    }
+
+    if (index_p &gt;= len_p) {
+        return index_t - index_p;
+    }
+
+    return NO_MATCH;
+}
+
+
+int main(int argc, const char * argv[]) {
+
+    char p[] = &quot;fe&quot;;
+    char t[] = &quot;feherrrfe&quot;;
+    int start = 3;
+    int index = bruteForce(t, p, start);
+    cout &lt;&lt; index &lt;&lt; endl;
+    return 0;
+}
 </code></pre>
       
     </div>
@@ -261,13 +302,13 @@ const int* const a = &amp;num;      //4
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2016/11/16/C++之常量/">C++之常量</a></p>
+        <p><span>本文标题:</span><a href="/2016/12/07/字符串匹配之BF算法/">字符串匹配之BF算法</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 Miu 的个人博客">Miu</a></p>
-        <p><span>发布时间:</span>2016年11月16日 - 21时30分</p>
-        <p><span>最后更新:</span>2016年11月16日 - 22时31分</p>
+        <p><span>发布时间:</span>2016年12月07日 - 22时37分</p>
+        <p><span>最后更新:</span>2016年12月07日 - 23时30分</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2016/11/16/C++之常量/" title="C++之常量">http://www.devzhang.cn/2016/11/16/C++之常量/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://www.devzhang.cn/2016/11/16/C++之常量/　　作者: Miu" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2016/12/07/字符串匹配之BF算法/" title="字符串匹配之BF算法">http://www.devzhang.cn/2016/12/07/字符串匹配之BF算法/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://www.devzhang.cn/2016/12/07/字符串匹配之BF算法/　　作者: Miu" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script src="/js/clipboard.min.js"></script>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
@@ -280,18 +321,9 @@ const int* const a = &amp;num;      //4
 
 <nav id="article-nav">
   
-    <a href="/2016/11/17/C++之函数重载/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption"><</strong>
-      <div class="article-nav-title">
-        
-          C++之函数重载
-        
-      </div>
-    </a>
   
-  
-    <a href="/2016/11/15/C++之拷贝构造函数/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">C++之拷贝构造函数</div>
+    <a href="/2016/12/04/C++之字符串/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">C++之字符串</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -350,7 +382,7 @@ const int* const a = &amp;num;      //4
     
       <div class="duoshuo" id="comments">
     <!-- 多说评论框 start -->
-    <div class="ds-thread" data-thread-key="2016/11/16/C++之常量/" data-title="C++之常量" data-url="http://www.devzhang.cn/2016/11/16/C++之常量/"></div>
+    <div class="ds-thread" data-thread-key="2016/12/07/字符串匹配之BF算法/" data-title="字符串匹配之BF算法" data-url="http://www.devzhang.cn/2016/12/07/字符串匹配之BF算法/"></div>
     <!-- 多说评论框 end -->
     <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
     <script type="text/javascript">
@@ -373,13 +405,11 @@ const int* const a = &amp;num;      //4
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2016/11/17/C++之函数重载/" title="上一篇: C++之函数重载">
-                <i class="fa fa-angle-left"></i>
-            </a>
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
         
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
         
-            <a href="/2016/11/15/C++之拷贝构造函数/" title="下一篇: C++之拷贝构造函数">
+            <a href="/2016/12/04/C++之字符串/" title="下一篇: C++之字符串">
                 <i class="fa fa-angle-right"></i>
             </a>
         
