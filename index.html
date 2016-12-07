@@ -219,71 +219,9 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>BF(BRUTE FORCE)算法是模式匹配中最简单最直观的算法, 其基本思想是从主串T(t0,t1,t2,t3…t(n-1))中的第start个自字符起和模式P的第一个字符进行比较, 如果相等, 则继续比较后续字符; 如果不相等, 则回溯至主串中的第start+1个字符位置继续和模式P进行比较. 以此类推, 直到模式P中每个字符都和主串T中的一个连续字符序列完全相同, 则匹配成功, 否则,匹配失败.</p>
+              <p>BF(BRUTE FORCE)算法是模式匹配中最简单最直观的算法, 其基本思想是从主串T(t0,t1,t2,t3…t(n-1))中的第start个自字符起和模式P的第一个字符进行比较, 如果相等, 则继续比较后续字符; 如果不相等, 则回溯至主串中的第start+1个字符位置继续和模式P进行比较. 以此类推, 直到模式P中每个字符都和主串T中的一个连续字符序列完全相同, 则匹配成功, 否则,匹配失败.</p>
 <p>BF算法是一种蛮力算法, 其特点是简单直观, 但由于涉及到多次回溯, 算法效率很低. 不适用于信息量较大的情况.</p>
-<p>下面给出BF的一个实现如下:</p>
-<pre><code>//
-//  main.cpp
-//  BF
-//
-//  Created by Scarecrow on 16/12/7.
-//  Copyright © 2016年 XB. All rights reserved.
-//
-
-#include &lt;iostream&gt;
-using namespace std;
-
-#define NO_MATCH -1
-#define LEN_ERROR -2
-
-/**
- 字符串模式匹配之BF算法
-
- @param t 主串
- @param p 模式(子串)
- @param start 起始匹配索引(t)
- @return 匹配结果
- */
-int bruteForce(char const t[], char const p[], int const start)
-{
-    size_t len_t = strlen(t);
-    size_t len_p = strlen(p);
-
-    //如果要匹配的子串长度大于主串长度
-    if (len_t &lt; len_p) {
-        return LEN_ERROR;
-    }
-
-    int index_t = start;
-    int index_p = 0;
-    while (index_p &lt; len_p &amp;&amp; index_t &lt; len_t) {
-        if (t[index_t] == p[index_p]) {
-            ++index_p;
-            ++index_t;
-        }else{
-            index_t = index_t - index_p + 1;
-            index_p = 0;
-        }
-    }
-
-    if (index_p &gt;= len_p) {
-        return index_t - index_p;
-    }
-
-    return NO_MATCH;
-}
-
-
-int main(int argc, const char * argv[]) {
-
-    char p[] = &quot;fe&quot;;
-    char t[] = &quot;feherrrfe&quot;;
-    int start = 3;
-    int index = bruteForce(t, p, start);
-    cout &lt;&lt; index &lt;&lt; endl;
-    return 0;
-}
-</code></pre>
+          
       
     </div>
     
@@ -300,6 +238,10 @@ int main(int argc, const char * argv[]) {
         <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/字符串匹配/">字符串匹配</a></li></ul>
     </div>
 
+      
+        <p class="article-more-link">
+          <a  href="/2016/12/07/字符串匹配之BF算法/#more">查看全文 >></a>
+        </p>
       
       <div class="clearfix"></div>
     </div>
