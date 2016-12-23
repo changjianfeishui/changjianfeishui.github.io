@@ -3,24 +3,27 @@
 <head>
   <meta charset="utf-8">
   
-  <title>C++之多态 | 做点有意思的事情</title>
+  <title>字符串匹配之Sunday算法 | 做点有意思的事情</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="多态是面向对象程序设计语言的一个重要特点, 是一种将不同的特殊行为和单个泛化记号相关联的能力. 更加直白的表述是同样的语法结构对应不同的具体功能. 从这个角度上来说, 模板和函数重载是一种静态的多态, 而基于虚函数实现的多态则是动态多态. 
-在介绍动态多态前, 需要对虚函数进行介绍. 虚函数就是类的非static的成员函数. 虚函数声明的语法规则如下:
-virtual 类型说明符 函数名(参数表)">
+  <meta name="description" content="Sunday算法是Daniel M.Sunday于1990年提出的字符串模式匹配算法. 其核心是在匹配失败时关注文本主串中参加匹配的最末位字符的下一位字符. 如果该字符没有在匹配串中出现则直接跳过，即移动步长= 匹配串长度+1；否则，同BM算法一样其移动步长=匹配串中最右端的该字符到末尾的距离+1. 
+由于Sunday算法相对于KMP来说实在是太好理解了, 所以直接分两部分给出代码:
+
+移动步长的">
 <meta property="og:type" content="article">
-<meta property="og:title" content="C++之多态">
-<meta property="og:url" content="http://www.devzhang.cn/2016/11/20/C++之多态/index.html">
+<meta property="og:title" content="字符串匹配之Sunday算法">
+<meta property="og:url" content="http://www.devzhang.cn/2016/12/23/字符串匹配之Sunday算法/index.html">
 <meta property="og:site_name" content="做点有意思的事情">
-<meta property="og:description" content="多态是面向对象程序设计语言的一个重要特点, 是一种将不同的特殊行为和单个泛化记号相关联的能力. 更加直白的表述是同样的语法结构对应不同的具体功能. 从这个角度上来说, 模板和函数重载是一种静态的多态, 而基于虚函数实现的多态则是动态多态. 
-在介绍动态多态前, 需要对虚函数进行介绍. 虚函数就是类的非static的成员函数. 虚函数声明的语法规则如下:
-virtual 类型说明符 函数名(参数表)">
-<meta property="og:updated_time" content="2016-11-20T15:02:44.000Z">
+<meta property="og:description" content="Sunday算法是Daniel M.Sunday于1990年提出的字符串模式匹配算法. 其核心是在匹配失败时关注文本主串中参加匹配的最末位字符的下一位字符. 如果该字符没有在匹配串中出现则直接跳过，即移动步长= 匹配串长度+1；否则，同BM算法一样其移动步长=匹配串中最右端的该字符到末尾的距离+1. 
+由于Sunday算法相对于KMP来说实在是太好理解了, 所以直接分两部分给出代码:
+
+移动步长的">
+<meta property="og:updated_time" content="2016-12-23T13:44:28.884Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="C++之多态">
-<meta name="twitter:description" content="多态是面向对象程序设计语言的一个重要特点, 是一种将不同的特殊行为和单个泛化记号相关联的能力. 更加直白的表述是同样的语法结构对应不同的具体功能. 从这个角度上来说, 模板和函数重载是一种静态的多态, 而基于虚函数实现的多态则是动态多态. 
-在介绍动态多态前, 需要对虚函数进行介绍. 虚函数就是类的非static的成员函数. 虚函数声明的语法规则如下:
-virtual 类型说明符 函数名(参数表)">
+<meta name="twitter:title" content="字符串匹配之Sunday算法">
+<meta name="twitter:description" content="Sunday算法是Daniel M.Sunday于1990年提出的字符串模式匹配算法. 其核心是在匹配失败时关注文本主串中参加匹配的最末位字符的下一位字符. 如果该字符没有在匹配串中出现则直接跳过，即移动步长= 匹配串长度+1；否则，同BM算法一样其移动步长=匹配串中最右端的该字符到末尾的距离+1. 
+由于Sunday算法相对于KMP来说实在是太好理解了, 所以直接分两部分给出代码:
+
+移动步长的">
   
   
     <link rel="icon" href="/img/head.jpg">
@@ -194,11 +197,11 @@ virtual 类型说明符 函数名(参数表)">
         </header>                
     </div>
 </nav>
-      <div class="body-wrap"><article id="post-C++之多态" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-字符串匹配之Sunday算法" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016/11/20/C++之多态/" class="article-date">
-      <time datetime="2016-11-20T14:40:34.000Z" itemprop="datePublished">2016-11-20</time>
+      <a href="/2016/12/23/字符串匹配之Sunday算法/" class="article-date">
+      <time datetime="2016-12-23T06:40:09.000Z" itemprop="datePublished">2016-12-23</time>
 </a>
     </div>
   
@@ -211,7 +214,7 @@ virtual 类型说明符 函数名(参数表)">
         
   
     <h1 class="article-title" itemprop="name">
-      C++之多态
+      字符串匹配之Sunday算法
     </h1>
   
 
@@ -220,13 +223,13 @@ virtual 类型说明符 函数名(参数表)">
       <div class="article-info article-info-post">
         
     <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/Cpp/">C++</a>
+    <a class="article-category-link" href="/categories/Algorithm/">数据结构和算法</a>
     </div>
 
 
         
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/学习笔记/">学习笔记</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/字符串匹配/">字符串匹配</a></li></ul>
     </div>
 
         <div class="clearfix"></div>
@@ -236,14 +239,84 @@ virtual 类型说明符 函数名(参数表)">
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>多态是面向对象程序设计语言的一个重要特点, 是一种将不同的特殊行为和单个泛化记号相关联的能力. 更加直白的表述是同样的语法结构对应不同的具体功能. 从这个角度上来说, 模板和函数重载是一种静态的多态, 而基于虚函数实现的多态则是动态多态. </p>
-<p>在介绍动态多态前, 需要对虚函数进行介绍. 虚函数就是类的非static的成员函数. 虚函数声明的语法规则如下:</p>
-<pre><code>virtual 类型说明符 函数名(参数表)
-</code></pre><p>虚函数和继承密切相关, 如果一个类中的成员函数被标记为虚函数, 这就意味着该成员函数在子类中可能有不同的实现. 许多情况下, 基类不会具体实现虚函数, 这时可以将虚函数声明为<em>纯虚函数</em>. 纯虚函数是一种特殊的虚函数, 它在基类中只有声明但没有实现, 要求任何子类都要定义子类相关的具体实现方法. 纯虚函数的声明方式是:</p>
-<pre><code>virtual 类型说明符 函数名(参数表) = 0
-</code></pre><p>带有虚函数的类被称为抽象类, 抽象类是为了抽象和设计的目的而建立的, 通常处于继承层次结构的较上层. 抽象类提供了一组子类操作接口的通用定义 — 纯虚函数.    通常抽象类只描述这组子类共同的操作接口, 由子类负责实现.</p>
-<p>如果抽象类的子类没有实现纯虚函数, 而只是继承基类的纯虚函数, 那么这个子类仍然还是一个抽象类.         </p>
+        <p>Sunday算法是Daniel M.Sunday于1990年提出的字符串模式匹配算法. 其核心是在匹配失败时关注文本主串中参加匹配的最末位字符的下一位字符. 如果该字符没有在匹配串中出现则直接跳过，即移动步长= 匹配串长度+1；否则，同BM算法一样其移动步长=匹配串中最右端的该字符到末尾的距离+1. </p>
+<p>由于Sunday算法相对于KMP来说实在是太好理解了, 所以直接分两部分给出代码:</p>
+<ol>
+<li>移动步长的求法</li>
+<li>Sunday算法实现</li>
+</ol>
+<a id="more"></a>
+<h1 id="移动步长的求法"><a href="#移动步长的求法" class="headerlink" title="移动步长的求法"></a>移动步长的求法</h1><pre><code>int *getNext(string const p)
+{
+    int length = (int)p.size();
+    int *next = new int[length];
+    for (int i = length-1; i &gt;= 0; --i) {
+        char chr = p[i];
+        int j = length-1;
+        //从后往前遍历是否存在相同的字符
+        bool flag = false;
+        while (j &gt; i) {
+            if (chr == p[j]) {
+                flag = true;
+                break;
+            }
+            --j;
+        }
+        //如果不存在, 则记录其到末尾的距离, 否则记录最右侧相同字符到末尾的距离
+        next[i] = flag?(next[j]):(length - i - 1);
+    }
+    return next;
+}
+</code></pre><h1 id="Sunday算法实现"><a href="#Sunday算法实现" class="headerlink" title="Sunday算法实现"></a>Sunday算法实现</h1><pre><code>int sunDay(string const t, string const p, int *next)
+{
+    int i = 0;
+    int j = 0;
+    int len_t = (int)t.length();
+    int len_p = (int)p.length();
+    while (i &lt; len_t) {
+        if (t[i] == p[j]) {
+            ++i;
+            ++j;
+            if (j == len_p) {
+                return i - len_p;
+            }
+        }else{
+            //第i位失配, 主串中参加匹配的末位字符的下一位为(i-j+len_p)
+            if (t.find(t[i-j+len_p]) == t.npos) {
+                //如果未找到, 移动步长= 匹配串长度+1
+                i = (i - j + len_p + 1);
+                j = 0;
+            }else{
+                //如果找到了, 将模式串中最右侧的字符与其对齐
+                int index = (int)p.find(t[i-j+len_p]);
+                i = (i - j +  next[index] + 1);
+                j = 0;
+            }
+        }
 
+    }
+    return NO_MATCH;
+}
+</code></pre><h1 id="测试用例"><a href="#测试用例" class="headerlink" title="测试用例"></a>测试用例</h1><pre><code>int main(int argc, const char * argv[]) {
+
+    string p = &quot;aaab&quot;;
+    string t = &quot;aaaaaaaaaab&quot;;
+    int *next = getNext(p);
+    int result =  sunDay(t, p, next);
+    cout &lt;&lt; result &lt;&lt; endl;
+    delete[] next;
+
+
+    string p1 = &quot;abd&quot;;
+    string t1 = &quot;abcdabccccabd&quot;;
+    int *next1 = getNext(p1);
+    int result1 =  sunDay(t1, p1, next1);
+    cout &lt;&lt; result1 &lt;&lt; endl;
+    delete[] next1;
+
+    return 0;
+}
+</code></pre>
       
     </div>
     
@@ -251,13 +324,13 @@ virtual 类型说明符 函数名(参数表)">
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2016/11/20/C++之多态/">C++之多态</a></p>
+        <p><span>本文标题:</span><a href="/2016/12/23/字符串匹配之Sunday算法/">字符串匹配之Sunday算法</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 Miu 的个人博客">Miu</a></p>
-        <p><span>发布时间:</span>2016年11月20日 - 22时40分</p>
-        <p><span>最后更新:</span>2016年11月20日 - 23时02分</p>
+        <p><span>发布时间:</span>2016年12月23日 - 14时40分</p>
+        <p><span>最后更新:</span>2016年12月23日 - 21时44分</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2016/11/20/C++之多态/" title="C++之多态">http://www.devzhang.cn/2016/11/20/C++之多态/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://www.devzhang.cn/2016/11/20/C++之多态/　　作者: Miu" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2016/12/23/字符串匹配之Sunday算法/" title="字符串匹配之Sunday算法">http://www.devzhang.cn/2016/12/23/字符串匹配之Sunday算法/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://www.devzhang.cn/2016/12/23/字符串匹配之Sunday算法/　　作者: Miu" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script src="/js/clipboard.min.js"></script>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
@@ -270,18 +343,9 @@ virtual 类型说明符 函数名(参数表)">
 
 <nav id="article-nav">
   
-    <a href="/2016/11/21/C++之模板/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption"><</strong>
-      <div class="article-nav-title">
-        
-          C++之模板
-        
-      </div>
-    </a>
   
-  
-    <a href="/2016/11/20/C++之继承/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">C++之继承</div>
+    <a href="/2016/12/16/字符串匹配之KMP算法/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">字符串匹配之KMP算法</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -292,7 +356,7 @@ virtual 类型说明符 函数名(参数表)">
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#移动步长的求法"><span class="toc-number">1.</span> <span class="toc-text">移动步长的求法</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Sunday算法实现"><span class="toc-number">2.</span> <span class="toc-text">Sunday算法实现</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#测试用例"><span class="toc-number">3.</span> <span class="toc-text">测试用例</span></a></li></ol>
 </div>
 <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
 
@@ -340,7 +404,7 @@ virtual 类型说明符 函数名(参数表)">
     
       <div class="duoshuo" id="comments">
     <!-- 多说评论框 start -->
-    <div class="ds-thread" data-thread-key="2016/11/20/C++之多态/" data-title="C++之多态" data-url="http://www.devzhang.cn/2016/11/20/C++之多态/"></div>
+    <div class="ds-thread" data-thread-key="2016/12/23/字符串匹配之Sunday算法/" data-title="字符串匹配之Sunday算法" data-url="http://www.devzhang.cn/2016/12/23/字符串匹配之Sunday算法/"></div>
     <!-- 多说评论框 end -->
     <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
     <script type="text/javascript">
@@ -363,13 +427,11 @@ virtual 类型说明符 函数名(参数表)">
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2016/11/21/C++之模板/" title="上一篇: C++之模板">
-                <i class="fa fa-angle-left"></i>
-            </a>
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
         
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
         
-            <a href="/2016/11/20/C++之继承/" title="下一篇: C++之继承">
+            <a href="/2016/12/16/字符串匹配之KMP算法/" title="下一篇: 字符串匹配之KMP算法">
                 <i class="fa fa-angle-right"></i>
             </a>
         

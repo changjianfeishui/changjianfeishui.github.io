@@ -126,7 +126,7 @@
                 
                 <section class="switch-part switch-part2">
                     <div class="widget tagcloud" id="js-tagcloud">
-                        <a href="/tags/AVFoundation/" style="font-size: 18.75px;">AVFoundation</a> <a href="/tags/AVFoundation编程指南/" style="font-size: 16.25px;">AVFoundation编程指南</a> <a href="/tags/Kcamera/" style="font-size: 17.5px;">Kcamera</a> <a href="/tags/MVC/" style="font-size: 12.5px;">MVC</a> <a href="/tags/MVP/" style="font-size: 10px;">MVP</a> <a href="/tags/Moco/" style="font-size: 10px;">Moco</a> <a href="/tags/http/" style="font-size: 11.25px;">http</a> <a href="/tags/phoneGap/" style="font-size: 13.75px;">phoneGap</a> <a href="/tags/内存管理/" style="font-size: 11.25px;">内存管理</a> <a href="/tags/加密/" style="font-size: 10px;">加密</a> <a href="/tags/字符串匹配/" style="font-size: 11.25px;">字符串匹配</a> <a href="/tags/学习笔记/" style="font-size: 20px;">学习笔记</a> <a href="/tags/排序/" style="font-size: 15px;">排序</a> <a href="/tags/数组/" style="font-size: 10px;">数组</a> <a href="/tags/架构/" style="font-size: 13.75px;">架构</a> <a href="/tags/翻译/" style="font-size: 16.25px;">翻译</a> <a href="/tags/视频直播/" style="font-size: 10px;">视频直播</a>
+                        <a href="/tags/AVFoundation/" style="font-size: 18.75px;">AVFoundation</a> <a href="/tags/AVFoundation编程指南/" style="font-size: 16.25px;">AVFoundation编程指南</a> <a href="/tags/Kcamera/" style="font-size: 17.5px;">Kcamera</a> <a href="/tags/MVC/" style="font-size: 12.5px;">MVC</a> <a href="/tags/MVP/" style="font-size: 10px;">MVP</a> <a href="/tags/Moco/" style="font-size: 10px;">Moco</a> <a href="/tags/http/" style="font-size: 11.25px;">http</a> <a href="/tags/phoneGap/" style="font-size: 13.75px;">phoneGap</a> <a href="/tags/内存管理/" style="font-size: 11.25px;">内存管理</a> <a href="/tags/加密/" style="font-size: 10px;">加密</a> <a href="/tags/字符串匹配/" style="font-size: 12.5px;">字符串匹配</a> <a href="/tags/学习笔记/" style="font-size: 20px;">学习笔记</a> <a href="/tags/排序/" style="font-size: 15px;">排序</a> <a href="/tags/数组/" style="font-size: 10px;">数组</a> <a href="/tags/架构/" style="font-size: 13.75px;">架构</a> <a href="/tags/翻译/" style="font-size: 16.25px;">翻译</a> <a href="/tags/视频直播/" style="font-size: 10px;">视频直播</a>
                     </div>
                 </section>
                 
@@ -191,6 +191,77 @@
     </div>
 </nav>
       <div class="body-wrap">
+  
+    <article id="post-字符串匹配之Sunday算法" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/12/23/字符串匹配之Sunday算法/" class="article-date">
+      <time datetime="2016-12-23T06:40:09.000Z" itemprop="datePublished">2016-12-23</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/23/字符串匹配之Sunday算法/">字符串匹配之Sunday算法</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <p>Sunday算法是Daniel M.Sunday于1990年提出的字符串模式匹配算法. 其核心是在匹配失败时关注文本主串中参加匹配的最末位字符的下一位字符. 如果该字符没有在匹配串中出现则直接跳过，即移动步长= 匹配串长度+1；否则，同BM算法一样其移动步长=匹配串中最右端的该字符到末尾的距离+1. </p>
+<p>由于Sunday算法相对于KMP来说实在是太好理解了, 所以直接分两部分给出代码:</p>
+<ol>
+<li>移动步长的求法</li>
+<li>Sunday算法实现</li>
+</ol>
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/Algorithm/">数据结构和算法</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/字符串匹配/">字符串匹配</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a  href="/2016/12/23/字符串匹配之Sunday算法/#more">查看全文 >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
   
     <article id="post-字符串匹配之KMP算法" class="article article-type-post" itemscope itemprop="blogPost">
   
@@ -791,74 +862,6 @@
         <p class="article-more-link">
           <a  href="/2016/11/21/C++之模板/#more">查看全文 >></a>
         </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-C++之多态" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/11/20/C++之多态/" class="article-date">
-      <time datetime="2016-11-20T14:40:34.000Z" itemprop="datePublished">2016-11-20</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/11/20/C++之多态/">C++之多态</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>多态是面向对象程序设计语言的一个重要特点, 是一种将不同的特殊行为和单个泛化记号相关联的能力. 更加直白的表述是同样的语法结构对应不同的具体功能. 从这个角度上来说, 模板和函数重载是一种静态的多态, 而基于虚函数实现的多态则是动态多态. </p>
-<p>在介绍动态多态前, 需要对虚函数进行介绍. 虚函数就是类的非static的成员函数. 虚函数声明的语法规则如下:</p>
-<pre><code>virtual 类型说明符 函数名(参数表)
-</code></pre><p>虚函数和继承密切相关, 如果一个类中的成员函数被标记为虚函数, 这就意味着该成员函数在子类中可能有不同的实现. 许多情况下, 基类不会具体实现虚函数, 这时可以将虚函数声明为<em>纯虚函数</em>. 纯虚函数是一种特殊的虚函数, 它在基类中只有声明但没有实现, 要求任何子类都要定义子类相关的具体实现方法. 纯虚函数的声明方式是:</p>
-<pre><code>virtual 类型说明符 函数名(参数表) = 0
-</code></pre><p>带有虚函数的类被称为抽象类, 抽象类是为了抽象和设计的目的而建立的, 通常处于继承层次结构的较上层. 抽象类提供了一组子类操作接口的通用定义 — 纯虚函数.    通常抽象类只描述这组子类共同的操作接口, 由子类负责实现.</p>
-<p>如果抽象类的子类没有实现纯虚函数, 而只是继承基类的纯虚函数, 那么这个子类仍然还是一个抽象类.         </p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/Cpp/">C++</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/学习笔记/">学习笔记</a></li></ul>
-    </div>
-
       
       <div class="clearfix"></div>
     </div>
