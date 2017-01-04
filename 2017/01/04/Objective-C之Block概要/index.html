@@ -3,27 +3,21 @@
 <head>
   <meta charset="utf-8">
   
-  <title>C++之运算符重载 | 做点有意思的事情</title>
+  <title>Objective-C之Block概要 | 做点有意思的事情</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="C++不止能进行函数重载, 还能对运算符进行重载. 通过重新定义运算符, 可以使特定的类的对象执行特定的功能. 运算符重载可以增强程序的可读性. 
-几乎所有的运算符都可以重载. 不能被重载的运算符有., *, ::, ?.
-特别地, 运算符重载不改变运算符的优先级和结合性, 并且也不改变运算符的语法结构, 单目运算符只能重载为单目运算符, 双目运算符只能重载为双目运算符.
-运算符重载的实现可以使用">
+  <meta name="description" content="block是带有自动变量(局部变量)的匿名函数. 匿名函数就是没有名称的函数. 
+另外, “带有自动变量值的匿名函数”并不仅指block, 它还存在于其他程序设计语言, 在计算机科学中, 这个概念也被称为闭包,lambda计算等.">
 <meta property="og:type" content="article">
-<meta property="og:title" content="C++之运算符重载">
-<meta property="og:url" content="http://www.devzhang.cn/2016/11/18/C++之运算符重载/index.html">
+<meta property="og:title" content="Objective-C之Block概要">
+<meta property="og:url" content="http://www.devzhang.cn/2017/01/04/Objective-C之Block概要/index.html">
 <meta property="og:site_name" content="做点有意思的事情">
-<meta property="og:description" content="C++不止能进行函数重载, 还能对运算符进行重载. 通过重新定义运算符, 可以使特定的类的对象执行特定的功能. 运算符重载可以增强程序的可读性. 
-几乎所有的运算符都可以重载. 不能被重载的运算符有., *, ::, ?.
-特别地, 运算符重载不改变运算符的优先级和结合性, 并且也不改变运算符的语法结构, 单目运算符只能重载为单目运算符, 双目运算符只能重载为双目运算符.
-运算符重载的实现可以使用">
-<meta property="og:updated_time" content="2016-11-18T16:05:06.000Z">
+<meta property="og:description" content="block是带有自动变量(局部变量)的匿名函数. 匿名函数就是没有名称的函数. 
+另外, “带有自动变量值的匿名函数”并不仅指block, 它还存在于其他程序设计语言, 在计算机科学中, 这个概念也被称为闭包,lambda计算等.">
+<meta property="og:updated_time" content="2017-01-04T15:35:33.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="C++之运算符重载">
-<meta name="twitter:description" content="C++不止能进行函数重载, 还能对运算符进行重载. 通过重新定义运算符, 可以使特定的类的对象执行特定的功能. 运算符重载可以增强程序的可读性. 
-几乎所有的运算符都可以重载. 不能被重载的运算符有., *, ::, ?.
-特别地, 运算符重载不改变运算符的优先级和结合性, 并且也不改变运算符的语法结构, 单目运算符只能重载为单目运算符, 双目运算符只能重载为双目运算符.
-运算符重载的实现可以使用">
+<meta name="twitter:title" content="Objective-C之Block概要">
+<meta name="twitter:description" content="block是带有自动变量(局部变量)的匿名函数. 匿名函数就是没有名称的函数. 
+另外, “带有自动变量值的匿名函数”并不仅指block, 它还存在于其他程序设计语言, 在计算机科学中, 这个概念也被称为闭包,lambda计算等.">
   
   
     <link rel="icon" href="/img/head.jpg">
@@ -197,11 +191,11 @@
         </header>                
     </div>
 </nav>
-      <div class="body-wrap"><article id="post-C++之运算符重载" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-Objective-C之Block概要" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016/11/18/C++之运算符重载/" class="article-date">
-      <time datetime="2016-11-18T15:16:36.000Z" itemprop="datePublished">2016-11-18</time>
+      <a href="/2017/01/04/Objective-C之Block概要/" class="article-date">
+      <time datetime="2017-01-04T14:38:20.000Z" itemprop="datePublished">2017-01-04</time>
 </a>
     </div>
   
@@ -214,7 +208,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      C++之运算符重载
+      Objective-C之Block概要
     </h1>
   
 
@@ -223,7 +217,7 @@
       <div class="article-info article-info-post">
         
     <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/Cpp/">C++</a>
+    <a class="article-category-link" href="/categories/iOS/">iOS</a>
     </div>
 
 
@@ -239,51 +233,53 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>C++不止能进行函数重载, 还能对运算符进行重载. 通过重新定义运算符, 可以使特定的类的对象执行特定的功能. 运算符重载可以增强程序的可读性. </p>
-<p>几乎所有的运算符都可以重载. 不能被重载的运算符有<code>.</code>, <code>*</code>, <code>::</code>, <code>?</code>.</p>
-<p>特别地, 运算符重载不改变运算符的优先级和结合性, 并且也不改变运算符的语法结构, 单目运算符只能重载为单目运算符, 双目运算符只能重载为双目运算符.</p>
-<p>运算符重载的实现可以使用类成员函数的方式, 也可以使用友元函数.</p>
+        <p>block是带有自动变量(局部变量)的匿名函数. 匿名函数就是没有名称的函数. </p>
+<p>另外, “带有自动变量值的匿名函数”并不仅指block, 它还存在于其他程序设计语言, 在计算机科学中, 这个概念也被称为闭包,lambda计算等.</p>
 <a id="more"></a>
-<p>下面分别使用友元函数的方式重载运算符<code>&lt;&lt;</code>(且只能用友元形式重载), 使用成员函数的方式重载运算符<code>+</code>:</p>
-<pre><code>#include &lt;iostream&gt;
-using namespace std;
-
-class Point {
-public:
-    float x, y;
-    Point():x(0),y(0) {
-
-    }
-
-    Point(float newX, float newY):x(newX),y(newY) {
-
-    };
-
-    friend ostream &amp; operator&lt;&lt;(ostream &amp;os, Point &amp;p);
-    Point &amp; operator+(Point &amp;p);
-};
-
-ostream &amp; operator&lt;&lt;(ostream &amp;os, Point &amp;p) {
-    os &lt;&lt; &quot;{&quot; &lt;&lt; p.x &lt;&lt; &quot;, &quot; &lt;&lt; p.y &lt;&lt; &quot;}&quot; &lt;&lt; endl;
-    return os;
-}
-
-Point &amp; Point::operator+(Point &amp;p) {
-    x += p.x;
-    y += p.y;
-    return *this;
-}
-
-int main(int argc, const char * argv[]) {
-    Point p1(5,5);
-    Point p2 = Point(3.3, 4.4);
-    cout &lt;&lt; &quot;p1: &quot; &lt;&lt; p1 &lt;&lt; endl;
-    cout &lt;&lt; &quot;p1: &quot; &lt;&lt; p2 &lt;&lt; endl;
-    cout &lt;&lt; &quot;p1 + p2: &quot; &lt;&lt; p1 + p2 &lt;&lt; endl;
-    return 0;
-}
-</code></pre><p>注意, <code>+</code>运算之后前面的运算对象会被改变, 而后面的运算对象不会发生改变, 因此加法交换律不适用了, 也就是<strong><code>(a+b) != (b+a)</code></strong>. </p>
-
+<h1 id="block语法"><a href="#block语法" class="headerlink" title="block语法"></a>block语法</h1><p>完整形式的block定义规则如下:</p>
+<pre><code>^ 返回值类型 (参数列表){表达式;}
+</code></pre><p>完整形式的block语法与一般的C语言函数定义相比, 仅有亮点不同:</p>
+<ul>
+<li>没有函数名</li>
+<li>带有符号”^”</li>
+</ul>
+<p>第一点不同是没有函数名, 因为其是匿名函数. 第二点不同是返回值类型前带有”^”(插入记号,caret).</p>
+<p>block语法还有以下几种略写形式:</p>
+<ol>
+<li>省略返回值类型, 如果表达式中有return语句就使用该返回值的类型, 如果表达式中没有return语句就使用void类型. 表达式中含有多个return语句时, 所有return语句的返回值类型必须相同.</li>
+<li>如果不适用参数, 那么参数列表也可以省略.</li>
+<li>返回值类型和参数类别均被省略.</li>
+</ol>
+<h1 id="block类型变量"><a href="#block类型变量" class="headerlink" title="block类型变量"></a>block类型变量</h1><p>声明block类型变量的示例如下:</p>
+<pre><code>int (^blk)(int);
+</code></pre><p>声明block类型变量仅仅是将c语言中函数指针类型变量的”*”变为”^”. 该block变量与一般的C语言变量完全相同, 可以作为以下用途:</p>
+<ul>
+<li>自动变量</li>
+<li>函数参数</li>
+<li>静态变量</li>
+<li>静态全局变量</li>
+<li>全局变量</li>
+</ul>
+<p>使用typedef可以简化block语法, 下面的代码声明了一个blt_t类型:</p>
+<pre><code>typedef int (^blk_t)(int);
+</code></pre><p>block类型变量可完全像通常的C语言变量一样使用, 因此也可以使用指向block类型变量的指针, 即block的指针类型变量.</p>
+<pre><code>blk_t blk = ^(int count){return count+1;};
+blk_t *blkptr = &amp;blk;
+(*blkptr)(10);  //11
+</code></pre><h1 id="截获自动变量值"><a href="#截获自动变量值" class="headerlink" title="截获自动变量值"></a>截获自动变量值</h1><p>block表达式截获所使用的自动变量的值, 即保存该自动变量的瞬间值. 所以在执行block语法后, 即使改写block中所使用的自动变量的值也不会影响block的执行值.</p>
+<pre><code>int val = 10;
+void (^blk)() = ^{
+     NSLog(@&quot;val=%d&quot;,val);
+ };        
+ val = 2;
+ blk();    //val=10
+</code></pre><h1 id="block说明符"><a href="#block说明符" class="headerlink" title="__block说明符"></a>__block说明符</h1><p>自动变量值截获只能保存block执行瞬间的值, 保存后就不能在block中修改该值. 如果想要在block表达式中给block外的变量赋值, 则需要给该变量附加上__block说明符.</p>
+<pre><code>__block int val = 10;
+void (^blk)() = ^{
+    val = 1;
+    NSLog(@&quot;val=%d&quot;,val);   //val=1
+};            
+</code></pre>
       
     </div>
     
@@ -291,13 +287,13 @@ int main(int argc, const char * argv[]) {
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2016/11/18/C++之运算符重载/">C++之运算符重载</a></p>
+        <p><span>本文标题:</span><a href="/2017/01/04/Objective-C之Block概要/">Objective-C之Block概要</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 Miu 的个人博客">Miu</a></p>
-        <p><span>发布时间:</span>2016年11月18日 - 23时16分</p>
-        <p><span>最后更新:</span>2016年11月19日 - 00时05分</p>
+        <p><span>发布时间:</span>2017年01月04日 - 22时38分</p>
+        <p><span>最后更新:</span>2017年01月04日 - 23时35分</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2016/11/18/C++之运算符重载/" title="C++之运算符重载">http://www.devzhang.cn/2016/11/18/C++之运算符重载/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://www.devzhang.cn/2016/11/18/C++之运算符重载/　　作者: Miu" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2017/01/04/Objective-C之Block概要/" title="Objective-C之Block概要">http://www.devzhang.cn/2017/01/04/Objective-C之Block概要/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://www.devzhang.cn/2017/01/04/Objective-C之Block概要/　　作者: Miu" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script src="/js/clipboard.min.js"></script>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
@@ -310,18 +306,9 @@ int main(int argc, const char * argv[]) {
 
 <nav id="article-nav">
   
-    <a href="/2016/11/20/C++之异常处理/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption"><</strong>
-      <div class="article-nav-title">
-        
-          C++之异常处理
-        
-      </div>
-    </a>
   
-  
-    <a href="/2016/11/17/Objective-C内存管理之引用计数/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Objective-C内存管理之引用计数</div>
+    <a href="/2017/01/03/Objective-C内存管理之所有权修饰符/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Objective-C内存管理之所有权修饰符</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -332,7 +319,7 @@ int main(int argc, const char * argv[]) {
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#block语法"><span class="toc-number">1.</span> <span class="toc-text">block语法</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#block类型变量"><span class="toc-number">2.</span> <span class="toc-text">block类型变量</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#截获自动变量值"><span class="toc-number">3.</span> <span class="toc-text">截获自动变量值</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#block说明符"><span class="toc-number">4.</span> <span class="toc-text">__block说明符</span></a></li></ol>
 </div>
 <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
 
@@ -380,7 +367,7 @@ int main(int argc, const char * argv[]) {
     
       <div class="duoshuo" id="comments">
     <!-- 多说评论框 start -->
-    <div class="ds-thread" data-thread-key="2016/11/18/C++之运算符重载/" data-title="C++之运算符重载" data-url="http://www.devzhang.cn/2016/11/18/C++之运算符重载/"></div>
+    <div class="ds-thread" data-thread-key="2017/01/04/Objective-C之Block概要/" data-title="Objective-C之Block概要" data-url="http://www.devzhang.cn/2017/01/04/Objective-C之Block概要/"></div>
     <!-- 多说评论框 end -->
     <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
     <script type="text/javascript">
@@ -403,13 +390,11 @@ int main(int argc, const char * argv[]) {
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2016/11/20/C++之异常处理/" title="上一篇: C++之异常处理">
-                <i class="fa fa-angle-left"></i>
-            </a>
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
         
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
         
-            <a href="/2016/11/17/Objective-C内存管理之引用计数/" title="下一篇: Objective-C内存管理之引用计数">
+            <a href="/2017/01/03/Objective-C内存管理之所有权修饰符/" title="下一篇: Objective-C内存管理之所有权修饰符">
                 <i class="fa fa-angle-right"></i>
             </a>
         

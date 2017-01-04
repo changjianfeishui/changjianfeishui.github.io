@@ -192,6 +192,73 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-Objective-C之Block概要" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/01/04/Objective-C之Block概要/" class="article-date">
+      <time datetime="2017-01-04T14:38:20.000Z" itemprop="datePublished">2017-01-04</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/01/04/Objective-C之Block概要/">Objective-C之Block概要</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <p>block是带有自动变量(局部变量)的匿名函数. 匿名函数就是没有名称的函数. </p>
+<p>另外, “带有自动变量值的匿名函数”并不仅指block, 它还存在于其他程序设计语言, 在计算机科学中, 这个概念也被称为闭包,lambda计算等.</p>
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/iOS/">iOS</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/学习笔记/">学习笔记</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a  href="/2017/01/04/Objective-C之Block概要/#more">查看全文 >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-Objective-C内存管理之所有权修饰符" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -793,79 +860,6 @@
       
         <p class="article-more-link">
           <a  href="/2016/11/22/C++之指针/#more">查看全文 >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Objective-C内存管理之Autorelease" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/11/21/Objective-C内存管理之Autorelease/" class="article-date">
-      <time datetime="2016-11-21T15:08:34.000Z" itemprop="datePublished">2016-11-21</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/11/21/Objective-C内存管理之Autorelease/">Objective-C内存管理之Autorelease</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-              <p>顾名思义, autorelease就是自动释放, 类似于C语言中的局部变量, 当超出其作用域时, 该局部变量会被自动废弃.</p>
-<p>autorelease的具体使用方法如下:</p>
-<ol>
-<li>生成并持有NSAutoreleasePool对象</li>
-<li>调用已分配对象的autorelease实例方法</li>
-<li>废弃NSAutoreleasePool对象</li>
-</ol>
-<p>NSAutoreleasePool对象的生存周期相当于C语言变量的作用域. 对于所有调用过autorelease实例方法的对象, 在废弃NSAutoreleasePool对象的同时, 都将调用release实例方法. </p>
-          
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/iOS/">iOS</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/内存管理/">内存管理</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/学习笔记/">学习笔记</a></li></ul>
-    </div>
-
-      
-        <p class="article-more-link">
-          <a  href="/2016/11/21/Objective-C内存管理之Autorelease/#more">查看全文 >></a>
         </p>
       
       <div class="clearfix"></div>

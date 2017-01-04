@@ -192,6 +192,73 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-视频缩放" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/07/28/视频缩放/" class="article-date">
+      <time datetime="2016-07-28T05:49:09.000Z" itemprop="datePublished">2016-07-28</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/07/28/视频缩放/">视频缩放</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <p>设备的缩放效果是通过居中裁剪由摄像头捕捉到的图片来实现的.AVCaptureDevice提供了一个videoZoomFactor属性,用于控制捕捉设备的缩放等级.该属性最小值为1.0,即不能进行缩放.最大值由捕捉设备的activeFormat值决定,它是AVCaptureDeviceFormat的一个实例.这个类定义了活动捕捉格式的细节,其中就包括videoMaxZoomFactor.</p>
+<p>本文将实现在<a href="https://github.com/changjianfeishui/Kcamera">Kcamera</a>上实现视频缩放的功能.</p>
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/iOS/">iOS</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AVFoundation/">AVFoundation</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Kcamera/">Kcamera</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a  href="/2016/07/28/视频缩放/#more">查看全文 >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-调整闪光灯和手电筒模式" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -770,76 +837,6 @@
       
         <p class="article-more-link">
           <a  href="/2016/04/25/使用AVAudioRecorder录制音频/#more">查看全文 >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-AVAudioPlayer中断处理" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/04/20/AVAudioPlayer中断处理/" class="article-date">
-      <time datetime="2016-04-19T16:00:00.000Z" itemprop="datePublished">2016-04-20</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/04/20/AVAudioPlayer中断处理/">AVAudioPlayer中断处理</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-              <h1 id="1-配置音频会话"><a href="#1-配置音频会话" class="headerlink" title="1.配置音频会话"></a>1.配置音频会话</h1><h2 id="1-1处理”铃声-静音”开关切换"><a href="#1-1处理”铃声-静音”开关切换" class="headerlink" title="1.1处理”铃声/静音”开关切换"></a>1.1处理”铃声/静音”开关切换</h2><p>测试上一节<a href="http://coderzhang.xyz/2016/04/02/使用avaudioplayer播放音频/">使用AVAudioPlayer播放音频</a>的程序,当开始播放音频时切换设备侧面的”铃声/静音”开关,会发现音频输出也会在这两种状态下切换.为了让我们的程序在这两种状态下都能正常输出音乐,需要在程序启动时对音频会话进行明确的配置.在<code>)application: didFinishLaunchingWithOptions:</code>中加入如下代码即可:</p>
-<pre><code> AVAudioSession *session = [AVAudioSession sharedInstance];
-[session setCategory:AVAudioSessionCategoryPlayback error:nil];
-[session setActive:YES error:nil];
-</code></pre>
-          
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/iOS/">iOS</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AVFoundation/">AVFoundation</a></li></ul>
-    </div>
-
-      
-        <p class="article-more-link">
-          <a  href="/2016/04/20/AVAudioPlayer中断处理/#more">查看全文 >></a>
         </p>
       
       <div class="clearfix"></div>
