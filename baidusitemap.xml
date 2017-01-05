@@ -4,6 +4,26 @@
 
     
   <url>
+    <loc>http://www.devzhang.cn/2017/01/04/Objective-C%E4%B9%8BGCD%E6%A6%82%E8%A6%81/</loc>
+    <lastmod>2017-01-05T16:05:41.000Z</lastmod>
+    <data>
+        <display>
+        <title>Objective-C之GCD概要</title>
+        <pubTime>2017-01-04T15:47:32.000Z</pubTime>
+        
+        <tag>学习笔记</tag>
+         
+         
+           
+             
+              <breadCrumb title="iOS" url="http://www.devzhang.cn/categories/iOS/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://www.devzhang.cn/2017/01/04/Objective-C%E4%B9%8BBlock%E6%A6%82%E8%A6%81/</loc>
     <lastmod>2017-01-04T15:35:33.000Z</lastmod>
     <data>
