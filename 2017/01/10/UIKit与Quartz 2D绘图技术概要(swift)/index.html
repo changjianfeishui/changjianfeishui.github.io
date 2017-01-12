@@ -3,18 +3,24 @@
 <head>
   <meta charset="utf-8">
   
-  <title>捕获静态图片 | 做点有意思的事情</title>
+  <title>UIKit与Quartz 2D绘图技术概要(swift) | 做点有意思的事情</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="本文将为Kcamera增加拍摄相片的功能.Kcamera的代码可以在https://github.com/changjianfeishui/Kcamera上找到.">
+  <meta name="description" content="在iOS中绘图技术主要有UIKit, Quartz 2D,Core Animation和OpenGL ES. 其中Core Animation提供动画实现. OpenGL ES是OpenGL针对嵌入式设备的简化版本, 可以绘制高性能的2D和3D图形. 这里重点介绍UIKit和Quartz 2D.
+
+UIKit: 高级别的图形接口, 提供了基于Objective-C和Swift的API. 能够访问绘">
 <meta property="og:type" content="article">
-<meta property="og:title" content="捕获静态图片">
-<meta property="og:url" content="http://www.devzhang.cn/2016/07/15/捕捉静态图片/index.html">
+<meta property="og:title" content="UIKit与Quartz 2D绘图技术概要(swift)">
+<meta property="og:url" content="http://www.devzhang.cn/2017/01/10/UIKit与Quartz 2D绘图技术概要(swift)/index.html">
 <meta property="og:site_name" content="做点有意思的事情">
-<meta property="og:description" content="本文将为Kcamera增加拍摄相片的功能.Kcamera的代码可以在https://github.com/changjianfeishui/Kcamera上找到.">
-<meta property="og:updated_time" content="2016-07-18T13:42:38.000Z">
+<meta property="og:description" content="在iOS中绘图技术主要有UIKit, Quartz 2D,Core Animation和OpenGL ES. 其中Core Animation提供动画实现. OpenGL ES是OpenGL针对嵌入式设备的简化版本, 可以绘制高性能的2D和3D图形. 这里重点介绍UIKit和Quartz 2D.
+
+UIKit: 高级别的图形接口, 提供了基于Objective-C和Swift的API. 能够访问绘">
+<meta property="og:updated_time" content="2017-01-12T14:57:04.655Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="捕获静态图片">
-<meta name="twitter:description" content="本文将为Kcamera增加拍摄相片的功能.Kcamera的代码可以在https://github.com/changjianfeishui/Kcamera上找到.">
+<meta name="twitter:title" content="UIKit与Quartz 2D绘图技术概要(swift)">
+<meta name="twitter:description" content="在iOS中绘图技术主要有UIKit, Quartz 2D,Core Animation和OpenGL ES. 其中Core Animation提供动画实现. OpenGL ES是OpenGL针对嵌入式设备的简化版本, 可以绘制高性能的2D和3D图形. 这里重点介绍UIKit和Quartz 2D.
+
+UIKit: 高级别的图形接口, 提供了基于Objective-C和Swift的API. 能够访问绘">
   
   
     <link rel="icon" href="/img/head.jpg">
@@ -188,11 +194,11 @@
         </header>                
     </div>
 </nav>
-      <div class="body-wrap"><article id="post-捕捉静态图片" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-UIKit与Quartz 2D绘图技术概要(swift)" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016/07/15/捕捉静态图片/" class="article-date">
-      <time datetime="2016-07-15T06:25:26.000Z" itemprop="datePublished">2016-07-15</time>
+      <a href="/2017/01/10/UIKit与Quartz 2D绘图技术概要(swift)/" class="article-date">
+      <time datetime="2017-01-10T15:07:38.000Z" itemprop="datePublished">2017-01-10</time>
 </a>
     </div>
   
@@ -205,7 +211,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      捕获静态图片
+      UIKit与Quartz 2D绘图技术概要(swift)
     </h1>
   
 
@@ -220,7 +226,7 @@
 
         
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AVFoundation/">AVFoundation</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Kcamera/">Kcamera</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/学习笔记/">学习笔记</a></li></ul>
     </div>
 
         <div class="clearfix"></div>
@@ -230,90 +236,142 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>本文将为Kcamera增加拍摄相片的功能.Kcamera的代码可以在<a href="https://github.com/changjianfeishui/Kcamera" target="_blank" rel="external">https://github.com/changjianfeishui/Kcamera</a>上找到.</p>
+        <p>在iOS中绘图技术主要有UIKit, Quartz 2D,Core Animation和OpenGL ES. 其中Core Animation提供动画实现. OpenGL ES是OpenGL针对嵌入式设备的简化版本, 可以绘制高性能的2D和3D图形. 这里重点介绍UIKit和Quartz 2D.</p>
+<ol>
+<li>UIKit: 高级别的图形接口, 提供了基于Objective-C和Swift的API. 能够访问绘图,动画,字体,图片等内容.</li>
+<li>Quartz 2D: iOS和OSX环境下的2D绘图引擎. 包括基于路径的绘图, 透明度绘图,遮盖, 阴影, 透明层, 颜色管理, 防锯齿渲染, 生成PDF, 以及PDF元数据的相关处理. Quartz 2D也被称为Core Graphics, 缩写前缀为CG. </li>
+</ol>
 <a id="more"></a>
-<h1 id="实现步骤"><a href="#实现步骤" class="headerlink" title="实现步骤"></a>实现步骤</h1><h2 id="初始化AVCaptureStillImageOutput对象"><a href="#初始化AVCaptureStillImageOutput对象" class="headerlink" title="初始化AVCaptureStillImageOutput对象"></a>初始化AVCaptureStillImageOutput对象</h2><p>打开CaptureModel类,增加一个属性:</p>
-<pre><code>//AVCaptureOutput子类,用于捕捉静态图片
-var imageOutput:AVCaptureStillImageOutput!
-</code></pre><p>在setupSession()方法最后return之前添加如下代码:</p>
-<pre><code>//7. 创建图片输出对象并添加到捕捉会话中
-self.imageOutput = AVCaptureStillImageOutput()
-self.imageOutput.outputSettings = [AVVideoCodecKey:AVVideoCodecJPEG]
-if self.captureSession .canAddOutput(self.imageOutput) {
-    self.captureSession.addOutput(self.imageOutput)
+<h1 id="绘制视图"><a href="#绘制视图" class="headerlink" title="绘制视图"></a>绘制视图</h1><p>在iOS上无论采用哪种绘图技术,绘制都发生在UIView对象的区域内. 可以在UIView的drawRect方法中实现自定义绘图.</p>
+<h2 id="视图绘制周期"><a href="#视图绘制周期" class="headerlink" title="视图绘制周期"></a>视图绘制周期</h2><p>系统会为视图设置一个重绘标识, 在RunLoop每次循环时, 绘图引擎会检查重绘标识, 以此判断是否有需要更新的内容. 如果需要重绘, 则调用drawRect方法.</p>
+<p>也可以手动设置重绘标识:</p>
+<ul>
+<li>setNeedsDisplay: 重绘整个视图</li>
+<li>setNeedsDisplayInRect:重绘指定区域的视图</li>
+</ul>
+<p>原则上尽量不要重复绘制全部视图, 以降低系统绘制开销.</p>
+<p>以下几种情况会触发视图重绘:</p>
+<ol>
+<li>当遮挡视图的其他视图被移动或删除操作的时候;</li>
+<li>将视图的hidden属性声明设置为NO, 使其从隐藏状态变为可见;</li>
+<li>将视图滚出屏幕, 然后再重新回到屏幕上;</li>
+<li>显式调用视图的setNeedsDisplay或者setNeedsDisplayInRect方法;</li>
+</ol>
+<h2 id="填充与描边"><a href="#填充与描边" class="headerlink" title="填充与描边"></a>填充与描边</h2><p>UIKit提供了基础的绘图功能, 主要API有:</p>
+<ol>
+<li>UIRectFill: 矩形填充;</li>
+<li>UIRectFrame: 矩形描边;</li>
+<li><p>UIBezierPath: 绘制常见路径, 包括线段, 弧形, 矩形, 圆角矩形和椭圆;</p>
+<pre><code>override func draw(_ rect: CGRect) {
+    // Drawing code
+    //为当前的图形上下文设置要填充的颜色
+    UIColor.brown.setFill()
+    //填充矩形
+    UIRectFill(rect)
+
+    //设置描边颜色
+    UIColor.white.setStroke()
+    let frame = CGRect(x: 20, y: 30, width: 100, height: 300)
+    //描边
+    UIRectFrame(frame)
 }
-</code></pre><h2 id="拍摄静态图片"><a href="#拍摄静态图片" class="headerlink" title="拍摄静态图片"></a>拍摄静态图片</h2><p>在setupSession()方法中,我们将一个AVCaptureStillImageOutput实例添加到了捕捉会话中.这个类是AVCaptureOutput的子类,用于捕捉静态图片.其outputSettings属性可用来配置要捕捉的图片.</p>
-<p>AVCaptureStillImageOutput类定义了captureStillImageAsynchronouslyFromConnection()方法来执行实际的拍摄.</p>
-<pre><code>//捕捉静态图片
-func captureStillImage() -&gt; Void {
-    //1. 建立输入和输出的连接
-    let connection = self.imageOutput.connectionWithMediaType(AVMediaTypeVideo)
-    //2. 设置照片方向
-    if connection.supportsVideoOrientation {
-        connection.videoOrientation = self.currentVideoOrientation()
-    }
+</code></pre></li>
+</ol>
+<h2 id="绘制图像和文本"><a href="#绘制图像和文本" class="headerlink" title="绘制图像和文本"></a>绘制图像和文本</h2><p>UIImage类中绘制图像主要的方法:</p>
+<ol>
+<li>drawAtPoint: 以指定点作为起始点进行绘制;</li>
+<li>drawInRect: 在指定区域内绘制;</li>
+<li>drawAsPatternInRect: 在指定的矩形里平铺图片,如果图片大小超出了指定的矩形, 形式上与drawAtPoint方法类似了, 如果图片大小小于指定的矩形，就会有平铺的效果;</li>
+</ol>
+<p>NSString中绘制文本的主要方法如下:</p>
+<ol>
+<li>draw(at point: CGPoint, withAttributes attrs: [String : Any]?): 在指定点开始绘制文本;</li>
+<li>draw(in rect: CGRect, withAttributes attrs: [String : Any]?): 在制定区域内绘制文本;</li>
+</ol>
+<p>示例如下:</p>
+<pre><code>override func draw(_ rect: CGRect) {
 
-    //3. 拍摄照片        
-    self.imageOutput.captureStillImageAsynchronouslyFromConnection(connection) { (sampleBuffer, error) in
-        if sampleBuffer != nil{
-            let imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(sampleBuffer)
-            let image = UIImage(data: imageData)
-        }else{
-            print(error.localizedDescription)
-        }
+    let imgPath = Bundle.main.path(forResource: &quot;cat&quot;, ofType: &quot;png&quot;)
+    guard (imgPath != nil)  else {
+        return;
     }
-}  
-</code></pre><p>其中currentVideoOrientation()方法的实现如下:</p>
-<pre><code>//获取当前视频方向
-func currentVideoOrientation() -&gt; AVCaptureVideoOrientation {
-    var orientation:AVCaptureVideoOrientation!
-    switch UIDevice.currentDevice().orientation {
-    case .Portrait:
-        orientation = .Portrait
-    case .LandscapeRight:
-        orientation = .LandscapeRight
-    case .PortraitUpsideDown:
-        orientation = .PortraitUpsideDown
-    case .LandscapeLeft:
-        orientation = .LandscapeLeft
-    default:
-        orientation = .Portrait
-    }
-    return orientation
-}    
-</code></pre><h2 id="存储图片到相册"><a href="#存储图片到相册" class="headerlink" title="存储图片到相册"></a>存储图片到相册</h2><p>在获取到拍摄图片输出对象的sampleBuffer并将其转化为UIImage对象后,就可以将其写入到系统相册中了.</p>
-<p>在获取到转换的UIImage对象后增加如下代码:</p>
-<pre><code>//4. 写入照片
-self.writeImageToAssetsLibrary(image!)
-</code></pre><p>并实现writeImageToAssetsLibrary()方法如下:</p>
-<pre><code>//将捕捉到的图片写入到相册
-func writeImageToAssetsLibrary(image:UIImage) -&gt; Void {
-    //1. 判断相册访问权限
-    let authStatus = ALAssetsLibrary.authorizationStatus()
-    if authStatus == .Denied || authStatus == .Restricted {
-        UIAlertView(title: &quot;提示&quot;, message: &quot;请打开相册访问权限&quot;, delegate: nil, cancelButtonTitle: &quot;确定&quot;).show()
-        return
-    }
+    let img = UIImage(contentsOfFile: imgPath!)
+    img?.draw(in: rect)
 
-    //2. 存储图片
-    let library = ALAssetsLibrary()
-    let orientation = ALAssetOrientation(rawValue: image.imageOrientation.rawValue)
-    library.writeImageToSavedPhotosAlbum(image.CGImage, orientation: orientation!) { (assetURL, error) in
-        if error != nil{
-            print(error.localizedDescription)
-        }
-    }
-}       
-</code></pre><h1 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h1><p>打开ViewController类,找到captureBtnDidClicked()方法,将其修改为:</p>
-<pre><code>@IBAction func captureBtnDidClicked(sender: CaptureButton) {
-    if self.cameraModel == CameraModel.Video{
-        sender.selected = !sender.selected
-    }else{
-        self.captureModel.captureStillImage()
-    }
+    let title = &quot;我的小狗&quot; as NSString
+    let font = UIFont.systemFont(ofSize: 34)
+    let attr = [NSFontAttributeName:font]
+    let point = CGPoint(x:100,y:20)
+    title.draw(at: point, withAttributes: attr)
 }
-</code></pre><p>编译运行程序,切换到Photo模式,点击拍摄按钮.然后在系统相册中查看拍摄的照片.        </p>
+</code></pre><h1 id="Quartz图形上下文"><a href="#Quartz图形上下文" class="headerlink" title="Quartz图形上下文"></a>Quartz图形上下文</h1><p>想象在绘画时, 图像上下文便是你的手, 想画红色时，就拿起红色画笔，想画绿色就拿起绿色画笔. 当切换图形上下文的颜色及其它参数时, 就是在替换不同的蜡笔.</p>
+<p>图形上下文包括了绘制命令所需要的信息, 定义了各种基本的绘制参数, 比如绘制使用的颜色、裁剪区域、线段的宽度及风格信息、字体信息、合成选项以及几个其他信息.</p>
+<p>在调用drawRect方法之前, 视图对象会自动配置其绘制环境, 使代码立即执行进行绘制. 作为这些配置的一部分, UIView对象会对当前绘制环境创建一个图形上下文(对应于CGContextRef封装类型). 在前面的实例中就是采用这种默认方式的图形上下文. </p>
+<p>也可以在drawRect方法中通过UIGraphicsGetCurrentContext()方法手动获取到图形上下文对象. 图形上下文仅对当前的drawRect:方法使用有效, 不要把图形上下文对象设置为成员变量.</p>
+<p>下面的代码绘制了一个黑色描边, 红色填充的三角形:</p>
+<pre><code>override func draw(_ rect: CGRect) {
+    // Drawing code
+    let context = UIGraphicsGetCurrentContext()
+    context?.move(to: CGPoint(x: 75, y: 10))
+    context?.addLine(to: CGPoint(x: 10, y: 150))
+    context?.addLine(to: CGPoint(x:160,y:150))
 
+    //闭合路径
+    context?.closePath()
+    //设置描边色和填充色
+    UIColor.black.setStroke()
+    UIColor.red.setFill()
+
+    context?.drawPath(using: .fillStroke)
+
+}
+</code></pre><h1 id="Quartz路径"><a href="#Quartz路径" class="headerlink" title="Quartz路径"></a>Quartz路径</h1><p>Quartz路径可以用来描述矩形, 圆, 以及其他想要的2D几何图形. 通过路径可以对几何图形进行各种处理. Quartz 2D中有4种基本图元: 点, 线段, 弧和贝塞尔曲线.</p>
+<ol>
+<li>点: 点是二维空间中的一个位置, 不等同于像素, 一个点完全不占空间. 画一个点不会在屏幕上显示任何东西; </li>
+<li>线段: 线段由起点和终点两个点定义. 线段没有面积，所依它们不能被填充.可以用一组线段或者曲线组成一个具有闭合路径的几何图形, 然后进行填充;</li>
+<li>弧: 弧由一个圆心点、半径、起始角和结束角定义. 圆是弧的特例. 弧是占有一定面积的路径, 所以可以被填充、描边和描边填充出来; </li>
+<li>贝塞尔: 任何一条曲线都可以通过与它相切的控制线两端的点的位置来定义. 贝塞尔曲线可以用4个点描述, 其中两个点描述两个端点, 另外两个描述每一端的切线;</li>
+</ol>
+<h1 id="Quartz坐标变换"><a href="#Quartz坐标变换" class="headerlink" title="Quartz坐标变换"></a>Quartz坐标变换</h1><p>不同的绘图系统对坐标系的定义有所区别.</p>
+<h2 id="坐标系"><a href="#坐标系" class="headerlink" title="坐标系"></a>坐标系</h2><p>在iOS中Quartz坐标系和UIKit坐标系有所不同, 具体来说:</p>
+<ul>
+<li>Quartz 2D坐标系: 原点在左下角, x向右为正, y向上为正;</li>
+<li>UIKit坐标系: 原点在左上角, x向右为正, y向下为正;</li>
+</ul>
+<h2 id="2D图形的基本变换"><a href="#2D图形的基本变换" class="headerlink" title="2D图形的基本变换"></a>2D图形的基本变换</h2><p>2D图形的基本变换包括平移, 缩放, 旋转, 反射和仿射几种形式.</p>
+<h3 id="平移变换"><a href="#平移变换" class="headerlink" title="平移变换"></a>平移变换</h3><p>平移是一物体从一个位置到另一个位置所做的直线移动. 如果要把一个位于P(x,y)的点移到新位置p’(x’,y’)时, 只要在原坐标加上平移距离Tx及Ty即可.</p>
+<h3 id="缩放变换"><a href="#缩放变换" class="headerlink" title="缩放变换"></a>缩放变换</h3><p>用来改变一物体大小的变换称为缩放变换. 如果要对一个多边形进行比例变换, 那么可把各顶点的坐标(x,y)均乘以比例因子Sx、Sy可以相等或不等. 如果比例因子数值小于1, 则物体尺寸减小; 大于1, 则使物体放大; Sx及Sy都等于1,则物体大小形状不变.</p>
+<h3 id="旋转变换"><a href="#旋转变换" class="headerlink" title="旋转变换"></a>旋转变换</h3><p>物体上的各点绕一固定点沿圆周路径转动称为旋转变换. 可以用旋转角表示旋转量的大小. 一个点由位置(x,y)旋转到(x’,y’), 从水平轴到(x’,y’)的角度即为旋转角.</p>
+<h3 id="反射变换"><a href="#反射变换" class="headerlink" title="反射变换"></a>反射变换</h3><p>反射是用来产生物体的镜像的一种变换. 物体的镜像一般是相对于一个对称轴产生的, 因此反射变换可以分为x轴对称变换、y轴对称变换和坐标原点的对称变换. </p>
+<p>下面的示例将使用Quartz坐标系绘制的”倒图”调整为正:</p>
+<pre><code>override func draw(_ rect: CGRect) {
+
+    let imgPath = Bundle.main.path(forResource: &quot;cat&quot;, ofType: &quot;png&quot;)
+    guard (imgPath != nil)  else {
+        return;
+    }
+    let img = UIImage(contentsOfFile: imgPath!)
+
+    let ctx = UIGraphicsGetCurrentContext()
+
+    //注释掉下面两句代码, 图片会倒过来
+    //平移变换
+    ctx?.translateBy(x: 0, y: img!.size.height)
+    //反射变换 - y轴对称变换
+    ctx?.scaleBy(x: 1, y: -1)
+
+
+    let rect = CGRect(x: 0, y: 0, width: img!.size.width, height: img!.size.height)
+
+    ctx?.draw(img!.cgImage!, in: rect)
+
+}
+</code></pre><h1 id="仿射变换"><a href="#仿射变换" class="headerlink" title="仿射变换"></a>仿射变换</h1><p>仿射(affine)变换也是一种2D坐标变换. 它可以重用变换, 经过多次变换(即多次的矩阵相乘), 每一种变换都可以用矩阵表示, 通过多次矩阵相乘得到最后结果.</p>
+<p>例如上例中调整”倒图”的代码, 也可以使用仿射变换达到同样的效果:</p>
+<pre><code>var myAffine = CGAffineTransform(translationX: 0, y: img!.size.height)
+myAffine = myAffine.scaledBy(x: 1, y: -1)
+ctx?.concatenate(myAffine)
+</code></pre>
       
     </div>
     
@@ -321,13 +379,13 @@ func writeImageToAssetsLibrary(image:UIImage) -&gt; Void {
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2016/07/15/捕捉静态图片/">捕获静态图片</a></p>
+        <p><span>本文标题:</span><a href="/2017/01/10/UIKit与Quartz 2D绘图技术概要(swift)/">UIKit与Quartz 2D绘图技术概要(swift)</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 Miu 的个人博客">Miu</a></p>
-        <p><span>发布时间:</span>2016年07月15日 - 14时25分</p>
-        <p><span>最后更新:</span>2016年07月18日 - 21时42分</p>
+        <p><span>发布时间:</span>2017年01月10日 - 23时07分</p>
+        <p><span>最后更新:</span>2017年01月12日 - 22时57分</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2016/07/15/捕捉静态图片/" title="捕获静态图片">http://www.devzhang.cn/2016/07/15/捕捉静态图片/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://www.devzhang.cn/2016/07/15/捕捉静态图片/　　作者: Miu" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2017/01/10/UIKit与Quartz 2D绘图技术概要(swift)/" title="UIKit与Quartz 2D绘图技术概要(swift)">http://www.devzhang.cn/2017/01/10/UIKit与Quartz 2D绘图技术概要(swift)/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://www.devzhang.cn/2017/01/10/UIKit与Quartz 2D绘图技术概要(swift)/　　作者: Miu" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script src="/js/clipboard.min.js"></script>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
@@ -340,18 +398,9 @@ func writeImageToAssetsLibrary(image:UIImage) -&gt; Void {
 
 <nav id="article-nav">
   
-    <a href="/2016/07/18/捕获视频/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption"><</strong>
-      <div class="article-nav-title">
-        
-          捕获视频
-        
-      </div>
-    </a>
   
-  
-    <a href="/2016/07/13/使用AVCaptureSession采集视频/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">使用AVCaptureSession采集视频</div>
+    <a href="/2017/01/04/Objective-C之GCD概要/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Objective-C之GCD概要</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -362,7 +411,7 @@ func writeImageToAssetsLibrary(image:UIImage) -&gt; Void {
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#实现步骤"><span class="toc-number">1.</span> <span class="toc-text">实现步骤</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#初始化AVCaptureStillImageOutput对象"><span class="toc-number">1.1.</span> <span class="toc-text">初始化AVCaptureStillImageOutput对象</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#拍摄静态图片"><span class="toc-number">1.2.</span> <span class="toc-text">拍摄静态图片</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#存储图片到相册"><span class="toc-number">1.3.</span> <span class="toc-text">存储图片到相册</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#测试"><span class="toc-number">2.</span> <span class="toc-text">测试</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#绘制视图"><span class="toc-number">1.</span> <span class="toc-text">绘制视图</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#视图绘制周期"><span class="toc-number">1.1.</span> <span class="toc-text">视图绘制周期</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#填充与描边"><span class="toc-number">1.2.</span> <span class="toc-text">填充与描边</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#绘制图像和文本"><span class="toc-number">1.3.</span> <span class="toc-text">绘制图像和文本</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Quartz图形上下文"><span class="toc-number">2.</span> <span class="toc-text">Quartz图形上下文</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Quartz路径"><span class="toc-number">3.</span> <span class="toc-text">Quartz路径</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Quartz坐标变换"><span class="toc-number">4.</span> <span class="toc-text">Quartz坐标变换</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#坐标系"><span class="toc-number">4.1.</span> <span class="toc-text">坐标系</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2D图形的基本变换"><span class="toc-number">4.2.</span> <span class="toc-text">2D图形的基本变换</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#平移变换"><span class="toc-number">4.2.1.</span> <span class="toc-text">平移变换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#缩放变换"><span class="toc-number">4.2.2.</span> <span class="toc-text">缩放变换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#旋转变换"><span class="toc-number">4.2.3.</span> <span class="toc-text">旋转变换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#反射变换"><span class="toc-number">4.2.4.</span> <span class="toc-text">反射变换</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#仿射变换"><span class="toc-number">5.</span> <span class="toc-text">仿射变换</span></a></li></ol>
 </div>
 <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
 
@@ -410,7 +459,7 @@ func writeImageToAssetsLibrary(image:UIImage) -&gt; Void {
     
       <div class="duoshuo" id="comments">
     <!-- 多说评论框 start -->
-    <div class="ds-thread" data-thread-key="2016/07/15/捕捉静态图片/" data-title="捕获静态图片" data-url="http://www.devzhang.cn/2016/07/15/捕捉静态图片/"></div>
+    <div class="ds-thread" data-thread-key="2017/01/10/UIKit与Quartz 2D绘图技术概要(swift)/" data-title="UIKit与Quartz 2D绘图技术概要(swift)" data-url="http://www.devzhang.cn/2017/01/10/UIKit与Quartz 2D绘图技术概要(swift)/"></div>
     <!-- 多说评论框 end -->
     <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
     <script type="text/javascript">
@@ -433,13 +482,11 @@ func writeImageToAssetsLibrary(image:UIImage) -&gt; Void {
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2016/07/18/捕获视频/" title="上一篇: 捕获视频">
-                <i class="fa fa-angle-left"></i>
-            </a>
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
         
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
         
-            <a href="/2016/07/13/使用AVCaptureSession采集视频/" title="下一篇: 使用AVCaptureSession采集视频">
+            <a href="/2017/01/04/Objective-C之GCD概要/" title="下一篇: Objective-C之GCD概要">
                 <i class="fa fa-angle-right"></i>
             </a>
         
