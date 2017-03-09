@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://www.devzhang.cn/2017/03/09/objc%E7%BB%A7%E6%89%BF%E4%B8%AD%E7%9A%84init%E6%96%B9%E6%B3%95/</loc>
+    
+    <lastmod>2017-03-09T14:59:15.628Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://www.devzhang.cn/2017/01/10/UIKit%E4%B8%8EQuartz%202D%E7%BB%98%E5%9B%BE%E6%8A%80%E6%9C%AF%E6%A6%82%E8%A6%81(swift)/</loc>
     
     <lastmod>2017-01-12T15:02:56.000Z</lastmod>
