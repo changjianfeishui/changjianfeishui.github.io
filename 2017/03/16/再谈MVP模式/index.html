@@ -3,30 +3,24 @@
 <head>
   <meta charset="utf-8">
   
-  <title>标准输入输出流和标准错误流介绍 | 做点有意思的事情</title>
+  <title>再谈MVP模式 | 做点有意思的事情</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="本篇笔记包含以下内容:
-
-标准错误流cerr
-标准输入流cin的部分方法
-标准输出流cout的部分方法">
+  <meta name="description" content="为什么写这篇文章之前在cocoaChina上投过一篇iOS基于mvc的项目重构总结。时过一年，现在回头再看，发现当初对于MVP的理解十分浅薄,再加上这几天在论坛上又看到了谈MV“X”模式的文章,发现有些文章其实还是犯了和我当初一样的错误. 为了对被我误导过的同学负责, 所以才有了这篇文章.
+声明一下, 作者并不是架构师,也不是所谓的大神. 此文仅仅为一篇学习总结.
+注: 本文谈论的MVP都指的是P">
 <meta property="og:type" content="article">
-<meta property="og:title" content="标准输入输出流和标准错误流介绍">
-<meta property="og:url" content="http://www.devzhang.cn/2016/10/09/标准输入输出流和标准错误流介绍/index.html">
+<meta property="og:title" content="再谈MVP模式">
+<meta property="og:url" content="http://www.devzhang.cn/2017/03/16/再谈MVP模式/index.html">
 <meta property="og:site_name" content="做点有意思的事情">
-<meta property="og:description" content="本篇笔记包含以下内容:
-
-标准错误流cerr
-标准输入流cin的部分方法
-标准输出流cout的部分方法">
-<meta property="og:updated_time" content="2016-10-09T15:40:50.000Z">
+<meta property="og:description" content="为什么写这篇文章之前在cocoaChina上投过一篇iOS基于mvc的项目重构总结。时过一年，现在回头再看，发现当初对于MVP的理解十分浅薄,再加上这几天在论坛上又看到了谈MV“X”模式的文章,发现有些文章其实还是犯了和我当初一样的错误. 为了对被我误导过的同学负责, 所以才有了这篇文章.
+声明一下, 作者并不是架构师,也不是所谓的大神. 此文仅仅为一篇学习总结.
+注: 本文谈论的MVP都指的是P">
+<meta property="og:updated_time" content="2017-03-19T14:07:21.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="标准输入输出流和标准错误流介绍">
-<meta name="twitter:description" content="本篇笔记包含以下内容:
-
-标准错误流cerr
-标准输入流cin的部分方法
-标准输出流cout的部分方法">
+<meta name="twitter:title" content="再谈MVP模式">
+<meta name="twitter:description" content="为什么写这篇文章之前在cocoaChina上投过一篇iOS基于mvc的项目重构总结。时过一年，现在回头再看，发现当初对于MVP的理解十分浅薄,再加上这几天在论坛上又看到了谈MV“X”模式的文章,发现有些文章其实还是犯了和我当初一样的错误. 为了对被我误导过的同学负责, 所以才有了这篇文章.
+声明一下, 作者并不是架构师,也不是所谓的大神. 此文仅仅为一篇学习总结.
+注: 本文谈论的MVP都指的是P">
   
   
     <link rel="icon" href="/img/head.jpg">
@@ -200,11 +194,11 @@
         </header>                
     </div>
 </nav>
-      <div class="body-wrap"><article id="post-标准输入输出流和标准错误流介绍" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-再谈MVP模式" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016/10/09/标准输入输出流和标准错误流介绍/" class="article-date">
-      <time datetime="2016-10-09T14:11:52.000Z" itemprop="datePublished">2016-10-09</time>
+      <a href="/2017/03/16/再谈MVP模式/" class="article-date">
+      <time datetime="2017-03-16T14:37:30.000Z" itemprop="datePublished">2017-03-16</time>
 </a>
     </div>
   
@@ -217,7 +211,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      标准输入输出流和标准错误流介绍
+      再谈MVP模式
     </h1>
   
 
@@ -226,13 +220,13 @@
       <div class="article-info article-info-post">
         
     <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/Cpp/">C++</a>
+    <a class="article-category-link" href="/categories/iOS/">iOS</a>
     </div>
 
 
         
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/学习笔记/">学习笔记</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MVP/">MVP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/架构/">架构</a></li></ul>
     </div>
 
         <div class="clearfix"></div>
@@ -242,107 +236,36 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>本篇笔记包含以下内容:</p>
+        <h1 id="为什么写这篇文章"><a href="#为什么写这篇文章" class="headerlink" title="为什么写这篇文章"></a>为什么写这篇文章</h1><p>之前在cocoaChina上投过一篇<a href="http://www.cocoachina.com/ios/20160519/16346.html" target="_blank" rel="external">iOS基于mvc的项目重构总结</a>。时过一年，现在回头再看，发现当初对于MVP的理解十分浅薄,再加上这几天在论坛上又看到了谈MV“X”模式的文章,发现有些文章其实还是犯了和我当初一样的错误. 为了对被我误导过的同学负责, 所以才有了这篇文章.</p>
+<p>声明一下, 作者并不是架构师,也不是所谓的大神. 此文仅仅为一篇学习总结.</p>
+<p>注: 本文谈论的MVP都指的是Passive View模式.</p>
+<h1 id="现阶段我理解的MVP"><a href="#现阶段我理解的MVP" class="headerlink" title="现阶段我理解的MVP"></a>现阶段我理解的MVP</h1><p>作为一名移动端开发者,我对软件质量的追求是稳定,流畅,可扩展.<br>无论我们使用何种架构进行开发, 目的都可以总结为两点: 缩短开发周期(不加班),降低维护成本(不加班). </p>
+<p>MVP上承MVC, 下启MVVM, 可以说理解了MVP,就对整个MV”X”模式有了一个基本的了解.</p>
+<p>在我现阶段的理解中, MVP其实并不是一种软件架构模式, 而是为了解决GUI开发过程中代码组织和职责规划的问题才总结出来的一套开发方法. MVP解决的只是”用户交互”-“数据处理”-“界面更新”这三者之间的问题. </p>
 <ul>
-<li>标准错误流cerr</li>
-<li>标准输入流cin的部分方法</li>
-<li>标准输出流cout的部分方法</li>
+<li>Model: 数据层, 从本地数据库或者服务器获取并处理数据, 然后将数据反馈给presenter;</li>
+<li>Presenter: 业务处理层, 接收处理View传递过来的用户交互事件, 从Model层获取数据后进行业务逻辑处理, 然后更新View;</li>
+<li>View: 展示层, 将所有的交互事件传递给presenter处理, 自身只提供更新数据的接口(对iOS来说, ViewController显示也属于View层).</li>
 </ul>
-<a id="more"></a>
-<h1 id="标准错误流cerr"><a href="#标准错误流cerr" class="headerlink" title="标准错误流cerr"></a>标准错误流cerr</h1><p>标准错误流cerr用于向控制台输出错误信息</p>
-<p><a href="http://blog.csdn.net/garfield2005/article/details/7639833" target="_blank" rel="external">cerr与cout的区别</a></p>
-<p>代码示例:</p>
-<pre><code>#include &lt;iostream&gt;
-#include &lt;math.h&gt;
-#include &lt;string&gt;
-using namespace std;
-
-
-void test1();
-
-int main(int argc, const char * argv[]) {
-    // insert code here...
-    test1();
-
-    return 0;
-}
-
-void test1()
-{
-    cout &lt;&lt; &quot;请输入姓名和年龄:&quot;;
-    string name;
-    int age;
-    cin &gt;&gt; name &gt;&gt; age;
-    if (age &lt;= 0) {
-        cerr &lt;&lt; &quot;\n年龄不能小于0!&quot;;
-    }else{
-        cout &lt;&lt; name &lt;&lt; &quot; is &quot; &lt;&lt; age;
-    }
-}    
-</code></pre><h1 id="标准输入流cin"><a href="#标准输入流cin" class="headerlink" title="标准输入流cin"></a>标准输入流cin</h1><p>下面对cin的一些方法进行简要介绍,这些方法可以增强对输入操作的控制</p>
-<h2 id="get"><a href="#get" class="headerlink" title="get()"></a>get()</h2><p>cin.get()接受一个输入字符(包括空白符,制表符,回车符),并返回该字符值,.</p>
-<pre><code>void test2()
-{
-    char tmp;
-    cin.get(tmp);
-    cout &lt;&lt; &quot;input: &quot; &lt;&lt; tmp &lt;&lt; endl;
-}
-</code></pre><h2 id="ignore-和getline"><a href="#ignore-和getline" class="headerlink" title="ignore()和getline()"></a>ignore()和getline()</h2><p>cin.ignore(int n)的作用是忽略前n个输入的字符.</p>
-<p>cin.getline()接输入的一行字符, 可以通过参数控制截取的字符数量.</p>
-<pre><code>void test3()
-{
-    char buf[20];
-    cout &lt;&lt; &quot;input a text: \n&quot;;    //输入:123456789
-    cin.ignore(5);                    //忽略前5个字符
-    cin.getline(buf, 3);            //截取两个字符
-    cout &lt;&lt; buf &lt;&lt; endl;            //输出67
-}
-</code></pre><h2 id="peek"><a href="#peek" class="headerlink" title="peek()"></a>peek()</h2><p>cin.peek()方法从输入流中指针指向的字符, 不修改指针, 而get()方法会使指针后移.</p>
-<pre><code>void test4()
-{
-    char p;
-    cout&lt;&lt;&quot;input text: \n&quot;;
-
-    while (cin.peek() != &apos;\n&apos;) {
-        cout &lt;&lt; (p=cin.get());
-    }
-    cout &lt;&lt; endl;
-
-}
-</code></pre><h2 id="read-和write"><a href="#read-和write" class="headerlink" title="read()和write()"></a>read()和write()</h2><p>read方法接受指定数目的字符到数组中(可读入空白符). write方法从数组中输出指定数目的字符, 若指定数目大于数组长度, 则输出整个数组. </p>
-<pre><code>void test5(){
-    const int SIZE = 50;
-    char buf[SIZE];
-    cout &lt;&lt; &quot;input text : \n&quot;;
-    cin.read(buf, 5);
-    cout &lt;&lt; &quot;read方法读入的字符串长度是: &quot; &lt;&lt; cin.gcount();
-    cout &lt;&lt; &quot;输入的文本是:\n&quot;;
-    cout.write(buf, 3);
-    cout &lt;&lt; endl;
-}    
-</code></pre><h1 id="标准输出流cout"><a href="#标准输出流cout" class="headerlink" title="标准输出流cout"></a>标准输出流cout</h1><p>下面介绍一些限制输出结果格式的方法</p>
-<h2 id="precision"><a href="#precision" class="headerlink" title="precision()"></a>precision()</h2><p>precision方法可以通过四舍五入保留指定的精度.</p>
-<pre><code>void test6()
-{
-    double result = 3.141592654;
-    for (int i = 0; i &lt;= 9; i++) {
-        cout.precision(i);
-        cout &lt;&lt; result &lt;&lt;endl;
-    }
-}
-
-输出结果为:    
-3
-3
-3.1
-3.14
-3.142
-3.1416
-3.14159
-3.141593
-3.1415927
-3.14159265
-</code></pre><p>C++中数据的最小有效长度为1, 所以上面传入0和1的结果是一样的.    </p>
+<p>整个交互流程看起来大致是这样的:</p>
+<pre><code>用户交互-&gt;View获得交互事件-&gt;View将事件转发给Presenter-&gt;Presenter调用Model获取新数据-&gt;Presenter将数据推送给View进行展示
+</code></pre><p>严格来说, 三者之间的交互应该全部通过Interface来完成, 但在实际的开发中, 为了减少代码量, 有时会直接在<code>.h</code>文件中定义某些交互方法. 但是”Presenter将数据推送给View进行展示”这一层的交互应该严格使用Interface来完成.</p>
+<h1 id="使用MVP中遇到的问题"><a href="#使用MVP中遇到的问题" class="headerlink" title="使用MVP中遇到的问题"></a>使用MVP中遇到的问题</h1><p>就如上面的示例那样, 网上大部分谈论MV”X”模式所用的示例都是一个非常简单的界面, 如果实际使用MVP开发过程中往往会遇到复杂的多的问题.</p>
+<h2 id="V-P交互"><a href="#V-P交互" class="headerlink" title="V-P交互"></a>V-P交互</h2><p>View没有处理用户交互事件的能力, 而是将交互事件转发给Presenter进行处理, 注意上面的例子, Presenter暴露给View调用的方法应该都是没有返回值的, 更不能使用block回调. Presenter在业务逻辑处理完成后, 通过Interface将数据推送给View进行更新展示.</p>
+<p>否则就犯了最常见的错误, 将Presenter单纯的当做View调用Model的一个中介, 那此时的Presenter仅仅是一个Proxy而已. 失去了使用MVP的意义, 无法对Presenter进行不依赖UI环境的单元测试, View也丧失了复用性.</p>
+<h2 id="P-P交互"><a href="#P-P交互" class="headerlink" title="P-P交互"></a>P-P交互</h2><p>另一种常见情况是当父子视图都存在各自的Presenter时, 子视图获取了用户交互事件, 但子视图的Presenter不具备处理该交互事件的能力, 此时, 需要子视图的Presenter将交互事件传递给更上一级或多级视图的Presenter进行处理.</p>
+<p>一个具体的场景是, 在ViewController的根View的子视图中存在用户交互, 而且需要进行页面跳转, 但是继承自UIView的自定义控件是不能使用modal或push方法的. 这时就需要将事件传递到拥有页面跳转能力的根ViewController. 所以在根ViewController要实现的Interface中会包含一个@require的方法负责跳转, 其Presenter接受子视图发出的页面跳转通知, 参数就是已经包装好的目标界面, 然后调用View的相关方法实现跳转.</p>
+<h2 id="V-V交互"><a href="#V-V交互" class="headerlink" title="V-V交互"></a>V-V交互</h2><p>View和View的交互更多体现在动画场景中. 比如,两个view需要进行联动, 其中一个view接收到用户交互之后frame会发生变化(width收缩), 而另一个view的x是相对于第一个view的width布局的. </p>
+<p>在这种情况下, 由于MVP的响应事件应该严格规范到相应的presenter中, 如果不涉及到业务逻辑, 两个view的Presenter通过通知进行沟通, 同步两者的收缩或展开(这时两个view的Interface中都会有shrink和expansion两个方法).</p>
+<p>如果这两个view的状态和某个业务逻辑参数相关(比如关注状态), 则应该通过持有该状态的Model发出业务状态改变的通知, 各个presenter接受该参数, 然后处理各自的状态, 这样两个需要联动的view之间就不需要直接通讯了.</p>
+<p>最近一直在打王者农药, Demo也懒得写了. 代码永远要自己写才能想的更深入, 欢迎探讨交流.</p>
+<p>参考链接：</p>
+<ul>
+<li><a href="http://www.cnblogs.com/artech/archive/2010/03/25/1696205.html" target="_blank" rel="external">谈谈关于MVP模式中V-P交互问题</a></li>
+<li><a href="http://www.cnblogs.com/artech/archive/2010/04/12/1710681.html" target="_blank" rel="external">大话MVP</a></li>
+<li><a href="https://github.com/livoras/blog/issues/11" target="_blank" rel="external">界面之下：还原真实的MV*模式</a></li>
+<li><a href="https://segmentfault.com/a/1190000006016817" target="_blank" rel="external">GUI应用程序架构的十年变迁</a></li>
+</ul>
 
       
     </div>
@@ -351,13 +274,13 @@ void test1()
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2016/10/09/标准输入输出流和标准错误流介绍/">标准输入输出流和标准错误流介绍</a></p>
+        <p><span>本文标题:</span><a href="/2017/03/16/再谈MVP模式/">再谈MVP模式</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 Miu 的个人博客">Miu</a></p>
-        <p><span>发布时间:</span>2016年10月09日 - 22时11分</p>
-        <p><span>最后更新:</span>2016年10月09日 - 23时40分</p>
+        <p><span>发布时间:</span>2017年03月16日 - 22时37分</p>
+        <p><span>最后更新:</span>2017年03月19日 - 22时07分</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2016/10/09/标准输入输出流和标准错误流介绍/" title="标准输入输出流和标准错误流介绍">http://www.devzhang.cn/2016/10/09/标准输入输出流和标准错误流介绍/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://www.devzhang.cn/2016/10/09/标准输入输出流和标准错误流介绍/　　作者: Miu" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2017/03/16/再谈MVP模式/" title="再谈MVP模式">http://www.devzhang.cn/2017/03/16/再谈MVP模式/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://www.devzhang.cn/2017/03/16/再谈MVP模式/　　作者: Miu" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script src="/js/clipboard.min.js"></script>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
@@ -370,18 +293,9 @@ void test1()
 
 <nav id="article-nav">
   
-    <a href="/2016/11/01/C++中文件的输入和输出/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption"><</strong>
-      <div class="article-nav-title">
-        
-          C++中文件的输入和输出
-        
-      </div>
-    </a>
   
-  
-    <a href="/2016/09/20/时间和媒体的表示/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">时间和媒体的表示</div>
+    <a href="/2017/03/09/objc继承中的init方法/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">objc继承中的init方法</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -392,7 +306,7 @@ void test1()
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#标准错误流cerr"><span class="toc-number">1.</span> <span class="toc-text">标准错误流cerr</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#标准输入流cin"><span class="toc-number">2.</span> <span class="toc-text">标准输入流cin</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#get"><span class="toc-number">2.1.</span> <span class="toc-text">get()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ignore-和getline"><span class="toc-number">2.2.</span> <span class="toc-text">ignore()和getline()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#peek"><span class="toc-number">2.3.</span> <span class="toc-text">peek()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#read-和write"><span class="toc-number">2.4.</span> <span class="toc-text">read()和write()</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#标准输出流cout"><span class="toc-number">3.</span> <span class="toc-text">标准输出流cout</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#precision"><span class="toc-number">3.1.</span> <span class="toc-text">precision()</span></a></li></ol></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#为什么写这篇文章"><span class="toc-number">1.</span> <span class="toc-text">为什么写这篇文章</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#现阶段我理解的MVP"><span class="toc-number">2.</span> <span class="toc-text">现阶段我理解的MVP</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#使用MVP中遇到的问题"><span class="toc-number">3.</span> <span class="toc-text">使用MVP中遇到的问题</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#V-P交互"><span class="toc-number">3.1.</span> <span class="toc-text">V-P交互</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#P-P交互"><span class="toc-number">3.2.</span> <span class="toc-text">P-P交互</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#V-V交互"><span class="toc-number">3.3.</span> <span class="toc-text">V-V交互</span></a></li></ol></li></ol>
 </div>
 <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
 
@@ -440,7 +354,7 @@ void test1()
     
       <div class="duoshuo" id="comments">
     <!-- 多说评论框 start -->
-    <div class="ds-thread" data-thread-key="2016/10/09/标准输入输出流和标准错误流介绍/" data-title="标准输入输出流和标准错误流介绍" data-url="http://www.devzhang.cn/2016/10/09/标准输入输出流和标准错误流介绍/"></div>
+    <div class="ds-thread" data-thread-key="2017/03/16/再谈MVP模式/" data-title="再谈MVP模式" data-url="http://www.devzhang.cn/2017/03/16/再谈MVP模式/"></div>
     <!-- 多说评论框 end -->
     <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
     <script type="text/javascript">
@@ -463,13 +377,11 @@ void test1()
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2016/11/01/C++中文件的输入和输出/" title="上一篇: C++中文件的输入和输出">
-                <i class="fa fa-angle-left"></i>
-            </a>
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
         
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
         
-            <a href="/2016/09/20/时间和媒体的表示/" title="下一篇: 时间和媒体的表示">
+            <a href="/2017/03/09/objc继承中的init方法/" title="下一篇: objc继承中的init方法">
                 <i class="fa fa-angle-right"></i>
             </a>
         
