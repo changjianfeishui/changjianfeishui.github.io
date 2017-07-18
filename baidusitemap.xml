@@ -4,8 +4,28 @@
 
     
   <url>
+    <loc>http://www.devzhang.cn/2017/07/18/fastLane%E5%85%A5%E9%97%A8%E4%B9%8Bipa%E6%89%93%E5%8C%85/</loc>
+    <lastmod>2017-07-18T13:34:29.088Z</lastmod>
+    <data>
+        <display>
+        <title>fastLane入门之ipa打包</title>
+        <pubTime>2017-07-18T13:30:08.000Z</pubTime>
+        
+        <tag>fastlane</tag>
+         
+         
+           
+             
+              <breadCrumb title="iOS" url="http://www.devzhang.cn/categories/iOS/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://www.devzhang.cn/2017/07/17/fastLane%E5%85%A5%E9%97%A8%E4%B9%8Bsnapshot/</loc>
-    <lastmod>2017-07-17T15:18:16.235Z</lastmod>
+    <lastmod>2017-07-18T13:32:58.017Z</lastmod>
     <data>
         <display>
         <title>fastlane入门之snapshot</title>
@@ -25,7 +45,7 @@
     
   <url>
     <loc>http://www.devzhang.cn/2017/07/17/fastLane%E5%85%A5%E9%97%A8%E4%B9%8Bframeit/</loc>
-    <lastmod>2017-07-17T15:18:12.733Z</lastmod>
+    <lastmod>2017-07-18T13:31:19.627Z</lastmod>
     <data>
         <display>
         <title>fastlane入门之frameit</title>

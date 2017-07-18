@@ -3,18 +3,26 @@
 <head>
   <meta charset="utf-8">
   
-  <title>菜鸟学排序：直接插入排序 | 做点有意思的事情</title>
+  <title>fastLane入门之ipa打包 | 做点有意思的事情</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="还是体育课的栗子，一组学生上体育课，需要重新按身高从高到底进行列队，这时候有一个同学提出了一个方案：">
+  <meta name="description" content="fastlane是一套ruby脚本工具, 用于实现iOS或Android的持续集成及自动化发布. fastlane的安装及更多相关介绍参见其Github:fastlane)).
+本文使用的fastlane版本为2.47.0. 低版本可能会产生各种莫名其妙的问题. 配置fastlane时最好先翻墙,原因你懂的. 
+本文主要介绍使用fastlane命令行进行ipa打包及导出.">
 <meta property="og:type" content="article">
-<meta property="og:title" content="菜鸟学排序：直接插入排序">
-<meta property="og:url" content="http://www.devzhang.cn/2015/03/26/菜鸟学排序：直接插入排序/index.html">
+<meta property="og:title" content="fastLane入门之ipa打包">
+<meta property="og:url" content="http://www.devzhang.cn/2017/07/18/fastLane入门之ipa打包/index.html">
 <meta property="og:site_name" content="做点有意思的事情">
-<meta property="og:description" content="还是体育课的栗子，一组学生上体育课，需要重新按身高从高到底进行列队，这时候有一个同学提出了一个方案：">
-<meta property="og:updated_time" content="2016-11-29T16:52:49.027Z">
+<meta property="og:description" content="fastlane是一套ruby脚本工具, 用于实现iOS或Android的持续集成及自动化发布. fastlane的安装及更多相关介绍参见其Github:fastlane)).
+本文使用的fastlane版本为2.47.0. 低版本可能会产生各种莫名其妙的问题. 配置fastlane时最好先翻墙,原因你懂的. 
+本文主要介绍使用fastlane命令行进行ipa打包及导出.">
+<meta property="og:image" content="https://github.com/changjianfeishui/XBImageStore/raw/master/fastlane/2.png">
+<meta property="og:updated_time" content="2017-07-18T13:34:29.088Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="菜鸟学排序：直接插入排序">
-<meta name="twitter:description" content="还是体育课的栗子，一组学生上体育课，需要重新按身高从高到底进行列队，这时候有一个同学提出了一个方案：">
+<meta name="twitter:title" content="fastLane入门之ipa打包">
+<meta name="twitter:description" content="fastlane是一套ruby脚本工具, 用于实现iOS或Android的持续集成及自动化发布. fastlane的安装及更多相关介绍参见其Github:fastlane)).
+本文使用的fastlane版本为2.47.0. 低版本可能会产生各种莫名其妙的问题. 配置fastlane时最好先翻墙,原因你懂的. 
+本文主要介绍使用fastlane命令行进行ipa打包及导出.">
+<meta name="twitter:image" content="https://github.com/changjianfeishui/XBImageStore/raw/master/fastlane/2.png">
   
   
     <link rel="icon" href="/img/head.jpg">
@@ -188,11 +196,11 @@
         </header>                
     </div>
 </nav>
-      <div class="body-wrap"><article id="post-菜鸟学排序：直接插入排序" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-fastLane入门之ipa打包" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2015/03/26/菜鸟学排序：直接插入排序/" class="article-date">
-      <time datetime="2015-03-26T02:51:00.000Z" itemprop="datePublished">2015-03-26</time>
+      <a href="/2017/07/18/fastLane入门之ipa打包/" class="article-date">
+      <time datetime="2017-07-18T13:30:08.000Z" itemprop="datePublished">2017-07-18</time>
 </a>
     </div>
   
@@ -205,7 +213,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      菜鸟学排序：直接插入排序
+      fastLane入门之ipa打包
     </h1>
   
 
@@ -214,13 +222,13 @@
       <div class="article-info article-info-post">
         
     <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/Algorithm/">数据结构和算法</a>
+    <a class="article-category-link" href="/categories/iOS/">iOS</a>
     </div>
 
 
         
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/排序/">排序</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/fastlane/">fastlane</a></li></ul>
     </div>
 
         <div class="clearfix"></div>
@@ -230,38 +238,39 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>  还是体育课的栗子，一组学生上体育课，需要重新按身高从高到底进行列队，这时候有一个同学提出了一个方案：</p>
-<a id="more"></a>  
-<ol>
-<li>首先他自己站出来单独为一队，</li>
-<li><p>接着同学们一个个跟他单独所在的这个队的最后一个同学来比较身高，比最后一个同学还高则就站在这个队列的最后成为新的队尾，否则比最后一个同学矮的话就跟最后一个同学交换位置，再依次跟前面的同学比较交换，当这个方案提出同学所在队列只有一个人时，他自己本身即是队尾， 当他所在的队伍有j个人时，新加入的同学依次与j，j-1…比较交换，直到找到自己应该站的位置。</p>
-<p>代码实现思路就是将数组a[0]首先视作一个有序的数组，然后用a[1]与a[0]比较，假设大于a[0],则此时有序数组为a[0],a[1],接着插入a[2],假设这里a[0]&lt;a[2]&lt;a[1],那a[2]应该插入的位置就是a[1]所在的位置，a[1]应向后补位. 以此类推，每一个非插入有序数列尾端的数都会导致插入点所在位置后面的数全部后移一位，直到整个数组全部有序。</p>
-</li>
-</ol>
-<p>相信理解起来不算太难，所以不画图说明了（还不明白的可参考其他文章）。具体代码如下：</p>
-<pre><code>//直接插入排序  
-void  straightInsertSort(int *a,int n)  
-{  
-    //1.将a[0]视为一个有序的数列  
-    //2.将后面的数依次与有序数列进行比较，插入  
-    int i,j;  
-    int temp;  
+        <p>fastlane是一套ruby脚本工具, 用于实现iOS或Android的持续集成及自动化发布. fastlane的安装及更多相关介绍参见其Github:<a href="https://github.com/fastlane/fastlane" target="_blank" rel="external">fastlane</a>)).</p>
+<p>本文使用的fastlane版本为2.47.0. 低版本可能会产生各种莫名其妙的问题. 配置fastlane时最好先翻墙,原因你懂的. </p>
+<p>本文主要介绍使用fastlane命令行进行ipa打包及导出.</p>
+<a id="more"></a>
+<h1 id="fastlane初始化"><a href="#fastlane初始化" class="headerlink" title="fastlane初始化"></a>fastlane初始化</h1><p>cd到项目目录, 执行命令:</p>
+<pre><code>fastlane init
+</code></pre><p>按照提示输入AppleID, fastlane会自动与ITC(iTunes Connect)和ADP(Apple Developer Porta)同步项目信息, 并在项目目录下生成一个fastlane目录, 其结构如下:</p>
+<p><img src="https://github.com/changjianfeishui/XBImageStore/raw/master/fastlane/2.png" alt=""></p>
+<p>ipa打包主要关注<code>Fastfile</code>文件.</p>
+<h1 id="项目证书配置"><a href="#项目证书配置" class="headerlink" title="项目证书配置"></a>项目证书配置</h1><p>项目中打开<code>Automatically manage signing</code>, 使用Xcode自动管理证书. 否则, 之后在fastlane中还要进行证书相关的配置.</p>
+<h1 id="新建lane"><a href="#新建lane" class="headerlink" title="新建lane"></a>新建lane</h1><p>在<code>Fastfile</code>新建一个用于ipa打包的lane:</p>
+<pre><code>desc &quot;ipa打包&quot;
+lane :createIpa do
+  # sigh(adhoc:true)  #如果要使用ad-hoc打包, 则需打开此项配置
+  gym(scheme: &quot;fastlane-ipa&quot;,
+      workspace: &quot;fastlane-ipa.xcworkspace&quot;, # 可省略
+      configuration: &quot;Release&quot;,              # Debug or Release
+      clean: true,                           #清空上次打包信息
+      export_method:&quot;development&quot;                 # app-store, ad-hoc, package, enterprise, development, developer-id    
+  ) 
+  #使用自动证书管理
+  enable_automatic_code_signing(path: &quot;fastlane-ipa.xcodeproj&quot;)
+end
+</code></pre><p>参数说明:</p>
+<ul>
+<li>configuration: 指定编译方式为Debug 还是 Release, 默认为Release,</li>
+<li>export_method: 指定打包导出方式, 可以使用的值包括 app-store, ad-hoc, package, enterprise, development, developer-id</li>
+</ul>
+<p>详细参数的参见文档: <a href="https://docs.fastlane.tools/actions/#building" target="_blank" rel="external">https://docs.fastlane.tools/actions/#building</a></p>
+<h1 id="执行lane"><a href="#执行lane" class="headerlink" title="执行lane"></a>执行lane</h1><p>cd 到项目目录下, 执行命令:</p>
+<pre><code>fastlane createIpa
+</code></pre><p>命令执行完成后, 可以在项目目录下找到自动生成的ipa文件,和dYSM的压缩包.    </p>
 
-    //从小到大排  
-    for (i=1; i&lt;n; i++) {      //遍历待排序数列 a[1]...a[n-1]  
-        temp = a[i];  
-        for (j=i-1; j&gt;=0; j--) {//遍历有序数列  
-            if (temp&gt;a[j]) {  
-                a[j+1] = a[j];  
-            }else  
-            {  
-                break;  
-            }  
-        }  
-        a[j+1] = temp;  
-    }  
-}     
-</code></pre>
       
     </div>
     
@@ -269,13 +278,13 @@ void  straightInsertSort(int *a,int n)
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2015/03/26/菜鸟学排序：直接插入排序/">菜鸟学排序：直接插入排序</a></p>
+        <p><span>本文标题:</span><a href="/2017/07/18/fastLane入门之ipa打包/">fastLane入门之ipa打包</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 Miu 的个人博客">Miu</a></p>
-        <p><span>发布时间:</span>2015年03月26日 - 10时51分</p>
-        <p><span>最后更新:</span>2016年11月30日 - 00时52分</p>
+        <p><span>发布时间:</span>2017年07月18日 - 21时30分</p>
+        <p><span>最后更新:</span>2017年07月18日 - 21时34分</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2015/03/26/菜鸟学排序：直接插入排序/" title="菜鸟学排序：直接插入排序">http://www.devzhang.cn/2015/03/26/菜鸟学排序：直接插入排序/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://www.devzhang.cn/2015/03/26/菜鸟学排序：直接插入排序/　　作者: Miu" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2017/07/18/fastLane入门之ipa打包/" title="fastLane入门之ipa打包">http://www.devzhang.cn/2017/07/18/fastLane入门之ipa打包/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://www.devzhang.cn/2017/07/18/fastLane入门之ipa打包/　　作者: Miu" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script src="/js/clipboard.min.js"></script>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
@@ -288,18 +297,9 @@ void  straightInsertSort(int *a,int n)
 
 <nav id="article-nav">
   
-    <a href="/2015/03/26/菜鸟学排序：折半插入排序/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption"><</strong>
-      <div class="article-nav-title">
-        
-          菜鸟学排序：折半插入排序
-        
-      </div>
-    </a>
   
-  
-    <a href="/2015/03/25/菜鸟学排序：冒泡排序/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">菜鸟学排序：冒泡排序</div>
+    <a href="/2017/07/17/fastLane入门之frameit/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">fastlane入门之frameit</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -310,7 +310,7 @@ void  straightInsertSort(int *a,int n)
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#fastlane初始化"><span class="toc-number">1.</span> <span class="toc-text">fastlane初始化</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#项目证书配置"><span class="toc-number">2.</span> <span class="toc-text">项目证书配置</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#新建lane"><span class="toc-number">3.</span> <span class="toc-text">新建lane</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#执行lane"><span class="toc-number">4.</span> <span class="toc-text">执行lane</span></a></li></ol>
 </div>
 <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
 
@@ -358,7 +358,7 @@ void  straightInsertSort(int *a,int n)
     
       <div class="duoshuo" id="comments">
     <!-- 多说评论框 start -->
-    <div class="ds-thread" data-thread-key="2015/03/26/菜鸟学排序：直接插入排序/" data-title="菜鸟学排序：直接插入排序" data-url="http://www.devzhang.cn/2015/03/26/菜鸟学排序：直接插入排序/"></div>
+    <div class="ds-thread" data-thread-key="2017/07/18/fastLane入门之ipa打包/" data-title="fastLane入门之ipa打包" data-url="http://www.devzhang.cn/2017/07/18/fastLane入门之ipa打包/"></div>
     <!-- 多说评论框 end -->
     <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
     <script type="text/javascript">
@@ -381,13 +381,11 @@ void  straightInsertSort(int *a,int n)
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2015/03/26/菜鸟学排序：折半插入排序/" title="上一篇: 菜鸟学排序：折半插入排序">
-                <i class="fa fa-angle-left"></i>
-            </a>
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
         
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
         
-            <a href="/2015/03/25/菜鸟学排序：冒泡排序/" title="下一篇: 菜鸟学排序：冒泡排序">
+            <a href="/2017/07/17/fastLane入门之frameit/" title="下一篇: fastlane入门之frameit">
                 <i class="fa fa-angle-right"></i>
             </a>
         
