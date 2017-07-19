@@ -3,39 +3,24 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Objective-C内存管理之Autorelease | 做点有意思的事情</title>
+  <title>fastLane入门之plugin | 做点有意思的事情</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="顾名思义, autorelease就是自动释放, 类似于C语言中的局部变量, 当超出其作用域时, 该局部变量会被自动废弃.
-autorelease的具体使用方法如下:
-
-生成并持有NSAutoreleasePool对象
-调用已分配对象的autorelease实例方法
-废弃NSAutoreleasePool对象
-
-NSAutoreleasePool对象的生存周期相当于C语言变量的作用域. 对于所有调">
+  <meta name="description" content="fastlane是一套ruby脚本工具, 用于实现iOS或Android的持续集成及自动化发布. fastlane的安装及更多相关介绍参见其Github:fastlane)).
+本文使用的fastlane版本为2.47.0. 低版本可能会产生各种莫名其妙的问题. 配置fastlane时最好先翻墙,原因你懂的. 
+本文主要介绍使用fastlane插件firim的使用.">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Objective-C内存管理之Autorelease">
-<meta property="og:url" content="http://www.devzhang.cn/2016/11/21/Objective-C内存管理之Autorelease/index.html">
+<meta property="og:title" content="fastLane入门之plugin">
+<meta property="og:url" content="http://www.devzhang.cn/2017/07/19/fastLane入门之plugin/index.html">
 <meta property="og:site_name" content="做点有意思的事情">
-<meta property="og:description" content="顾名思义, autorelease就是自动释放, 类似于C语言中的局部变量, 当超出其作用域时, 该局部变量会被自动废弃.
-autorelease的具体使用方法如下:
-
-生成并持有NSAutoreleasePool对象
-调用已分配对象的autorelease实例方法
-废弃NSAutoreleasePool对象
-
-NSAutoreleasePool对象的生存周期相当于C语言变量的作用域. 对于所有调">
-<meta property="og:updated_time" content="2016-11-21T15:35:16.992Z">
+<meta property="og:description" content="fastlane是一套ruby脚本工具, 用于实现iOS或Android的持续集成及自动化发布. fastlane的安装及更多相关介绍参见其Github:fastlane)).
+本文使用的fastlane版本为2.47.0. 低版本可能会产生各种莫名其妙的问题. 配置fastlane时最好先翻墙,原因你懂的. 
+本文主要介绍使用fastlane插件firim的使用.">
+<meta property="og:updated_time" content="2017-07-19T15:09:00.753Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Objective-C内存管理之Autorelease">
-<meta name="twitter:description" content="顾名思义, autorelease就是自动释放, 类似于C语言中的局部变量, 当超出其作用域时, 该局部变量会被自动废弃.
-autorelease的具体使用方法如下:
-
-生成并持有NSAutoreleasePool对象
-调用已分配对象的autorelease实例方法
-废弃NSAutoreleasePool对象
-
-NSAutoreleasePool对象的生存周期相当于C语言变量的作用域. 对于所有调">
+<meta name="twitter:title" content="fastLane入门之plugin">
+<meta name="twitter:description" content="fastlane是一套ruby脚本工具, 用于实现iOS或Android的持续集成及自动化发布. fastlane的安装及更多相关介绍参见其Github:fastlane)).
+本文使用的fastlane版本为2.47.0. 低版本可能会产生各种莫名其妙的问题. 配置fastlane时最好先翻墙,原因你懂的. 
+本文主要介绍使用fastlane插件firim的使用.">
   
   
     <link rel="icon" href="/img/head.jpg">
@@ -209,11 +194,11 @@ NSAutoreleasePool对象的生存周期相当于C语言变量的作用域. 对于
         </header>                
     </div>
 </nav>
-      <div class="body-wrap"><article id="post-Objective-C内存管理之Autorelease" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-fastLane入门之plugin" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016/11/21/Objective-C内存管理之Autorelease/" class="article-date">
-      <time datetime="2016-11-21T15:08:34.000Z" itemprop="datePublished">2016-11-21</time>
+      <a href="/2017/07/19/fastLane入门之plugin/" class="article-date">
+      <time datetime="2017-07-19T15:07:26.000Z" itemprop="datePublished">2017-07-19</time>
 </a>
     </div>
   
@@ -226,7 +211,7 @@ NSAutoreleasePool对象的生存周期相当于C语言变量的作用域. 对于
         
   
     <h1 class="article-title" itemprop="name">
-      Objective-C内存管理之Autorelease
+      fastLane入门之plugin
     </h1>
   
 
@@ -241,7 +226,7 @@ NSAutoreleasePool对象的生存周期相当于C语言变量的作用域. 对于
 
         
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/内存管理/">内存管理</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/学习笔记/">学习笔记</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/fastlane/">fastlane</a></li></ul>
     </div>
 
         <div class="clearfix"></div>
@@ -251,49 +236,38 @@ NSAutoreleasePool对象的生存周期相当于C语言变量的作用域. 对于
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>顾名思义, autorelease就是自动释放, 类似于C语言中的局部变量, 当超出其作用域时, 该局部变量会被自动废弃.</p>
-<p>autorelease的具体使用方法如下:</p>
-<ol>
-<li>生成并持有NSAutoreleasePool对象</li>
-<li>调用已分配对象的autorelease实例方法</li>
-<li>废弃NSAutoreleasePool对象</li>
-</ol>
-<p>NSAutoreleasePool对象的生存周期相当于C语言变量的作用域. 对于所有调用过autorelease实例方法的对象, 在废弃NSAutoreleasePool对象的同时, 都将调用release实例方法. </p>
+        <p>fastlane是一套ruby脚本工具, 用于实现iOS或Android的持续集成及自动化发布. fastlane的安装及更多相关介绍参见其Github:<a href="https://github.com/fastlane/fastlane" target="_blank" rel="external">fastlane</a>)).</p>
+<p>本文使用的fastlane版本为2.47.0. 低版本可能会产生各种莫名其妙的问题. 配置fastlane时最好先翻墙,原因你懂的. </p>
+<p>本文主要介绍使用fastlane插件firim的使用.</p>
 <a id="more"></a>
-<p>用源代码表示如下:</p>
-<pre><code>NSAutoreleasePool *pool = [[NSAutoreleasePool alloc]init];
-id obj = [[NSObject alloc]init];
-[obj autorelease];
-[pool drain];    //等同于[obj release]
-</code></pre><p>在Cocoa框架中, 程序主循环的NSRunLoop会自动对NSAutoreleasePool对象进行生成, 持有和废弃. 尽管如此, 但在大量生成 autorelease对象时, 只要不废弃NSAutoreleasePool对象, 那么其中生成的对象就不会被释放, 因此可能会产生内存不足的情况. 典型的例子是处理大量图像时, 图像文件读入到NSData对象, 并从中生成UIImage对象, 进行处理后生成新的UIImage对象. 这种情况下, 会产生大量autorelease的对象.</p>
-<pre><code>for (int i = 0; i &lt; 图像数量; i++) {
-    /* 
-     * 读入图像
-     * 大量产生autorelease的对象
-     * 由于始终没有废弃NSAutoreleasePool对象
-     * 最终导致内存不足
-     */
-}
-</code></pre><p>此时,需要在适当的地方生成,持有或废弃NSAutoreleasePool对象.</p>
-<pre><code>for (int i = 0; i &lt; 图像数量; i++) {
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc]init];
-    /*
-     * 读入图像
-     * 大量产生autorelease的对象
-     */
+<h1 id="plugin命令介绍"><a href="#plugin命令介绍" class="headerlink" title="plugin命令介绍"></a>plugin命令介绍</h1><p>列出所有可用插件:</p>
+<pre><code>fastlane search_plugins
+</code></pre><p>搜索指定名称的插件:</p>
+<pre><code>fastlane search_plugins [query]
+</code></pre><p>添加插件:</p>
+<pre><code>fastlane add_plugin [name]
+</code></pre><p>安装插件:</p>
+<pre><code>fastlane install_plugins
+</code></pre><h1 id="firim配置"><a href="#firim配置" class="headerlink" title="firim配置"></a>firim配置</h1><p>使用上面的plugin命令安装插件<code>firim</code>, 安装完成后会生成3个文件:</p>
+<ul>
+<li>Gemfile</li>
+<li>Gemfile.lock</li>
+<li>fastlane/Pluginfile</li>
+</ul>
+<p>前往fir.im平台注册账号并生产API token.    </p>
+<p>在<code>Fastfile</code>中新建一个lane:</p>
+<pre><code>desc &quot;Deploy a test version to the fir.im&quot;
+lane :deployFirim do
+  createIpa
+  firim(firim_api_token: &quot;your firim token&quot;)
+end
+</code></pre><p>其中<code>createIpa</code>参见<a href="http://www.devzhang.cn/2017/07/18/fastLane%E5%85%A5%E9%97%A8%E4%B9%8Bipa%E6%89%93%E5%8C%85/">fastLane入门之ipa打包</a>.</p>
+<p>如果你的项目使用了cocoapods, 需要在<code>Gemfile</code>中添加一行:</p>
+<pre><code>gem &apos;cocoapods&apos;
+</code></pre><h1 id="打包并上传"><a href="#打包并上传" class="headerlink" title="打包并上传"></a>打包并上传</h1><p>cd到项目目录下, 执行命令:</p>
+<pre><code>fastlane deployFirim
+</code></pre><p>登录fir.im    查看, 应用已经上传完成.</p>
 
-    [pool drain];
-
-    /*
-     * 通过废弃pool对象
-     * autorelease的对象被一起release
-     */
-}
-</code></pre><p>另外, Cocoa框架中也有很多类方法用于返回autorelease的对象, 比如:</p>
-<pre><code>id array = [NSMutableArray arrayWithCapacity:1];
-</code></pre><p>等同于:</p>
-<pre><code>id array = [[[NSMutableArray alloc]initWithCapacity:1] autorelease];
-</code></pre>
       
     </div>
     
@@ -301,13 +275,13 @@ id obj = [[NSObject alloc]init];
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2016/11/21/Objective-C内存管理之Autorelease/">Objective-C内存管理之Autorelease</a></p>
+        <p><span>本文标题:</span><a href="/2017/07/19/fastLane入门之plugin/">fastLane入门之plugin</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 Miu 的个人博客">Miu</a></p>
-        <p><span>发布时间:</span>2016年11月21日 - 23时08分</p>
-        <p><span>最后更新:</span>2016年11月21日 - 23时35分</p>
+        <p><span>发布时间:</span>2017年07月19日 - 23时07分</p>
+        <p><span>最后更新:</span>2017年07月19日 - 23时09分</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2016/11/21/Objective-C内存管理之Autorelease/" title="Objective-C内存管理之Autorelease">http://www.devzhang.cn/2016/11/21/Objective-C内存管理之Autorelease/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://www.devzhang.cn/2016/11/21/Objective-C内存管理之Autorelease/　　作者: Miu" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2017/07/19/fastLane入门之plugin/" title="fastLane入门之plugin">http://www.devzhang.cn/2017/07/19/fastLane入门之plugin/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://www.devzhang.cn/2017/07/19/fastLane入门之plugin/　　作者: Miu" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script src="/js/clipboard.min.js"></script>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
@@ -320,18 +294,9 @@ id obj = [[NSObject alloc]init];
 
 <nav id="article-nav">
   
-    <a href="/2016/11/22/C++之指针/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption"><</strong>
-      <div class="article-nav-title">
-        
-          C++之指针
-        
-      </div>
-    </a>
   
-  
-    <a href="/2016/11/21/C++之模板/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">C++之模板</div>
+    <a href="/2017/07/18/fastLane入门之ipa打包/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">fastLane入门之ipa打包</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -342,7 +307,7 @@ id obj = [[NSObject alloc]init];
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#plugin命令介绍"><span class="toc-number">1.</span> <span class="toc-text">plugin命令介绍</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#firim配置"><span class="toc-number">2.</span> <span class="toc-text">firim配置</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#打包并上传"><span class="toc-number">3.</span> <span class="toc-text">打包并上传</span></a></li></ol>
 </div>
 <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
 
@@ -390,7 +355,7 @@ id obj = [[NSObject alloc]init];
     
       <div class="duoshuo" id="comments">
     <!-- 多说评论框 start -->
-    <div class="ds-thread" data-thread-key="2016/11/21/Objective-C内存管理之Autorelease/" data-title="Objective-C内存管理之Autorelease" data-url="http://www.devzhang.cn/2016/11/21/Objective-C内存管理之Autorelease/"></div>
+    <div class="ds-thread" data-thread-key="2017/07/19/fastLane入门之plugin/" data-title="fastLane入门之plugin" data-url="http://www.devzhang.cn/2017/07/19/fastLane入门之plugin/"></div>
     <!-- 多说评论框 end -->
     <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
     <script type="text/javascript">
@@ -413,13 +378,11 @@ id obj = [[NSObject alloc]init];
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2016/11/22/C++之指针/" title="上一篇: C++之指针">
-                <i class="fa fa-angle-left"></i>
-            </a>
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
         
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
         
-            <a href="/2016/11/21/C++之模板/" title="下一篇: C++之模板">
+            <a href="/2017/07/18/fastLane入门之ipa打包/" title="下一篇: fastLane入门之ipa打包">
                 <i class="fa fa-angle-right"></i>
             </a>
         
