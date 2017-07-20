@@ -219,42 +219,10 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>fastlane是一套ruby脚本工具, 用于实现iOS或Android的持续集成及自动化发布. fastlane的安装及更多相关介绍参见其Github:<a href="https://github.com/fastlane/fastlane" target="_blank" rel="external">fastlane</a>)).</p>
+              <p>fastlane是一套ruby脚本工具, 用于实现iOS或Android的持续集成及自动化发布. fastlane的安装及更多相关介绍参见其Github:<a href="https://github.com/fastlane/fastlane">fastlane</a>)).</p>
 <p>本文使用的fastlane版本为2.47.0. 低版本可能会产生各种莫名其妙的问题. 配置fastlane时最好先翻墙,原因你懂的. </p>
 <p>本文主要介绍使用fastlane上传应用数据到ITC.</p>
-<h1 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h1><p>cd到项目目录下, 执行命令:</p>
-<pre><code>fastlane init
-</code></pre><p>输入相关信息, 此时项目结构如下:</p>
-<p><img src="https://github.com/changjianfeishui/XBImageStore/raw/master/fastlane/3.png" alt=""></p>
-<p><code>metadata</code>目录下的每个txt文件与ITC中要填写的信息对应, 在相应的txt文件中填写相关信息. 比如关键词, 隐私政策网址等.</p>
-<p><code>screenshots</code>目录存放屏幕快照, 将要上传到ITC的图片分语言放在该目录下:</p>
-<p><img src="https://github.com/changjianfeishui/XBImageStore/raw/master/fastlane/4.png" alt=""></p>
-<h1 id="配置Fastfile"><a href="#配置Fastfile" class="headerlink" title="配置Fastfile"></a>配置Fastfile</h1><p>将一张1024*1024的icon图片放在生成的fastlane目录下. </p>
-<p>打开Fastfile文件, 修改其中原有的lane release 如下:</p>
-<pre><code>desc &quot;Deploy a new version to the App Store&quot;
-lane :release do
-# sigh(force: true)    #如果因为证书原因导致打包失败, 可以开启此项重置证书
-  gym(scheme: &quot;fastlane-snapshot&quot;,
-      configuration: &quot;Release&quot;,              # Debug or Release
-      clean: true,                           #清空上次打包信息
-      export_method:&quot;app-store&quot;                 # app-store, ad-hoc, package, enterprise, development, developer-id    
-  ) 
-  deliver(
-    submit_for_review: false,   #上传后自动提交审核
-    automatic_release: false,   #过审后自动发布
-    skip_binary_upload: false,  #跳过上传二进制文件
-    skip_screenshots: false,    #跳过上传截图
-    skip_metadata: false,       #跳过元数据
-    force: false,         #上传之前不生成html报告
-    price_tier: 0,        #应用价格等级
-    overwrite_screenshots: true,  #是否覆盖ITC上已有的截图
-    app_icon: &quot;./fastlane/1024.png&quot;,     #icon, 必须为1024*1024
-    screenshots_path: &quot;./fastlane/screenshots&quot;      #截图路径
-)
-end
-</code></pre><h1 id="上传"><a href="#上传" class="headerlink" title="上传"></a>上传</h1><p>执行命令:</p>
-<pre><code>fastlane release
-</code></pre>
+          
       
     </div>
     
@@ -271,6 +239,10 @@ end
         <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/fastlane/">fastlane</a></li></ul>
     </div>
 
+      
+        <p class="article-more-link">
+          <a  href="/2017/07/20/fastLane入门之deliver/#more">查看全文 >></a>
+        </p>
       
       <div class="clearfix"></div>
     </div>
