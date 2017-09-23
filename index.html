@@ -126,7 +126,7 @@
                 
                 <section class="switch-part switch-part2">
                     <div class="widget tagcloud" id="js-tagcloud">
-                        <a href="/tags/AVFoundation/" style="font-size: 18.89px;">AVFoundation</a> <a href="/tags/AVFoundation编程指南/" style="font-size: 16.67px;">AVFoundation编程指南</a> <a href="/tags/App-Store审核/" style="font-size: 10px;">App Store审核</a> <a href="/tags/Kcamera/" style="font-size: 17.78px;">Kcamera</a> <a href="/tags/MVC/" style="font-size: 12.22px;">MVC</a> <a href="/tags/MVP/" style="font-size: 11.11px;">MVP</a> <a href="/tags/Moco/" style="font-size: 10px;">Moco</a> <a href="/tags/alloc/" style="font-size: 10px;">alloc</a> <a href="/tags/fastlane/" style="font-size: 14.44px;">fastlane</a> <a href="/tags/http/" style="font-size: 11.11px;">http</a> <a href="/tags/init/" style="font-size: 10px;">init</a> <a href="/tags/phoneGap/" style="font-size: 13.33px;">phoneGap</a> <a href="/tags/内存管理/" style="font-size: 12.22px;">内存管理</a> <a href="/tags/加密/" style="font-size: 10px;">加密</a> <a href="/tags/字符串匹配/" style="font-size: 12.22px;">字符串匹配</a> <a href="/tags/学习笔记/" style="font-size: 20px;">学习笔记</a> <a href="/tags/排序/" style="font-size: 15.56px;">排序</a> <a href="/tags/数组/" style="font-size: 10px;">数组</a> <a href="/tags/架构/" style="font-size: 14.44px;">架构</a> <a href="/tags/翻译/" style="font-size: 16.67px;">翻译</a> <a href="/tags/视频直播/" style="font-size: 10px;">视频直播</a>
+                        <a href="/tags/AVFoundation/" style="font-size: 18.89px;">AVFoundation</a> <a href="/tags/AVFoundation编程指南/" style="font-size: 16.67px;">AVFoundation编程指南</a> <a href="/tags/App-Store审核/" style="font-size: 10px;">App Store审核</a> <a href="/tags/Kcamera/" style="font-size: 17.78px;">Kcamera</a> <a href="/tags/MVC/" style="font-size: 12.22px;">MVC</a> <a href="/tags/MVP/" style="font-size: 11.11px;">MVP</a> <a href="/tags/Moco/" style="font-size: 10px;">Moco</a> <a href="/tags/alloc/" style="font-size: 10px;">alloc</a> <a href="/tags/fastlane/" style="font-size: 14.44px;">fastlane</a> <a href="/tags/http/" style="font-size: 11.11px;">http</a> <a href="/tags/init/" style="font-size: 10px;">init</a> <a href="/tags/phoneGap/" style="font-size: 13.33px;">phoneGap</a> <a href="/tags/responder-chain/" style="font-size: 10px;">responder chain</a> <a href="/tags/内存管理/" style="font-size: 12.22px;">内存管理</a> <a href="/tags/加密/" style="font-size: 10px;">加密</a> <a href="/tags/字符串匹配/" style="font-size: 12.22px;">字符串匹配</a> <a href="/tags/学习笔记/" style="font-size: 20px;">学习笔记</a> <a href="/tags/排序/" style="font-size: 15.56px;">排序</a> <a href="/tags/数组/" style="font-size: 10px;">数组</a> <a href="/tags/架构/" style="font-size: 14.44px;">架构</a> <a href="/tags/翻译/" style="font-size: 16.67px;">翻译</a> <a href="/tags/视频直播/" style="font-size: 10px;">视频直播</a>
                     </div>
                 </section>
                 
@@ -191,6 +191,74 @@
     </div>
 </nav>
       <div class="body-wrap">
+  
+    <article id="post-iOS事件处理和响应链概述" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/09/23/iOS事件处理和响应链概述/" class="article-date">
+      <time datetime="2017-09-23T05:58:37.000Z" itemprop="datePublished">2017-09-23</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/09/23/iOS事件处理和响应链概述/">iOS事件处理和响应链概述</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <h1 id="App启动后发生了什么"><a href="#App启动后发生了什么" class="headerlink" title="App启动后发生了什么"></a>App启动后发生了什么</h1><p><img src="https://developer.apple.com/library/content/documentation/General/Conceptual/Devpedia-CocoaApp/Art/main_event_loop.jpg" alt=""></p>
+<h2 id="应用启动及事件分发"><a href="#应用启动及事件分发" class="headerlink" title="应用启动及事件分发"></a>应用启动及事件分发</h2><p>App在启动之后, 会立即与负责传底层递用户事件的系统组件建立连接. 由于App必须依次单独的处理这些底层事件, 所以底层事件在发生之后会首先被加入到一个event queue中, 然后按照first-in first-out的顺序派发到App中.</p>
+<p>一旦用户界面初始化完成, App就开始由外部用户事件驱动. Application object会从event queue中取出队首对象, 并将其转换成一个UIEvent对象, 然后将其分发给应用内的其他对象进行处理. 这个过程会一直持续到应用程序终止.</p>
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/iOS/">iOS</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/responder-chain/">responder chain</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a  href="/2017/09/23/iOS事件处理和响应链概述/#more">查看全文 >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
   
     <article id="post-fastLane入门之deliver" class="article article-type-post" itemscope itemprop="blogPost">
   
@@ -797,76 +865,9 @@
 
 
   
-    <article id="post-Objective-C之GCD概要" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2017/01/04/Objective-C之GCD概要/" class="article-date">
-      <time datetime="2017-01-04T15:47:32.000Z" itemprop="datePublished">2017-01-04</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/01/04/Objective-C之GCD概要/">Objective-C之GCD概要</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-              <p>Grand Central Dispatch是异步执行任务的技术之一. 开发者只需要定义想执行的任务并追加到适当的Dispatch Queue中, GCD就能生成必要的线程并执行计划任务. 由于线程管理是作为系统的一部分来实现的, 因此可以统一进行管理, 这样就比以前的线程效率更高.</p>
-<p>也就是说, GCD用难以置信的简洁语法, 实现了极为复杂繁琐的多线程编程.</p>
-          
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/iOS/">iOS</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/学习笔记/">学习笔记</a></li></ul>
-    </div>
-
-      
-        <p class="article-more-link">
-          <a  href="/2017/01/04/Objective-C之GCD概要/#more">查看全文 >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
     </nav>
   
 </div>
