@@ -5,30 +5,39 @@
   
   <title>SVN+Cocoapods | 做点有意思的事情</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="SVN目录说明SVN上需要两个目录, 一个用来存放具体的开发文件(ComponentProject, 图中该目录下的TestTool为测试项目), 另一个用来存放podSpec文件(ComponentSpecs).
+  <meta name="description" content="本文主要记录了SVN和Cocoapods的配合使用, 为组件化工作的基础部分. 目录如下：
 
-配置ComponentSpecs要想通过pod search命令搜索到上述目录中我们自己开发的库, 必须将ComponentSpecs 加入cocospods的索引目录. 
-通过下面">
+SVN目录说明
+配置ComponentSpecs
+配置podspec
+推送podspec
+发布framework">
 <meta property="og:type" content="article">
 <meta property="og:title" content="SVN+Cocoapods">
 <meta property="og:url" content="http://www.devzhang.cn/2017/12/27/SVN+Cocoapods/index.html">
 <meta property="og:site_name" content="做点有意思的事情">
-<meta property="og:description" content="SVN目录说明SVN上需要两个目录, 一个用来存放具体的开发文件(ComponentProject, 图中该目录下的TestTool为测试项目), 另一个用来存放podSpec文件(ComponentSpecs).
+<meta property="og:description" content="本文主要记录了SVN和Cocoapods的配合使用, 为组件化工作的基础部分. 目录如下：
 
-配置ComponentSpecs要想通过pod search命令搜索到上述目录中我们自己开发的库, 必须将ComponentSpecs 加入cocospods的索引目录. 
-通过下面">
+SVN目录说明
+配置ComponentSpecs
+配置podspec
+推送podspec
+发布framework">
 <meta property="og:image" content="https://raw.githubusercontent.com/changjianfeishui/XBImageStore/master/Hexo/svn+cocoapods1.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/changjianfeishui/XBImageStore/master/Hexo/svn+cocoapods2.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/changjianfeishui/XBImageStore/master/Hexo/svn+cocoapods3.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/changjianfeishui/XBImageStore/master/Hexo/svn+cocoapods4.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/changjianfeishui/XBImageStore/master/Hexo/svn+cocoapods5.png">
-<meta property="og:updated_time" content="2017-12-27T15:10:28.000Z">
+<meta property="og:updated_time" content="2017-12-27T15:48:43.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SVN+Cocoapods">
-<meta name="twitter:description" content="SVN目录说明SVN上需要两个目录, 一个用来存放具体的开发文件(ComponentProject, 图中该目录下的TestTool为测试项目), 另一个用来存放podSpec文件(ComponentSpecs).
+<meta name="twitter:description" content="本文主要记录了SVN和Cocoapods的配合使用, 为组件化工作的基础部分. 目录如下：
 
-配置ComponentSpecs要想通过pod search命令搜索到上述目录中我们自己开发的库, 必须将ComponentSpecs 加入cocospods的索引目录. 
-通过下面">
+SVN目录说明
+配置ComponentSpecs
+配置podspec
+推送podspec
+发布framework">
 <meta name="twitter:image" content="https://raw.githubusercontent.com/changjianfeishui/XBImageStore/master/Hexo/svn+cocoapods1.png">
   
   
@@ -245,7 +254,16 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <h1 id="SVN目录说明"><a href="#SVN目录说明" class="headerlink" title="SVN目录说明"></a>SVN目录说明</h1><p>SVN上需要两个目录, 一个用来存放具体的开发文件(<code>ComponentProject</code>, 图中该目录下的TestTool为测试项目), 另一个用来存放podSpec文件(<code>ComponentSpecs</code>).</p>
+        <p>本文主要记录了SVN和Cocoapods的配合使用, 为组件化工作的基础部分. 目录如下：</p>
+<ul>
+<li>SVN目录说明</li>
+<li>配置<code>ComponentSpecs</code></li>
+<li>配置podspec</li>
+<li>推送podspec</li>
+<li>发布framework</li>
+</ul>
+<a id="more"></a>
+<h1 id="SVN目录说明"><a href="#SVN目录说明" class="headerlink" title="SVN目录说明"></a>SVN目录说明</h1><p>SVN上需要两个目录, 一个用来存放具体的开发文件(<code>ComponentProject</code>, 图中该目录下的TestTool为测试项目), 另一个用来存放podSpec文件(<code>ComponentSpecs</code>).</p>
 <p><img src="https://raw.githubusercontent.com/changjianfeishui/XBImageStore/master/Hexo/svn+cocoapods1.png" alt=""></p>
 <h1 id="配置ComponentSpecs"><a href="#配置ComponentSpecs" class="headerlink" title="配置ComponentSpecs"></a>配置<code>ComponentSpecs</code></h1><p>要想通过<code>pod search</code>命令搜索到上述目录中我们自己开发的库, 必须将<code>ComponentSpecs</code> 加入cocospods的索引目录. </p>
 <p>通过下面的终端命令安装cocoapods的svn插件:</p>
@@ -258,7 +276,7 @@
 <p><code>pod repo</code> </p>
 <p>该命令可以显示本地pod的repo列表, 添加<code>ComponentSpecs</code>成功的话终端输出中会包含:</p>
 <p><img src="https://raw.githubusercontent.com/changjianfeishui/XBImageStore/master/Hexo/svn+cocoapods2.png" alt=""></p>
-<h1 id="配置podspec文件"><a href="#配置podspec文件" class="headerlink" title="配置podspec文件"></a>配置podspec文件</h1><p>按照上面的svn目录图, 我们会在trunk中进行库的开发, 开发完成后通过tag发布供他人使用.</p>
+<h1 id="配置podspec"><a href="#配置podspec" class="headerlink" title="配置podspec"></a>配置podspec</h1><p>按照上面的svn目录图, 我们会在trunk中进行库的开发, 开发完成后通过tag发布供他人使用.</p>
 <p>建议直接通过cocoapods命令完成库的创建, cd至目录<code>ComponentProject</code>下级目录<code>TestTool</code>, 执行:</p>
 <p><code>pod lib create libName</code></p>
 <p>按提示步骤创建完成后, 打开<code>TestTool.podspec</code>文件,重点编辑以下项:</p>
@@ -293,7 +311,7 @@
         <p><span>本文标题:</span><a href="/2017/12/27/SVN+Cocoapods/">SVN+Cocoapods</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 Miu 的个人博客">Miu</a></p>
         <p><span>发布时间:</span>2017年12月27日 - 22时55分</p>
-        <p><span>最后更新:</span>2017年12月27日 - 23时10分</p>
+        <p><span>最后更新:</span>2017年12月27日 - 23时48分</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2017/12/27/SVN+Cocoapods/" title="SVN+Cocoapods">http://www.devzhang.cn/2017/12/27/SVN+Cocoapods/</a>
             <span class="copy-path" data-clipboard-text="原文: http://www.devzhang.cn/2017/12/27/SVN+Cocoapods/　　作者: Miu" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
@@ -322,7 +340,7 @@
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#SVN目录说明"><span class="toc-number">1.</span> <span class="toc-text">SVN目录说明</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#配置ComponentSpecs"><span class="toc-number">2.</span> <span class="toc-text">配置ComponentSpecs</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#配置podspec文件"><span class="toc-number">3.</span> <span class="toc-text">配置podspec文件</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#推送podspec"><span class="toc-number">4.</span> <span class="toc-text">推送podspec</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#发布framework"><span class="toc-number">5.</span> <span class="toc-text">发布framework</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#SVN目录说明"><span class="toc-number">1.</span> <span class="toc-text">SVN目录说明</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#配置ComponentSpecs"><span class="toc-number">2.</span> <span class="toc-text">配置ComponentSpecs</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#配置podspec"><span class="toc-number">3.</span> <span class="toc-text">配置podspec</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#推送podspec"><span class="toc-number">4.</span> <span class="toc-text">推送podspec</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#发布framework"><span class="toc-number">5.</span> <span class="toc-text">发布framework</span></a></li></ol>
 </div>
 <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
 
