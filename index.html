@@ -126,7 +126,7 @@
                 
                 <section class="switch-part switch-part2">
                     <div class="widget tagcloud" id="js-tagcloud">
-                        <a href="/tags/AVFoundation/" style="font-size: 18.89px;">AVFoundation</a> <a href="/tags/AVFoundation编程指南/" style="font-size: 16.67px;">AVFoundation编程指南</a> <a href="/tags/App-Store审核/" style="font-size: 10px;">App Store审核</a> <a href="/tags/Kcamera/" style="font-size: 17.78px;">Kcamera</a> <a href="/tags/MVC/" style="font-size: 12.22px;">MVC</a> <a href="/tags/MVP/" style="font-size: 11.11px;">MVP</a> <a href="/tags/Moco/" style="font-size: 10px;">Moco</a> <a href="/tags/alloc/" style="font-size: 10px;">alloc</a> <a href="/tags/fastlane/" style="font-size: 14.44px;">fastlane</a> <a href="/tags/http/" style="font-size: 11.11px;">http</a> <a href="/tags/init/" style="font-size: 10px;">init</a> <a href="/tags/phoneGap/" style="font-size: 13.33px;">phoneGap</a> <a href="/tags/responder-chain/" style="font-size: 10px;">responder chain</a> <a href="/tags/内存管理/" style="font-size: 12.22px;">内存管理</a> <a href="/tags/加密/" style="font-size: 10px;">加密</a> <a href="/tags/字符串匹配/" style="font-size: 12.22px;">字符串匹配</a> <a href="/tags/学习笔记/" style="font-size: 20px;">学习笔记</a> <a href="/tags/排序/" style="font-size: 15.56px;">排序</a> <a href="/tags/数组/" style="font-size: 10px;">数组</a> <a href="/tags/架构/" style="font-size: 14.44px;">架构</a> <a href="/tags/翻译/" style="font-size: 16.67px;">翻译</a> <a href="/tags/视频直播/" style="font-size: 10px;">视频直播</a>
+                        <a href="/tags/AVFoundation/" style="font-size: 18.89px;">AVFoundation</a> <a href="/tags/AVFoundation编程指南/" style="font-size: 16.67px;">AVFoundation编程指南</a> <a href="/tags/App-Store审核/" style="font-size: 10px;">App Store审核</a> <a href="/tags/Kcamera/" style="font-size: 17.78px;">Kcamera</a> <a href="/tags/MVC/" style="font-size: 12.22px;">MVC</a> <a href="/tags/MVP/" style="font-size: 11.11px;">MVP</a> <a href="/tags/Moco/" style="font-size: 10px;">Moco</a> <a href="/tags/alloc/" style="font-size: 10px;">alloc</a> <a href="/tags/fastlane/" style="font-size: 14.44px;">fastlane</a> <a href="/tags/http/" style="font-size: 11.11px;">http</a> <a href="/tags/init/" style="font-size: 10px;">init</a> <a href="/tags/phoneGap/" style="font-size: 13.33px;">phoneGap</a> <a href="/tags/responder-chain/" style="font-size: 10px;">responder chain</a> <a href="/tags/内存管理/" style="font-size: 12.22px;">内存管理</a> <a href="/tags/加密/" style="font-size: 10px;">加密</a> <a href="/tags/字符串匹配/" style="font-size: 12.22px;">字符串匹配</a> <a href="/tags/学习笔记/" style="font-size: 20px;">学习笔记</a> <a href="/tags/排序/" style="font-size: 15.56px;">排序</a> <a href="/tags/数组/" style="font-size: 10px;">数组</a> <a href="/tags/架构/" style="font-size: 14.44px;">架构</a> <a href="/tags/组件化/" style="font-size: 10px;">组件化</a> <a href="/tags/翻译/" style="font-size: 16.67px;">翻译</a> <a href="/tags/视频直播/" style="font-size: 10px;">视频直播</a>
                     </div>
                 </section>
                 
@@ -191,6 +191,104 @@
     </div>
 </nav>
       <div class="body-wrap">
+  
+    <article id="post-SVN+Cocoapods" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/12/27/SVN+Cocoapods/" class="article-date">
+      <time datetime="2017-12-27T14:55:21.000Z" itemprop="datePublished">2017-12-27</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/12/27/SVN+Cocoapods/">SVN+Cocoapods</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h1 id="SVN目录说明"><a href="#SVN目录说明" class="headerlink" title="SVN目录说明"></a>SVN目录说明</h1><p>SVN上需要两个目录, 一个用来存放具体的开发文件(<code>ComponentProject</code>, 图中该目录下的TestTool为测试项目), 另一个用来存放podSpec文件(<code>ComponentSpecs</code>).</p>
+<p><img src="https://raw.githubusercontent.com/changjianfeishui/XBImageStore/master/Hexo/svn+cocoapods1.png" alt=""></p>
+<h1 id="配置ComponentSpecs"><a href="#配置ComponentSpecs" class="headerlink" title="配置ComponentSpecs"></a>配置<code>ComponentSpecs</code></h1><p>要想通过<code>pod search</code>命令搜索到上述目录中我们自己开发的库, 必须将<code>ComponentSpecs</code> 加入cocospods的索引目录. </p>
+<p>通过下面的终端命令安装cocoapods的svn插件:</p>
+<pre><code>`gem install cocoapods-repo-svn `
+</code></pre><p>安装完成后, 终端执行下面的命令:</p>
+<p><code>pod repo-svn add ComponentSpecs your-svn-url</code></p>
+<p>此时终端可能会提示svn报错(E170001), 输入下面的命令然后按照提示输入svn账号密码即可:</p>
+<p><code>svn info --username svnname --password --no-auth-cache your-svn-url</code></p>
+<p>执行add命令成功后, 终端执行:</p>
+<p><code>pod repo</code> </p>
+<p>该命令可以显示本地pod的repo列表, 添加<code>ComponentSpecs</code>成功的话终端输出中会包含:</p>
+<p><img src="https://raw.githubusercontent.com/changjianfeishui/XBImageStore/master/Hexo/svn+cocoapods2.png" alt=""></p>
+<h1 id="配置podspec文件"><a href="#配置podspec文件" class="headerlink" title="配置podspec文件"></a>配置podspec文件</h1><p>按照上面的svn目录图, 我们会在trunk中进行库的开发, 开发完成后通过tag发布供他人使用.</p>
+<p>建议直接通过cocoapods命令完成库的创建, cd至目录<code>ComponentProject</code>下级目录<code>TestTool</code>, 执行:</p>
+<p><code>pod lib create libName</code></p>
+<p>按提示步骤创建完成后, 打开<code>TestTool.podspec</code>文件,重点编辑以下项:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">//本次要发布的版本号</span><br><span class="line">s.version = &apos;0.3.0&apos;</span><br><span class="line">//svn路径</span><br><span class="line">s.source = &#123; </span><br><span class="line">	:svn =&gt; &apos;your-svn-url/ComponentLibrary/ComponentProject/TestTool&apos;, </span><br><span class="line">	:tag =&gt; s.version.to_s </span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+<p>注意, 这里需要将目录结构调整为上图中的结构(删除git相关的隐藏文件, 将创建的文件移动至<code>TestTool</code>目录下).</p>
+<p>然后按照cocoapods库的正常开发流程进行开发即可.</p>
+<h1 id="推送podspec"><a href="#推送podspec" class="headerlink" title="推送podspec"></a>推送podspec</h1><p>开发完成后, 提交代码到svn, 然后需要将<code>TestTool.podspec</code>推送到<code>ComponentSpecs</code>以便进行索引, cd到trunk目录下执行以下命令:</p>
+<p><code>pod repo-svn push ComponentSpecs TestTool.podspec</code></p>
+<p>由于之前指定的svn路径中包含了tag版本号, 所以需要在svn中tag出对应的版本:</p>
+<p><img src="https://raw.githubusercontent.com/changjianfeishui/XBImageStore/master/Hexo/svn+cocoapods3.png" alt=""></p>
+<p>此时, 在终端中执行搜索:</p>
+<p><code>pod search TestTool</code> </p>
+<p>可以看到:</p>
+<p><img src="https://raw.githubusercontent.com/changjianfeishui/XBImageStore/master/Hexo/svn+cocoapods4.png" alt=""></p>
+<p>在需要使用该库的项目的podfile文件中加入<br>    <code>pod &#39;TestTool&#39;, &#39;~&gt; 0.3.0&#39;</code><br>即可.</p>
+<h1 id="发布framework"><a href="#发布framework" class="headerlink" title="发布framework"></a>发布framework</h1><p>通过以下命令安装cocoapods的打包插件:</p>
+<p><code>gem install cocoapods-packager</code></p>
+<p>在库开发完成后, 通过以下命令打包成framework:</p>
+<p><code>pod package TestTool.podspec</code></p>
+<p>大体发布流程与上述相同, 区别在于生成<code>TestTool.framework</code>文件后, 需要通过<code>pod lib create</code>新创建一个专用于发布的lib项目, 然后在其podspec文件中加入:</p>
+<p><code>s.vendored_frameworks = &#39;TestTool/*.{framework}&#39;</code></p>
+<p>然后按照之前的流程推送发布这个新项目即可, 此时其他用户使用该库就只能看到一个framework文件了:</p>
+<p><img src="https://raw.githubusercontent.com/changjianfeishui/XBImageStore/master/Hexo/svn+cocoapods5.png" alt=""></p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/iOS/">iOS</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/组件化/">组件化</a></li></ul>
+    </div>
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
   
     <article id="post-iOS事件处理和响应链概述" class="article article-type-post" itemscope itemprop="blogPost">
   
@@ -777,76 +875,6 @@
       
         <p class="article-more-link">
           <a  href="/2017/03/09/objc继承中的init方法/#more">查看全文 >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-UIKit与Quartz 2D绘图技术概要(swift)" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2017/01/10/UIKit与Quartz 2D绘图技术概要(swift)/" class="article-date">
-      <time datetime="2017-01-10T15:07:38.000Z" itemprop="datePublished">2017-01-10</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/01/10/UIKit与Quartz 2D绘图技术概要(swift)/">UIKit与Quartz 2D绘图技术概要(swift)</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-              <p>在iOS中绘图技术主要有UIKit, Quartz 2D,Core Animation和OpenGL ES. 其中Core Animation提供动画实现. OpenGL ES是OpenGL针对嵌入式设备的简化版本, 可以绘制高性能的2D和3D图形. 这里重点介绍UIKit和Quartz 2D.</p>
-<ol>
-<li>UIKit: 高级别的图形接口, 提供了基于Objective-C和Swift的API. 能够访问绘图,动画,字体,图片等内容.</li>
-<li>Quartz 2D: iOS和OSX环境下的2D绘图引擎. 包括基于路径的绘图, 透明度绘图,遮盖, 阴影, 透明层, 颜色管理, 防锯齿渲染, 生成PDF, 以及PDF元数据的相关处理. Quartz 2D也被称为Core Graphics, 缩写前缀为CG. </li>
-</ol>
-          
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/iOS/">iOS</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/学习笔记/">学习笔记</a></li></ul>
-    </div>
-
-      
-        <p class="article-more-link">
-          <a  href="/2017/01/10/UIKit与Quartz 2D绘图技术概要(swift)/#more">查看全文 >></a>
         </p>
       
       <div class="clearfix"></div>
