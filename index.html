@@ -16,7 +16,7 @@
 <meta name="twitter:description" content="读书笔记 学习点滴">
   
   
-    <link rel="icon" href="/img/head.jpg">
+    <link rel="icon" href="//img/head.jpg">
   
   
   <link rel="stylesheet" href="/css/style.css">
@@ -34,6 +34,7 @@
     <link href="/css/pace/pace-theme-flash.css" rel="stylesheet" />
   <script>
       var yiliaConfig = {
+          rootUrl: '/',
           fancybox: true,
           animate: false,
           isHome: true,
@@ -58,7 +59,7 @@
         </a>
 
         <hgroup>
-          <h1 class="header-author"><a href="/">Mangox</a></h1>
+          <h1 class="header-author"><a href="/" title="Hi Mate">Mangox</a></h1>
         </hgroup>
 
         
@@ -83,6 +84,11 @@
                         </div>
                         
                         
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
                     </div>
                     
                 </div>
@@ -94,6 +100,8 @@
                         
                         <li>友情链接</li>
                         
+                        
+                        <li>关于我</li>
                         
                     </ul>
                 </div>
@@ -142,6 +150,12 @@
                 
 
                 
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">每天进步一点点</div>
+                </section>
+                
             </div>
         </div>
     </header>                
@@ -151,7 +165,7 @@
       <nav id="mobile-nav">
       <div class="overlay">
           <div class="slider-trigger"></div>
-          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Mangox</a></h1>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="Me">Mangox</a></h1>
       </div>
     <div class="intrude-less">
         <header id="header" class="inner">
@@ -161,7 +175,7 @@
                 
             </a>
             <hgroup>
-              <h1 class="header-author"><a href="/" title="回到主页">Mangox</a></h1>
+              <h1 class="header-author"><a href="/" title="Me">Mangox</a></h1>
             </hgroup>
             
             <p class="header-subtitle">每天进步一点点</p>
@@ -220,6 +234,7 @@
               <p>接上文<a href="http://www.devzhang.cn/2017/12/27/SVN+Cocoapods/">SVN+Cocoapods</a>， 使用SVN存放Specs索引库有一个致命缺陷，如果开发组件库的过程中又在<code>podspec</code>文件里使用dependency依赖了其他私有库， 那么之后在使用<code>pod package</code>打包时会报错无法找到依赖的私有库。这是因为<code>pod package</code>默认搜索官方索引库， 而且手动指定–<code>spec-sources</code>并不支持SVN路径。</p>
 <p>为解决打包问题，代码依旧托管到SVN，改将Specs索引库托管到第三方Git。 详细操作流程见下文。</p>
           
+      
       
     </div>
     
@@ -294,6 +309,7 @@
 </ul>
           
       
+      
     </div>
     
     <div class="article-info article-info-index">
@@ -361,6 +377,7 @@
 <h2 id="应用启动及事件分发"><a href="#应用启动及事件分发" class="headerlink" title="应用启动及事件分发"></a>应用启动及事件分发</h2><p>App在启动之后, 会立即与负责传底层递用户事件的系统组件建立连接. 由于App必须依次单独的处理这些底层事件, 所以底层事件在发生之后会首先被加入到一个event queue中, 然后按照first-in first-out的顺序派发到App中.</p>
 <p>一旦用户界面初始化完成, App就开始由外部用户事件驱动. Application object会从event queue中取出队首对象, 并将其转换成一个UIEvent对象, 然后将其分发给应用内的其他对象进行处理. 这个过程会一直持续到应用程序终止.</p>
           
+      
       
     </div>
     
@@ -430,6 +447,7 @@
 <p>本文主要介绍使用fastlane上传应用数据到ITC.</p>
           
       
+      
     </div>
     
     <div class="article-info article-info-index">
@@ -497,6 +515,7 @@
 <p>本文使用的fastlane版本为2.47.0. 低版本可能会产生各种莫名其妙的问题. 配置fastlane时最好先翻墙,原因你懂的. </p>
 <p>本文主要介绍使用fastlane插件firim的使用.</p>
           
+      
       
     </div>
     
@@ -566,6 +585,7 @@
 <p>本文主要介绍使用fastlane命令行进行ipa打包及导出.</p>
           
       
+      
     </div>
     
     <div class="article-info article-info-index">
@@ -632,6 +652,7 @@
               <p>fastlane是一套ruby脚本工具, 用于实现iOS或Android的持续集成及自动化发布. fastlane的安装及更多相关介绍参见其Github:<a href="https://github.com/fastlane/fastlane">fastlane</a>)).<br>本文使用的fastlane版本为2.35.0. 配置fastlane时最好先翻墙,原因你懂的.</p>
 <p>本文介绍fastlane的”截图套壳”工具 - <code>frameit</code>.</p>
           
+      
       
     </div>
     
@@ -700,6 +721,7 @@
 <p>本文介绍fastlane的自动截图工具 - <code>snapshot</code>.</p>
           
       
+      
     </div>
     
     <div class="article-info article-info-index">
@@ -766,6 +788,7 @@
         <p>App Store审核分机审和人审, 被4.3卡了这么久, 终于搞清楚机审是怎么审的了!!!</p>
 
       
+      
     </div>
     
     <div class="article-info article-info-index">
@@ -829,6 +852,7 @@
 <p>声明一下, 作者并不是架构师,也不是所谓的大神. 此文仅仅为一篇学习总结.</p>
 <p>注: 本文谈论的MVP都指的是Passive View模式.</p>
           
+      
       
     </div>
     
@@ -907,13 +931,13 @@
 </footer>
 
     </div>
-    <script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+    <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
 <script src="/js/main.js"></script>
 
     <script>
         $(document).ready(function() {
-            var backgroundnum = 1;
-            var backgroundimg = "url(/background/bg-" + backgroundnum +".jpg)";
+            var backgroundnum = 24;
+            var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
             $("#mobile-nav").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
             $(".left-col").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
         })

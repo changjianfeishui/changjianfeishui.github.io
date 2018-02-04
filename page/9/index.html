@@ -16,7 +16,7 @@
 <meta name="twitter:description" content="读书笔记 学习点滴">
   
   
-    <link rel="icon" href="/img/head.jpg">
+    <link rel="icon" href="//img/head.jpg">
   
   
   <link rel="stylesheet" href="/css/style.css">
@@ -34,6 +34,7 @@
     <link href="/css/pace/pace-theme-flash.css" rel="stylesheet" />
   <script>
       var yiliaConfig = {
+          rootUrl: '/',
           fancybox: true,
           animate: false,
           isHome: true,
@@ -58,7 +59,7 @@
         </a>
 
         <hgroup>
-          <h1 class="header-author"><a href="/">Mangox</a></h1>
+          <h1 class="header-author"><a href="/" title="Hi Mate">Mangox</a></h1>
         </hgroup>
 
         
@@ -83,6 +84,11 @@
                         </div>
                         
                         
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
                     </div>
                     
                 </div>
@@ -94,6 +100,8 @@
                         
                         <li>友情链接</li>
                         
+                        
+                        <li>关于我</li>
                         
                     </ul>
                 </div>
@@ -142,6 +150,12 @@
                 
 
                 
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">每天进步一点点</div>
+                </section>
+                
             </div>
         </div>
     </header>                
@@ -151,7 +165,7 @@
       <nav id="mobile-nav">
       <div class="overlay">
           <div class="slider-trigger"></div>
-          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Mangox</a></h1>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="Me">Mangox</a></h1>
       </div>
     <div class="intrude-less">
         <header id="header" class="inner">
@@ -161,7 +175,7 @@
                 
             </a>
             <hgroup>
-              <h1 class="header-author"><a href="/" title="回到主页">Mangox</a></h1>
+              <h1 class="header-author"><a href="/" title="Me">Mangox</a></h1>
             </hgroup>
             
             <p class="header-subtitle">每天进步一点点</p>
@@ -219,6 +233,7 @@
           
               <p>冒泡排序思路比较简单，依次比较相邻的两个元素，“清气上升，浊气下沉”。想象YY小说中的，随着主角境界的提升，一步步的将对手踩在脚下，进步到权重更大的位置，不就是一趟冒泡排序最好的解释嘛。</p>
           
+      
       
     </div>
     
@@ -286,6 +301,7 @@
               <p>  今天来写一个快速排序。快速排序的核心就是选定一个基准数，然后分区，将比这个数大的数全放到它的右边，小于或等于它的数全放到它的左边。再对左右区间重复第二步，直到各区间只有一个数。</p>
           
       
+      
     </div>
     
     <div class="article-info article-info-index">
@@ -351,6 +367,7 @@
           
               <p>  试想北宋年间某一天，梁山108好汉要上聚义厅开会，开会嘛，自然要论资排辈排排坐。但现在由于某些原因108好汉已经随机次序的坐在了108把椅子上，需要重新排定一下座次。怎么办呢？</p>
           
+      
       
     </div>
     
@@ -429,13 +446,13 @@
 </footer>
 
     </div>
-    <script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+    <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
 <script src="/js/main.js"></script>
 
     <script>
         $(document).ready(function() {
-            var backgroundnum = 1;
-            var backgroundimg = "url(/background/bg-" + backgroundnum +".jpg)";
+            var backgroundnum = 24;
+            var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
             $("#mobile-nav").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
             $(".left-col").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
         })

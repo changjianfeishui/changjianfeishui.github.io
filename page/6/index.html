@@ -16,7 +16,7 @@
 <meta name="twitter:description" content="读书笔记 学习点滴">
   
   
-    <link rel="icon" href="/img/head.jpg">
+    <link rel="icon" href="//img/head.jpg">
   
   
   <link rel="stylesheet" href="/css/style.css">
@@ -34,6 +34,7 @@
     <link href="/css/pace/pace-theme-flash.css" rel="stylesheet" />
   <script>
       var yiliaConfig = {
+          rootUrl: '/',
           fancybox: true,
           animate: false,
           isHome: true,
@@ -58,7 +59,7 @@
         </a>
 
         <hgroup>
-          <h1 class="header-author"><a href="/">Mangox</a></h1>
+          <h1 class="header-author"><a href="/" title="Hi Mate">Mangox</a></h1>
         </hgroup>
 
         
@@ -83,6 +84,11 @@
                         </div>
                         
                         
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
                     </div>
                     
                 </div>
@@ -94,6 +100,8 @@
                         
                         <li>友情链接</li>
                         
+                        
+                        <li>关于我</li>
                         
                     </ul>
                 </div>
@@ -142,6 +150,12 @@
                 
 
                 
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">每天进步一点点</div>
+                </section>
+                
             </div>
         </div>
     </header>                
@@ -151,7 +165,7 @@
       <nav id="mobile-nav">
       <div class="overlay">
           <div class="slider-trigger"></div>
-          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Mangox</a></h1>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="Me">Mangox</a></h1>
       </div>
     <div class="intrude-less">
         <header id="header" class="inner">
@@ -161,7 +175,7 @@
                 
             </a>
             <hgroup>
-              <h1 class="header-author"><a href="/" title="回到主页">Mangox</a></h1>
+              <h1 class="header-author"><a href="/" title="Me">Mangox</a></h1>
             </hgroup>
             
             <p class="header-subtitle">每天进步一点点</p>
@@ -220,6 +234,7 @@
               <p>在<a href="http://www.devzhang.cn/2016/07/28/视频缩放/">视频缩放</a>功能的实现中介绍了通过捕捉设备activeFormat属性中的videoMaxZoomFactor来获取视频最大缩放倍数的方法.除此之外,还可以通过设备的formats属性获取设备所有支持的格式.formats是一个数组,其中的每个AVCaptureDeviceFormat实例都有一个videoSupportedFrameRateRanges属性,该属性包括了一个AVFrameRateRange数组,其中包含了格式所支持的最小帧率,最大帧率和时长信息.</p>
 <p>使用高帧率捕捉就是找到设备最高的质量格式及相关帧时长,之后进行手动设置.具体的代码参见<a href="https://github.com/changjianfeishui/HighFPS">HighFPS</a>.</p>
           
+      
       
     </div>
     
@@ -287,6 +302,7 @@
               <p>与人脸检测类似,修改AVCaptureMetadataOutput的metadataObjectTypes为条码类型时,AVFoundation就能实现条码扫描功能了.</p>
 <p>另外,代码中尝试使用了面向协议的MVP模式.代码链接:<a href="https://github.com/changjianfeishui/CodeScanner">CodeScanner</a></p>
           
+      
       
     </div>
     
@@ -356,6 +372,7 @@
 <p>本文的代码将在<a href="https://github.com/changjianfeishui/Kcamera">Kcamera</a>中添加人脸识别功能.</p>
           
       
+      
     </div>
     
     <div class="article-info article-info-index">
@@ -423,6 +440,7 @@
 <p>本文将实现在<a href="https://github.com/changjianfeishui/Kcamera">Kcamera</a>上实现视频缩放的功能.</p>
           
       
+      
     </div>
     
     <div class="article-info article-info-index">
@@ -488,6 +506,7 @@
           
               <p>AVCaptureDevice类可以修改摄像头的闪光灯和手电筒模式.后置摄像头旁的LED灯在拍摄照片时可以作为闪光灯,拍摄视频时可以用作连续灯光(手电筒).本文将实现这一功能.</p>
           
+      
       
     </div>
     
@@ -556,6 +575,7 @@
 <p>Kcamera的代码可以在<a href="https://github.com/changjianfeishui/Kcamera">https://github.com/changjianfeishui/Kcamera</a>上找到.</p>
           
       
+      
     </div>
     
     <div class="article-info article-info-index">
@@ -621,6 +641,7 @@
           
               <p>本文将继续为Kcamera项目添加切换摄像头功能,文中的代码可以在<a href="https://github.com/changjianfeishui/Kcamera">https://github.com/changjianfeishui/Kcamera</a>上找到.</p>
           
+      
       
     </div>
     
@@ -688,6 +709,7 @@
               <p>本文将为Kcamera增加录制视频的功能.Kcamera的代码可以在<a href="https://github.com/changjianfeishui/Kcamera">https://github.com/changjianfeishui/Kcamera</a>上找到.</p>
           
       
+      
     </div>
     
     <div class="article-info article-info-index">
@@ -754,6 +776,7 @@
               <p>本文将为Kcamera增加拍摄相片的功能.Kcamera的代码可以在<a href="https://github.com/changjianfeishui/Kcamera">https://github.com/changjianfeishui/Kcamera</a>上找到.</p>
           
       
+      
     </div>
     
     <div class="article-info article-info-index">
@@ -819,6 +842,7 @@
           
               <p>本文将前文的继续Kcamera项目,并使用AVCaptureSession获取摄像头采集到的视频.但是实际的视频录制和照片拍摄将在后面的文章中才会实现.</p>
           
+      
       
     </div>
     
@@ -897,13 +921,13 @@
 </footer>
 
     </div>
-    <script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+    <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
 <script src="/js/main.js"></script>
 
     <script>
         $(document).ready(function() {
-            var backgroundnum = 1;
-            var backgroundimg = "url(/background/bg-" + backgroundnum +".jpg)";
+            var backgroundnum = 24;
+            var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
             $("#mobile-nav").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
             $(".left-col").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
         })

@@ -16,7 +16,7 @@
 <meta name="twitter:description" content="读书笔记 学习点滴">
   
   
-    <link rel="icon" href="/img/head.jpg">
+    <link rel="icon" href="//img/head.jpg">
   
   
   <link rel="stylesheet" href="/css/style.css">
@@ -34,6 +34,7 @@
     <link href="/css/pace/pace-theme-flash.css" rel="stylesheet" />
   <script>
       var yiliaConfig = {
+          rootUrl: '/',
           fancybox: true,
           animate: false,
           isHome: true,
@@ -58,7 +59,7 @@
         </a>
 
         <hgroup>
-          <h1 class="header-author"><a href="/">Mangox</a></h1>
+          <h1 class="header-author"><a href="/" title="Hi Mate">Mangox</a></h1>
         </hgroup>
 
         
@@ -83,6 +84,11 @@
                         </div>
                         
                         
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
                     </div>
                     
                 </div>
@@ -94,6 +100,8 @@
                         
                         <li>友情链接</li>
                         
+                        
+                        <li>关于我</li>
                         
                     </ul>
                 </div>
@@ -142,6 +150,12 @@
                 
 
                 
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">每天进步一点点</div>
+                </section>
+                
             </div>
         </div>
     </header>                
@@ -151,7 +165,7 @@
       <nav id="mobile-nav">
       <div class="overlay">
           <div class="slider-trigger"></div>
-          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Mangox</a></h1>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="Me">Mangox</a></h1>
       </div>
     <div class="intrude-less">
         <header id="header" class="inner">
@@ -161,7 +175,7 @@
                 
             </a>
             <hgroup>
-              <h1 class="header-author"><a href="/" title="回到主页">Mangox</a></h1>
+              <h1 class="header-author"><a href="/" title="Me">Mangox</a></h1>
             </hgroup>
             
             <p class="header-subtitle">每天进步一点点</p>
@@ -219,6 +233,7 @@
           
               <p>AV Foundation其设计过程高度依赖多线程机制.充分利用了多核硬件的优势并大量使用block和GCD机制将复杂的计算进程放在后台线程运行.会自动提供<strong>硬件加速</strong>.此外,从一开始该框架就是针对64位处理器设计的,能充分发挥64位处理器的优势.</p>
           
+      
       
     </div>
     
@@ -319,6 +334,7 @@
 </table>
 
       
+      
     </div>
     
     <div class="article-info article-info-index">
@@ -386,6 +402,7 @@
 <li>将AES密钥key，使用别人的公钥RSA加密，得到密文dataKey参数；</li>
 </ul>
           
+      
       
     </div>
     
@@ -457,6 +474,7 @@
 </ol>
           
       
+      
     </div>
     
     <div class="article-info article-info-index">
@@ -525,6 +543,7 @@
 <li>问题:基于phoneGap的iOS端接收到推送消息后,要跳转到www/html目录下messageCenter.html文件</li>
 </ol>
           
+      
       
     </div>
     
@@ -599,6 +618,7 @@
 </code></pre>
           
       
+      
     </div>
     
     <div class="article-info article-info-index">
@@ -664,6 +684,7 @@
           
               <p>说明:本插件仅针对个人当前项目,参照支付宝支付插件类进行开发,不保证对任何项目都具有通用性,代码仅供参考.</p>
           
+      
       
     </div>
     
@@ -738,6 +759,7 @@
 </code></pre>
           
       
+      
     </div>
     
     <div class="article-info article-info-index">
@@ -804,6 +826,7 @@
               <p>与直接插入排序思路相似，也是先将a[0]视为单独有序，只不过查找插入点的方法不再是与有序数组最后一个数进行比较，而是使用折半查找。</p>
           
       
+      
     </div>
     
     <div class="article-info article-info-index">
@@ -869,6 +892,7 @@
           
               <p>  还是体育课的栗子，一组学生上体育课，需要重新按身高从高到底进行列队，这时候有一个同学提出了一个方案：</p>
           
+      
       
     </div>
     
@@ -947,13 +971,13 @@
 </footer>
 
     </div>
-    <script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+    <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
 <script src="/js/main.js"></script>
 
     <script>
         $(document).ready(function() {
-            var backgroundnum = 1;
-            var backgroundimg = "url(/background/bg-" + backgroundnum +".jpg)";
+            var backgroundnum = 24;
+            var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
             $("#mobile-nav").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
             $(".left-col").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
         })

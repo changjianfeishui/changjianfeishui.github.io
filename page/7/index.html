@@ -16,7 +16,7 @@
 <meta name="twitter:description" content="读书笔记 学习点滴">
   
   
-    <link rel="icon" href="/img/head.jpg">
+    <link rel="icon" href="//img/head.jpg">
   
   
   <link rel="stylesheet" href="/css/style.css">
@@ -34,6 +34,7 @@
     <link href="/css/pace/pace-theme-flash.css" rel="stylesheet" />
   <script>
       var yiliaConfig = {
+          rootUrl: '/',
           fancybox: true,
           animate: false,
           isHome: true,
@@ -58,7 +59,7 @@
         </a>
 
         <hgroup>
-          <h1 class="header-author"><a href="/">Mangox</a></h1>
+          <h1 class="header-author"><a href="/" title="Hi Mate">Mangox</a></h1>
         </hgroup>
 
         
@@ -83,6 +84,11 @@
                         </div>
                         
                         
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
                     </div>
                     
                 </div>
@@ -94,6 +100,8 @@
                         
                         <li>友情链接</li>
                         
+                        
+                        <li>关于我</li>
                         
                     </ul>
                 </div>
@@ -142,6 +150,12 @@
                 
 
                 
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">每天进步一点点</div>
+                </section>
+                
             </div>
         </div>
     </header>                
@@ -151,7 +165,7 @@
       <nav id="mobile-nav">
       <div class="overlay">
           <div class="slider-trigger"></div>
-          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Mangox</a></h1>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="Me">Mangox</a></h1>
       </div>
     <div class="intrude-less">
         <header id="header" class="inner">
@@ -161,7 +175,7 @@
                 
             </a>
             <hgroup>
-              <h1 class="header-author"><a href="/" title="回到主页">Mangox</a></h1>
+              <h1 class="header-author"><a href="/" title="Me">Mangox</a></h1>
             </hgroup>
             
             <p class="header-subtitle">每天进步一点点</p>
@@ -219,6 +233,7 @@
           
               <p>在系统相机中,将模式切换到视频录制,点击录制按钮会有一个表明录制状态改变的形变动画,本节将实现这一个效果.实现效果图如下:</p>
           
+      
       
     </div>
     
@@ -287,6 +302,7 @@
 <p>本文将参照系统相机实现一个简单的相机模式的标签切换功能.实现效果如下图:</p>
           
       
+      
     </div>
     
     <div class="article-info article-info-index">
@@ -352,6 +368,7 @@
           
               <p>与使用AVAudioPlayer一样,AVAudioRecorder提供了功能强大而且简单易用的接口来实现音频的录制功能.</p>
           
+      
       
     </div>
     
@@ -423,6 +440,7 @@
 </code></pre>
           
       
+      
     </div>
     
     <div class="article-info article-info-index">
@@ -490,6 +508,7 @@
 <p>在<code>UIKit</code>自身的设计中UIViewController是被当做C还是V呢?</p>
           
       
+      
     </div>
     
     <div class="article-info article-info-index">
@@ -555,6 +574,7 @@
           
               <p>在上一篇<a href="http://coderzhang.xyz/2016/04/17/mvc登录示例/">MVC:登录示例</a>中提到了一点,在一个Controller管理多个复杂View的场景时,C和V之间的事件以及参数传递会变得很不顺畅,而实际开发中我们也没有为每个继承自View创建对应Controller的开发习惯.</p>
           
+      
       
     </div>
     
@@ -623,6 +643,7 @@
 <p>行文过程中查阅了互联网上的大量文档,其中水平良莠不齐(最常见的就是MVC改个名就当MVVM的),当然也有许多非常有价值的参考资料,在文末会逐一列举,以供参考.</p>
           
       
+      
     </div>
     
     <div class="article-info article-info-index">
@@ -688,6 +709,7 @@
           
               <p><code>AVAudioPlayer</code>类提供了十分简单的接口用来从文件或内存中播放音频.但是,<code>AVAudioPlayer</code>不支持播放远程网络音频.</p>
           
+      
       
     </div>
     
@@ -761,6 +783,7 @@
 </ul>
           
       
+      
     </div>
     
     <div class="article-info article-info-index">
@@ -826,6 +849,7 @@
           
               <p>AV Foundation中提供了一个AVSpeechSynthesizer类来向app中添加朗诵文本的功能.<br>这个类用来播放一个或者多个语音内容,每条语音内容都是一个AVSpeechUtterance对象.<br>(快速记忆:一个语音合成器(SpeechSynthesizer)播放需要一段语音内容(SpeechUtterance))</p>
           
+      
       
     </div>
     
@@ -904,13 +928,13 @@
 </footer>
 
     </div>
-    <script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+    <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
 <script src="/js/main.js"></script>
 
     <script>
         $(document).ready(function() {
-            var backgroundnum = 1;
-            var backgroundimg = "url(/background/bg-" + backgroundnum +".jpg)";
+            var backgroundnum = 24;
+            var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
             $("#mobile-nav").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
             $(".left-col").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
         })

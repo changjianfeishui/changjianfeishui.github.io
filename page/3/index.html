@@ -16,7 +16,7 @@
 <meta name="twitter:description" content="读书笔记 学习点滴">
   
   
-    <link rel="icon" href="/img/head.jpg">
+    <link rel="icon" href="//img/head.jpg">
   
   
   <link rel="stylesheet" href="/css/style.css">
@@ -34,6 +34,7 @@
     <link href="/css/pace/pace-theme-flash.css" rel="stylesheet" />
   <script>
       var yiliaConfig = {
+          rootUrl: '/',
           fancybox: true,
           animate: false,
           isHome: true,
@@ -58,7 +59,7 @@
         </a>
 
         <hgroup>
-          <h1 class="header-author"><a href="/">Mangox</a></h1>
+          <h1 class="header-author"><a href="/" title="Hi Mate">Mangox</a></h1>
         </hgroup>
 
         
@@ -83,6 +84,11 @@
                         </div>
                         
                         
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
                     </div>
                     
                 </div>
@@ -94,6 +100,8 @@
                         
                         <li>友情链接</li>
                         
+                        
+                        <li>关于我</li>
                         
                     </ul>
                 </div>
@@ -142,6 +150,12 @@
                 
 
                 
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">每天进步一点点</div>
+                </section>
+                
             </div>
         </div>
     </header>                
@@ -151,7 +165,7 @@
       <nav id="mobile-nav">
       <div class="overlay">
           <div class="slider-trigger"></div>
-          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Mangox</a></h1>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="Me">Mangox</a></h1>
       </div>
     <div class="intrude-less">
         <header id="header" class="inner">
@@ -161,7 +175,7 @@
                 
             </a>
             <hgroup>
-              <h1 class="header-author"><a href="/" title="回到主页">Mangox</a></h1>
+              <h1 class="header-author"><a href="/" title="Me">Mangox</a></h1>
             </hgroup>
             
             <p class="header-subtitle">每天进步一点点</p>
@@ -220,6 +234,7 @@
               <h1 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h1><p>现有红白蓝三个不同颜色的小球，乱序排列在一起，请重新排列这些小球，使得红白蓝三色的同颜色的球在一起. 之所以被称为荷兰国旗问题, 是因为荷兰国旗正好有红白蓝三种颜色构成, 将红白蓝三色小球想象成条状物，有序排列后正好组成荷兰国旗.</p>
 <h1 id="问题分析"><a href="#问题分析" class="headerlink" title="问题分析"></a>问题分析</h1><p>荷兰国旗问题其实是一个数组排序问题, 可以将红白蓝三种颜色分别用数字0,1,2表示, 然后对数组中的数值进行排序.</p>
           
+      
       
     </div>
     
@@ -288,6 +303,7 @@
 <p>相对于整型,浮点型和字符型数据, 数组是最简单最基本的结构型数据类型. 数组名作为数组实体的标识符，具有特殊性，不同于整型、浮点型、指针型或结构类型等变量标识符。这是因为数组是一组元素的聚集，不能把一个聚集看作一个值直接读出（即右值），也不能把一个聚集看作一个地址直接赋值（即左值).</p>
           
       
+      
     </div>
     
     <div class="article-info article-info-index">
@@ -354,6 +370,7 @@
               <p>很多程序开发语言都不支持指针, 尤其在面向对象思想中, 指针被认为是应当禁止的, 因为它显然与面向对象世界格格不入. 然而尽管如此, C++还是从C语言中继承了指针, 这也是C++收到最多争议的地方. </p>
 <p>指针提供了直接操作内存的手段, 但是这在某种程度上也增大了风险, 内存错误往往会导致严重的后果却难以在开发过程中察觉.</p>
           
+      
       
     </div>
     
@@ -428,6 +445,7 @@
 <p>NSAutoreleasePool对象的生存周期相当于C语言变量的作用域. 对于所有调用过autorelease实例方法的对象, 在废弃NSAutoreleasePool对象的同时, 都将调用release实例方法. </p>
           
       
+      
     </div>
     
     <div class="article-info article-info-index">
@@ -495,6 +513,7 @@
 <p>C++中的模板可分为模板函数和模板类. </p>
 <p>模板的声明或定义只能在全局，命名空间或类范围内进行。即不能在局部范围，函数内进行，比如不能在main函数中声明或定义一个模板.</p>
           
+      
       
     </div>
     
@@ -568,6 +587,7 @@
 <p>如果抽象类的子类没有实现纯虚函数, 而只是继承基类的纯虚函数, 那么这个子类仍然还是一个抽象类.         </p>
 
       
+      
     </div>
     
     <div class="article-info article-info-index">
@@ -630,6 +650,7 @@
               <p>继承(Inheritance)是面向对象程序设计语言中一个非常重要的机制. 这个机制可以让子类继承父类的属性和功能, 并加入一些子类特有的属性和功能.</p>
 <p>基类的定义和普通类一样, 也有自己的成员变量和成员函数. 也可以定义一个空类作为基类, 但这样并没有任何意义. 只有已经定义了的类才能作为基类.</p>
           
+      
       
     </div>
     
@@ -697,6 +718,7 @@
               <p>C++提供了异常处理机制来应对运行过程中可能发生的异常情况. 特别地, C++的异常处理机制被称为是不可恢复的, 这意味着一旦宜昌被处理, 程序的执行就不能在异常被抛出的地方继续.</p>
 <p>C++的异常处理主要使用以下几个关键词: <code>try</code>, <code>catch</code>, <code>throw</code>. 包含在一个try块中的代码将可能触发一个异常, 其后紧跟一个或多个catch块, 当异常在try中触发时, 程序的执行点将转移到相应的catch块中. catch块负责处理异常.</p>
           
+      
       
     </div>
     
@@ -766,6 +788,7 @@
 <p>特别地, 运算符重载不改变运算符的优先级和结合性, 并且也不改变运算符的语法结构, 单目运算符只能重载为单目运算符, 双目运算符只能重载为双目运算符.</p>
 <p>运算符重载的实现可以使用类成员函数的方式, 也可以使用友元函数.</p>
           
+      
       
     </div>
     
@@ -847,6 +870,7 @@
 <p>这些内存管理相关的方法, 实际上不包括在语言本身中, 而是包含在Cocoa框架中. Cocoa框架中Foundation框架类库的NSObject类负责进行内存管理. </p>
           
       
+      
     </div>
     
     <div class="article-info article-info-index">
@@ -924,13 +948,13 @@
 </footer>
 
     </div>
-    <script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+    <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
 <script src="/js/main.js"></script>
 
     <script>
         $(document).ready(function() {
-            var backgroundnum = 1;
-            var backgroundimg = "url(/background/bg-" + backgroundnum +".jpg)";
+            var backgroundnum = 24;
+            var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
             $("#mobile-nav").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
             $(".left-col").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
         })

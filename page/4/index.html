@@ -16,7 +16,7 @@
 <meta name="twitter:description" content="读书笔记 学习点滴">
   
   
-    <link rel="icon" href="/img/head.jpg">
+    <link rel="icon" href="//img/head.jpg">
   
   
   <link rel="stylesheet" href="/css/style.css">
@@ -34,6 +34,7 @@
     <link href="/css/pace/pace-theme-flash.css" rel="stylesheet" />
   <script>
       var yiliaConfig = {
+          rootUrl: '/',
           fancybox: true,
           animate: false,
           isHome: true,
@@ -58,7 +59,7 @@
         </a>
 
         <hgroup>
-          <h1 class="header-author"><a href="/">Mangox</a></h1>
+          <h1 class="header-author"><a href="/" title="Hi Mate">Mangox</a></h1>
         </hgroup>
 
         
@@ -83,6 +84,11 @@
                         </div>
                         
                         
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
                     </div>
                     
                 </div>
@@ -94,6 +100,8 @@
                         
                         <li>友情链接</li>
                         
+                        
+                        <li>关于我</li>
                         
                     </ul>
                 </div>
@@ -142,6 +150,12 @@
                 
 
                 
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">每天进步一点点</div>
+                </section>
+                
             </div>
         </div>
     </header>                
@@ -151,7 +165,7 @@
       <nav id="mobile-nav">
       <div class="overlay">
           <div class="slider-trigger"></div>
-          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Mangox</a></h1>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="Me">Mangox</a></h1>
       </div>
     <div class="intrude-less">
         <header id="header" class="inner">
@@ -161,7 +175,7 @@
                 
             </a>
             <hgroup>
-              <h1 class="header-author"><a href="/" title="回到主页">Mangox</a></h1>
+              <h1 class="header-author"><a href="/" title="Me">Mangox</a></h1>
             </hgroup>
             
             <p class="header-subtitle">每天进步一点点</p>
@@ -231,6 +245,7 @@ _print_string
 </code></pre>
           
       
+      
     </div>
     
     <div class="article-info article-info-index">
@@ -297,6 +312,7 @@ _print_string
               <p>在C++中, 常量使用关键字<code>const</code>标识, 常量保证了程序的安全性和可控性. const提供了严格的类型检查, 因此相遇于宏替换而言const更加安全.</p>
 <p>可以用一句话概括当const和指针同时出现时的语义规则, 即如果const位于<code>*</code>的左侧, 则const修饰的就是指针所指向的变量, 即指针所指向的是一个常量; 反之, 如果const位于<code>*</code>的右侧,那么const修饰的就是指针本身, 即指针本身是常量.     </p>
           
+      
       
     </div>
     
@@ -372,6 +388,7 @@ _print_string
 </ul>
           
       
+      
     </div>
     
     <div class="article-info article-info-index">
@@ -437,6 +454,7 @@ _print_string
           
               <p>友元是一种定义在类外部的普通函数或类，但它需要在类体内使用关键字<code>friend</code>进行说明. 友元的正确使用能提高程序的运行效率，但同时也破坏了类的封装性和数据的隐藏性，导致程序可维护性变差。</p>
           
+      
       
     </div>
     
@@ -509,6 +527,7 @@ new 类型名(初始值列表)
 </code></pre>
           
       
+      
     </div>
     
     <div class="article-info article-info-index">
@@ -576,6 +595,7 @@ new 类型名(初始值列表)
 <p>一个类可以有多个构造函数, 可以根据其参数个数或参数类型的不同进行区分, 即构造函数的重载.</p>
 <p>构造函数的命名必须与类名完全相同; 其次, 构造函数主要用于初始化对象的状态, 因此没有返回值, 也不能用void修饰. 最后构造函数不能被直接调用, 必须在创建对象时才会自动调用.</p>
           
+      
       
     </div>
     
@@ -646,6 +666,7 @@ new 类型名(初始值列表)
 <p>关键字protected较public和private而言被用到的机会较少, 表示成员是半公开的, 即外界无法直接访问这个控制级别的成员, 但是指向当前类或者当前类子类的this指针可以访问. </p>
 
       
+      
     </div>
     
     <div class="article-info article-info-index">
@@ -707,6 +728,7 @@ new 类型名(初始值列表)
           
               <p>命名空间（英语：Namespace）表示标识符（identifier）的可见范围。一个标识符可在多个命名空间中定义，它在不同命名空间中的含义是互不相干的。这样，在一个新的命名空间中可定义任何标识符，它们不会与任何已有的标识符发生冲突，因为已有的定义都处于其他命名空间中。</p>
           
+      
       
     </div>
     
@@ -774,6 +796,7 @@ new 类型名(初始值列表)
               <p>在C++的历史发展中，有很多的语言特征（特别是语言的晦涩之处）来自于C语言，预处理就是其中的一个.</p>
 <p>预处理器可以通过预处理命令对一个资源进行等价替换, 预处理命令是一些以<code>#</code>开头的单行命令. 常见的预处理包括: 宏替换,文件包含和条件编译. 下面将分别进行介绍. </p>
           
+      
       
     </div>
     
@@ -847,6 +870,7 @@ new 类型名(初始值列表)
 <li>filebuf: 从streambuf中派生, 用来提供缓冲支持.</li>
 </ul>
           
+      
       
     </div>
     
@@ -925,13 +949,13 @@ new 类型名(初始值列表)
 </footer>
 
     </div>
-    <script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+    <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
 <script src="/js/main.js"></script>
 
     <script>
         $(document).ready(function() {
-            var backgroundnum = 1;
-            var backgroundimg = "url(/background/bg-" + backgroundnum +".jpg)";
+            var backgroundnum = 24;
+            var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
             $("#mobile-nav").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
             $(".left-col").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
         })
