@@ -3,36 +3,48 @@
 <head>
   <meta charset="utf-8">
   
-  <title>绘制音频波形图 | 做点有意思的事情</title>
+  <title>做点有意思的事情</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="绘制一个音频波形基本包括以下三步:
+  <meta name="description" content="title: 策略模式入门categories: 设计模式tags:
 
-读取: 读取或解压音频样本 
-缩减: 实际读取的样本数量远比要渲染绘制的要多,缩减的过程必须作用于整个样本集.通常将样本总集分为固定大小的样本块,并在每个样本块上找到最大的样本、所有样本的平均值或min/max值.
-渲染: 将缩减后的样本呈现在屏幕上
+设计模式
 
-代码地址为WaveformView,编译环境为Xcode 7.3">
+
+基本概念策略模式定义了算法族，分别封装起来， 让他们可以相互替换，此模式让算法的变化独立于使用算法的客户。
+策略模式的重心不是如何来实现算法，而是如何组织、调用这些算法，从而让程序结构更灵活、具有更好的维护性和扩展性。
+策略模式的本质：分离算法，选择实现。
+策略模式优点: 
+
+算法可以自由切换（高层屏蔽算法，角">
 <meta property="og:type" content="article">
-<meta property="og:title" content="绘制音频波形图">
-<meta property="og:url" content="http://www.devzhang.cn/2016/08/10/绘制音频波形图/index.html">
+<meta property="og:title" content="做点有意思的事情">
+<meta property="og:url" content="http://www.devzhang.cn/2018/03/15/策略模式入门/index.html">
 <meta property="og:site_name" content="做点有意思的事情">
-<meta property="og:description" content="绘制一个音频波形基本包括以下三步:
+<meta property="og:description" content="title: 策略模式入门categories: 设计模式tags:
 
-读取: 读取或解压音频样本 
-缩减: 实际读取的样本数量远比要渲染绘制的要多,缩减的过程必须作用于整个样本集.通常将样本总集分为固定大小的样本块,并在每个样本块上找到最大的样本、所有样本的平均值或min/max值.
-渲染: 将缩减后的样本呈现在屏幕上
+设计模式
 
-代码地址为WaveformView,编译环境为Xcode 7.3">
-<meta property="og:updated_time" content="2016-08-10T09:21:57.000Z">
+
+基本概念策略模式定义了算法族，分别封装起来， 让他们可以相互替换，此模式让算法的变化独立于使用算法的客户。
+策略模式的重心不是如何来实现算法，而是如何组织、调用这些算法，从而让程序结构更灵活、具有更好的维护性和扩展性。
+策略模式的本质：分离算法，选择实现。
+策略模式优点: 
+
+算法可以自由切换（高层屏蔽算法，角">
+<meta property="og:updated_time" content="2018-03-17T02:26:33.563Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="绘制音频波形图">
-<meta name="twitter:description" content="绘制一个音频波形基本包括以下三步:
+<meta name="twitter:title" content="做点有意思的事情">
+<meta name="twitter:description" content="title: 策略模式入门categories: 设计模式tags:
 
-读取: 读取或解压音频样本 
-缩减: 实际读取的样本数量远比要渲染绘制的要多,缩减的过程必须作用于整个样本集.通常将样本总集分为固定大小的样本块,并在每个样本块上找到最大的样本、所有样本的平均值或min/max值.
-渲染: 将缩减后的样本呈现在屏幕上
+设计模式
 
-代码地址为WaveformView,编译环境为Xcode 7.3">
+
+基本概念策略模式定义了算法族，分别封装起来， 让他们可以相互替换，此模式让算法的变化独立于使用算法的客户。
+策略模式的重心不是如何来实现算法，而是如何组织、调用这些算法，从而让程序结构更灵活、具有更好的维护性和扩展性。
+策略模式的本质：分离算法，选择实现。
+策略模式优点: 
+
+算法可以自由切换（高层屏蔽算法，角">
   
   
     <link rel="icon" href="//img/head.jpg">
@@ -218,11 +230,11 @@
         </header>                
     </div>
 </nav>
-      <div class="body-wrap"><article id="post-绘制音频波形图" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-策略模式入门" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016/08/10/绘制音频波形图/" class="article-date">
-      <time datetime="2016-08-10T08:59:34.000Z" itemprop="datePublished">2016-08-10</time>
+      <a href="/2018/03/15/策略模式入门/" class="article-date">
+      <time datetime="2018-03-15T03:32:56.664Z" itemprop="datePublished">2018-03-15</time>
 </a>
     </div>
   
@@ -231,176 +243,44 @@
       <input type="hidden" class="isFancy" />
     
     
-      <header class="article-header">
-        
-  
-    <h1 class="article-title" itemprop="name">
-      绘制音频波形图
-    </h1>
-  
-
-      </header>
-      
-      <div class="article-info article-info-post">
-        
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/iOS/">iOS</a>
-    </div>
-
-
-        
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AVFoundation/">AVFoundation</a></li></ul>
-    </div>
-
-        <div class="clearfix"></div>
-      </div>
-      
-    
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>绘制一个音频波形基本包括以下三步:</p>
+        <hr>
+<p>title: 策略模式入门<br>categories: 设计模式<br>tags:</p>
+<ul>
+<li>设计模式</li>
+</ul>
+<hr>
+<h1 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h1><p>策略模式定义了算法族，分别封装起来， 让他们可以相互替换，此模式让算法的变化独立于使用算法的客户。</p>
+<p>策略模式的重心不是如何来实现算法，而是如何组织、调用这些算法，从而让程序结构更灵活、具有更好的维护性和扩展性。</p>
+<p>策略模式的本质：分离算法，选择实现。</p>
+<p>策略模式优点: </p>
 <ol>
-<li>读取: 读取或解压音频样本 </li>
-<li>缩减: 实际读取的样本数量远比要渲染绘制的要多,缩减的过程必须作用于整个样本集.通常将样本总集分为固定大小的样本块,并在每个样本块上找到最大的样本、所有样本的平均值或min/max值.</li>
-<li>渲染: 将缩减后的样本呈现在屏幕上</li>
+<li>算法可以自由切换（高层屏蔽算法，角色自由切换）</li>
+<li>避免使用多重条件判断（如果算法过多就会出现很多种相同的判断，很难维护）</li>
+<li>扩展性好（可自由添加取消算法 而不影响整个功能）</li>
 </ol>
-<p>代码地址为<a href="https://github.com/changjianfeishui/WaveformView" target="_blank" rel="external">WaveformView</a>,编译环境为Xcode 7.3</p>
-<a id="more"></a>
-<h1 id="读取音频样本"><a href="#读取音频样本" class="headerlink" title="读取音频样本"></a>读取音频样本</h1><p>通过SampleDataProvider类实现读取音频样本的功能,读取的核心方法如下:</p>
-<pre><code>static func readAudioSamplesFromAVsset(asset:AVAsset) -&gt; NSData? {
-    //1. 创建一个AVAssetReader对象读取资源
-    guard let assetReader = try? AVAssetReader(asset: asset) else{
-        print(&quot;Unable to create AVAssetReader&quot;)
-        return nil
-    }
-    //2. 获取资源中找到的第一个音频轨道
-    guard let track = asset.tracksWithMediaType(AVMediaTypeAudio).first else{
-        print(&quot;No audio track found in asset&quot;)
-        return nil
-    }
-    //3. 从资源轨道读取音频样本时使用的解压设置
-    //样本需要以未被压缩的格式读取(kAudioFormatLinearPCM)
-    //样本以16位的little-endian字节顺序的有符号整型方式读取
-    let outputSetting:[String:AnyObject] = [AVFormatIDKey:Int(kAudioFormatLinearPCM),
-                         AVLinearPCMIsBigEndianKey:false,
-                         AVLinearPCMIsFloatKey:false,
-                         AVLinearPCMBitDepthKey:16
-                         ]
-    //4. 创建AVAssetReaderTrackOutput对象作为assetReader的输出
-    let trackOutput = AVAssetReaderTrackOutput(track: track, outputSettings: outputSetting)
-    assetReader.addOutput(trackOutput)
-    //5. 允许预收取样本数据
-    assetReader.startReading()
+<p>策略模式缺点:</p>
+<ol>
+<li>策略类数量增多（每一个策略类复用性很小，如果需要增加算法，就只能新增类）</li>
+<li>所有的策略类都需要对外暴露（使用的人必须了解使用策略，这个就需要其它模式来补充，比如工厂模式、代理模式）</li>
+</ol>
+<h1 id="策略模式代码示例"><a href="#策略模式代码示例" class="headerlink" title="策略模式代码示例"></a>策略模式代码示例</h1><p>在移动项目开发中，不可避免需要展示图片， 这就需要从server端获取图片路径。 通常来说不同图片类型在server端的存储路径会有所区别，并且返回的可能不一定是图片的完整路径。 下面给出用策略模式解决这种情况的代码示例。</p>
+<p>创建策略接口:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">//server address</span><br><span class="line">let ResourceHost = &quot;https://www.devzhang.cn&quot;</span><br><span class="line"></span><br><span class="line">protocol IResourcePathStrategy&#123;</span><br><span class="line">    </span><br><span class="line">    /// 路径拼接方法</span><br><span class="line">    ///</span><br><span class="line">    /// - Parameter generateID: 资源id（）</span><br><span class="line">    /// - Returns: 资源全路径</span><br><span class="line">    func resourcePath(generateID:String)-&gt;String</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>创建具体策略：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">/// 礼物资源图片路径拼接策略</span><br><span class="line">class GiftResourcePathStrategy :IResourcePathStrategy&#123;</span><br><span class="line">    let giftJointPath = &quot;/img/gift/&quot;</span><br><span class="line">    func resourcePath(generateID:String) -&gt; String &#123;</span><br><span class="line">        let giftPath = ResourceHost.appending(giftJointPath).appending(generateID).appending(&quot;.png&quot;)</span><br><span class="line">        return giftPath;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/// 动画资源路径拼接策略</span><br><span class="line">class AnimationResourcePathStrategy: IResourcePathStrategy &#123;</span><br><span class="line">    let animationJointPath = &quot;/img/animation/&quot;</span><br><span class="line">    func resourcePath(generateID:String) -&gt; String &#123;</span><br><span class="line">        let animationPath = ResourceHost.appending(animationJointPath).appending(generateID).appending(&quot;.zip&quot;)</span><br><span class="line">        return animationPath;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/// 用户头像图片路径拼接策略</span><br><span class="line">class AvatarResourcePathStrategy: IResourcePathStrategy &#123;</span><br><span class="line">    let avatarJointPath = &quot;/img/avatar/&quot;</span><br><span class="line">    func resourcePath(generateID:String) -&gt; String &#123;</span><br><span class="line">        let giftPath = ResourceHost.appending(avatarJointPath).appending(generateID).appending(&quot;.png&quot;)</span><br><span class="line">        return giftPath;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>创建策略上下文:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">class ResourcePathContext &#123;</span><br><span class="line">    //持有策略</span><br><span class="line">    private var strategy:IResourcePathStrategy</span><br><span class="line">    </span><br><span class="line">    /// 资源id</span><br><span class="line">    private var generateID:String</span><br><span class="line">    </span><br><span class="line">    ///初始化策略上下文</span><br><span class="line">    init(stategy:IResourcePathStrategy, generateID:String) &#123;</span><br><span class="line">        self.strategy = stategy</span><br><span class="line">        self.generateID = generateID</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    /// 调用具体策略实现</span><br><span class="line">    func generateResourcePath() -&gt; String &#123;</span><br><span class="line">        return self.strategy.resourcePath(generateID: self.generateID);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>客户端调用代码示例:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">//策略模式</span><br><span class="line">//gift</span><br><span class="line">let giftStrategy = GiftResourcePathStrategy()</span><br><span class="line">let giftContext = ResourcePathContext(stategy: giftStrategy, generateID: &quot;111&quot;)</span><br><span class="line">let giftResourcePath = giftContext.generateResourcePath()</span><br><span class="line">print(&quot;礼物id为111d的图片地址是&quot; + giftResourcePath)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">//animation</span><br><span class="line">let animationStrategy = AnimationResourcePathStrategy()</span><br><span class="line">let animationContext = ResourcePathContext(stategy: animationStrategy, generateID: &quot;222&quot;)</span><br><span class="line">let animationResourcePath = animationContext.generateResourcePath()</span><br><span class="line">print(&quot;动画id为222的资源地址是&quot; + animationResourcePath)</span><br><span class="line"></span><br><span class="line">//avatar</span><br><span class="line">let avatarStrategy = AvatarResourcePathStrategy()</span><br><span class="line">let avatarContext = ResourcePathContext(stategy: avatarStrategy, generateID: &quot;333&quot;)</span><br><span class="line">let avatarResourcePath = avatarContext.generateResourcePath()</span><br><span class="line">print(&quot;用户id为333的用户头像地址是&quot; + avatarResourcePath)</span><br></pre></td></tr></table></figure>
+<h1 id="策略枚举代码示例"><a href="#策略枚举代码示例" class="headerlink" title="策略枚举代码示例"></a>策略枚举代码示例</h1><p>策略枚举即在一个类中同时实现以上三种策略。</p>
+<p>创建策略枚举类:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">enum ResourcePath&#123;</span><br><span class="line">    case giftResourcePath(giftID: String)</span><br><span class="line">    case animationResourcePath(animation:String)</span><br><span class="line">    case avatarResourcePath(avatar:String)</span><br><span class="line">    </span><br><span class="line">    private static var giftJointPath = &quot;/img/gift/&quot;</span><br><span class="line">    private static var animationJointPath = &quot;/img/animation/&quot;</span><br><span class="line">    private static var avatarJointPath = &quot;/img/avatar/&quot;</span><br><span class="line">    </span><br><span class="line">    var generateResourcePath:String &#123;</span><br><span class="line">        switch self &#123;</span><br><span class="line">        case .giftResourcePath(let giftID):</span><br><span class="line">            return ResourceHost.appending(ResourcePath.giftJointPath).appending(giftID).appending(&quot;.png&quot;)</span><br><span class="line">        case .animationResourcePath(let animationID):</span><br><span class="line">            return ResourceHost.appending(ResourcePath.animationJointPath).appending(animationID).appending(&quot;.zip&quot;)</span><br><span class="line">        case .avatarResourcePath(let userID):</span><br><span class="line">            return ResourceHost.appending(ResourcePath.avatarJointPath).appending(userID).appending(&quot;.png&quot;)</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>客户端调用:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//策略枚举</span><br><span class="line">print(ResourcePath.giftResourcePath(giftID: &quot;111&quot;).generateResourcePath)</span><br><span class="line">print(ResourcePath.animationResourcePath(animation: &quot;222&quot;).generateResourcePath)</span><br><span class="line">print(ResourcePath.avatarResourcePath(avatar: &quot;333&quot;).generateResourcePath)</span><br></pre></td></tr></table></figure>
 
-    let sampleData = NSMutableData()
-
-    while assetReader.status == .Reading {
-        //6. 迭代返回包含一个音频样本的CMSampleBuffer
-        if let sampleBuffer = trackOutput.copyNextSampleBuffer() {
-            //7. CMSampleBuffer的音频样本被包含在一个CMBlockBuffer类型中
-            if let blockBuffer = CMSampleBufferGetDataBuffer(sampleBuffer) {
-                //8. 获取blockBuffer数据长度
-                let length = CMBlockBufferGetDataLength(blockBuffer)
-                //9. 拼接sampleData
-                let sampleBytes = UnsafeMutablePointer&lt;Int16&gt;.alloc(length)
-                CMBlockBufferCopyDataBytes(blockBuffer, 0, length, sampleBytes)
-                sampleData.appendBytes(sampleBytes, length: length)
-            }
-        }
-    }
-    //10. 读取成功,返回数据
-    if assetReader.status == .Completed {
-        return sampleData
-    }
-    return nil
-}
-</code></pre><h1 id="缩减音频样本"><a href="#缩减音频样本" class="headerlink" title="缩减音频样本"></a>缩减音频样本</h1><p>通过SampleDataFilter类实现缩减音频样本的功能,缩减的核心方法如下:</p>
-<pre><code>//按照指定的尺寸约束来筛选数据
-func filteredSamplesForSize(size:CGSize) -&gt; [Float] {
-    /* 最终需要展示的样本集 */
-    var filteredSamples = [Float]()
-    //1. 每个样本为16字节,得到样本数量
-    let samplesCount = self.data.length/sizeof(Int16.self)
-    //2. 某个宽度范围内显示多少个样本数量
-    let binSize = Int(samplesCount / Int(size.width))
-    //3. 得到所有字节数据
-    /* 注意创建数组作为buffer时,要先分配好内存,即需要指定数组长度 */
-    var bytes = [Int16](count:self.data.length,repeatedValue:0)
-    self.data.getBytes(&amp;bytes, length: self.data.length)
-    //4. 以binSize为步长遍历所有样本,
-    var maxSample: Int16 = 0
-    for i in 0.stride(to: samplesCount-1, by: binSize) {
-
-        var sampleBin = [Int16](count:binSize,repeatedValue:0)
-        for j in 0..&lt;binSize {
-            /*小端存储,低字节序*/
-            sampleBin[j] = bytes[i + j].littleEndian
-        }
-        //5. 获取每个尺寸单位样本集binSize中的最大样本
-        let value = self.maxValue(in: sampleBin, ofSize: binSize)
-        //6. 添加到需要最终需要绘制展示的样本中
-        filteredSamples.append(Float(value))
-        if value &gt; maxSample {
-            maxSample = value
-        }
-    }
-    //7 .根据所有样本中的最大样本值进行缩放
-    let scaleFactor = (size.height / 2.0) / CGFloat(maxSample)
-    //8. 对需要展示的样本进行缩放
-    for i in 0..&lt;filteredSamples.count {
-        filteredSamples[i] = filteredSamples[i] * Float(scaleFactor)
-    }
-    return filteredSamples
-}
-</code></pre><h1 id="渲染音频样本"><a href="#渲染音频样本" class="headerlink" title="渲染音频样本"></a>渲染音频样本</h1><p>创建UIView的子类WaveformView来渲染缩减结果,绘制的核心代码如下:</p>
-<pre><code>override func drawRect(rect: CGRect) {
-
-    //1. 获取绘图上下文
-    guard let context = UIGraphicsGetCurrentContext() else { return }
-    //2. 获取需要进行绘制的数据
-    guard let filteredSamples = filter?.filteredSamplesForSize(bounds.size) else {
-        return
-    }
-    //3. 设置画布的缩放和上下左右间距
-    CGContextScaleCTM(context, widthScaling, heightScaling);
-    let xOffset = bounds.size.width - (bounds.size.width * widthScaling)
-    let yOffset = bounds.size.height - (bounds.size.height * heightScaling)
-    CGContextTranslateCTM(context, xOffset / 2, yOffset / 2);
-
-    //4. 绘制上半部分
-    let midY = CGRectGetMidY(rect)
-    let halfPath = CGPathCreateMutable()
-    CGPathMoveToPoint(halfPath, nil, 0.0, midY);
-    for i in 0..&lt;filteredSamples.count {
-        let sample = CGFloat(filteredSamples[i])
-        CGPathAddLineToPoint(halfPath, nil, CGFloat(i), midY - sample);
-    }
-    CGPathAddLineToPoint(halfPath, nil, CGFloat(filteredSamples.count), midY);
-
-    //5. 绘制下半部分,对上半部分进行translate和sacle变化,即翻转上半部分
-    let fullPath = CGPathCreateMutable()
-    CGPathAddPath(fullPath, nil, halfPath);
-    var transform = CGAffineTransformIdentity;
-    transform = CGAffineTransformTranslate(transform, 0, CGRectGetHeight(rect));
-    transform = CGAffineTransformScale(transform, 1.0, -1.0);
-    CGPathAddPath(fullPath, &amp;transform, halfPath);
-
-    //6. 将完整路径添加到上下文
-    CGContextAddPath(context, fullPath);                                    
-    CGContextSetFillColorWithColor(context, self.waveColor.CGColor);
-    CGContextDrawPath(context, .Fill);
-
-}
-
-override func layoutSubviews() {
-    let size = loadingView.frame.size
-    let x = (bounds.width - size.width) / 2.0
-    let y = (bounds.height - size.height) / 2.0
-    loadingView.frame = CGRect(x: x, y: y, width: size.width, height: size.height)
-}
-</code></pre>
       
       
         <div class="page-reward">
@@ -455,13 +335,13 @@ override func layoutSubviews() {
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2016/08/10/绘制音频波形图/">绘制音频波形图</a></p>
+        <p><span>本文标题:</span><a href="/2018/03/15/策略模式入门/"></a></p>
         <p><span>文章作者:</span><a href="/" title="访问 Mangox 的个人博客">Mangox</a></p>
-        <p><span>发布时间:</span>2016年08月10日 - 16时59分</p>
-        <p><span>最后更新:</span>2016年08月10日 - 17时21分</p>
+        <p><span>发布时间:</span>2018年03月15日 - 11时32分</p>
+        <p><span>最后更新:</span>2018年03月17日 - 10时26分</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2016/08/10/绘制音频波形图/" title="绘制音频波形图">http://www.devzhang.cn/2016/08/10/绘制音频波形图/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://www.devzhang.cn/2016/08/10/绘制音频波形图/　　作者: Mangox" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2018/03/15/策略模式入门/" title="">http://www.devzhang.cn/2018/03/15/策略模式入门/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://www.devzhang.cn/2018/03/15/策略模式入门/　　作者: Mangox" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script src="/js/clipboard.min.js"></script>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
@@ -474,18 +354,9 @@ override func layoutSubviews() {
 
 <nav id="article-nav">
   
-    <a href="/2016/08/30/视频直播专业名词解答/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption"><</strong>
-      <div class="article-nav-title">
-        
-          视频直播专业名词解答
-        
-      </div>
-    </a>
   
-  
-    <a href="/2016/08/05/高帧率视频捕捉/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">高帧率视频捕捉</div>
+    <a href="/2018/02/01/Cocoapods二进制化方案/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Cocoapods二进制化方案</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -496,7 +367,7 @@ override func layoutSubviews() {
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#读取音频样本"><span class="toc-number">1.</span> <span class="toc-text">读取音频样本</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#缩减音频样本"><span class="toc-number">2.</span> <span class="toc-text">缩减音频样本</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#渲染音频样本"><span class="toc-number">3.</span> <span class="toc-text">渲染音频样本</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#基本概念"><span class="toc-number">1.</span> <span class="toc-text">基本概念</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#策略模式代码示例"><span class="toc-number">2.</span> <span class="toc-text">策略模式代码示例</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#策略枚举代码示例"><span class="toc-number">3.</span> <span class="toc-text">策略枚举代码示例</span></a></li></ol>
 </div>
 <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
 
@@ -547,13 +418,11 @@ override func layoutSubviews() {
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2016/08/30/视频直播专业名词解答/" title="上一篇: 视频直播专业名词解答">
-                <i class="fa fa-angle-left"></i>
-            </a>
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
         
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
         
-            <a href="/2016/08/05/高帧率视频捕捉/" title="下一篇: 高帧率视频捕捉">
+            <a href="/2018/02/01/Cocoapods二进制化方案/" title="下一篇: Cocoapods二进制化方案">
                 <i class="fa fa-angle-right"></i>
             </a>
         

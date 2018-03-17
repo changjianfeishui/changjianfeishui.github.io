@@ -204,6 +204,79 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-绘制音频波形图" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/08/10/绘制音频波形图/" class="article-date">
+      <time datetime="2016-08-10T08:59:34.000Z" itemprop="datePublished">2016-08-10</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/08/10/绘制音频波形图/">绘制音频波形图</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <p>绘制一个音频波形基本包括以下三步:</p>
+<ol>
+<li>读取: 读取或解压音频样本 </li>
+<li>缩减: 实际读取的样本数量远比要渲染绘制的要多,缩减的过程必须作用于整个样本集.通常将样本总集分为固定大小的样本块,并在每个样本块上找到最大的样本、所有样本的平均值或min/max值.</li>
+<li>渲染: 将缩减后的样本呈现在屏幕上</li>
+</ol>
+<p>代码地址为<a href="https://github.com/changjianfeishui/WaveformView">WaveformView</a>,编译环境为Xcode 7.3</p>
+          
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/iOS/">iOS</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AVFoundation/">AVFoundation</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a  href="/2016/08/10/绘制音频波形图/#more">查看全文 >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-高帧率视频捕捉" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -795,73 +868,6 @@
       
         <p class="article-more-link">
           <a  href="/2016/07/15/捕捉静态图片/#more">查看全文 >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-使用AVCaptureSession采集视频" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/07/13/使用AVCaptureSession采集视频/" class="article-date">
-      <time datetime="2016-07-13T15:10:19.000Z" itemprop="datePublished">2016-07-13</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/07/13/使用AVCaptureSession采集视频/">使用AVCaptureSession采集视频</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-              <p>本文将前文的继续Kcamera项目,并使用AVCaptureSession获取摄像头采集到的视频.但是实际的视频录制和照片拍摄将在后面的文章中才会实现.</p>
-          
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/iOS/">iOS</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AVFoundation/">AVFoundation</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Kcamera/">Kcamera</a></li></ul>
-    </div>
-
-      
-        <p class="article-more-link">
-          <a  href="/2016/07/13/使用AVCaptureSession采集视频/#more">查看全文 >></a>
         </p>
       
       <div class="clearfix"></div>

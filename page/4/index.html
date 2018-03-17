@@ -204,6 +204,87 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-Objective-C内存管理之引用计数" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/11/17/Objective-C内存管理之引用计数/" class="article-date">
+      <time datetime="2016-11-17T14:44:59.000Z" itemprop="datePublished">2016-11-17</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/11/17/Objective-C内存管理之引用计数/">Objective-C内存管理之引用计数</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <p>Objective-C中的内存管理,也就是引用计数, 可以用如下方式进行思考:</p>
+<ul>
+<li>自己生成的对象, 自己持有.</li>
+<li>非自己生成的对象, 自己也能持有.</li>
+<li>不再需要自己持有的对象时释放对象</li>
+<li>非自己持有的对象无法释放</li>
+</ul>
+<p>“生成”, “持有”, “释放”, “废弃”四个词对应的Objective-C方法如下:</p>
+<ul>
+<li>生成: alloc/new/copy/mutableCopy 等方法</li>
+<li>持有: retain方法</li>
+<li>释放: release方法</li>
+<li>废弃: dealloc方法</li>
+</ul>
+<p>这些内存管理相关的方法, 实际上不包括在语言本身中, 而是包含在Cocoa框架中. Cocoa框架中Foundation框架类库的NSObject类负责进行内存管理. </p>
+          
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/iOS/">iOS</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/内存管理/">内存管理</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/学习笔记/">学习笔记</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a  href="/2016/11/17/Objective-C内存管理之引用计数/#more">查看全文 >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-C++之函数重载" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -816,80 +897,6 @@ new 类型名(初始值列表)
       
         <p class="article-more-link">
           <a  href="/2016/11/02/C++之预处理/#more">查看全文 >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-C++中文件的输入和输出" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/11/01/C++中文件的输入和输出/" class="article-date">
-      <time datetime="2016-11-01T13:15:28.000Z" itemprop="datePublished">2016-11-01</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/11/01/C++中文件的输入和输出/">C++中文件的输入和输出</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-              <p>C++中文件的输入和输出机制和屏幕上输入输出相似, 主要区别在于需要显式地打开和关闭文件. 对文件进行操作时会涉及到5个相关的类:</p>
-<ul>
-<li>fstreambase: 公共基类, 具体文件操作中不会使用这个类.</li>
-<li>ifstream: 从istream派生, 负责文件的读取.</li>
-<li>ofstream: 从ostream派生, 负责文件的写入.</li>
-<li>fstream: 从fstreambase和iostream中派生, 负责对文件进行写入和读取.</li>
-<li>filebuf: 从streambuf中派生, 用来提供缓冲支持.</li>
-</ul>
-          
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/Cpp/">C++</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/学习笔记/">学习笔记</a></li></ul>
-    </div>
-
-      
-        <p class="article-more-link">
-          <a  href="/2016/11/01/C++中文件的输入和输出/#more">查看全文 >></a>
         </p>
       
       <div class="clearfix"></div>
