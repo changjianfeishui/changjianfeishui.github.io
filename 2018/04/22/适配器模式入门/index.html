@@ -3,21 +3,48 @@
 <head>
   <meta charset="utf-8">
   
-  <title>对焦和曝光功能的实现 | 做点有意思的事情</title>
+  <title>适配器模式入门 | 做点有意思的事情</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="iOS设备上大多数后置摄像头都支持基于给定兴趣点设置对焦和曝光数据.在界面上的直接体现就是点击视频预览界面的某个位置,就会在这个点自动对焦和曝光.本文将实现点击对焦和点击曝光功能.
-Kcamera的代码可以在https://github.com/changjianfeishui/Kcamera上找到.">
+  <meta name="description" content="适配器模式将一个类的接口，转换成客户期望的另一个接口。适配器让原本接口不兼容的类可以合作无间。
+适配器不是在详细设计时添加的，而是解决当前已有项目遇到的问题。以下情况可以使用适配器模式:
+
+已有的类的接口与新需求不匹配
+需要一个可复用的类，能够和接口不兼容的其他类进行协作
+需要适配一个类的几个不同子类，可以使用对象适配器来适配其父类接口
+
+客户使用适配器的过程如下：
+
+客户通过目标接口调用适配器的">
 <meta property="og:type" content="article">
-<meta property="og:title" content="对焦和曝光功能的实现">
-<meta property="og:url" content="http://www.devzhang.cn/2016/07/19/对焦和曝光功能的实现/index.html">
+<meta property="og:title" content="适配器模式入门">
+<meta property="og:url" content="http://www.devzhang.cn/2018/04/22/适配器模式入门/index.html">
 <meta property="og:site_name" content="做点有意思的事情">
-<meta property="og:description" content="iOS设备上大多数后置摄像头都支持基于给定兴趣点设置对焦和曝光数据.在界面上的直接体现就是点击视频预览界面的某个位置,就会在这个点自动对焦和曝光.本文将实现点击对焦和点击曝光功能.
-Kcamera的代码可以在https://github.com/changjianfeishui/Kcamera上找到.">
-<meta property="og:updated_time" content="2016-07-20T10:39:13.000Z">
+<meta property="og:description" content="适配器模式将一个类的接口，转换成客户期望的另一个接口。适配器让原本接口不兼容的类可以合作无间。
+适配器不是在详细设计时添加的，而是解决当前已有项目遇到的问题。以下情况可以使用适配器模式:
+
+已有的类的接口与新需求不匹配
+需要一个可复用的类，能够和接口不兼容的其他类进行协作
+需要适配一个类的几个不同子类，可以使用对象适配器来适配其父类接口
+
+客户使用适配器的过程如下：
+
+客户通过目标接口调用适配器的">
+<meta property="og:image" content="https://github.com/changjianfeishui/XBImageStore/raw/master/DesignPattern/AdapterPattern-obj.png">
+<meta property="og:image" content="https://github.com/changjianfeishui/XBImageStore/raw/master/DesignPattern/AdapterPattern-class.png">
+<meta property="og:updated_time" content="2018-04-22T10:16:32.164Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="对焦和曝光功能的实现">
-<meta name="twitter:description" content="iOS设备上大多数后置摄像头都支持基于给定兴趣点设置对焦和曝光数据.在界面上的直接体现就是点击视频预览界面的某个位置,就会在这个点自动对焦和曝光.本文将实现点击对焦和点击曝光功能.
-Kcamera的代码可以在https://github.com/changjianfeishui/Kcamera上找到.">
+<meta name="twitter:title" content="适配器模式入门">
+<meta name="twitter:description" content="适配器模式将一个类的接口，转换成客户期望的另一个接口。适配器让原本接口不兼容的类可以合作无间。
+适配器不是在详细设计时添加的，而是解决当前已有项目遇到的问题。以下情况可以使用适配器模式:
+
+已有的类的接口与新需求不匹配
+需要一个可复用的类，能够和接口不兼容的其他类进行协作
+需要适配一个类的几个不同子类，可以使用对象适配器来适配其父类接口
+
+客户使用适配器的过程如下：
+
+客户通过目标接口调用适配器的">
+<meta name="twitter:image" content="https://github.com/changjianfeishui/XBImageStore/raw/master/DesignPattern/AdapterPattern-obj.png">
   
   
     <link rel="icon" href="//img/head.jpg">
@@ -203,11 +230,11 @@ Kcamera的代码可以在https://github.com/changjianfeishui/Kcamera上找到.">
         </header>                
     </div>
 </nav>
-      <div class="body-wrap"><article id="post-对焦和曝光功能的实现" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-适配器模式入门" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016/07/19/对焦和曝光功能的实现/" class="article-date">
-      <time datetime="2016-07-19T03:01:09.000Z" itemprop="datePublished">2016-07-19</time>
+      <a href="/2018/04/22/适配器模式入门/" class="article-date">
+      <time datetime="2018-04-22T10:03:47.527Z" itemprop="datePublished">2018-04-22</time>
 </a>
     </div>
   
@@ -220,7 +247,7 @@ Kcamera的代码可以在https://github.com/changjianfeishui/Kcamera上找到.">
         
   
     <h1 class="article-title" itemprop="name">
-      对焦和曝光功能的实现
+      适配器模式入门
     </h1>
   
 
@@ -235,7 +262,7 @@ Kcamera的代码可以在https://github.com/changjianfeishui/Kcamera上找到.">
 
         
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AVFoundation/">AVFoundation</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Kcamera/">Kcamera</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/设计模式/">设计模式</a></li></ul>
     </div>
 
         <div class="clearfix"></div>
@@ -245,221 +272,34 @@ Kcamera的代码可以在https://github.com/changjianfeishui/Kcamera上找到.">
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>iOS设备上大多数后置摄像头都支持基于给定兴趣点设置对焦和曝光数据.在界面上的直接体现就是点击视频预览界面的某个位置,就会在这个点自动对焦和曝光.本文将实现点击对焦和点击曝光功能.</p>
-<p>Kcamera的代码可以在<a href="https://github.com/changjianfeishui/Kcamera" target="_blank" rel="external">https://github.com/changjianfeishui/Kcamera</a>上找到.</p>
+        <p>适配器模式将一个类的接口，转换成客户期望的另一个接口。适配器让原本接口不兼容的类可以合作无间。</p>
+<p>适配器不是在详细设计时添加的，而是解决当前已有项目遇到的问题。以下情况可以使用适配器模式:</p>
+<ul>
+<li>已有的类的接口与新需求不匹配</li>
+<li>需要一个可复用的类，能够和接口不兼容的其他类进行协作</li>
+<li>需要适配一个类的几个不同子类，可以使用对象适配器来适配其父类接口</li>
+</ul>
+<p>客户使用适配器的过程如下：</p>
+<ol>
+<li>客户通过目标接口调用适配器的方法对适配器发出请求</li>
+<li>适配器使用被适配者接口把请求转换成被适配者的一个或多个接口</li>
+<li>客户收到调用结果，但不会察觉到这是适配器在起转换作用</li>
+</ol>
 <a id="more"></a>
-<h1 id="点击对焦功能的实现"><a href="#点击对焦功能的实现" class="headerlink" title="点击对焦功能的实现"></a>点击对焦功能的实现</h1><h2 id="坐标空间转换"><a href="#坐标空间转换" class="headerlink" title="坐标空间转换"></a>坐标空间转换</h2><p>在iOS设备中,4寸屏的屏幕坐标左上角为(0,0),垂直模式下右下角坐标为(320,568),水平模式下右下角坐标为(568,320).而捕捉设备坐标系则不同,设备左上角为(0,0),右下角为(1,1),并且不支持水平方向旋转.</p>
-<p>在PreView.swift中增加如下方法:</p>
-<pre><code>//将屏幕坐标系上的触控点转换为摄像头设备坐标系上的点
-func captureDevicePointForPoint(point:CGPoint) -&gt; CGPoint{
-    let layer = self.layer as! AVCaptureVideoPreviewLayer
-    return layer.captureDevicePointOfInterestForPoint(point)
-}
-</code></pre><h2 id="添加点击事件"><a href="#添加点击事件" class="headerlink" title="添加点击事件"></a>添加点击事件</h2><p>由于对焦和曝光功能涉及到屏幕坐标系和摄像头设备坐标系之间的转换,而转换功能是在PreView的AVCaptureVideoPreviewLayer上进行的.所以我们最好将对焦和曝光的触发事件定义在PreView中.</p>
-<pre><code>required init?(coder aDecoder: NSCoder) {
-    super.init(coder: aDecoder)
-    self.setupView()
-}
-
-func setupView() -&gt; Void {
-    //1. 添加对焦点击事件
-    let singleTapRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleSingleTap(_:)))
-    self.addGestureRecognizer(singleTapRecognizer)
-}
-
-//对焦功能的触发
-func handleSingleTap(tap:UITapGestureRecognizer) -&gt; Void {
-    print(&quot;对焦&quot;)
-}    
-</code></pre><p>如果允许程序的话会发现,这时是无法触发点击手势的.因为PreView上层还有一层ControlView.所以还要修改ControlView中UI事件的传递.在ControlView中增加下面的方法:</p>
-<pre><code>//屏蔽除了statusView和modeView区域外的点击事件
-override func pointInside(point: CGPoint, withEvent event: UIEvent?) -&gt; Bool {
-    if self.statusView.pointInside(self.convertPoint(point, toView: self.statusView), withEvent: event) || self.modeView.pointInside(self.convertPoint(point, toView: self.modeView), withEvent: event){
-        return true
-    }
-    return false
-}
-</code></pre><p>重新编译运行程序,PreView可以响应手势了.   </p>
-<h2 id="实现对焦框UI"><a href="#实现对焦框UI" class="headerlink" title="实现对焦框UI"></a>实现对焦框UI</h2><p>在PreView中添加一个属性:</p>
-<pre><code>//对焦框UI
-lazy var focusBox:UIView = {
-    let view = UIView(frame: BOX_BOUNDS)
-    view.backgroundColor = UIColor.clearColor()
-    view.layer.borderColor = UIColor(colorLiteralRed: 0.102, green: 0.636, blue: 1.000, alpha: 1.000).CGColor
-    view.layer.borderWidth = 5.0
-    view.hidden = true
-    return view
-}()
-</code></pre><p>在setupView()方法最后:</p>
-<pre><code>//2. 添加对焦框矩形UI
-self.addSubview(self.focusBox)    
-</code></pre><p>完善之前的handleSingleTap()方法:</p>
-<pre><code>//对焦功能的实现
-func handleSingleTap(tap:UITapGestureRecognizer) -&gt; Void {
-    //1. 点击坐标
-    let point = tap.locationInView(self)
-    //2. 动画
-    self.runBoxAnimationOnView(self.focusBox, point: point)
-}
-</code></pre><p>其中runBoxAnimationOnView()实现如下:</p>
-<pre><code>//矩形框缩放动画
-func runBoxAnimationOnView(view:UIView,point:CGPoint) -&gt; Void {
-    view.center = point
-    view.hidden = false
-    UIView.animateWithDuration(0.15, delay: 0, options: .CurveEaseInOut, animations: { 
-        view.layer.transform = CATransform3DMakeScale(0.5, 0.5, 1)
-        }) { (_) in
-            let time = dispatch_time(DISPATCH_TIME_NOW, Int64(0.5 * Double(NSEC_PER_SEC)))
-            dispatch_after(time, dispatch_get_main_queue(), { 
-                view.hidden = true
-                view.layer.transform = CATransform3DIdentity
-            })
-
-
-    }
-}
-</code></pre><h2 id="实现对焦功能"><a href="#实现对焦功能" class="headerlink" title="实现对焦功能"></a>实现对焦功能</h2><p>目前只是实现了对焦功能的UI部分,并没有实现具体的对焦功能.由于所有关于摄像头的操作都是在CaptureModel中完成的,所以事件传递需要按照View-&gt;ViewController-&gt;Model的顺序来进行传递.</p>
-<p>在PreView.swift中<strong>类外部</strong>增加如下协议:</p>
-<pre><code>protocol PreViewDelegate {
-    //兴趣点对焦
-    func focuxAtPoint(point:CGPoint)-&gt;Void
-}            
-</code></pre><p>在PreView类中增加一个属性:</p>
-<pre><code>var delegate:PreViewDelegate?
-</code></pre><p>并在handleSingleTap()方法中增加一行:</p>
-<pre><code>//3. 通知代理
-self.delegate?.focuxAtPoint(self.captureDevicePointForPoint(point))    
-</code></pre><p>修改ViewController的viewDidLoad()方法,增加设置代理的代码:</p>
-<pre><code>override func viewDidLoad() {
-    super.viewDidLoad()
-    //初始化捕捉会话
-    self.captureModel = CaptureModel()
-    if self.captureModel.setupSession() {
-        self.preView.session = self.captureModel.captureSession
-        self.preView.delegate = self    //new add
-        self.captureModel.startSession()
-    }
-}        
-</code></pre><p>这时ViewController必须遵循PreViewDelegate协议且实现协议中的focuxAtPoint()方法:</p>
-<pre><code>//MARK: - PreViewDelegate
-func focuxAtPoint(point:CGPoint)-&gt;Void{
-    self.captureModel.focusAtPoint(point)
-} 
-</code></pre><p>最后是在CaptureModel中添加focusAtPoint()方法:</p>
-<pre><code>//MARK: - 对焦
-//传入是摄像头设备坐标系下的point
-func focusAtPoint(point:CGPoint) -&gt; Void {
-    //1. 获取当前使用的摄像头
-    let device = self.activeVideoInput.device
-    //2. 判断当前设备是否支持兴趣点对焦和自动对焦模式
-    /*比如前置摄像头就不支持对焦操作,因为设备和目标的距离不会太长*/
-    if device.focusPointOfInterestSupported &amp;&amp; device.isFocusModeSupported(.AutoFocus) {
-        //3. 修改配置前需要先锁定设备(设备是多个应用程序通用的)
-        if ((try? device.lockForConfiguration()) != nil) {
-            //4. 设置对焦点,修改对焦模式
-            device.focusPointOfInterest = point
-            device.focusMode = .AutoFocus
-            device.unlockForConfiguration()
-        }
-    }else{
-        //暂时忽略了对设备不支持情况的处理,比如前置摄像头
-    }
-
-}    
-</code></pre><h2 id="测试对焦功能"><a href="#测试对焦功能" class="headerlink" title="测试对焦功能"></a>测试对焦功能</h2><p>编译运行程序,注意使用后置摄像头,点击屏幕,观察对焦过程.</p>
-<h1 id="点击曝光功能的实现"><a href="#点击曝光功能的实现" class="headerlink" title="点击曝光功能的实现"></a>点击曝光功能的实现</h1><h2 id="添加点击事件-1"><a href="#添加点击事件-1" class="headerlink" title="添加点击事件"></a>添加点击事件</h2><p>在PreView的setupView()方法中继续添加一个双击手势:</p>
-<pre><code>//3. 添加曝光点击事件
-let doubleTapRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleDoubleTap(_:)))
-doubleTapRecognizer.numberOfTapsRequired = 2
-singleTapRecognizer.requireGestureRecognizerToFail(doubleTapRecognizer)
-self.addGestureRecognizer(doubleTapRecognizer)
-</code></pre><p>其中handleDoubleTap()方法先定义如下:</p>
-<pre><code>//曝光功能的触发
-func handleDoubleTap(tap:UITapGestureRecognizer) -&gt; Void {
-    print(&quot;曝光&quot;)
-}        
-</code></pre><h2 id="实现曝光框UI"><a href="#实现曝光框UI" class="headerlink" title="实现曝光框UI"></a>实现曝光框UI</h2><p>与之前对焦UI实现类似,在PreView增加属性:</p>
-<pre><code>//曝光框UI
-lazy var exposureBox:UIView = {
-    let view = UIView(frame: BOX_BOUNDS)
-    view.backgroundColor = UIColor.clearColor()
-    view.layer.borderColor = UIColor(colorLiteralRed: 1.000, green: 0.421, blue: 0.054, alpha: 1.000).CGColor
-    view.layer.borderWidth = 5.0
-    view.hidden = true
-    return view
-}()
-</code></pre><p>在setupView()方法中将其添加到视图:</p>
-<pre><code>//4. 添加曝光矩形框UI
-self.addSubview(self.exposureBox)    
-</code></pre><p>完善之前的handleDoubleTap()方法:</p>
-<pre><code>//曝光功能的触发
-func handleDoubleTap(tap:UITapGestureRecognizer) -&gt; Void {
-    //1. 点击坐标
-    let point = tap.locationInView(self)
-    //2. 动画
-    self.runBoxAnimationOnView(self.exposureBox, point: point)
-}    
-</code></pre><h2 id="实现曝光功能"><a href="#实现曝光功能" class="headerlink" title="实现曝光功能"></a>实现曝光功能</h2><p>在协议PreViewDelegate中添加一个方法:</p>
-<pre><code>//曝光
-func exposeAtPoint(point:CGPoint)-&gt;Void
-</code></pre><p>在handleDoubleTap()方法最后通知代理:</p>
-<pre><code>//3. 通知代理
-self.delegate?.exposeAtPoint(self.captureDevicePointForPoint(point))
-</code></pre><p>在ViewController中实现PreViewDelegate协议的exposeAtPoint()方法如下:</p>
-<pre><code>func exposeAtPoint(point: CGPoint) {
-    self.captureModel.exposeAtPoint(point)
-}
-</code></pre><p>CaptureModel中exposeAtPoint()方法实现如下:</p>
-<pre><code>//MARK: - 曝光
-func exposeAtPoint(point:CGPoint) -&gt; Void {
-    let device = self.activeVideoInput.device
-    if device.exposurePointOfInterestSupported &amp;&amp; device.isExposureModeSupported(.ContinuousAutoExposure) {
-        if ((try? device.lockForConfiguration()) != nil) {
-            device.exposurePointOfInterest = point
-            device.exposureMode = .AutoExpose
-            device.unlockForConfiguration()
-        }
-    }
-}    
-</code></pre><h2 id="测试曝光功能"><a href="#测试曝光功能" class="headerlink" title="测试曝光功能"></a>测试曝光功能</h2><p>运行程序,切换环境敏感度,用一个手指双击屏幕.        </p>
-<h1 id="切换回连续对焦和曝光模式"><a href="#切换回连续对焦和曝光模式" class="headerlink" title="切换回连续对焦和曝光模式"></a>切换回连续对焦和曝光模式</h1><p>在协议PreViewDelegate中增加一个方法:</p>
-<pre><code>//重置连续对焦和曝光模式
-func resetFocusAndExposureModes()-&gt;Void
-</code></pre><p>在PreView的setupView()方法中增加一个两个手指双击的手势:</p>
-<pre><code>//5. 添加重置回连续对焦和曝光模式的手势
-let doubleDoubleTapRecognizer = UITapGestureRecognizer(target: self, action: #selector(handDoubledoubleTap(_:)))
-doubleDoubleTapRecognizer.numberOfTapsRequired = 2
-doubleDoubleTapRecognizer.numberOfTouchesRequired = 2
-self.addGestureRecognizer(doubleDoubleTapRecognizer)
-</code></pre><p>其中handDoubledoubleTap()方法实现如下:</p>
-<pre><code>func handDoubledoubleTap(tap:UITapGestureRecognizer) -&gt; Void {
-    //1. 动画
-    let center = (self.layer as! AVCaptureVideoPreviewLayer).pointForCaptureDevicePointOfInterest(CGPoint(x: 0.5, y: 0.5))
-    self.focusBox.center = center
-    self.exposureBox.center = center
-    self.exposureBox.transform = CGAffineTransformMakeScale(1.2, 1.2)
-    self.focusBox.hidden = false
-    self.exposureBox.hidden = false
-    UIView.animateWithDuration(0.15, delay: 0, options:.CurveEaseInOut, animations: { 
-        self.focusBox.layer.transform = CATransform3DMakeScale(0.5, 0.5, 1.0)
-        self.exposureBox.layer.transform = CATransform3DMakeScale(0.7, 0.7, 1.0)
-        }) { (_) in
-            let time = dispatch_time(DISPATCH_TIME_NOW, Int64(0.5 * Double(NSEC_PER_SEC)))
-            dispatch_after(time, dispatch_get_main_queue(), {
-                self.focusBox.hidden = true
-                self.exposureBox.hidden = true
-                self.focusBox.transform = CGAffineTransformIdentity
-                self.exposureBox.transform = CGAffineTransformIdentity
-            })
-    }
-    //2. 通知代理
-    self.delegate?.resetFocusAndExposureModes()
-}    
-</code></pre><p>在ViewController中实现PreViewDelegate的resetFocusAndExposureModes()方实现:</p>
-<pre><code>func resetFocusAndExposureModes() {
-    self.captureModel.resetFocusAndExposureModes()
-}
-</code></pre><p>运行程序,多次点击切换对焦和曝光,用两根手指双重置回连读对焦和曝光模式.</p>
+<h1 id="对象适配器"><a href="#对象适配器" class="headerlink" title="对象适配器"></a>对象适配器</h1><p>对象适配器使用组合来适配两个接口，适配器类包含了一个对被适配对象的引用， 其类图如下:<br><img src="https://github.com/changjianfeishui/XBImageStore/raw/master/DesignPattern/AdapterPattern-obj.png" alt=""></p>
+<p>对象适配器的特征如下:</p>
+<ul>
+<li>可以适配多个Adaptee及其子类</li>
+<li>难以重载Adaptee的行为，需要借助于子类对象而非Adaptee本身</li>
+<li>需要额外的指针间接访问Adaptee并适配该行为</li>
+</ul>
+<h1 id="类适配器"><a href="#类适配器" class="headerlink" title="类适配器"></a>类适配器</h1><p>类适配器通过继承来适配两个接口， 类图如下:<br><img src="https://github.com/changjianfeishui/XBImageStore/raw/master/DesignPattern/AdapterPattern-class.png" alt=""></p>
+<p>类适配器特征如下:</p>
+<ul>
+<li>只针对单一具体的Adaptee类，把Adaptee适配到Target</li>
+<li>因为是通过直接的子类化进行的适配，易于重载Adaptee的行为</li>
+<li>只有一个Adapter对象，无需额外的指针间接访问Adaptee</li>
+</ul>
 
       
       
@@ -515,13 +355,13 @@ self.addGestureRecognizer(doubleDoubleTapRecognizer)
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2016/07/19/对焦和曝光功能的实现/">对焦和曝光功能的实现</a></p>
+        <p><span>本文标题:</span><a href="/2018/04/22/适配器模式入门/">适配器模式入门</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 Mangox 的个人博客">Mangox</a></p>
-        <p><span>发布时间:</span>2016年07月19日 - 11时01分</p>
-        <p><span>最后更新:</span>2016年07月20日 - 18时39分</p>
+        <p><span>发布时间:</span>2018年04月22日 - 18时03分</p>
+        <p><span>最后更新:</span>2018年04月22日 - 18时16分</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2016/07/19/对焦和曝光功能的实现/" title="对焦和曝光功能的实现">http://www.devzhang.cn/2016/07/19/对焦和曝光功能的实现/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://www.devzhang.cn/2016/07/19/对焦和曝光功能的实现/　　作者: Mangox" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2018/04/22/适配器模式入门/" title="适配器模式入门">http://www.devzhang.cn/2018/04/22/适配器模式入门/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://www.devzhang.cn/2018/04/22/适配器模式入门/　　作者: Mangox" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script src="/js/clipboard.min.js"></script>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
@@ -534,18 +374,9 @@ self.addGestureRecognizer(doubleDoubleTapRecognizer)
 
 <nav id="article-nav">
   
-    <a href="/2016/07/22/调整闪光灯和手电筒模式/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption"><</strong>
-      <div class="article-nav-title">
-        
-          调整闪光灯和手电筒模式
-        
-      </div>
-    </a>
   
-  
-    <a href="/2016/07/18/切换摄像头/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">切换摄像头</div>
+    <a href="/2018/04/17/命令模式入门/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">命令模式入门</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -556,7 +387,7 @@ self.addGestureRecognizer(doubleDoubleTapRecognizer)
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#点击对焦功能的实现"><span class="toc-number">1.</span> <span class="toc-text">点击对焦功能的实现</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#坐标空间转换"><span class="toc-number">1.1.</span> <span class="toc-text">坐标空间转换</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#添加点击事件"><span class="toc-number">1.2.</span> <span class="toc-text">添加点击事件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#实现对焦框UI"><span class="toc-number">1.3.</span> <span class="toc-text">实现对焦框UI</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#实现对焦功能"><span class="toc-number">1.4.</span> <span class="toc-text">实现对焦功能</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#测试对焦功能"><span class="toc-number">1.5.</span> <span class="toc-text">测试对焦功能</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#点击曝光功能的实现"><span class="toc-number">2.</span> <span class="toc-text">点击曝光功能的实现</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#添加点击事件-1"><span class="toc-number">2.1.</span> <span class="toc-text">添加点击事件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#实现曝光框UI"><span class="toc-number">2.2.</span> <span class="toc-text">实现曝光框UI</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#实现曝光功能"><span class="toc-number">2.3.</span> <span class="toc-text">实现曝光功能</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#测试曝光功能"><span class="toc-number">2.4.</span> <span class="toc-text">测试曝光功能</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#切换回连续对焦和曝光模式"><span class="toc-number">3.</span> <span class="toc-text">切换回连续对焦和曝光模式</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#对象适配器"><span class="toc-number">1.</span> <span class="toc-text">对象适配器</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#类适配器"><span class="toc-number">2.</span> <span class="toc-text">类适配器</span></a></li></ol>
 </div>
 <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
 
@@ -607,13 +438,11 @@ self.addGestureRecognizer(doubleDoubleTapRecognizer)
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2016/07/22/调整闪光灯和手电筒模式/" title="上一篇: 调整闪光灯和手电筒模式">
-                <i class="fa fa-angle-left"></i>
-            </a>
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
         
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
         
-            <a href="/2016/07/18/切换摄像头/" title="下一篇: 切换摄像头">
+            <a href="/2018/04/17/命令模式入门/" title="下一篇: 命令模式入门">
                 <i class="fa fa-angle-right"></i>
             </a>
         
