@@ -204,6 +204,79 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-模板方法模式" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/04/23/模板方法模式/" class="article-date">
+      <time datetime="2018-04-23T06:10:09.055Z" itemprop="datePublished">2018-04-23</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/04/23/模板方法模式/">模版方法模式入门</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <p>模版方法模式在一个方法中定义一个算法的骨架，而将一些具体步骤延迟到子类中实现。模板方法使得子类可以在不改变算法结构的情况下，重新定义算法中的某些步骤。</p>
+<p>在以下情形下，应该考虑使用模板方法:</p>
+<ul>
+<li>需要一次性实现算法的不变部分，并将可变的行为留给子类来实现</li>
+<li>子类的共同行为应该被提取出来放到公共类中，避免代码重复。现有代码的差别应该被分离为新的操作。然后用一个调用这些新操作的模板方法来替换这些不同的代码</li>
+<li>需要控制子类的扩展。可以定义一个在特定点调用”钩子(hook)”操作的模板方法。子类可以通过对hook操作的实现在这些点扩展功能</li>
+</ul>
+          
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/iOS/">iOS</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/设计模式/">设计模式</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a  href="/2018/04/23/模板方法模式/#more">查看全文 >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-外观模式入门" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -668,86 +741,6 @@
 
 
   
-    <article id="post-策略模式入门" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/03/15/策略模式入门/" class="article-date">
-      <time datetime="2018-03-15T03:32:56.664Z" itemprop="datePublished">2018-03-15</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/03/15/策略模式入门/">策略模式入门</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-              <h1 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h1><p>策略模式定义了算法族，分别封装起来， 让他们可以相互替换，此模式让算法的变化独立于使用算法的客户。</p>
-<p>策略模式的重心不是如何来实现算法，而是如何组织、调用这些算法，从而让程序结构更灵活、具有更好的维护性和扩展性。</p>
-<p>策略模式的本质：分离算法，选择实现。</p>
-<p>策略模式优点: </p>
-<ol>
-<li>算法可以自由切换（高层屏蔽算法，角色自由切换）</li>
-<li>避免使用多重条件判断（如果算法过多就会出现很多种相同的判断，很难维护）</li>
-<li>扩展性好（可自由添加取消算法 而不影响整个功能）</li>
-</ol>
-<p>策略模式缺点:</p>
-<ol>
-<li>策略类数量增多（每一个策略类复用性很小，如果需要增加算法，就只能新增类）</li>
-<li>所有的策略类都需要对外暴露（使用的人必须了解使用策略，这个就需要其它模式来补充，比如工厂模式、代理模式）</li>
-</ol>
-          
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/iOS/">iOS</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/设计模式/">设计模式</a></li></ul>
-    </div>
-
-      
-        <p class="article-more-link">
-          <a  href="/2018/03/15/策略模式入门/#more">查看全文 >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
     <article id="post-观察者模式入门" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -844,6 +837,86 @@
 
 
   
+    <article id="post-策略模式入门" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/03/15/策略模式入门/" class="article-date">
+      <time datetime="2018-03-15T03:32:56.664Z" itemprop="datePublished">2018-03-15</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/03/15/策略模式入门/">策略模式入门</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <h1 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h1><p>策略模式定义了算法族，分别封装起来， 让他们可以相互替换，此模式让算法的变化独立于使用算法的客户。</p>
+<p>策略模式的重心不是如何来实现算法，而是如何组织、调用这些算法，从而让程序结构更灵活、具有更好的维护性和扩展性。</p>
+<p>策略模式的本质：分离算法，选择实现。</p>
+<p>策略模式优点: </p>
+<ol>
+<li>算法可以自由切换（高层屏蔽算法，角色自由切换）</li>
+<li>避免使用多重条件判断（如果算法过多就会出现很多种相同的判断，很难维护）</li>
+<li>扩展性好（可自由添加取消算法 而不影响整个功能）</li>
+</ol>
+<p>策略模式缺点:</p>
+<ol>
+<li>策略类数量增多（每一个策略类复用性很小，如果需要增加算法，就只能新增类）</li>
+<li>所有的策略类都需要对外暴露（使用的人必须了解使用策略，这个就需要其它模式来补充，比如工厂模式、代理模式）</li>
+</ol>
+          
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/iOS/">iOS</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/设计模式/">设计模式</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a  href="/2018/03/15/策略模式入门/#more">查看全文 >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-Cocoapods二进制化方案" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -894,80 +967,6 @@
       
         <p class="article-more-link">
           <a  href="/2018/02/01/Cocoapods二进制化方案/#more">查看全文 >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-SVN+Cocoapods" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2017/12/27/SVN+Cocoapods/" class="article-date">
-      <time datetime="2017-12-27T14:55:21.000Z" itemprop="datePublished">2017-12-27</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/12/27/SVN+Cocoapods/">SVN+Cocoapods</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-              <p>本文主要记录了SVN和Cocoapods的配合使用, 为组件化工作的基础部分. 目录如下：</p>
-<ul>
-<li>SVN目录说明</li>
-<li>配置ComponentSpecs</li>
-<li>配置podspec</li>
-<li>推送podspec</li>
-<li>发布framework</li>
-</ul>
-          
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/iOS/">iOS</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/组件化/">组件化</a></li></ul>
-    </div>
-
-      
-        <p class="article-more-link">
-          <a  href="/2017/12/27/SVN+Cocoapods/#more">查看全文 >></a>
         </p>
       
       <div class="clearfix"></div>
