@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>迭代器模式入门 | 做点有意思的事情</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="迭代器模式提供一种方法顺序访问一个聚合对象中的各个元素，而又不暴露结构的底层表示和细节。
+在以下情形，考虑使用迭代器模式:
+
+需要访问组合对象的内容，而又不暴露其内部表示
+需要通过多种方式遍历组合对象
+需要提供一个统一的接口，用来遍历各种类型的组合对象
+
+迭代器模式涉及到以下几个角色：
+
+抽象迭代器(Iterator)角色：此抽象角色定义出遍历元素所需的接口。
+具体迭代器(ConcreteIter">
+<meta property="og:type" content="article">
+<meta property="og:title" content="迭代器模式入门">
+<meta property="og:url" content="http://www.devzhang.cn/2018/04/24/迭代器模式入门/index.html">
+<meta property="og:site_name" content="做点有意思的事情">
+<meta property="og:description" content="迭代器模式提供一种方法顺序访问一个聚合对象中的各个元素，而又不暴露结构的底层表示和细节。
+在以下情形，考虑使用迭代器模式:
+
+需要访问组合对象的内容，而又不暴露其内部表示
+需要通过多种方式遍历组合对象
+需要提供一个统一的接口，用来遍历各种类型的组合对象
+
+迭代器模式涉及到以下几个角色：
+
+抽象迭代器(Iterator)角色：此抽象角色定义出遍历元素所需的接口。
+具体迭代器(ConcreteIter">
+<meta property="og:image" content="https://github.com/changjianfeishui/XBImageStore/raw/master/DesignPattern/IteratorPattern.png">
+<meta property="og:updated_time" content="2018-04-24T09:04:25.966Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="迭代器模式入门">
+<meta name="twitter:description" content="迭代器模式提供一种方法顺序访问一个聚合对象中的各个元素，而又不暴露结构的底层表示和细节。
+在以下情形，考虑使用迭代器模式:
+
+需要访问组合对象的内容，而又不暴露其内部表示
+需要通过多种方式遍历组合对象
+需要提供一个统一的接口，用来遍历各种类型的组合对象
+
+迭代器模式涉及到以下几个角色：
+
+抽象迭代器(Iterator)角色：此抽象角色定义出遍历元素所需的接口。
+具体迭代器(ConcreteIter">
+<meta name="twitter:image" content="https://github.com/changjianfeishui/XBImageStore/raw/master/DesignPattern/IteratorPattern.png">
+  
+  
+    <link rel="icon" href="//img/head.jpg">
+  
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  
+  
+      <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  
+  <!-- 加载特效 -->
+    <script src="/js/pace.js"></script>
+    <link href="/css/pace/pace-theme-flash.css" rel="stylesheet" />
+  <script>
+      var yiliaConfig = {
+          rootUrl: '/',
+          fancybox: true,
+          animate: false,
+          isHome: false,
+          isPost: true,
+          isArchive: false,
+          isTag: false,
+          isCategory: false,
+          open_in_new: false
+      }
+  </script>
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            
+            <img src="/img/head.jpg" class="js-avatar" style="width: 100%;height: 100%;opacity: 1;">
+            
+        </a>
+
+        <hgroup>
+          <h1 class="header-author"><a href="/" title="Hi Mate">Mangox</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">每天进步一点点</p>
+        
+        
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/categories/iOS">iOS</a></li>
+                        
+                            <li><a href="/categories/Cpp">C++</a></li>
+                        
+                            <li><a href="/categories/Algorithm">数据结构和算法</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fl github" target="_blank" href="https://github.com/changjianfeishui" title="github">github</a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <a href="/tags/AVFoundation/" style="font-size: 18.89px;">AVFoundation</a> <a href="/tags/AVFoundation编程指南/" style="font-size: 16.67px;">AVFoundation编程指南</a> <a href="/tags/App-Store审核/" style="font-size: 10px;">App Store审核</a> <a href="/tags/Kcamera/" style="font-size: 17.78px;">Kcamera</a> <a href="/tags/MVC/" style="font-size: 12.22px;">MVC</a> <a href="/tags/MVP/" style="font-size: 11.11px;">MVP</a> <a href="/tags/Moco/" style="font-size: 10px;">Moco</a> <a href="/tags/alloc/" style="font-size: 10px;">alloc</a> <a href="/tags/cocoapods/" style="font-size: 10px;">cocoapods</a> <a href="/tags/fastlane/" style="font-size: 14.44px;">fastlane</a> <a href="/tags/http/" style="font-size: 11.11px;">http</a> <a href="/tags/init/" style="font-size: 10px;">init</a> <a href="/tags/phoneGap/" style="font-size: 13.33px;">phoneGap</a> <a href="/tags/responder-chain/" style="font-size: 10px;">responder chain</a> <a href="/tags/二进制化/" style="font-size: 10px;">二进制化</a> <a href="/tags/内存管理/" style="font-size: 12.22px;">内存管理</a> <a href="/tags/加密/" style="font-size: 10px;">加密</a> <a href="/tags/字符串匹配/" style="font-size: 12.22px;">字符串匹配</a> <a href="/tags/学习笔记/" style="font-size: 20px;">学习笔记</a> <a href="/tags/排序/" style="font-size: 15.56px;">排序</a> <a href="/tags/数组/" style="font-size: 10px;">数组</a> <a href="/tags/架构/" style="font-size: 14.44px;">架构</a> <a href="/tags/组件化/" style="font-size: 11.11px;">组件化</a> <a href="/tags/翻译/" style="font-size: 16.67px;">翻译</a> <a href="/tags/视频直播/" style="font-size: 10px;">视频直播</a> <a href="/tags/设计模式/" style="font-size: 17.78px;">设计模式</a>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://blog.csdn.net/qq329735967">我的CSDN</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">每天进步一点点</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="Me">Mangox</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                
+                    <img src="/img/head.jpg" class="js-avatar" style="width: 100%; height: 100%; opacity: 1;">
+                
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="Me">Mangox</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">每天进步一点点</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/categories/iOS">iOS</a></li>
+                
+                    <li><a href="/categories/Cpp">C++</a></li>
+                
+                    <li><a href="/categories/Algorithm">数据结构和算法</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a class="github" target="_blank" href="https://github.com/changjianfeishui" title="github">github</a>
+                    
+                </div>
+            </nav>
+        </header>                
+    </div>
+</nav>
+      <div class="body-wrap"><article id="post-迭代器模式入门" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/04/24/迭代器模式入门/" class="article-date">
+      <time datetime="2018-04-24T08:51:39.498Z" itemprop="datePublished">2018-04-24</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      迭代器模式入门
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/iOS/">iOS</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/设计模式/">设计模式</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>迭代器模式提供一种方法顺序访问一个聚合对象中的各个元素，而又不暴露结构的底层表示和细节。</p>
+<p>在以下情形，考虑使用迭代器模式:</p>
+<ul>
+<li>需要访问组合对象的内容，而又不暴露其内部表示</li>
+<li>需要通过多种方式遍历组合对象</li>
+<li>需要提供一个统一的接口，用来遍历各种类型的组合对象</li>
+</ul>
+<p>迭代器模式涉及到以下几个角色：</p>
+<ul>
+<li>抽象迭代器(Iterator)角色：此抽象角色定义出遍历元素所需的接口。</li>
+<li>具体迭代器(ConcreteIterator)角色：此角色实现了Iterator接口，并保持迭代过程中的游标位置。</li>
+<li>聚集(Aggregate)角色：此抽象角色给出创建迭代器(Iterator)对象的接口。</li>
+<li>具体聚集(ConcreteAggregate)角色：实现了创建迭代器(Iterator)对象的接口，返回一个合适的具体迭代器实例。</li>
+<li>客户端(Client角色：持有对聚集及其迭代器对象的引用，调用迭代子对象的迭代接口，也有可能通过迭代子操作聚集元素的增加和删除。</li>
+</ul>
+<a id="more"></a>
+<h1 id="UML类图"><a href="#UML类图" class="headerlink" title="UML类图"></a>UML类图</h1><p><img src="https://github.com/changjianfeishui/XBImageStore/raw/master/DesignPattern/IteratorPattern.png" alt=""></p>
+<h1 id="代码示例"><a href="#代码示例" class="headerlink" title="代码示例"></a>代码示例</h1><p>定义迭代器接口和聚集角色:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">//迭代器接口</span><br><span class="line">protocol Iterator&#123;</span><br><span class="line">    func hasNext() -&gt; Bool</span><br><span class="line">    func next() -&gt; AnyObject</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//需要使用迭代器的集合类型需要实现Container，返回一个迭代器对象</span><br><span class="line">protocol Container &#123;</span><br><span class="line">    func makeIterator() -&gt; Iterator</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>定义书和书架类:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">class Book &#123;</span><br><span class="line">    var name: String</span><br><span class="line">    var author: String</span><br><span class="line">    init(name: String, author: String) &#123;</span><br><span class="line">        self.name = name</span><br><span class="line">        self.author = author</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//书架: 书的集合</span><br><span class="line">class Bookrack &#123;</span><br><span class="line">    var books: [Book]</span><br><span class="line">    init(books: [Book]) &#123;</span><br><span class="line">        self.books = books</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>定义书架迭代器:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">//书架迭代器</span><br><span class="line">class BookrackIterator: Iterator &#123;</span><br><span class="line">    private let books: [Book]</span><br><span class="line">    private var index = 0</span><br><span class="line">    init(books: [Book]) &#123;</span><br><span class="line">        self.books = books</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    func hasNext() -&gt; Bool &#123;</span><br><span class="line">        return index &lt; books.count ? true : false</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    func next() -&gt; AnyObject &#123;</span><br><span class="line">        defer &#123;</span><br><span class="line">            index += 1</span><br><span class="line">        &#125;</span><br><span class="line">        return books[index]</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>实现具体聚集角色:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">extension Bookrack: Container &#123;</span><br><span class="line">    func makeIterator() -&gt; Iterator &#123;</span><br><span class="line">        return BookrackIterator(books: self.books)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>客户端调用:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">let book1 = Book(name: &quot;C语言从入门到放弃&quot;, author: &quot;C&quot;)</span><br><span class="line">let book2 = Book(name: &quot;C++从入门到放弃&quot;, author: &quot;C++&quot;)</span><br><span class="line">let book3 = Book(name: &quot;Swift从入门到放弃&quot;, author: &quot;Swift&quot;)</span><br><span class="line">let book4 = Book(name: &quot;Python从入门到放弃&quot;, author: &quot;Python&quot;)</span><br><span class="line"></span><br><span class="line">let bookrack = Bookrack(books: [book1,book2,book3,book4])</span><br><span class="line"></span><br><span class="line">let iterator = bookrack.makeIterator()</span><br><span class="line"></span><br><span class="line">while(iterator.hasNext()) &#123;</span><br><span class="line">    let book = iterator.next() as! Book</span><br><span class="line">    print(&quot;书名: &quot; + book.name + &quot;作者: &quot; + book.author)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+      
+        <div class="page-reward">
+          <p><a href="javascript:void(0)" onclick="dashangToggle()" class="dashang">赏</a></p>
+          <div class="hide_box"></div>
+          <div class="shang_box">
+            <a class="shang_close" href="javascript:void(0)" onclick="dashangToggle()">×</a>
+            <div class="shang_tit">
+              <p>纯属好玩</p>
+            </div>
+            <div class="shang_payimg">
+              <img src="/img/alipayimg.jpg" alt="扫码支持" title="扫一扫" />
+            </div>
+              <div class="pay_explain">扫码打赏，你说多少就多少</div>
+            <div class="shang_payselect">
+              
+                <div class="pay_item checked" data-id="alipay">
+                  <span class="radiobox"></span>
+                  <span class="pay_logo"><img src="/img/alipay.png" alt="支付宝" /></span>
+                </div>
+              
+              
+                <div class="pay_item" data-id="wechat">
+                  <span class="radiobox"></span>
+                  <span class="pay_logo"><img src="/img/weixin.png" alt="微信" /></span>
+                </div>
+              
+            </div>
+            <div class="shang_info">
+              <p>打开<span id="shang_pay_txt">支付宝</span>扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+        </div>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/zepto/1.2.0/zepto.min.js"></script>
+        <script type="text/javascript">
+          $(".pay_item").click(function(){
+            $(this).addClass('checked').siblings('.pay_item').removeClass('checked');
+            var dataid=$(this).attr('data-id');
+            $(".shang_payimg img").attr("src","/img/"+dataid+"img.jpg");
+            $("#shang_pay_txt").text(dataid=="alipay"?"支付宝":"微信");
+          });
+          function dashangToggle(){
+            
+            $(".hide_box").fadeToggle();
+            $(".shang_box").fadeToggle();
+          }
+        </script>
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2018/04/24/迭代器模式入门/">迭代器模式入门</a></p>
+        <p><span>文章作者:</span><a href="/" title="访问 Mangox 的个人博客">Mangox</a></p>
+        <p><span>发布时间:</span>2018年04月24日 - 16时51分</p>
+        <p><span>最后更新:</span>2018年04月24日 - 17时04分</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2018/04/24/迭代器模式入门/" title="迭代器模式入门">http://www.devzhang.cn/2018/04/24/迭代器模式入门/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://www.devzhang.cn/2018/04/24/迭代器模式入门/　　作者: Mangox" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script src="/js/clipboard.min.js"></script>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target = "_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+<nav id="article-nav">
+  
+  
+    <a href="/2018/04/23/模板方法模式/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">模版方法模式入门</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#UML类图"><span class="toc-number">1.</span> <span class="toc-text">UML类图</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#代码示例"><span class="toc-number">2.</span> <span class="toc-text">代码示例</span></a></li></ol>
+</div>
+<input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+<script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script>
+    var valueHide = "隐藏目录";
+    var valueShow = "显示目录";
+
+    if ($(".left-col").is(":hidden")) {
+        $("#tocButton").attr("value", valueShow);
+    }
+    $("#tocButton").click(function() {
+        if ($("#toc").is(":hidden")) {
+            $("#tocButton").attr("value", valueHide);
+            $("#toc").slideDown(320);
+        }
+        else {
+            $("#tocButton").attr("value", valueShow);
+            $("#toc").slideUp(350);
+        }
+    })
+    if ($(".toc").length < 1) {
+        $("#toc, #tocButton").hide();
+    }
+</script>
+
+
+
+
+
+<div class="bdsharebuttonbox">
+	<a href="#" class="fx fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+	<a href="#" class="fx fa-weixin bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+	<a href="#" class="fx fa-qq bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+	<a href="#" class="fx fa-facebook-official bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+	<a href="#" class="fx fa-twitter bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+	<a href="#" class="fx fa-linkedin bds_linkedin" data-cmd="linkedin" title="分享到linkedin"></a>
+	<a href="#" class="fx fa-files-o bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+</div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+
+
+
+    
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
+        
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+        
+            <a href="/2018/04/23/模板方法模式/" title="下一篇: 模版方法模式入门">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/04/24/迭代器模式入门/">迭代器模式入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/23/模板方法模式/">模版方法模式入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/22/外观模式入门/">外观模式入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/22/适配器模式入门/">适配器模式入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/17/命令模式入门/">命令模式入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/07/单例模式入门/">单例模式入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/05/工厂模式入门/">工厂模式入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/28/装饰者模式入门/">装饰者模式入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/15/策略模式入门/">策略模式入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/15/观察者模式入门/">观察者模式入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/01/Cocoapods二进制化方案/">Cocoapods二进制化方案</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/27/SVN+Cocoapods/">SVN+Cocoapods</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/23/iOS事件处理和响应链概述/">iOS事件处理和响应链概述</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/20/fastLane入门之deliver/">fastLane入门之deliver</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/19/fastLane入门之plugin/">fastLane入门之plugin</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/18/fastLane入门之ipa打包/">fastLane入门之ipa打包</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/17/fastLane入门之frameit/">fastlane入门之frameit</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/17/fastLane入门之snapshot/">fastlane入门之snapshot</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/25/机审终于过了/">机审终于过了</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/16/再谈MVP模式/">再谈MVP模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/09/objc继承中的init方法/">objc继承中的init方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/10/UIKit与Quartz 2D绘图技术概要(swift)/">UIKit与Quartz 2D绘图技术概要(swift)</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/04/Objective-C之GCD概要/">Objective-C之GCD概要</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/04/Objective-C之Block概要/">Objective-C之Block概要</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/03/Objective-C内存管理之所有权修饰符/">Objective-C内存管理之所有权修饰符</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/23/字符串匹配之Sunday算法/">字符串匹配之Sunday算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/字符串匹配之KMP算法/">字符串匹配之KMP算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/07/字符串匹配之BF算法/">字符串匹配之BF算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/04/C++之字符串/">C++之字符串</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/30/C++之大整数乘法问题/">C++之大整数乘法问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/29/C++之荷兰国旗问题/">C++之荷兰国旗问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/23/C++之数组/">C++之数组</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/22/C++之指针/">C++之指针</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/21/Objective-C内存管理之Autorelease/">Objective-C内存管理之Autorelease</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/21/C++之模板/">C++之模板</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/20/C++之多态/">C++之多态</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/20/C++之继承/">C++之继承</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/20/C++之异常处理/">C++之异常处理</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/18/C++之运算符重载/">C++之运算符重载</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/17/Objective-C内存管理之引用计数/">Objective-C内存管理之引用计数</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/17/C++之函数重载/">C++之函数重载</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/16/C++之常量/">C++之常量</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/15/C++之拷贝构造函数/">C++之拷贝构造函数</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/14/C++之友元/">C++之友元</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/09/C++之对象的动态创建和销毁/">C++之对象的动态创建和销毁</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/08/C++之类的构造函数和析构函数/">C++之类的构造函数和析构函数</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/07/C++之访问控制/">C++之访问控制</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/06/C++之命名空间/">C++之命名空间(namespace)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/02/C++之预处理/">C++之预处理</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/01/C++中文件的输入和输出/">C++中文件的输入和输出</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/09/标准输入输出流和标准错误流介绍/">标准输入输出流和标准错误流介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/20/时间和媒体的表示/">时间和媒体的表示</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/20/Asset的重编码及导出/">Asset的重编码及导出</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/18/静态图片和视频捕捉/">静态图片和视频捕捉</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/09/编辑Assets/">编辑Assets</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/06/播放Assets/">播放Assets</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/31/使用Assets/">使用Assets</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/31/AVFoundation简介/">AVFoundation简介</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/30/视频直播专业名词解答/">视频直播专业名词解答</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/10/绘制音频波形图/">绘制音频波形图</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/05/高帧率视频捕捉/">高帧率视频捕捉</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/03/条码扫描/">条码扫描</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/29/人脸检测/">人脸检测</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/28/视频缩放/">视频缩放</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/22/调整闪光灯和手电筒模式/">调整闪光灯和手电筒模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/19/对焦和曝光功能的实现/">对焦和曝光功能的实现</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/18/切换摄像头/">切换摄像头</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/18/捕获视频/">捕获视频</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/15/捕捉静态图片/">捕获静态图片</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/13/使用AVCaptureSession采集视频/">使用AVCaptureSession采集视频</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/11/仿系统视频录制按钮的实现/">仿系统视频录制按钮的实现</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/08/仿系统相机模式标签切换的实现/">仿系统相机模式标签切换的实现</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/25/使用AVAudioRecorder录制音频/">使用AVAudioRecorder录制音频</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/20/AVAudioPlayer中断处理/">AVAudioPlayer中断处理</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/17/MVC登录示例/">MVC登录示例</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/17/MVP登录示例/">MVP登录示例</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/12/iOS基于MVC的项目重构总结/">iOS基于MVC的项目重构总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/02/使用AVAudioPlayer播放音频/">使用AVAudioPlayer播放音频</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/31/音频会话(Audio Session)/">音频会话(Audio Session)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/30/AVSpeechSynthesizer：文本到语音/">AVSpeechSynthesizer:文本到语音</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/28/AVFoundation入门/">AVFoundation入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/23/iOS中MVC的几个误区/">iOS中MVC的几个误区</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/15/接口安全认证/">接口安全认证</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/14/使用Moco进行http接口模拟/">使用Moco进行http接口模拟</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/05/14/phonegap|iOS|推送/">phonegap|iOS|推送</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/05/06/phoneGap在iOS上给JS传值方法/">phoneGap在iOS上给JS传值方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/04/24/phoneGap在iOS上自定义实现友盟分享插件/">phoneGap在iOS上自定义实现友盟分享插件</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/04/23/phoneGap在iOS上弹出对话框和调用相机/">phoneGap在iOS上弹出对话框和调用相机</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/03/26/菜鸟学排序：直接插入排序/">菜鸟学排序：直接插入排序</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/03/26/菜鸟学排序：折半插入排序/">菜鸟学排序：折半插入排序</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/03/25/菜鸟学排序：冒泡排序/">菜鸟学排序：冒泡排序</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/03/25/菜鸟学排序：快速排序/">菜鸟学排序：快速排序</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/03/24/菜鸟学排序：简单选择排序/">菜鸟学排序：简单选择排序</a></li></ul>
+    <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+    <script>
+        $(".post-list").addClass("toc-article");
+        $(".post-list-item a").attr("target","_blank");
+        $("#post-nav-button > a:nth-child(2)").click(function() {
+            $(".fa-bars, .fa-times").toggle();
+            $(".post-list").toggle(300);
+            if ($(".toc").length > 0) {
+                $("#toc, #tocButton").toggle(200, function() {
+                    if ($(".switch-area").is(":visible")) {
+                        $("#tocButton").attr("value", valueHide);
+                        }
+                    })
+            }
+            else {
+            }
+        })
+    </script>
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                &copy; 2018 Mangox
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/luuman/hexo-theme-spfk" target="_blank">spfk</a> by luuman
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" >访客数: 
+                            <span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>, </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit">本页阅读量: 
+                            <span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+
+    </div>
+    <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var backgroundnum = 4;
+            var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+            $("#mobile-nav").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+            $(".left-col").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    $(document).ready(function() {
+        if ($("#comments").length < 1) {
+            $("#scroll > a:nth-child(2)").hide();
+        };
+    })
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+  <script language="javascript">
+    $(function() {
+        $("a[title]").each(function() {
+            var a = $(this);
+            var title = a.attr('title');
+            if (title == undefined || title == "") return;
+            a.data('title', title).removeAttr('title').hover(
+
+            function() {
+                var offset = a.offset();
+                $("<div id=\"anchortitlecontainer\"></div>").appendTo($("body")).html(title).css({
+                    top: offset.top - a.outerHeight() - 15,
+                    left: offset.left + a.outerWidth()/2 + 1
+                }).fadeIn(function() {
+                    var pop = $(this);
+                    setTimeout(function() {
+                        pop.remove();
+                    }, pop.text().length * 800);
+                });
+            }, function() {
+                $("#anchortitlecontainer").remove();
+            });
+        });
+    });
+</script>
+
+
+  </div>
+</body>
+</html>
