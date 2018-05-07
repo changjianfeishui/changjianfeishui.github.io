@@ -284,6 +284,102 @@
 
 
   
+    <article id="post-观察者模式入门" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/03/15/观察者模式入门/" class="article-date">
+      <time datetime="2018-03-15T03:32:56.664Z" itemprop="datePublished">2018-03-15</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/03/15/观察者模式入门/">观察者模式入门</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <h1 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h1><p>观察者模式定义了对象之间的一对多依赖，当一个对象改变状态时，它的所有依赖者都会收到通知并自动更新。</p>
+<p>观察者模式主要涉及四个关键对象：</p>
+<ol>
+<li><p>Subject被观察者：定义被观察者必须实现的职责，它必须能够动态地增加、取消观察者。它一般是抽象类或者是实现类，仅仅完成作为被观察者必须实现的职责：管理观察者并通知观察者。</p>
+</li>
+<li><p>Observer观察者：观察者接收到消息后，即进行update（更新方法）操作，对接收到的信息进行处理。</p>
+</li>
+<li><p>ConcreteSubject具体的被观察者：定义被观察者自己的业务逻辑，同时定义对哪些事件进行通知。</p>
+</li>
+<li><p>ConcreteObserver具体的观察者：每个观察在接收到消息后的处理反应是不同，各个观察者有自己的处理逻辑。</p>
+</li>
+</ol>
+<p>观察者模式的两种类型：</p>
+<ol>
+<li><p>推模型：主题对象向观察者推送主题的详细信息，不管观察者是否需要，推送的信息通常是主题对象的全部或部分数据。</p>
+</li>
+<li><p>拉模型：主题对象在通知观察者的时候，只传递少量信息。如果观察者需要更具体的信息，由观察者主动到主题对象中获取，相当于是观察者从主题对象中拉数据。</p>
+</li>
+</ol>
+<p>观察者模式的优点：</p>
+<ol>
+<li>观察者和被观察者是抽象耦合的。</li>
+<li>观察者模式支持广播通信。被观察者会向所有的登记过的观察者发出通知。 </li>
+</ol>
+<p>观察者模式的缺点：</p>
+<ol>
+<li>如果一个被观察者对象有很多的直接和间接的观察者的话，将所有的观察者都通知到会花费很多时间</li>
+<li>如果在观察者和观察目标之间有循环依赖的话，观察目标会触发它们之间进行循环调用，可能导致系统崩溃。</li>
+<li>观察者模式没有相应的机制让观察者知道所观察的目标对象是怎么发生变化的，而仅仅只是知道观察目标发生了变化。</li>
+</ol>
+          
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/iOS/">iOS</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/设计模式/">设计模式</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a  href="/2018/03/15/观察者模式入门/#more">查看全文 >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-Cocoapods二进制化方案" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -821,69 +917,6 @@
         <p class="article-more-link">
           <a  href="/2017/07/17/fastLane入门之snapshot/#more">查看全文 >></a>
         </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-机审终于过了" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2017/06/25/机审终于过了/" class="article-date">
-      <time datetime="2017-06-25T02:30:52.000Z" itemprop="datePublished">2017-06-25</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/06/25/机审终于过了/">机审终于过了</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>App Store审核分机审和人审, 被4.3卡了这么久, 终于搞清楚机审是怎么审的了!!!</p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/iOS/">iOS</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/App-Store审核/">App Store审核</a></li></ul>
-    </div>
-
       
       <div class="clearfix"></div>
     </div>
