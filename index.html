@@ -204,10 +204,10 @@
 </nav>
       <div class="body-wrap">
   
-    <article id="post-1.关于Core Animation" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-关于Core Animation" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2019/03/02/1.关于Core Animation/" class="article-date">
+      <a href="/2019/03/02/关于Core Animation/" class="article-date">
       <time datetime="2019-03-02T06:11:12.754Z" itemprop="datePublished">2019-03-02</time>
 </a>
     </div>
@@ -221,7 +221,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/03/02/1.关于Core Animation/">CoreAnimation编程指南翻译(一):关于Core Animation</a>
+      <a class="article-title" href="/2019/03/02/关于Core Animation/">CoreAnimation编程指南翻译(一):关于Core Animation</a>
     </h1>
   
 
@@ -231,26 +231,8 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p><code>Core Animation</code>是一个用于图像绘制和动画渲染的基础框架, 同时兼容iOS和OS X平台. 使用<code>Core Animation</code>可以很便捷的为应用程序的视图或其他可视化元素添加动画. 因为绘制动画的大部分工作都由<code>Core Animation</code>完成, 开发者只需要配置一些动画参数(比如动画的起始点和结束点), 然后告诉<code>Core Animation</code>开始执行动画即可. 接下来, <code>Core Animation</code>会把大部分的实际绘制工作交给专门的图形硬件. 这就保证了动画的高帧率和流畅性, 而且不会对CPU造成额外的负担.</p>
-<p><code>Core Animation</code>位于<code>UIKit</code>和<code>AppKit</code>框架之下, 并且与<code>Cocoa</code>和<code>Cocoa Touch</code>的视图工作流程紧密相关. 当然, <code>Core Animation</code>也开放了一些接口用于扩充视图功能, 以及为动画提供更精细的控制.</p>
-<p><img src="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/CoreAnimation_guide/Art/ca_architecture_2x.png" alt=""> </p>
-<h1 id="概览"><a href="#概览" class="headerlink" title="概览"></a>概览</h1><p>开发者也许并不会直接使用<code>Core Animation</code>, 但必要时, 也应理解<code>Core Animation</code>在应用程序基础框架所扮演的角色.</p>
-<h2 id="Core-Animation与应用内容"><a href="#Core-Animation与应用内容" class="headerlink" title="Core Animation与应用内容"></a>Core Animation与应用内容</h2><p><code>Core Animation</code>本身并不是一个绘图系统, 而是在硬件角度上对应用的内容进行合成和控制. <code>Core Animation</code>的核心是图层(CALayer), 可以使用图层来管理和操作应用程序的内容. 一个图层对象可以将内容捕获为一个<strong>bitmap</strong>, 然后提供给图形硬件进行下一步操作. 在大部分应用中, 图层对象负责视图(UIView)内容的展示, 但是也可以根据需求创建单独的图层对象.</p>
-<p>相关章节: <a href="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/CoreAnimation_guide/CoreAnimationBasics/CoreAnimationBasics.html#//apple_ref/doc/uid/TP40004514-CH2-SW3" target="_blank" rel="external">Core Animation基础</a>, <a href="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/CoreAnimation_guide/SettingUpLayerObjects/SettingUpLayerObjects.html#//apple_ref/doc/uid/TP40004514-CH13-SW12" target="_blank" rel="external">设置图层对象</a></p>
-<h2 id="图层与动画"><a href="#图层与动画" class="headerlink" title="图层与动画"></a>图层与动画</h2><p>使用<code>Core Animation</code>创建的动画大部分都涉及到图层属性的修改. 与视图类似, 图层对象也拥有bounds, position, poacity, transform以及其他一些可修改的视觉属性. 对大部分的图层属性来说, 修改属性的值都会默认创建一个隐式动画.  开发者也可以使用图层的这些视觉属性来显式创建更精细的动画.</p>
-<p>相关章节: <a href="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/CoreAnimation_guide/CreatingBasicAnimations/CreatingBasicAnimations.html#//apple_ref/doc/uid/TP40004514-CH3-SW1" target="_blank" rel="external">图层动画</a>, <a href="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/CoreAnimation_guide/AdvancedAnimationTricks/AdvancedAnimationTricks.html#//apple_ref/doc/uid/TP40004514-CH8-SW1" target="_blank" rel="external">高级动画技巧</a>, <a href="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/CoreAnimation_guide/LayerStyleProperties/LayerStyleProperties.html#//apple_ref/doc/uid/TP40004514-CH10-SW1" target="_blank" rel="external">图层样式动画</a>, <a href="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/CoreAnimation_guide/AnimatableProperties/AnimatableProperties.html#//apple_ref/doc/uid/TP40004514-CH11-SW1" target="_blank" rel="external">可动画的属性列表</a></p>
-<h2 id="图层树"><a href="#图层树" class="headerlink" title="图层树"></a>图层树</h2><p>一个图层也可以包含另一个图层, 即这两个图层拥有父子关系. 图层可以拥有和视图类似的组织方式, 可以创建独立图层添加到图层树中, 扩展应用的可视化内容.</p>
-<p>相关章节: <a href="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/CoreAnimation_guide/BuildingaLayerHierarchy/BuildingaLayerHierarchy.html#//apple_ref/doc/uid/TP40004514-CH6-SW2" target="_blank" rel="external">创建图层树</a></p>
-<h2 id="修改图层的默认行为"><a href="#修改图层的默认行为" class="headerlink" title="修改图层的默认行为"></a>修改图层的默认行为</h2><p><code>Core Animation</code>的隐式图层动画使用操作(CAAction)对象实现. 操作对象实现了预定义到接口. 开发者可以通过自定义操作对象实现自定义动画或其他自定义行为, 然后将操作对象指定给图层的某个属性, 当这个属性的值发生改变时, <code>Core Animation</code>会通知对应的操作对象执行自定义操作.</p>
-<p>相关章节: <a href="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/CoreAnimation_guide/ReactingtoLayerChanges/ReactingtoLayerChanges.html#//apple_ref/doc/uid/TP40004514-CH7-SW1" target="_blank" rel="external">修改图层的默认行为</a></p>
-<h1 id="如何使用本文档"><a href="#如何使用本文档" class="headerlink" title="如何使用本文档"></a>如何使用本文档</h1><p>本文档的目标用户是想要实现更精细动画, 或是想要提升应用程序绘制性能的开发者. 另外, 本文档中还提供了iOS和OS X的图层和视图之间集成的相关信息. 视图和图层的集成在iOS和OS X中有所差异, 这些差异对创建动画至关重要. </p>
-<h1 id="前提条件"><a href="#前提条件" class="headerlink" title="前提条件"></a>前提条件</h1><p>阅读本文档的用户需要了解相应平台的视图架构, 并熟悉如何创建视图动画. 否则, 应先根据平台选择阅读以下两个文档之一: </p>
-<ul>
-<li>对于iOS应用, 应先学习<a href="https://developer.apple.com/library/archive/documentation/WindowsViews/Conceptual/ViewPG_iPhoneOS/Introduction/Introduction.html#//apple_ref/doc/uid/TP40009503" target="_blank" rel="external">View Programming Guide for iOS</a>.</li>
-<li>对于OS X应用, 应先学习<a href="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/CocoaViewsGuide/Introduction/Introduction.html#//apple_ref/doc/uid/TP40002978" target="_blank" rel="external">View Programming Guide</a>.</li>
-</ul>
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p>使用<code>Core Animation</code>实现不同类型的动画: <a href="https://developer.apple.com/library/archive/documentation/GraphicsImaging/Conceptual/CoreAnimation_Cookbook/Introduction/Introduction.html#//apple_ref/doc/uid/TP40005406" target="_blank" rel="external">Core Animation使用手册</a>.</p>
-
+              <p><code>Core Animation</code>是一个用于图像绘制和动画渲染的基础框架, 同时兼容iOS和OS X平台. 使用<code>Core Animation</code>可以很便捷的为应用程序的视图或其他可视化元素添加动画. 因为绘制动画的大部分工作都由<code>Core Animation</code>完成, 开发者只需要配置一些动画参数(比如动画的起始点和结束点), 然后告诉<code>Core Animation</code>开始执行动画即可. 接下来, <code>Core Animation</code>会把大部分的实际绘制工作交给专门的图形硬件. 这就保证了动画的高帧率和流畅性, 而且不会对CPU造成额外的负担.</p>
+          
       
       
     </div>
@@ -268,6 +250,10 @@
         <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Core-Animation/">Core Animation</a></li></ul>
     </div>
 
+      
+        <p class="article-more-link">
+          <a  href="/2019/03/02/关于Core Animation/#more">查看全文 >></a>
+        </p>
       
       <div class="clearfix"></div>
     </div>
