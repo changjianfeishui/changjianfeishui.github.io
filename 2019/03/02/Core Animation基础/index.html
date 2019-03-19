@@ -21,7 +21,7 @@
 <meta property="og:image" content="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/CoreAnimation_guide/Art/transform_manipulations_2x.png">
 <meta property="og:image" content="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/CoreAnimation_guide/Art/sublayer_hierarchy_2x.png">
 <meta property="og:image" content="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/CoreAnimation_guide/Art/sublayer_hierarchies_2x.png">
-<meta property="og:updated_time" content="2019-03-19T07:35:50.191Z">
+<meta property="og:updated_time" content="2019-03-19T07:38:44.293Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CoreAnimation编程指南翻译(二):Core Animation基础">
 <meta name="twitter:description" content="Core Animation用于为视图或其他可视化元素添加动画. Core Animation会将视图内容缓存到一个能直接被图形硬件使用的位图中. 在某些特定场景下, 这种缓存行为可能会影响应用内容的呈现形式和组织方式. 但在大部分情况下, 开发者都是在无感知的使用Core Animation. 除了缓存视图内容之外, Core Animation还可以将任意可视化内容与视图内容结合在一起进行动画">
@@ -255,6 +255,7 @@
           
         <p><code>Core Animation</code>用于为视图或其他可视化元素添加动画. <code>Core Animation</code>会将视图内容缓存到一个能直接被图形硬件使用的位图中. 在某些特定场景下, 这种缓存行为可能会影响应用内容的呈现形式和组织方式. 但在大部分情况下, 开发者都是在无感知的使用<code>Core Animation</code>. 除了缓存视图内容之外, <code>Core Animation</code>还可以将任意可视化内容与视图内容结合在一起进行动画.</p>
 <p>大部分动画都与可视化对象的属性值改变有关, 例如视图的位置,大小或透明度变化. 当这些属性值变化时, <code>Core Animation</code>会根据属性的类型以及旧值和新值自动执行动画. </p>
+<a id="more"></a>
 <h1 id="图层是绘图和动画的基础"><a href="#图层是绘图和动画的基础" class="headerlink" title="图层是绘图和动画的基础"></a>图层是绘图和动画的基础</h1><p>图层是<code>Core Animation</code>中一切操作的核心, 表示3D空间中的一个2D平面. 图层管理平面的几何, 内容以及视觉属性信息. 与视图不同的是, 图层并不会定义自身的外观样式, 而只是管理一些位图状态相关的信息. 位图可以由通过绘制生成, 也可以直接设置为特定的图像. 由于图层只用于数据管理, 因此,可以将图层视为一个模型对象. 这个概念十分重要, 这将影响到动画的行为.</p>
 <h2 id="基于图层的绘图模型"><a href="#基于图层的绘图模型" class="headerlink" title="基于图层的绘图模型"></a>基于图层的绘图模型</h2><p>应用中的大部分图层都不会进行实际的绘制工作. 相反, 图层会捕获应用所提供的内容, 并将其缓存到一个位图中, 这个缓存也被称为后备存储(backing store). 当图层属性被修改时, 实际上被修改的只是与图层对象相关联的状态信息. 当属性修改触发动画时, <code>Core Animation</code>会将图层的位图和状态信息传递给图形硬件, 图形硬件会使用新的状态信息渲染位图(Figure 1-1). 在硬件中操作位图比在软件中更快的生成动画.</p>
 <ul>
@@ -391,7 +392,7 @@
         <p><span>本文标题:</span><a href="/2019/03/02/Core Animation基础/">CoreAnimation编程指南翻译(二):Core Animation基础</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 Mangox 的个人博客">Mangox</a></p>
         <p><span>发布时间:</span>2019年03月02日 - 15时53分</p>
-        <p><span>最后更新:</span>2019年03月19日 - 15时35分</p>
+        <p><span>最后更新:</span>2019年03月19日 - 15时38分</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2019/03/02/Core Animation基础/" title="CoreAnimation编程指南翻译(二):Core Animation基础">http://www.devzhang.cn/2019/03/02/Core Animation基础/</a>
             <span class="copy-path" data-clipboard-text="原文: http://www.devzhang.cn/2019/03/02/Core Animation基础/　　作者: Mangox" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
