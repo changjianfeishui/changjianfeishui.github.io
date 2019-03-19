@@ -2,6 +2,27 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://www.devzhang.cn/tags/index.html</loc>
+    
+    <lastmod>2019-03-19T09:48:15.918Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.devzhang.cn/categories/index.html</loc>
+    
+    <lastmod>2019-03-19T09:44:20.369Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.devzhang.cn/2015/03/26/%E8%8F%9C%E9%B8%9F%E5%AD%A6%E6%8E%92%E5%BA%8F%EF%BC%9A%E6%8A%98%E5%8D%8A%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F/</loc>
+    
+    <lastmod>2019-03-19T09:31:05.498Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://www.devzhang.cn/2019/03/02/Core%20Animation%E5%9F%BA%E7%A1%80/</loc>
     
     <lastmod>2019-03-19T07:38:44.293Z</lastmod>
@@ -320,13 +341,6 @@
     <loc>http://www.devzhang.cn/2015/03/26/%E8%8F%9C%E9%B8%9F%E5%AD%A6%E6%8E%92%E5%BA%8F%EF%BC%9A%E7%9B%B4%E6%8E%A5%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F/</loc>
     
     <lastmod>2016-11-29T16:52:49.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.devzhang.cn/2015/03/26/%E8%8F%9C%E9%B8%9F%E5%AD%A6%E6%8E%92%E5%BA%8F%EF%BC%9A%E6%8A%98%E5%8D%8A%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F/</loc>
-    
-    <lastmod>2016-11-29T16:52:44.000Z</lastmod>
     
   </url>
   
@@ -691,20 +705,6 @@
     <loc>http://www.devzhang.cn/2016/03/23/iOS%E4%B8%ADMVC%E7%9A%84%E5%87%A0%E4%B8%AA%E8%AF%AF%E5%8C%BA/</loc>
     
     <lastmod>2016-06-30T02:44:40.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.devzhang.cn/Algorithm/index.html</loc>
-    
-    <lastmod>2016-06-29T14:15:33.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.devzhang.cn/iOS/index.html</loc>
-    
-    <lastmod>2016-06-29T03:33:17.000Z</lastmod>
     
   </url>
   
