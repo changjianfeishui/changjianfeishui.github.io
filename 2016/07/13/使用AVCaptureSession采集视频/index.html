@@ -843,7 +843,7 @@ if audioAuthStatus == .Denied || audioAuthStatus == .Restricted {
   
   <script type="text/javascript">
     var GUEST = ['nick','mail','link'];
-    var guest = 'nick,mail,link';
+    var guest = 'nick,WeChat,QQ';
     guest = guest.split(',').filter(item=>{
       return GUEST.indexOf(item)>-1;
     });
@@ -853,7 +853,7 @@ if audioAuthStatus == .Denied || audioAuthStatus == .Restricted {
         notify: false,
         appId: 'egwvrycobHxmSv0YKWqDArbW-gzGzoHsz',
         appKey: 'zg3jxBlGuGyhjeu171w7GwFp',
-        placeholder: 'Just go go',
+        placeholder: '一起来讨论问题吧',
         avatar:'mm',
         guest_info:guest,
         pageSize:'10' || 10,
