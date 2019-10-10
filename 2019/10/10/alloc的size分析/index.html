@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hello, World" />
+  <meta name="keywords" content="学习笔记,底层原理," />
 
 
 
@@ -79,15 +79,22 @@
 
 
 
-<meta name="description" content="每天进步一点点">
-<meta property="og:type" content="website">
-<meta property="og:title" content="做点有意思的事情">
-<meta property="og:url" content="http://www.devzhang.cn/tags/排序/index.html">
+<meta name="description" content="定义如下一个类:
+12345678@interface Person : NSObject@property (nonatomic,assign) int height;@property (nonatomic,assign) int age;@property (nonatomic,assign) int no;@end@implementation Person@end
+将其转换为C++代码:">
+<meta property="og:type" content="article">
+<meta property="og:title" content="alloc的size分析">
+<meta property="og:url" content="http://www.devzhang.cn/2019/10/10/alloc的size分析/index.html">
 <meta property="og:site_name" content="做点有意思的事情">
-<meta property="og:description" content="每天进步一点点">
+<meta property="og:description" content="定义如下一个类:
+12345678@interface Person : NSObject@property (nonatomic,assign) int height;@property (nonatomic,assign) int age;@property (nonatomic,assign) int no;@end@implementation Person@end
+将其转换为C++代码:">
+<meta property="og:updated_time" content="2019-10-10T15:10:44.503Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="做点有意思的事情">
-<meta name="twitter:description" content="每天进步一点点">
+<meta name="twitter:title" content="alloc的size分析">
+<meta name="twitter:description" content="定义如下一个类:
+12345678@interface Person : NSObject@property (nonatomic,assign) int height;@property (nonatomic,assign) int age;@property (nonatomic,assign) int no;@end@implementation Person@end
+将其转换为C++代码:">
 
 
 
@@ -117,13 +124,13 @@
 
 
 
-  <link rel="canonical" href="http://www.devzhang.cn/tags/排序/"/>
+  <link rel="canonical" href="http://www.devzhang.cn/2019/10/10/alloc的size分析/"/>
 
 
 
 
 
-  <title>标签: 排序 | 做点有意思的事情</title>
+  <title>alloc的size分析 | 做点有意思的事情</title>
   
 
 
@@ -142,7 +149,7 @@
     
   
 
-  <div class="container sidebar-position-left ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -236,194 +243,188 @@
           <div id="content" class="content">
             
 
+  <div id="posts" class="posts-expand">
+    
+
+  
+
   
   
   
-  <div class="post-block tag">
-
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1>排序<small>标签</small>
-        </h1>
-      </div>
-
-      
-        
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.devzhang.cn/2019/10/10/alloc的size分析/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="mangox">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="做点有意思的事情">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2016/11/29/C++之荷兰国旗问题/" itemprop="url">
-              
-                <span itemprop="name">C++之荷兰国旗问题</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">alloc的size分析</h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2016-11-29T22:53:28+08:00"
-              content="2016-11-29" >
-          11-29
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-10T22:28:09+08:00">
+                2019-10-10
+              </time>
+            
 
-    </header>
-  </article>
+            
 
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/10/10/alloc的size分析/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/10/10/alloc的size分析/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2015/03/26/菜鸟学排序：折半插入排序/" itemprop="url">
-              
-                <span itemprop="name">菜鸟学排序：折半插入排序</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2015-03-26T10:51:00+08:00"
-              content="2015-03-26" >
-          03-26
-        </time>
-      </div>
-
-    </header>
-  </article>
-
+      
 
       
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2015/03/26/菜鸟学排序：直接插入排序/" itemprop="url">
-              
-                <span itemprop="name">菜鸟学排序：直接插入排序</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2015-03-26T10:51:00+08:00"
-              content="2015-03-26" >
-          03-26
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-      
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2015/03/25/菜鸟学排序：冒泡排序/" itemprop="url">
-              
-                <span itemprop="name">菜鸟学排序：冒泡排序</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2015-03-25T17:54:00+08:00"
-              content="2015-03-25" >
-          03-25
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-      
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2015/03/25/菜鸟学排序：快速排序/" itemprop="url">
-              
-                <span itemprop="name">菜鸟学排序：快速排序</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2015-03-25T13:57:00+08:00"
-              content="2015-03-25" >
-          03-25
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-      
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2015/03/24/菜鸟学排序：简单选择排序/" itemprop="url">
-              
-                <span itemprop="name">菜鸟学排序：简单选择排序</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2015-03-24T14:02:00+08:00"
-              content="2015-03-24" >
-          03-24
-        </time>
-      </div>
-
-    </header>
-  </article>
-
+        <p>定义如下一个类:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">@interface Person : NSObject</span><br><span class="line">@property (nonatomic,assign) int height;</span><br><span class="line">@property (nonatomic,assign) int age;</span><br><span class="line">@property (nonatomic,assign) int no;</span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@implementation Person</span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<p>将其转换为C++代码:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">struct NSObject_IMPL &#123;</span><br><span class="line">	Class isa;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">struct Person_IMPL &#123;</span><br><span class="line">	struct NSObject_IMPL NSObject_IVARS;  //8个字节</span><br><span class="line">	int _height;	//4个字节</span><br><span class="line">	int _age;	//4个字节</span><br><span class="line">	int _no;	//4个字节</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>根据分析可知，Person_IMPL结构体内所有成员的总大小为20个字节，但由于内存对齐的原因，Person_IMPL结构体占用的内存大小应为24个字节。</p>
+<p>实际上，使用<code>class_getInstanceSize</code>打印的结果为24，但是使用<code>malloc_size</code>打印的结果为32. 可见，Person实例对象实际占用的内存大小为32字节，尽管其只使用了24个字节。</p>
+<p>alloc方法底层调用的方法为allocWithZone， 而allocWithZone方法则会调用calloc函数分配内存. 相关的源码可以在<a href="https://opensource.apple.com/tarballs/libmalloc/" target="_blank" rel="external">https://opensource.apple.com/tarballs/libmalloc/</a>进行下载。</p>
+<p>根据源码可以发现，系统为了优化内存的使用效率，规定iOS中分配的内存大小都必须为16的倍数.</p>
 
       
     </div>
+    
+    
+    
 
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/学习笔记/" rel="tag"># 学习笔记</a>
+          
+            <a href="/tags/底层原理/" rel="tag"># 底层原理</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/10/10/继承关系的内存布局/" rel="next" title="继承关系的内存布局">
+                <i class="fa fa-chevron-left"></i> 继承关系的内存布局
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -431,6 +432,13 @@
 
 
           
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
 
         </div>
         
@@ -662,6 +670,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
