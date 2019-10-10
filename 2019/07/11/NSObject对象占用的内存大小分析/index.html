@@ -91,7 +91,7 @@ xcrun -sdk iphoneos clang -arch arm64 -rewrite-objc main.m -o mainarm64.cpp
 xcrun -sdk iphoneos clang -arch arm64 -rewrite-objc main.m -o mainarm64.cpp
 如果需要链接其他框架，使用-framework参数。比如-framework UIKit.
 使用上面的命">
-<meta property="og:updated_time" content="2019-10-09T15:24:36.761Z">
+<meta property="og:updated_time" content="2019-10-10T14:10:51.589Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="NSObject对象占用的内存大小分析">
 <meta name="twitter:description" content="将Objective-C转换为C\C++代码下面的命令可以将Objective-C代码转换为C\C++代码, 但是转换出来的代码仅供分析参考.
@@ -365,7 +365,7 @@ xcrun -sdk iphoneos clang -arch arm64 -rewrite-objc main.m -o mainarm64.cpp
 <p>使用上面的命令可以窥探出NSObject的底层实现如下:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">//头文件定义</span><br><span class="line">@interface NSObject &lt;NSObject&gt; &#123;</span><br><span class="line">    Class isa;</span><br><span class="line">&#125;</span><br><span class="line">	</span><br><span class="line">//转换为C++代码后</span><br><span class="line">struct NSObject_IMPL &#123;</span><br><span class="line">	Class isa;  //64位系统中指针占8个字节</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 <p>可见，Objective-C的面向对象是基于C\C++的结构体实现的. </p>
-<h1 id="NSObject实例对象的内存分配"><a href="#NSObject实例对象的内存分配" class="headerlink" title="NSObject实例对象的内存分配"></a>NSObject实例对象的内存分配</h1><p>导入 <code>objc/runtime.h</code> 后可以使用函数<code>class_getInstanceSize</code>获得NSObject实例对象的成员变量所占用的大小为8个字节.</p>
+<h1 id="NSObject实例对象的内存分配"><a href="#NSObject实例对象的内存分配" class="headerlink" title="NSObject实例对象的内存分配"></a>NSObject实例对象的内存分配</h1><p>导入 <code>objc/runtime.h</code> 后可以使用函数<code>class_getInstanceSize</code>获得NSObject实例对象的成员变量所占用的大小为8个字节（内存对齐后的大小）.</p>
 <pre><code>class_getInstanceSize([NSObject class])
 </code></pre><p>导入 <code>malloc/malloc.h</code>后可以使用函数<code>malloc_size</code>获得NSObject实例对象指针指向内存的大小为16个字节.</p>
 <pre><code>malloc_size((__bridge const void *)(obj))
@@ -422,8 +422,8 @@ xcrun -sdk iphoneos clang -arch arm64 -rewrite-objc main.m -o mainarm64.cpp
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/10/09/查看内存数据/" rel="prev" title="实时查看内存数据">
-                实时查看内存数据 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/10/09/使用Xcode查看内存数据/" rel="prev" title="使用Xcode查看内存数据">
+                使用Xcode查看内存数据 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -504,7 +504,7 @@ xcrun -sdk iphoneos clang -arch arm64 -rewrite-objc main.m -o mainarm64.cpp
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">108</span>
+                  <span class="site-state-item-count">109</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
