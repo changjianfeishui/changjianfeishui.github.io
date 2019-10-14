@@ -4,8 +4,30 @@
 
     
   <url>
+    <loc>http://www.devzhang.cn/2019/10/14/isa%E5%92%8Csuperclass/</loc>
+    <lastmod>2019-10-14T14:08:02.614Z</lastmod>
+    <data>
+        <display>
+        <title>isa和superclass</title>
+        <pubTime>2019-10-14T12:58:13.152Z</pubTime>
+        
+        <tag>学习笔记</tag>
+         
+        <tag>底层原理</tag>
+         
+         
+           
+             
+              <breadCrumb title="iOS" url="http://www.devzhang.cn/categories/iOS/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://www.devzhang.cn/2019/10/11/OC%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%88%86%E7%B1%BB/</loc>
-    <lastmod>2019-10-11T15:54:53.958Z</lastmod>
+    <lastmod>2019-10-13T12:57:30.243Z</lastmod>
     <data>
         <display>
         <title>OC对象的分类</title>
