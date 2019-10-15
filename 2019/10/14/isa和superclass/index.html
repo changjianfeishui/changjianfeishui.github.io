@@ -89,14 +89,14 @@ class对象的isa指向meta-class，当调用类方法时，通过class对象的
 <meta property="og:description" content="isa指针instance对象的isa指向class，当调用对象方法时，通过instance对象的isa找到class，最后找到对象方法的实现进行调用。
 class对象的isa指向meta-class，当调用类方法时，通过class对象的isa找到meta-class，最后找到类方法的实现进行调用。
 12345//调用对象方法objc_msgSend(obj,sel_registerName(&amp;q">
-<meta property="og:image" content="https://img-my.csdn.net/uploads/201302/19/1361289384_8487.PNG">
-<meta property="og:updated_time" content="2019-10-14T14:08:02.614Z">
+<meta property="og:image" content="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571154649960&di=227f350108c350d1f5a08649043bb755&imgtype=0&src=http%3A%2F%2Flc-gold-cdn.xitu.io%2F5ebe4e177510ccd2ba9a.png%3FimageView2%2F0%2Fw%2F1280%2Fh%2F960%2Fignore-error%2F1">
+<meta property="og:updated_time" content="2019-10-15T13:03:06.594Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="isa和superclass">
 <meta name="twitter:description" content="isa指针instance对象的isa指向class，当调用对象方法时，通过instance对象的isa找到class，最后找到对象方法的实现进行调用。
 class对象的isa指向meta-class，当调用类方法时，通过class对象的isa找到meta-class，最后找到类方法的实现进行调用。
 12345//调用对象方法objc_msgSend(obj,sel_registerName(&amp;q">
-<meta name="twitter:image" content="https://img-my.csdn.net/uploads/201302/19/1361289384_8487.PNG">
+<meta name="twitter:image" content="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571154649960&di=227f350108c350d1f5a08649043bb755&imgtype=0&src=http%3A%2F%2Flc-gold-cdn.xitu.io%2F5ebe4e177510ccd2ba9a.png%3FimageView2%2F0%2Fw%2F1280%2Fh%2F960%2Fignore-error%2F1">
 
 
 
@@ -364,7 +364,7 @@ class对象的isa指向meta-class，当调用类方法时，通过class对象的
 <h1 id="superclass指针"><a href="#superclass指针" class="headerlink" title="superclass指针"></a>superclass指针</h1><p>假如存在以下继承关系: Stundent-&gt;Person-&gt;NSObject。</p>
 <p>当Student的instance对象要调用Person的对象方法时，会先通过isa找到Student的class，然后通过superclass找到Person的class，最后找到相应的对象方法进行调用。</p>
 <p>当Student的class要调用Person的类方法时，会先通过isa找到Student的meta-class，然后通过superclass找到Person的meta-class，最后找到类方法的实现进行调用。</p>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p><img src="https://img-my.csdn.net/uploads/201302/19/1361289384_8487.PNG" alt=""></p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p><img src="https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1571154649960&amp;di=227f350108c350d1f5a08649043bb755&amp;imgtype=0&amp;src=http%3A%2F%2Flc-gold-cdn.xitu.io%2F5ebe4e177510ccd2ba9a.png%3FimageView2%2F0%2Fw%2F1280%2Fh%2F960%2Fignore-error%2F1" alt=""></p>
 <ul>
 <li>instance的isa指向class</li>
 <li>class的isa指向meta-class</li>
@@ -415,6 +415,10 @@ class对象的isa指向meta-class，当调用类方法时，通过class对象的
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/10/15/Class的结构分析/" rel="prev" title="Class的结构分析">
+                Class的结构分析 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -494,7 +498,7 @@ class对象的isa指向meta-class，当调用类方法时，通过class对象的
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">112</span>
+                  <span class="site-state-item-count">114</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

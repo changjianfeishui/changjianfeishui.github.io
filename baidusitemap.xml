@@ -4,8 +4,52 @@
 
     
   <url>
+    <loc>http://www.devzhang.cn/2019/10/15/KVO/</loc>
+    <lastmod>2019-10-15T13:06:23.181Z</lastmod>
+    <data>
+        <display>
+        <title>KVO</title>
+        <pubTime>2019-10-15T13:01:16.864Z</pubTime>
+        
+        <tag>学习笔记</tag>
+         
+        <tag>底层原理</tag>
+         
+         
+           
+             
+              <breadCrumb title="iOS" url="http://www.devzhang.cn/categories/iOS/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.devzhang.cn/2019/10/15/Class%E7%9A%84%E7%BB%93%E6%9E%84%E5%88%86%E6%9E%90/</loc>
+    <lastmod>2019-10-15T13:05:37.325Z</lastmod>
+    <data>
+        <display>
+        <title>Class的结构分析</title>
+        <pubTime>2019-10-15T13:01:14.472Z</pubTime>
+        
+        <tag>学习笔记</tag>
+         
+        <tag>底层原理</tag>
+         
+         
+           
+             
+              <breadCrumb title="iOS" url="http://www.devzhang.cn/categories/iOS/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://www.devzhang.cn/2019/10/14/isa%E5%92%8Csuperclass/</loc>
-    <lastmod>2019-10-14T14:08:02.614Z</lastmod>
+    <lastmod>2019-10-15T13:03:06.594Z</lastmod>
     <data>
         <display>
         <title>isa和superclass</title>
