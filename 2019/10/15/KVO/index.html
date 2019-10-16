@@ -93,7 +93,7 @@
 123@interface Person : NSObject@property (assign, nonatomic) int age;@end
 给Person类的instance对象添加KVO:
 123// 给person1对象添加KVO监听NSKeyValueObser">
-<meta property="og:updated_time" content="2019-10-15T13:06:23.181Z">
+<meta property="og:updated_time" content="2019-10-15T13:41:45.162Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="KVO">
 <meta name="twitter:description" content="KVO全称为Key-Value Observing, 即键值监听，用于指定对象属性值的改变。
@@ -372,6 +372,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">- (void)setAge:(int)age</span><br><span class="line">&#123;</span><br><span class="line">	//调用Foundation框架的_NSSet***ValueAndNotify方法，与具体参数类型有关</span><br><span class="line">    _NSSetIntValueAndNotify();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void _NSSetIntValueAndNotify()</span><br><span class="line">&#123;</span><br><span class="line">    [self willChangeValueForKey:@&quot;age&quot;];</span><br><span class="line">    [super setAge:age];</span><br><span class="line">    [self didChangeValueForKey:@&quot;age&quot;];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)didChangeValueForKey:(NSString *)key</span><br><span class="line">&#123;</span><br><span class="line">    // 通知监听器，属性值发生了改变</span><br><span class="line">    [oberser observeValueForKeyPath:key ofObject:self change:nil context:nil];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>其他方法如下:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">// 屏蔽内部实现，隐藏了NSKVONotifying_Person类的存在</span><br><span class="line">- (Class)class</span><br><span class="line">&#123;</span><br><span class="line">    return [Person class];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)dealloc</span><br><span class="line">&#123;</span><br><span class="line">    // 收尾工作</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (BOOL)_isKVOA</span><br><span class="line">&#123;</span><br><span class="line">    return YES;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>由此可见，直接修改成员变量的值不会触发KVO。</p>
 
       
     </div>
@@ -413,6 +414,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/10/16/KVC/" rel="prev" title="KVC">
+                KVC <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -483,7 +488,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">114</span>
+                  <span class="site-state-item-count">115</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

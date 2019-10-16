@@ -4,8 +4,30 @@
 
     
   <url>
+    <loc>http://www.devzhang.cn/2019/10/16/KVC/</loc>
+    <lastmod>2019-10-16T14:05:19.073Z</lastmod>
+    <data>
+        <display>
+        <title>KVC</title>
+        <pubTime>2019-10-16T14:04:37.372Z</pubTime>
+        
+        <tag>学习笔记</tag>
+         
+        <tag>底层原理</tag>
+         
+         
+           
+             
+              <breadCrumb title="iOS" url="http://www.devzhang.cn/categories/iOS/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://www.devzhang.cn/2019/10/15/KVO/</loc>
-    <lastmod>2019-10-15T13:06:23.181Z</lastmod>
+    <lastmod>2019-10-15T13:41:45.162Z</lastmod>
     <data>
         <display>
         <title>KVO</title>
