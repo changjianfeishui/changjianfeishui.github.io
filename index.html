@@ -251,6 +251,190 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.devzhang.cn/2019/10/17/Category/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="mangox">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="做点有意思的事情">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/10/17/Category/" itemprop="url">Category</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-17T22:20:49+08:00">
+                2019-10-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/10/17/Category/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/10/17/Category/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="Category的底层结构"><a href="#Category的底层结构" class="headerlink" title="Category的底层结构"></a>Category的底层结构</h1><p>分类底层结构定义的如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">//objc-runtime-new.h</span><br><span class="line"></span><br><span class="line">struct category_t &#123;</span><br><span class="line">    const char *name;</span><br><span class="line">    classref_t cls;</span><br><span class="line">    struct method_list_t *instanceMethods;</span><br><span class="line">    struct method_list_t *classMethods;</span><br><span class="line">    struct protocol_list_t *protocols;</span><br><span class="line">    struct property_list_t *instanceProperties;</span><br><span class="line">    // Fields below this point are not always present on disk.</span><br><span class="line">    struct property_list_t *_classProperties;</span><br><span class="line"></span><br><span class="line">    method_list_t *methodsForMeta(bool isMeta) &#123;</span><br><span class="line">        if (isMeta) return classMethods;</span><br><span class="line">        else return instanceMethods;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    property_list_t *propertiesForMeta(bool isMeta, struct header_info *hi);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>项目中每定义一个分类，底层都会增加一个category_t对象。</p>
+<h1 id="Category的加载过程"><a href="#Category的加载过程" class="headerlink" title="Category的加载过程"></a>Category的加载过程</h1><p>Category源码阅读顺序：</p>
+<ol>
+<li>objc-os.mm (runtime入口)<ul>
+<li>_objc_init (runtime初始化)</li>
+<li>map_images</li>
+<li>map_images_nolock</li>
+</ul>
+</li>
+<li>objc-runtime-new.mm<ul>
+<li>_read_images</li>
+<li>remethodizeClass</li>
+<li>attachCategories</li>
+<li>attachLists</li>
+<li>realloc、memmove、 memcpy</li>
+</ul>
+</li>
+</ol>
+<p>category的加载过程:</p>
+<ol>
+<li>通过runtime加载类的所有分类</li>
+<li>将所有分类的方法，属性，协议分别合并到一个数组</li>
+<li>将合并后的分类数据插入到类原来到数据之前</li>
+</ol>
+<p>由源码可见，对同名方法而言，会优先调用分类中的方法。如果多个分类中包含同名方法，则会调用最后参与编译的分类中的方法。</p>
+<p>摘录源码中核心的attachCategories实现如下(objc4-756.2):</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line">// Attach method lists and properties and protocols from categories to a class.</span><br><span class="line">// Assumes the categories in cats are all loaded and sorted by load order, </span><br><span class="line">// oldest categories first.</span><br><span class="line">static void </span><br><span class="line">attachCategories(Class cls, category_list *cats, bool flush_caches)</span><br><span class="line">&#123;</span><br><span class="line">    if (!cats) return;</span><br><span class="line">    if (PrintReplacedMethods) printReplacements(cls, cats);</span><br><span class="line"></span><br><span class="line">    bool isMeta = cls-&gt;isMetaClass();</span><br><span class="line"></span><br><span class="line">    // fixme rearrange to remove these intermediate allocations</span><br><span class="line">    //方法二维数组</span><br><span class="line">    //[[method_t,method_t],[method_t,method_t,method_t]]</span><br><span class="line">    //二维数组中的一个元素(数组)存放一个分类中的方法列表</span><br><span class="line">    method_list_t **mlists = (method_list_t **)</span><br><span class="line">        malloc(cats-&gt;count * sizeof(*mlists));</span><br><span class="line">    //属性二维数组</span><br><span class="line">    property_list_t **proplists = (property_list_t **)</span><br><span class="line">        malloc(cats-&gt;count * sizeof(*proplists));</span><br><span class="line">    //协议二维数组</span><br><span class="line">    protocol_list_t **protolists = (protocol_list_t **)</span><br><span class="line">        malloc(cats-&gt;count * sizeof(*protolists));</span><br><span class="line"></span><br><span class="line">    // Count backwards through cats to get newest categories first</span><br><span class="line">    int mcount = 0;</span><br><span class="line">    int propcount = 0;</span><br><span class="line">    int protocount = 0;</span><br><span class="line">    int i = cats-&gt;count;</span><br><span class="line">    bool fromBundle = NO;</span><br><span class="line">    while (i--) &#123;</span><br><span class="line">        //取出分类</span><br><span class="line">        auto&amp; entry = cats-&gt;list[i];</span><br><span class="line"></span><br><span class="line">        //取出分类中的方法列表</span><br><span class="line">        method_list_t *mlist = entry.cat-&gt;methodsForMeta(isMeta);</span><br><span class="line">        if (mlist) &#123;</span><br><span class="line">            mlists[mcount++] = mlist;</span><br><span class="line">            fromBundle |= entry.hi-&gt;isBundle();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        property_list_t *proplist = </span><br><span class="line">            entry.cat-&gt;propertiesForMeta(isMeta, entry.hi);</span><br><span class="line">        if (proplist) &#123;</span><br><span class="line">            proplists[propcount++] = proplist;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        protocol_list_t *protolist = entry.cat-&gt;protocols;</span><br><span class="line">        if (protolist) &#123;</span><br><span class="line">            protolists[protocount++] = protolist;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    //取出(元)类对象中的数据(class_rw_t)</span><br><span class="line">    auto rw = cls-&gt;data();</span><br><span class="line">    </span><br><span class="line">    prepareMethodLists(cls, mlists, mcount, NO, fromBundle);</span><br><span class="line">    //将所有分类的方法添加到(元)类对象的方法列表中</span><br><span class="line">    rw-&gt;methods.attachLists(mlists, mcount);</span><br><span class="line">    free(mlists);</span><br><span class="line">    if (flush_caches  &amp;&amp;  mcount &gt; 0) flushCaches(cls);</span><br><span class="line">    //将所有分类的属性添加到(元)类对象的属性列表中</span><br><span class="line">    rw-&gt;properties.attachLists(proplists, propcount);</span><br><span class="line">    free(proplists);</span><br><span class="line">    //将所有分类的协议添加到(元)类对象的协议列表中</span><br><span class="line">    rw-&gt;protocols.attachLists(protolists, protocount);</span><br><span class="line">    free(protolists);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="Category和Extension的区别"><a href="#Category和Extension的区别" class="headerlink" title="Category和Extension的区别"></a>Category和Extension的区别</h1><ul>
+<li>类扩展中的信息在编译时会合并到类信息中。</li>
+<li>分类中的信息在运行时才会合并到类信息中。</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://www.devzhang.cn/2019/10/16/KVC/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1758,188 +1942,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.devzhang.cn/2019/07/10/Xcode Toolchain/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="mangox">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="做点有意思的事情">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/07/10/Xcode Toolchain/" itemprop="url">Xcode Toolchain</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-10T10:31:19+08:00">
-                2019-07-10
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/iOS/" itemprop="url" rel="index">
-                    <span itemprop="name">iOS</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/07/10/Xcode Toolchain/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/07/10/Xcode Toolchain/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="xcode-select"><a href="#xcode-select" class="headerlink" title="xcode-select"></a>xcode-select</h1><p>This will install the Command Line Tools, which are necessary for compiling Objective-C code.</p>
-<pre><code>xcode-select install
-</code></pre><h1 id="xcrun"><a href="#xcrun" class="headerlink" title="xcrun"></a>xcrun</h1><p><strong>xcrun is the fundamental Xcode command line tool. With it, all other tools are invoked.</strong></p>
-<pre><code>xcrun xcodebuild
-</code></pre><p>In addition to running commands, xcrun can find binaries and show the path to an SDK:</p>
-<pre><code>xcrun --find clang
-xcrun --sdk iphoneos --find pngcrush
-xcrun --sdk macosx --show-sdk-path
-</code></pre><p>Because xcrun executes in the context of the active Xcode version (as set by xcode-select), it is easy to have multiple versions of the Xcode toolchain co-exist on a single system.</p>
-<p>Using xcrun in scripts and other external tools has the advantage of ensuring consistency across different environments. For example, Xcode ships with a custom distribution of Git. By invoking $ xcrun git rather than just $ git, a build system can guarantee that the correct distribution is run.</p>
-<h1 id="xcodebuild"><a href="#xcodebuild" class="headerlink" title="xcodebuild"></a>xcodebuild</h1><p>Without passing any build settings, xcodebuild defaults to the scheme and configuration most recently used by Xcode.app:</p>
-<p>However, everything from scheme, targets, configuration, destination, SDK, and derived data location can be configured:</p>
-<pre><code>xcodebuild -workspace NSHipster.xcworkspace -scheme &quot;NSHipster&quot;
-</code></pre><p>There are six build actions that can be invoked in sequence:</p>
-<pre><code>build analyze archive archive installsrc install clean
-</code></pre><h1 id="genstrings"><a href="#genstrings" class="headerlink" title="genstrings"></a>genstrings</h1><p>The genstrings utility generates a .strings file from the specified C or Objective-C source files. A .strings file is used for localizing an application in different locales, as described under “Internationalization” in Apple’s Cocoa Core Competencies.</p>
-<pre><code>genstrings -a \ /path/to/source/files/*.m
-</code></pre><p>For each use of the NSLocalizedString macro in a source file, genstrings will append the key and comment into the target file. It’s up to the developer to then create a copy of that file for each targeted locale and have that file translated.</p>
-<p>fr.lproj/Localizable.strings</p>
-<pre><code>/* No comment provided by engineer. */
-&quot;Username&quot;=&quot;nom d&apos;utilisateur&quot;;
-
-/* {User First Name}&apos;s Profile */
-&quot;%@&apos;s Profile&quot;=&quot;profil de %1$@&quot;;
-</code></pre><h1 id="ibtool"><a href="#ibtool" class="headerlink" title="ibtool"></a>ibtool</h1><h1 id="iprofiler"><a href="#iprofiler" class="headerlink" title="iprofiler"></a>iprofiler</h1><p>iprofiler measure an app’s performance without launching Instruments.app:</p>
-<pre><code>iprofiler -allocations -leaks -T 15s -o perf -a NSHipster
-</code></pre><h1 id="xed"><a href="#xed" class="headerlink" title="xed"></a>xed</h1><p>This command simply opens Xcode.</p>
-<pre><code>xed NSHipster.xcworkspace
-</code></pre><h1 id="agvtool"><a href="#agvtool" class="headerlink" title="agvtool"></a>agvtool</h1><p>agvtool can be used to version Xcode projects, by reading and writing the appropriate values in the Info.plist file.</p>
-<h1 id="摘录说明"><a href="#摘录说明" class="headerlink" title="摘录说明"></a>摘录说明</h1><p>摘录自《CFHipsterRef-Low-Level Programming on iOS &amp; OS X》</p>
-<p>中文参考: <a href="https://www.jianshu.com/p/2a351587f0ef" target="_blank" rel="external">https://www.jianshu.com/p/2a351587f0ef</a></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1990,7 +1992,7 @@ xcrun --sdk macosx --show-sdk-path
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">115</span>
+                  <span class="site-state-item-count">116</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
