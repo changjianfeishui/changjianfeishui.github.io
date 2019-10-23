@@ -251,6 +251,173 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.devzhang.cn/2019/10/09/使用Xcode查看内存数据/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="mangox">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="做点有意思的事情">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/10/09/使用Xcode查看内存数据/" itemprop="url">使用Xcode查看内存数据</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-09T23:12:04+08:00">
+                2019-10-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/10/09/使用Xcode查看内存数据/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/10/09/使用Xcode查看内存数据/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="实时查看内存数据"><a href="#实时查看内存数据" class="headerlink" title="实时查看内存数据"></a>实时查看内存数据</h1><p>在Xcode菜单栏中通过以下顺序可以查看对象的内存数据: </p>
+<pre><code>Debug -&gt; Debug Workfllow -&gt; View Memory
+</code></pre><p>对一个NSObject实例对象来说，通过该方法观察到前8个字节为非0值，后8个字节为全为0，第17位开始为非0值。    由此可以推断，前8个字节代表isa指针，也从侧面验证了一个NSObject实例对象指针指向内存的大小为16个字节。</p>
+<h1 id="常用的lldb指令"><a href="#常用的lldb指令" class="headerlink" title="常用的lldb指令"></a>常用的lldb指令</h1><h2 id="print"><a href="#print" class="headerlink" title="print"></a>print</h2><p>print用于打印指针地址，可缩写为p.</p>
+<h2 id="po"><a href="#po" class="headerlink" title="po"></a>po</h2><p>po用于打印对象,即print object.</p>
+<h2 id="memory-read"><a href="#memory-read" class="headerlink" title="memory read"></a>memory read</h2><ul>
+<li>memory read用于读取内存，可以缩写为x。其使用方法为:</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">x/数量|格式|字节数  内存地址</span><br></pre></td></tr></table></figure>
+<p>数量参数说明要打印多少个数据，格式参数和字节参数说明怎么样打印这些数据。这些参数都可以省略，即直接使用<code>memory read 内存地址</code>.</p>
+<p>格式参数说明：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">x是16进制，f是浮点，d是10进制</span><br></pre></td></tr></table></figure>
+<p>字节参数说明：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">b：byte 1字节，h：half word 2字节</span><br><span class="line">w：word 4字节，g：giant word 8字节</span><br></pre></td></tr></table></figure>
+<p>例如，x/3xg表示以16进制的形式打印3个字节串，每个字节串包含8个字节。</p>
+<h2 id="memory-write"><a href="#memory-write" class="headerlink" title="memory write"></a>memory write</h2><p>memory  write用于修改内存中的值. 使用方法为:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">memory  write  内存地址  新值</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://www.devzhang.cn/2019/07/11/NSObject对象占用的内存大小分析/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1687,162 +1854,6 @@ xcrun --sdk macosx --show-sdk-path
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.devzhang.cn/2019/03/02/关于Core Animation/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="mangox">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="做点有意思的事情">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/03/02/关于Core Animation/" itemprop="url">CoreAnimation编程指南翻译(一):关于Core Animation</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-02T14:11:12+08:00">
-                2019-03-02
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/iOS/" itemprop="url" rel="index">
-                    <span itemprop="name">iOS</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/03/02/关于Core Animation/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/03/02/关于Core Animation/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p><code>Core Animation</code>是一个用于图像绘制和动画渲染的基础框架, 同时兼容iOS和OS X平台. 使用<code>Core Animation</code>可以很便捷的为应用程序的视图或其他可视化元素添加动画. 因为绘制动画的大部分工作都由<code>Core Animation</code>完成, 开发者只需要配置一些动画参数(比如动画的起始点和结束点), 然后告诉<code>Core Animation</code>开始执行动画即可. 接下来, <code>Core Animation</code>会把大部分的实际绘制工作交给专门的图形硬件. 这就保证了动画的高帧率和流畅性, 而且不会对CPU造成额外的负担.</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/03/02/关于Core Animation/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1893,7 +1904,7 @@ xcrun --sdk macosx --show-sdk-path
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">117</span>
+                  <span class="site-state-item-count">118</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
