@@ -98,7 +98,7 @@ block的底层实现简单的block底层实现如下：
 <meta property="og:image" content="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1572583358495&di=e8eba1cfc0f6fa168bd9895dc0ca832e&imgtype=0&src=http%3A%2F%2Faliyunzixunbucket.oss-cn-beijing.aliyuncs.com%2Fjpg%2F25792ab1ac0d14d36b7584c52b26e00c.jpg%3Fx-oss-process%3Dimage%2Fresize%2Cp_100%2Fauto-orient%2C1%2Fquality%2Cq_90%2Fformat%2Cjpg%2Fwatermark%2Cimage_eXVuY2VzaGk%3D%2Ct_100">
 <meta property="og:image" content="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1572585089802&di=7ece4f4edd3d43c6f5bc32989d9a81df&imgtype=0&src=http%3A%2F%2Fimg2018.cnblogs.com%2Fblog%2F1365243%2F201901%2F1365243-20190117110653433-48076009.png">
 <meta property="og:image" content="https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3113942713,222907817&fm=26&gp=0.jpg">
-<meta property="og:updated_time" content="2019-11-14T08:39:42.307Z">
+<meta property="og:updated_time" content="2019-11-14T08:42:35.856Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="block">
 <meta name="twitter:description" content="基本认识block本质上是一个封装了函数调用以及函数调用环境的OC对象，内部也包含一个isa指针。
@@ -416,7 +416,7 @@ block的底层实现简单的block底层实现如下：
 <ul>
 <li>__NSGlobalBlock__ （_NSConcreteGlobalBlock) :没有访问auto变量</li>
 <li>__NSStackBlock__ （_NSConcreteStackBlock : 访问了auto变量</li>
-<li>__NSMallocBlock<strong> （_NSConcreteMallocBlock）: __NSStackBlock</strong>调用了copy方法</li>
+<li>__NSMallocBlock__ （_NSConcreteMallocBlock）: __NSStackBlock<em>\</em>调用了copy方法</li>
 </ul>
 <p>下面代码的输出结果为：__NSGlobalBlock__</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">void (^block)(void) = ^()&#123;</span><br><span class="line">    NSLog(@&quot;Hello World&quot;);</span><br><span class="line">&#125;;</span><br><span class="line">NSLog(@&quot;%@&quot;,[block class]);</span><br></pre></td></tr></table></figure>
