@@ -408,7 +408,7 @@
 </ul>
 <p>下面代码的输出结果为：__NSGlobalBlock__</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">void (^block)(void) = ^()&#123;</span><br><span class="line">    NSLog(@&quot;Hello World&quot;);</span><br><span class="line">&#125;;</span><br><span class="line">NSLog(@&quot;%@&quot;,[block class]);</span><br></pre></td></tr></table></figure>
-<p>下面代码ARC环境下的输出结果为：__NSMallocBlock__，MRC的输出结果为：__NSMallocBlock__</p>
+<p>下面代码ARC环境下的输出结果为：__NSMallocBlock__，MRC的输出结果为：__NSStackBlock__</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">int age = 10;</span><br><span class="line">void (^block)(void) = ^()&#123;</span><br><span class="line">    NSLog(@&quot;%d&quot;,age);</span><br><span class="line">&#125;;</span><br><span class="line">NSLog(@&quot;%@&quot;,[block class]);</span><br></pre></td></tr></table></figure>
 <p>下面代码的输出结果为：__NSStackBlock__ </p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">int age = 10;</span><br><span class="line">NSLog(@&quot;%@&quot;,[^&#123;</span><br><span class="line">    NSLog(@&quot;%d&quot;,age);</span><br><span class="line">&#125; class]);</span><br></pre></td></tr></table></figure>
