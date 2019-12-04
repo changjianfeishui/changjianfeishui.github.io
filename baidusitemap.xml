@@ -4,6 +4,28 @@
 
     
   <url>
+    <loc>http://www.devzhang.cn/2019/12/01/Runloop/</loc>
+    <lastmod>2019-12-04T03:36:32.821Z</lastmod>
+    <data>
+        <display>
+        <title>RunLoop</title>
+        <pubTime>2019-12-01T09:25:12.107Z</pubTime>
+        
+        <tag>学习笔记</tag>
+         
+        <tag>底层原理</tag>
+         
+         
+           
+             
+              <breadCrumb title="iOS" url="http://www.devzhang.cn/categories/iOS/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://www.devzhang.cn/2019/11/22/Runtime/</loc>
     <lastmod>2019-12-01T09:09:59.416Z</lastmod>
     <data>
