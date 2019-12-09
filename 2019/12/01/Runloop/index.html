@@ -91,7 +91,7 @@ Runloop的代码逻辑如下：
 1234567function loop() &amp;#123;    initialize();    do &amp;#123;        var message = get_next_message();        proces">
 <meta property="og:image" content="https://blog.ibireme.com/wp-content/uploads/2015/05/RunLoop_0.png">
 <meta property="og:image" content="http://blog-1251606168.file.myqcloud.com/blog_2018/2018-12-24-021703.png">
-<meta property="og:updated_time" content="2019-12-04T03:36:32.821Z">
+<meta property="og:updated_time" content="2019-12-06T07:27:05.252Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="RunLoop">
 <meta name="twitter:description" content="RunLoop是iOS/macOS下的事件循环机制，同时也是一个OC对象，该对象管理了其需要处理的时间和消息，并提供了一个入口函数来执行。
@@ -392,6 +392,8 @@ Runloop的代码逻辑如下：
 <li>RunLoop会在线程结束时销毁；</li>
 <li>主线程会在UIApplicationMain方法中获取Runloop，子线程默认没有开启RunLoop；</li>
 </ul>
+<p>在这里需要注意的是，<code>performSelector:withObject:afterDelay:</code>方法的的本质是往Runloop中添加定时器，而子线程默认没有启动Runloop，所以在子线程中调用该方法不会得到正确的响应。</p>
+<p>RunLoop与线程的相关源码如下：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">//  全局的Dictionary，key 是 pthread_t， value 是 CFRunLoopRef</span><br><span class="line">static CFMutableDictionaryRef __CFRunLoops = NULL;</span><br><span class="line">// 访问__CFRunLoops的锁</span><br><span class="line">static CFLock_t loopsLock = CFLockInit;</span><br><span class="line"></span><br><span class="line">// 获取pthread 对应的 RunLoop。</span><br><span class="line">CF_EXPORT CFRunLoopRef _CFRunLoopGet0(pthread_t t) &#123;</span><br><span class="line">    if (pthread_equal(t, kNilPthreadT)) &#123;</span><br><span class="line">        // pthread为空时，获取主线程</span><br><span class="line">        t = pthread_main_thread_np();</span><br><span class="line">    &#125;</span><br><span class="line">    __CFLock(&amp;loopsLock);</span><br><span class="line">    if (!__CFRunLoops) &#123;</span><br><span class="line">        // 第一次进入时，初始化全局Dic，并先为主线程创建一个 RunLoop。</span><br><span class="line">        __CFUnlock(&amp;loopsLock);</span><br><span class="line">        CFMutableDictionaryRef dict = CFDictionaryCreateMutable(kCFAllocatorSystemDefault, 0, NULL, &amp;kCFTypeDictionaryValueCallBacks);</span><br><span class="line">        CFRunLoopRef mainLoop = __CFRunLoopCreate(pthread_main_thread_np());</span><br><span class="line">        CFDictionarySetValue(dict, pthreadPointer(pthread_main_thread_np()), mainLoop);</span><br><span class="line">        __CFLock(&amp;loopsLock);</span><br><span class="line">    &#125;</span><br><span class="line">    // 从全局字典里获取对应的RunLoop</span><br><span class="line">    CFRunLoopRef loop = (CFRunLoopRef)CFDictionaryGetValue(__CFRunLoops, pthreadPointer(t));</span><br><span class="line">    __CFUnlock(&amp;loopsLock);</span><br><span class="line">    if (!loop) &#123;</span><br><span class="line">        // 如果取不到，就创建一个新的RunLoop</span><br><span class="line">        CFRunLoopRef newLoop = __CFRunLoopCreate(t);</span><br><span class="line">        __CFLock(&amp;loopsLock);</span><br><span class="line">        loop = (CFRunLoopRef)CFDictionaryGetValue(__CFRunLoops, pthreadPointer(t));</span><br><span class="line">        if (!loop) &#123;</span><br><span class="line">            //设值</span><br><span class="line">            CFDictionarySetValue(__CFRunLoops, pthreadPointer(t), newLoop);</span><br><span class="line">            loop = newLoop;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return loop;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h1 id="Runloop相关的类"><a href="#Runloop相关的类" class="headerlink" title="Runloop相关的类"></a>Runloop相关的类</h1><p><img src="https://blog.ibireme.com/wp-content/uploads/2015/05/RunLoop_0.png" alt=""></p>
 <p>Core Foundation中关于RunLoop的5个类:</p>
@@ -496,6 +498,10 @@ Runloop的代码逻辑如下：
 
           <div class="post-nav-prev post-nav-item">
             
+              <a href="/2019/12/04/iOS多线程/" rel="prev" title="iOS多线程">
+                iOS多线程 <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
       
@@ -574,7 +580,7 @@ Runloop的代码逻辑如下：
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">121</span>
+                  <span class="site-state-item-count">122</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
