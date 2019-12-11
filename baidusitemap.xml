@@ -4,6 +4,28 @@
 
     
   <url>
+    <loc>http://www.devzhang.cn/2019/10/24/block/</loc>
+    <lastmod>2019-12-11T08:39:53.476Z</lastmod>
+    <data>
+        <display>
+        <title>block</title>
+        <pubTime>2019-10-24T14:13:30.068Z</pubTime>
+        
+        <tag>学习笔记</tag>
+         
+        <tag>底层原理</tag>
+         
+         
+           
+             
+              <breadCrumb title="iOS" url="http://www.devzhang.cn/categories/iOS/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://www.devzhang.cn/2019/12/04/iOS%E5%A4%9A%E7%BA%BF%E7%A8%8B/</loc>
     <lastmod>2019-12-09T12:02:51.391Z</lastmod>
     <data>
@@ -54,28 +76,6 @@
         <display>
         <title>Runtime</title>
         <pubTime>2019-11-22T07:19:55.360Z</pubTime>
-        
-        <tag>学习笔记</tag>
-         
-        <tag>底层原理</tag>
-         
-         
-           
-             
-              <breadCrumb title="iOS" url="http://www.devzhang.cn/categories/iOS/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://www.devzhang.cn/2019/10/24/block/</loc>
-    <lastmod>2019-11-14T08:42:35.856Z</lastmod>
-    <data>
-        <display>
-        <title>block</title>
-        <pubTime>2019-10-24T14:13:30.068Z</pubTime>
         
         <tag>学习笔记</tag>
          
