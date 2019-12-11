@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://www.devzhang.cn/2019/12/04/iOS%E5%A4%9A%E7%BA%BF%E7%A8%8B/</loc>
+    
+    <lastmod>2019-12-11T08:59:27.334Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://www.devzhang.cn/2019/11/22/Runtime/</loc>
     
     <lastmod>2019-12-11T08:41:39.773Z</lastmod>
@@ -12,13 +19,6 @@
     <loc>http://www.devzhang.cn/2019/10/24/block/</loc>
     
     <lastmod>2019-12-11T08:39:53.476Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.devzhang.cn/2019/12/04/iOS%E5%A4%9A%E7%BA%BF%E7%A8%8B/</loc>
-    
-    <lastmod>2019-12-09T12:02:51.391Z</lastmod>
     
   </url>
   
