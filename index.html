@@ -871,7 +871,7 @@
 <li>extra_rc: 里面存储的值是引用计数器减1;</li>
 <li>has_sidetable_rc: 引用计数器是否过大无法存储在isa中,如果为1，那么引用计数会存储在一个叫SideTable的类的属性中;</li>
 </ul>
-<p>arm64架构下取出shiftcls的掩码ISA_MASK为0x0000000ffffffff8ULL，由此可见，class对象和meta-class对象的地址值最后3为也都是0.</p>
+<p>arm64架构下取出shiftcls的掩码ISA_MASK为0x0000000ffffffff8ULL，由此可见，class对象和meta-class对象的地址值最后3位都是0.</p>
 <h1 id="Class结构"><a href="#Class结构" class="headerlink" title="Class结构"></a>Class结构</h1><p>Class本质上为一个结构体类型：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">typedef struct objc_class *Class;</span><br></pre></td></tr></table></figure>
 <p>与该结构体相关的主要定义如下：</p>

@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://www.devzhang.cn/2019/11/22/Runtime/</loc>
+    
+    <lastmod>2019-12-11T08:41:39.773Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://www.devzhang.cn/2019/10/24/block/</loc>
     
     <lastmod>2019-12-11T08:39:53.476Z</lastmod>
@@ -19,13 +26,6 @@
     <loc>http://www.devzhang.cn/2019/12/01/Runloop/</loc>
     
     <lastmod>2019-12-06T07:27:05.252Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.devzhang.cn/2019/11/22/Runtime/</loc>
-    
-    <lastmod>2019-12-01T09:09:59.416Z</lastmod>
     
   </url>
   
