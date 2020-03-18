@@ -97,7 +97,7 @@ isa指针
 其他类的成员变量(值)
 
 12NSObject *obj1 = [[NSObject alloc] init];NSObject *obj2 = [[NSObje">
-<meta property="og:updated_time" content="2019-10-13T12:57:30.243Z">
+<meta property="og:updated_time" content="2020-03-18T11:30:14.130Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="OC对象的分类">
 <meta name="twitter:description" content="OC中的对象，主要可以分为三类:
@@ -409,9 +409,9 @@ isa指针
 <li><p>Class object_getClass(id obj)</p>
 <ul>
 <li>传入的obj可能是instance对象、class对象、meta-class对象</li>
-<li>返回值如果是instance对象，返回class对象</li>
-<li>返回值如果是class对象，返回meta-class对象</li>
-<li>返回值如果是meta-class对象，返回NSObject（基类）的meta-class对象</li>
+<li>如果传入的是instance对象，返回class对象</li>
+<li>如果传入的是class对象，返回meta-class对象</li>
+<li>如果传入的是meta-class对象，返回NSObject（基类）的meta-class对象</li>
 </ul>
 </li>
 <li><p>-(Class)class、+ (Class)class 返回的就是类对象</p>
@@ -626,7 +626,7 @@ isa指针
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

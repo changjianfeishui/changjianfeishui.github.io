@@ -557,7 +557,7 @@
 </ul>
 <p>例如在下图中，TEXT段的大小为3页，DATA段和LINKEDIT段的大小都为1页。</p>
 <p><img src="https://res.cloudinary.com/dwpjzbyux/image/upload/v1556146160/blogImages/app_launch/macho_data_cizxtb.png" alt=""></p>
-<p>页面大小则取决于具体的硬件，</p>
+<p>页面大小则取决于具体的硬件。</p>
 <h3 id="Section"><a href="#Section" class="headerlink" title="Section"></a>Section</h3><p>每个Segment又被划分为多个Section，Section使用全小写字母命名。Segment的大小与页面大小无关，但是Segment之间互不重叠。</p>
 <p><img src="https://res.cloudinary.com/dwpjzbyux/image/upload/v1556265320/blogImages/app_launch/section_of_segment_zqokcw.png" alt=""></p>
 <h3 id="Mach-O-Universal-File"><a href="#Mach-O-Universal-File" class="headerlink" title="Mach-O Universal File"></a>Mach-O Universal File</h3><p>假如一个Mach-O文件需要同时在32bit和64bit的iOS设备上运行，Xcode会生成两个Mach-O文件，一个支持在32bit设备上运行(armv7s)，另一个支持在64bit设备上运行(arm64)。然后将这两个文件合并为一个文件，合并生成的文件就叫做Mach-O通用文件。</p>
@@ -565,7 +565,7 @@
 <p><img src="https://raw.githubusercontent.com/changjianfeishui/XBImageStore/master/Hexo/fatheader.jpg" alt=""></p>
 <p>那为什么segment大小必须是页面大小的整数倍？为什么一个头部要占用一个页面大小？这样是否浪费了大量空间？这就涉及到下部分的内容虚拟内存了。</p>
 <h2 id="虚拟内存"><a href="#虚拟内存" class="headerlink" title="虚拟内存"></a>虚拟内存</h2><p>可以将虚拟内存理解为一个中间层，其要解决的问题是当多个进程同时存在时，如何对物理内存进行管理。虚拟内存技术提高了CPU利用率，使多个进程可以同时、按需加载。</p>
-<p>虚拟内存被划分为一个个大小相同的页面(Page)），提高管理和读写的效率。 页面大小则取决于具体的硬件，在arm64处理器上一页的大小为16K，其他处理器上一页的大小为4K。</p>
+<p>虚拟内存被划分为一个个大小相同的页面(Page），提高管理和读写的效率。 页面大小则取决于具体的硬件，在arm64处理器上一页的大小为16K，其他处理器上一页的大小为4K。</p>
 <h3 id="逻辑地址到物理RAM的映射"><a href="#逻辑地址到物理RAM的映射" class="headerlink" title="逻辑地址到物理RAM的映射"></a>逻辑地址到物理RAM的映射</h3><p>每个进程都是一个逻辑地址空间，映射到RAM的某个物理页面。这种映射关系不一定是一对一的，逻辑地址可以不对应任何物理RAM，多个逻辑地址也可能映射到同一块物理RAM。</p>
 <p>如果一个逻辑地址不映射到任何物理RAM，当进程要访问该地址时，就会产生页面错误(Page fault)，内核将中断该进程，寻找可用的物理内存，接着继续执行当前程序。</p>
 <p>如果两个进程的逻辑地址映射到了同一块物理RAM，这两个进程将共享这一块物理内存。</p>
@@ -631,7 +631,7 @@
 <h2 id="Initializers"><a href="#Initializers" class="headerlink" title="Initializers"></a>Initializers</h2><p>ObjC中有一个<code>+load</code>方法，不过已经不推荐使用，建议使用<code>+initialize</code>方法进行替代。</p>
 <p>如果存在<code>+load</code>方法，此时将会被调用。然后会自底向上的，即从底部的dylib开始，逐步向上加载，直到主执行文件，依次进行初始化。这种加载顺序确保了安全性，加载某个 dylib 前，其所依赖的其余 dylib 文件肯定已经被预先加载。</p>
 <p>最后 dyld 会调用 main() 函数。main() 会调用 UIApplicationMain()。</p>
-<h1 id="实践篇"><a href="#实践篇" class="headerlink" title="实践篇"></a>实践篇</h1><h2 id="启动时间的计算标准"><a href="#启动时间的计算标准" class="headerlink" title="启动时间的计算标准"></a>启动时间的计算标准</h2><p>应用启动分为冷启动和热启动，这里只讨论热启动。为了准确测量冷启动耗时，测量前需要重启设备。</p>
+<h1 id="实践篇"><a href="#实践篇" class="headerlink" title="实践篇"></a>实践篇</h1><h2 id="启动时间的计算标准"><a href="#启动时间的计算标准" class="headerlink" title="启动时间的计算标准"></a>启动时间的计算标准</h2><p>应用启动分为冷启动和热启动，这里只讨论冷启动。为了准确测量冷启动耗时，测量前需要重启设备。</p>
 <p>应用的冷启动时间与具体的设备有关，但最好控制在400ms以内。一旦启动时间超过20s，系统会认为应用进入了死循环，并终结该进程。启动时间的测试应该以应用支持的最低配置设备为参考。直到 applicationWillFinishLaunching方法被调动，应用才算启动结束。</p>
 <p>要注意的是，UIApplicationMain()和applicationWillFinishLaunching都计算在应用的启动时间中。</p>
 <h2 id="测量启动时间"><a href="#测量启动时间" class="headerlink" title="测量启动时间"></a>测量启动时间</h2><p>Dyld可以测量main()方法执行之前所消耗的时间，在 Xcode 中 Edit scheme -&gt; Run -&gt; Auguments 将环境变量 DYLD_PRINT_STATISTICS 设为 1。运行应用，可以看到如下类似的打印输出:</p>
@@ -1551,7 +1551,7 @@
 <p>将其转换为c++代码：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">int age = 10;</span><br><span class="line">void (*block)(void) = ((void (*)())&amp;__main_block_impl_0((void *)__main_block_func_0, &amp;__main_block_desc_0_DATA, age));</span><br></pre></td></tr></table></figure>
 <p>block底层结构为:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">struct __main_block_impl_0 &#123;</span><br><span class="line">  struct __block_impl impl;</span><br><span class="line">  struct __main_block_desc_0* Desc;</span><br><span class="line">   __main_block_impl_0(void *fp, struct __main_block_desc_0 *desc, int _age, int flags=0) : age(_age) &#123;</span><br><span class="line">    impl.isa = &amp;_NSConcreteStackBlock;</span><br><span class="line">    impl.Flags = flags;</span><br><span class="line">    impl.FuncPtr = fp;</span><br><span class="line">    Desc = desc;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">struct __main_block_impl_0 &#123;</span><br><span class="line">  struct __block_impl impl;</span><br><span class="line">  struct __main_block_desc_0* Desc;</span><br><span class="line">  int age</span><br><span class="line">   __main_block_impl_0(void *fp, struct __main_block_desc_0 *desc, int _age, int flags=0) : age(_age) &#123;</span><br><span class="line">    impl.isa = &amp;_NSConcreteStackBlock;</span><br><span class="line">    impl.Flags = flags;</span><br><span class="line">    impl.FuncPtr = fp;</span><br><span class="line">    Desc = desc;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 <p>可见，block在捕获auto变量的方式为值传递。</p>
 <h2 id="static变量"><a href="#static变量" class="headerlink" title="static变量"></a>static变量</h2><p>定义如下一个捕获static类型变量的block：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">static int age = 10;</span><br><span class="line">void (^block)(void) = ^()&#123;</span><br><span class="line">    NSLog(@&quot;%d&quot;,age);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
@@ -2512,7 +2512,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="做点有意思的事情">
 <meta property="og:description" content="Grand Central Dispatch是异步执行任务的技术之一. 开发者只需要定义想执行的任务并追加到适当的Dispatch Queue中, GCD就能生成必要的线程并执行计划任务. 由于线程管理是作为系统的一部分来实现的, 因此可以统一进行管理, 这样就比以前的线程效率更高.
 也就是说, GCD用难以置信的简洁语法, 实现了极为复杂繁琐的多线程编程.">
-<meta property="og:updated_time" content="2017-01-05T16:05:41.000Z">
+<meta property="og:updated_time" content="2019-12-23T09:48:01.379Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Objective-C之GCD概要">
 <meta name="twitter:description" content="Grand Central Dispatch是异步执行任务的技术之一. 开发者只需要定义想执行的任务并追加到适当的Dispatch Queue中, GCD就能生成必要的线程并执行计划任务. 由于线程管理是作为系统的一部分来实现的, 因此可以统一进行管理, 这样就比以前的线程效率更高.
@@ -413,7 +413,7 @@ dispatch_group_notify(group, dispatch_get_main_queue(), ^{
 
 dispatch_release(group);
 </code></pre><p>执行结果blk0,blk1,blk2打印顺序不一定, 但最后打印的肯定是done. </p>
-<p>dispatch_group_async函数与dispatch_async函数相同, 都追加block到指定的Dispatch Queue中. 与dispatch_async函数不同的是指定的block属于指定的Dispatch Group.</p>
+<p>dispatch_group_sync函数与dispatch_async函数相同, 都追加block到指定的Dispatch Queue中. 与dispatch_async函数不同的是指定的block属于指定的Dispatch Group.</p>
 <p>另外, 与追加block到Dispatch Queue相同, block通过dispatch_retain函数持有Dispatch Group, 从而是该block属于Dispatch Group. 当block执行结束后, 再通过dispatch_release函数释放所持有的Dispatch Group. 一旦Dispatch Group使用结束, 不用考虑属于该Dispatch Group的block, 立即通过dispat_release函数释放即可.</p>
 <p>在追加到Dispatch Group中的任务全部执行完毕后, dispatch_group_notify函数会将参数中的block追加到Dispatch Group中. </p>
 <p>另外, 在Dispatch Group中也可以使用dispatch_group_wait函数指定要等待的时间. </p>
@@ -451,7 +451,7 @@ dispatch_release(group);
 <p>第二个参数表示要等待的时间, 指定为DISPATCH_TIME_FOREVER时,意味着永久等待, 直到group中的任务都执行完毕, 中途不能取消; 当指定为DISPATCH_TIME_NOW时, 则表示不用任何等待立即判定group中的任务执行状态.</p>
 <h1 id="dispatch-barrier-async"><a href="#dispatch-barrier-async" class="headerlink" title="dispatch_barrier_async"></a>dispatch_barrier_async</h1><p>dispatch_barrier_async函数会等到追加到Concurrent Dispatch Queue上的并行处理全部结束之后, 再将指定的处理追加到该Concurrent Dispatch Queue中. 然后在等dispatch_barrier_async函数追加的处理执行完成后, Concurrent Dispatch Queue才恢复为一般动作, 开始执行之后追加的并行处理.</p>
 <p>使用Concurrent Dispatch Queue和dispatch_barrier_async可以实现高效率的数据库访问和文件访问.</p>
-<p>相应的也有dispatch_barrier_async函数, 两者的区别是:</p>
+<p>相应的也有dispatch_barrier_sync函数, 两者的区别是:</p>
 <p>在将任务插入到queue的时候，dispatch_barrier_sync需要等待自己的任务结束之后才会继续程序，执行在它之后的任务，而dispatch_barrier_async将自己的任务插入到queue之后，不会等待自己的任务结束，而是继续执行之后的任务.</p>
 <h1 id="dispatch-sync"><a href="#dispatch-sync" class="headerlink" title="dispatch_sync"></a>dispatch_sync</h1><p>dispatch_async表明将指定的bloc”非同步”地追加到指定的Dispatch Queue中. dispatch_async函数不做任何等待. 而对应的dispatch_sync函数意味着”同步”, 即在追加的block执行完成之前, dispatch_sync函数会一直等待(线程阻塞, 等待任务完成).</p>
 <h1 id="dispatch-apply"><a href="#dispatch-apply" class="headerlink" title="dispatch_apply"></a>dispatch_apply</h1><p>dispatch_apply函数是dispatch_sync函数和Dispatch Group的关联API. 该函数按指定的次数将指定的block追加到指定的Dispatch Queue中, 并等待全部处理执行结束.</p>
@@ -506,8 +506,6 @@ for (int i = 0; i &lt; 10000; ++i) {
         dispatch_semaphore_signal(semaphore);
     });
 }
-
-//array.count 不一定是10000
 
 dispatch_release(semaphore);
 </code></pre><h1 id="dispatch-once"><a href="#dispatch-once" class="headerlink" title="dispatch_once"></a>dispatch_once</h1><p>dispatch_once函数保证应用程序执行中只执行一次指定任务.</p>
@@ -772,7 +770,7 @@ dispatch_io_read(pipe_channel,0,SIZE_MAX,pipe_q, ^(bool done,dispatch_data_t pip
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
