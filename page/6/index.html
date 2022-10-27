@@ -158,6 +158,129 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://www.devzhang.cn/2017/09/23/iOS%E4%BA%8B%E4%BB%B6%E5%A4%84%E7%90%86%E5%92%8C%E5%93%8D%E5%BA%94%E9%93%BE%E6%A6%82%E8%BF%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="mangox">
+      <meta itemprop="description" content="每天进步一点点">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="做点有意思的事情">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/09/23/iOS%E4%BA%8B%E4%BB%B6%E5%A4%84%E7%90%86%E5%92%8C%E5%93%8D%E5%BA%94%E9%93%BE%E6%A6%82%E8%BF%B0/" class="post-title-link" itemprop="url">iOS事件处理和响应链概述</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2017-09-23 13:58:37 / 修改时间：14:02:08" itemprop="dateCreated datePublished" datetime="2017-09-23T13:58:37+08:00">2017-09-23</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index"><span itemprop="name">iOS</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2017/09/23/iOS%E4%BA%8B%E4%BB%B6%E5%A4%84%E7%90%86%E5%92%8C%E5%93%8D%E5%BA%94%E9%93%BE%E6%A6%82%E8%BF%B0/" class="post-meta-item leancloud_visitors" data-flag-title="iOS事件处理和响应链概述" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2017/09/23/iOS%E4%BA%8B%E4%BB%B6%E5%A4%84%E7%90%86%E5%92%8C%E5%93%8D%E5%BA%94%E9%93%BE%E6%A6%82%E8%BF%B0/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2017/09/23/iOS%E4%BA%8B%E4%BB%B6%E5%A4%84%E7%90%86%E5%92%8C%E5%93%8D%E5%BA%94%E9%93%BE%E6%A6%82%E8%BF%B0/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="App启动后发生了什么"><a href="#App启动后发生了什么" class="headerlink" title="App启动后发生了什么"></a>App启动后发生了什么</h1><p><img src="https://developer.apple.com/library/content/documentation/General/Conceptual/Devpedia-CocoaApp/Art/main_event_loop.jpg"></p>
+<h2 id="应用启动及事件分发"><a href="#应用启动及事件分发" class="headerlink" title="应用启动及事件分发"></a>应用启动及事件分发</h2><p>App在启动之后, 会立即与负责传底层递用户事件的系统组件建立连接. 由于App必须依次单独的处理这些底层事件, 所以底层事件在发生之后会首先被加入到一个event queue中, 然后按照first-in first-out的顺序派发到App中.</p>
+<p>一旦用户界面初始化完成, App就开始由外部用户事件驱动. Application object会从event queue中取出队首对象, 并将其转换成一个UIEvent对象, 然后将其分发给应用内的其他对象进行处理. 这个过程会一直持续到应用程序终止.</p>
+<!--more--->
+
+<h2 id="事件响应及应用状态更新"><a href="#事件响应及应用状态更新" class="headerlink" title="事件响应及应用状态更新"></a>事件响应及应用状态更新</h2><p>App加载完成后, 还会设置一组负责绘制用户界面和处理事件的核心对象, 包括UIWindow和各种类型的UIView. 当Application object从event queue中获取到一个用户事件后, 会先将事件发送到用户事件发生的UIWindow, 然后UIWindow会将事件下发给合适的View进行处理.</p>
+<p>在处理事件的过程中, view会通过一系列动作来更新应用的状态和数据, 当这些动作完成之后, 控制权会重新交还给Application object, 以便继续从event queue中获取下一个事件.</p>
+<h1 id="事件的传递和响应"><a href="#事件的传递和响应" class="headerlink" title="事件的传递和响应"></a>事件的传递和响应</h1><p><em>注: 这里所说的事件, 只是用户通过手指与屏幕交互的事件(Touch events), 不包括其他类型的事件.</em></p>
+<p>上面说过, 当Application object从event queue中获取到一个用户事件后, 会首先将事件发送到用户事件发生的UIWindow, 然后UIWindow会将事件下发给合适的View进行处理. </p>
+<p>严格来说, 这个过程可以分解为两步, 首先是寻找交互事件发生的View, 然后才是选择处理事件的first responder. 这里要注意的事, 事件发生的View, 并不一定会处理该事件, 也就不是该事件的first responder.</p>
+<h2 id="寻找用户交互的”案发现场”"><a href="#寻找用户交互的”案发现场”" class="headerlink" title="寻找用户交互的”案发现场”"></a>寻找用户交互的”案发现场”</h2><p><img src="https://developer.apple.com/library/content/documentation/General/Conceptual/Devpedia-CocoaApp/Art/event_delivery.jpg"></p>
+<p>UIKit使用基于view的hit-testing机制来确定交互事件的发生地. hit-testing机制主要包括两个方法:<em>hitTest:withEvent:</em> 和 <em>pointInside:withEvent:</em>. </p>
+<p>hit-testing机制的主要调用流程如下:</p>
+<ol>
+<li>首先调用当前view的*pointInside:withEvent:*方法, 判断触摸点是否在当前视图范围内.</li>
+<li>若<em>pointInside:withEvent:<em>返回NO, 则</em>hitTest:withEvent:</em> 返回nil, 说明触摸点不在当前视图可视范围内,对当前视图及视图层级的遍历终止;</li>
+<li>若*pointInside:withEvent:<em>返回YES, 则继续按照视图层级从上到下遍历当前视图的所有子视图, 调用其</em>hitTest:withEvent:*方法, 直到某个子视图返回非nil的视图对象, 流程结束.</li>
+<li><pre><code>若所有子视图都返回nil, 则当前view的*pointInside:withEvent:*方法返回self.
+</code></pre>
+</li>
+</ol>
+<p>概括来说, 事件发生地的寻找是通过由大到小,层层递进遍历的策略来实现的.</p>
+<h2 id="寻找First-responder"><a href="#寻找First-responder" class="headerlink" title="寻找First responder"></a>寻找First responder</h2><p>在iOS中, 下面图中的对象都可以是事件的响应者:</p>
+<p><img src="https://developer.apple.com/library/content/documentation/General/Conceptual/Devpedia-CocoaApp/Art/responder.jpg"></p>
+<p>在定位到事件发生的view之后, 如果该view能够处理改该事件, 则事件交付其进行处理. 如果该view不能处理该事件, 则会调用其nextResponder方法, 将事件传递下<em>responder chain</em>的下一个节点上, 直到找到事件的First responder, 如果该事件在整个<em>responder chain</em>都无法处理, 则会被丢弃.</p>
+<p>iOS(left)和OSX(right)中的responder chain</p>
+<p><img src="https://developer.apple.com/library/content/documentation/General/Conceptual/Devpedia-CocoaApp/Art/iOS_and_OSX_responder_chain_2x.png"></p>
+<h1 id="常用名词解释"><a href="#常用名词解释" class="headerlink" title="常用名词解释"></a>常用名词解释</h1><ul>
+<li>UITouch: An object representing the location, size, movement, and force of a touch occurring on the screen.</li>
+<li>UIEvent: An object that describes a single user interaction with your app, including touch events, motion events, remote-control events, and press events.</li>
+<li>UIResponder: An abstract interface for responding to and handling events.</li>
+<li>Application object: An application object is responsible for the initial routing of user events and overall management of a running application. When an application is launched, it creates the application object in its main function. </li>
+<li>Main event loop: In the main event loop, an application continuously routes incoming events to objects for handling and, as a result of that handling, updates its appearance and state.</li>
+<li>First responder: the most appropriate responder object to handle the event.</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://www.devzhang.cn/2017/07/20/fastLane%E5%85%A5%E9%97%A8%E4%B9%8Bdeliver/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1050,113 +1173,10 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://www.devzhang.cn/2017/01/04/Objective-C%E4%B9%8BGCD%E6%A6%82%E8%A6%81/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="mangox">
-      <meta itemprop="description" content="每天进步一点点">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="做点有意思的事情">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2017/01/04/Objective-C%E4%B9%8BGCD%E6%A6%82%E8%A6%81/" class="post-title-link" itemprop="url">Objective-C之GCD概要</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2017-01-04 23:47:32" itemprop="dateCreated datePublished" datetime="2017-01-04T23:47:32+08:00">2017-01-04</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2019-12-23 17:48:01" itemprop="dateModified" datetime="2019-12-23T17:48:01+08:00">2019-12-23</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/iOS/" itemprop="url" rel="index"><span itemprop="name">iOS</span></a>
-                </span>
-            </span>
-
-          
-            <span id="/2017/01/04/Objective-C%E4%B9%8BGCD%E6%A6%82%E8%A6%81/" class="post-meta-item leancloud_visitors" data-flag-title="Objective-C之GCD概要" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2017/01/04/Objective-C%E4%B9%8BGCD%E6%A6%82%E8%A6%81/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2017/01/04/Objective-C%E4%B9%8BGCD%E6%A6%82%E8%A6%81/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>Grand Central Dispatch是异步执行任务的技术之一. 开发者只需要定义想执行的任务并追加到适当的Dispatch Queue中, GCD就能生成必要的线程并执行计划任务. 由于线程管理是作为系统的一部分来实现的, 因此可以统一进行管理, 这样就比以前的线程效率更高.</p>
-<p>也就是说, GCD用难以置信的简洁语法, 实现了极为复杂繁琐的多线程编程.</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2017/01/04/Objective-C%E4%B9%8BGCD%E6%A6%82%E8%A6%81/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/5/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/7/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/5/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/7/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1222,20 +1242,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">130</span>
+          <span class="site-state-item-count">131</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-count">5</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">34</span>
+        <span class="site-state-item-count">35</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

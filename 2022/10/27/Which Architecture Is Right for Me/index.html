@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.devzhang.cn","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="This chapter guides you through the process of finding the best architecture for your project. There’s no shortage of architecture patterns. Unfortunately, most patterns only scratch the surface and l">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Which Architecture Is Right for Me">
+<meta property="og:url" content="http://www.devzhang.cn/2022/10/27/Which%20Architecture%20Is%20Right%20for%20Me/index.html">
+<meta property="og:site_name" content="做点有意思的事情">
+<meta property="og:description" content="This chapter guides you through the process of finding the best architecture for your project. There’s no shortage of architecture patterns. Unfortunately, most patterns only scratch the surface and l">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-10-27T01:37:44.799Z">
+<meta property="article:modified_time" content="2022-10-27T15:10:43.849Z">
+<meta property="article:author" content="mangox">
+<meta property="article:tag" content="Advanced iOS App Architecture">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://www.devzhang.cn/2022/10/27/Which%20Architecture%20Is%20Right%20for%20Me/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Which Architecture Is Right for Me | 做点有意思的事情</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">做点有意思的事情</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">每天进步一点点</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://www.devzhang.cn/2022/10/27/Which%20Architecture%20Is%20Right%20for%20Me/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="mangox">
+      <meta itemprop="description" content="每天进步一点点">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="做点有意思的事情">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Which Architecture Is Right for Me
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-10-27 09:37:44 / 修改时间：23:10:43" itemprop="dateCreated datePublished" datetime="2022-10-27T09:37:44+08:00">2022-10-27</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Reading-Notes/" itemprop="url" rel="index"><span itemprop="name">Reading Notes</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2022/10/27/Which%20Architecture%20Is%20Right%20for%20Me/" class="post-meta-item leancloud_visitors" data-flag-title="Which Architecture Is Right for Me" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/10/27/Which%20Architecture%20Is%20Right%20for%20Me/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/10/27/Which%20Architecture%20Is%20Right%20for%20Me/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>This chapter guides you through the process of finding the best architecture for your project.</p>
+<p>There’s no shortage of architecture patterns. Unfortunately, most patterns only scratch the surface and leave you to figure out the fine details. In addition, many patterns are similar to one another and have only minor differences here and there.</p>
+<p>There are pragmatic steps you can take to ensure your architecture is effective:</p>
+<ol>
+<li>Understand the current state of your codebase.</li>
+<li>Identify problems you’d like to solve or code you’d like to improve.</li>
+<li>Evaluate different architecture patterns.</li>
+<li>Try a couple patterns on for size before committing to one.</li>
+<li>Draw a line in the sand and define your app’s baseline architecture.</li>
+<li>Look back and determine if your architecture is effectively addressing the problems you want to solve.</li>
+<li>Iterate and evolve your app’s architecture over time.</li>
+</ol>
+<span id="more"></span>
+
+
+<h1 id="Identifying-problems-to-solve"><a href="#Identifying-problems-to-solve" class="headerlink" title="Identifying problems to solve"></a>Identifying problems to solve</h1><p>The two primary problems that good architecture practices solve are slow team velocity and fragile code quality. </p>
+<h1 id="Boosting-team-velocity-and-strengthening-code-quality"><a href="#Boosting-team-velocity-and-strengthening-code-quality" class="headerlink" title="Boosting team velocity and strengthening code quality"></a>Boosting team velocity and strengthening code quality</h1><p>Here are several problems that, when present, lead to slow velocity and fragile code quality:</p>
+<ul>
+<li>My app’s codebase is hard to understand.</li>
+<li>Changing my app’s codebase sometimes causes regressions.</li>
+<li>My app exhibits fragile behavior when running.</li>
+<li>My code is hard to re-use.</li>
+<li>Changes require large code refactors.</li>
+<li>My teammates step on each other’s toes.</li>
+<li>My app’s codebase is hard to unit test.</li>
+<li>My team has a hard time breaking user stories into tasks.</li>
+<li>My app takes a long time to compile.</li>
+</ul>
+<h2 id="Understanding-root-causes"><a href="#Understanding-root-causes" class="headerlink" title="Understanding root causes"></a>Understanding root causes</h2><p>Each of these problems can be caused by two fundamental root causes: highly interdependent code and large types.</p>
+<h3 id="Highly-interdependent-code"><a href="#Highly-interdependent-code" class="headerlink" title="Highly interdependent code"></a>Highly interdependent code</h3><p>Code becomes highly interdependent when code in one type reaches out to other concrete, i.e., non-protocol, types. Making one part of your code depend on another is extremely easy. This is especially true when a codebase has a lot of visible global objects.</p>
+<h3 id="Large-types"><a href="#Large-types" class="headerlink" title="Large types"></a>Large types</h3><p>Large types are classes, structs, protocols and enums that have long public interfaces due to having many public methods and&#x2F;or properties. They also have very long implementations, often hundreds or even thousands of lines of code.</p>
+<p>Adding code to an existing type is much easier than coming up with a new type. When creating a new type, you have to think about so many things: What should the type be responsible for? How long should instances of this type live for? Should any existing code be moved to this type? What if this new type needs access to state held by another type?</p>
+<p>Designing object-oriented systems takes time. When you’re under pressure to deliver a feature making this tradeoff can be difficult. The opportunity cost is hard to see. The thing is, many problems are caused by large types – problems that will slow you down and problems that will affect your code’s quality.</p>
+<h1 id="Examining-the-problems"><a href="#Examining-the-problems" class="headerlink" title="Examining the problems"></a>Examining the problems</h1><p>It’s time to examine the problems associated with team velocity and code quality.</p>
+<h2 id="My-app’s-codebase-is-hard-to-understand"><a href="#My-app’s-codebase-is-hard-to-understand" class="headerlink" title="My app’s codebase is hard to understand"></a>My app’s codebase is hard to understand</h2><p>There are several ways in which architecture can impact readability:</p>
+<p><em><strong>How long are your class implementations?</strong></em></p>
+<p>600 line view controllers are very difficult to understand. A good architecture breaks large chunks of code into small, modular pieces that are easy to read and understand. The more an architecture encourages locally encapsulated behavior and state, the easier the code will be to read. </p>
+<p><em><strong>How many global variables does your codebase have, and how many objects are instantiated directly in another object?</strong></em></p>
+<p>The more your objects directly depend on each other and the more your objects depend on global state, the less information a developer will have when reading a single file.  This makes it incredibly difficult to know how a change in a file might affect code living in another file. This forces developers to <strong>Command</strong>-click into tons of files in order to piece together the control flow. </p>
+<p><em><strong>How differently are your view controllers implemented across your app’s codebase?</strong></em></p>
+<p>Developers, including your future self, will spend a lot of time figuring things out if different features are implemented using different architecture patterns. Having a consistent structure drastically reduces the cognitive overhead required to understand code.</p>
+<p>In addition, using consistent architecture patterns allows you to establish a common vocabulary. Speaking the same vocabulary helps everyone easily discuss and understand each other’s code.</p>
+<h2 id="Changing-my-app’s-codebase-sometimes-causes-regressions"><a href="#Changing-my-app’s-codebase-sometimes-causes-regressions" class="headerlink" title="Changing my app’s codebase sometimes causes regressions"></a>Changing my app’s codebase sometimes causes regressions</h2><p>You can’t see the effects of code changes easily when you’re working in a codebase that’s highly interdependent. Ideally, you should be able to easily reason about how the current file you’re editing is connected to the rest of your codebase. The best way to do this is to <strong>limit object dependencies</strong> and to make the required dependencies obvious and visible.</p>
+<p>In a really fragile codebase, the change-break-fix cycle can snowball out of control. You end up spending more time fixing issues than improving your app. Not only is this a team velocity problem, it is also a code quality problem. </p>
+<h2 id="My-app-exhibits-fragile-behavior-when-running"><a href="#My-app-exhibits-fragile-behavior-when-running" class="headerlink" title="My app exhibits fragile behavior when running"></a>My app exhibits fragile behavior when running</h2><p>Apps can be complex systems running in complex environments. Things like multi-core programming and sharing data with app extensions contribute to the complexities involved in building iOS apps. Consequently, apps are susceptible to problems that are hard to diagnose such as race conditions and state inconsistency.</p>
+<p>Some architecture patterns and concepts attempt to address these kinds of issues by designing constraints that act as guard rails to help teams avoid the most common pitfalls. </p>
+<h2 id="My-code-is-hard-to-re-use"><a href="#My-code-is-hard-to-re-use" class="headerlink" title="My code is hard to re-use"></a>My code is hard to re-use</h2><p>The structure of a codebase determines how much code you can re-use. The structure also determines how easily you can add new behavior to existing code.</p>
+<p>Large types can prevent your code from being reusable. For example, a huge 2,000-line class is unlikely to be reusable because you might only need part of the class.</p>
+<p>The part you need might be tightly coupled with the rest of the class, making the part you need impossible to use without the rest of the class. Types that are smaller and that have less responsibility are more likely to be reusable.</p>
+<p>Ultimately, making code reusable allows you to ship a consistent user experience and allows you to tweak your app’s behavior easily.</p>
+<h2 id="Changes-require-large-code-refactors"><a href="#Changes-require-large-code-refactors" class="headerlink" title="Changes require large code refactors"></a>Changes require large code refactors</h2><p>How many times have you thought a feature change would be simple, yet you found yourself doing a large refactor instead? Architecture patterns not only help you re-use code, they also help you replace parts of your code without needing to do a big refactor.</p>
+<p>Updating the types in your code to be easily replaceable really speeds up team velocity because it allows multiple people to work on multiple parts of a codebase at the same time.</p>
+<h2 id="My-teammates-step-on-each-other’s-toes"><a href="#My-teammates-step-on-each-other’s-toes" class="headerlink" title="My teammates step on each other’s toes"></a>My teammates step on each other’s toes</h2><p>Your app’s architecture also impacts how easily you can work in parallel with your teammates. When a codebase doesn’t lend itself to parallel work-streams, teammates either accidentally step on each others toes or become idle waiting for a good time to start committing code again.</p>
+<p>Ideally, a codebase has small enough units that each person on a team can write code in a separate file while building a feature. Otherwise, you’ll run into issues such as merge conflicts that can take a long time to resolve. </p>
+<p>To summarize, you’ll be able to build features much faster if your app’s architecture allows your team to easily parallelize work by loosely coupling layers and features that make up your codebase.</p>
+<h2 id="My-app’s-codebase-is-hard-to-unit-test"><a href="#My-app’s-codebase-is-hard-to-unit-test" class="headerlink" title="My app’s codebase is hard to unit test"></a>My app’s codebase is hard to unit test</h2><p>Code is notoriously hard to unit test because codebases are commonly made up of parts that are tightly coupled together. This makes the different parts impossible to isolate during test. </p>
+<h2 id="My-app-takes-a-long-time-to-compile"><a href="#My-app-takes-a-long-time-to-compile" class="headerlink" title="My app takes a long time to compile"></a>My app takes a long time to compile</h2><p>While building a new feature, how many times do you build and run your app? Several dozen or more, right? A long compile time can really slow you down. A fast feedback loop can really speed things up. That sounds good, but what does compile time have to do with architecture? A modular app architecture helps the Xcode build system from recompiling code that hasn’t changed.</p>
+<h2 id="My-team-has-a-hard-time-breaking-user-stories-into-tasks"><a href="#My-team-has-a-hard-time-breaking-user-stories-into-tasks" class="headerlink" title="My team has a hard time breaking user stories into tasks"></a>My team has a hard time breaking user stories into tasks</h2><p>A good architecture can even help you plan software development projects. Breaking user stories into tasks can be very difficult. Breaking user stories into tasks that everyone on your team understands is even more difficult. An app architecture that categorizes types into responsibilities creates a common vocabulary.</p>
+<p>A common vocabulary enables you to build a shared understanding with other teammates about what kinds of objects are used to build features. This allows you to easily break down user stories into the different kinds of objects needed.</p>
+<h1 id="Increasing-code-agility"><a href="#Increasing-code-agility" class="headerlink" title="Increasing code agility"></a>Increasing code agility</h1><p>In addition to boosting your team’s velocity and strengthening your code’s quality, architecture can increase your code’s agility. Code that is agile is code that can be easily changed to meet an objective without requiring a massive re-write.</p>
+<p>Here are some problems that can be solved with architecture in order to increase your code’s agility:</p>
+<ul>
+<li>I find myself locked into a technology.</li>
+<li>I’m forced to make big decisions early in a project.</li>
+<li>Adding feature flags is difficult.</li>
+</ul>
+<h2 id="I-find-myself-locked-into-a-technology"><a href="#I-find-myself-locked-into-a-technology" class="headerlink" title="I find myself locked into a technology"></a>I find myself locked into a technology</h2><p>Have you ever needed to plan a big migration project to migrate your code from one technology to another? Or have you wanted to migrate your code from one technology to another but couldn’t because the effort would be too big? Being locked into technology can put a pause on feature development and can prevent you from taking advantage of the benefits that new technologies have to offer. This problem is especially relevant to mobile development because, as you’ve experienced, mobile technology is constantly changing.</p>
+<p>Third parties come and go. Many times, you’re expected to respond to these changes quickly. Your app’s architecture can help you do so.</p>
+<h2 id="I’m-forced-to-make-big-decisions-early-in-a-project"><a href="#I’m-forced-to-make-big-decisions-early-in-a-project" class="headerlink" title="I’m forced to make big decisions early in a project"></a>I’m forced to make big decisions early in a project</h2><p>Choosing which technologies to use when starting a new project is tempting. Some of these technology choices are big decisions that feel like one-way doors. Once you’ve made a choice, there’s no looking back. As apps get more complex, developers find themselves needing to make more technology decisions. You need a lot of technologies to build modern iOS apps. Wouldn’t it be nice to be able to start building apps without having to make all the big decisions up front? You might even find that you didn’t need a certain technology after all. A good architecture allows you to make technology decisions at the most opportune time.</p>
+<h2 id="Adding-feature-flags-is-difficult"><a href="#Adding-feature-flags-is-difficult" class="headerlink" title="Adding feature flags is difficult"></a>Adding feature flags is difficult</h2><p>Software teams are starting to use data-driven and lean approaches to app development. To take these approaches, developers use feature flags to A&#x2F;B test features and to toggle unfinished features off. Your app’s architecture can make it easy or difficult to incorporate feature flags into your app’s codebase. You’ll be able to add feature flags easily if your app’s codebase is broken down into small loosely coupled pieces. A good app architecture gives you the flexibility needed to switch between behaviors and the flexibility to turn specific things on and off.</p>
+<h1 id="Surveying-architecture-patterns"><a href="#Surveying-architecture-patterns" class="headerlink" title="Surveying architecture patterns"></a>Surveying architecture patterns</h1><p>After you’ve identified the problems you’d like to solve, a good next step is to survey architecture patterns. The good news is, there are a ton of architecture patterns to chose from. The bad news is, there are a ton of architecture patterns to chose from!</p>
+<p>New patterns pop up all the time, so it’s worth looking around to see if you can find something else that works best for you.</p>
+<h1 id="Selecting-a-pattern"><a href="#Selecting-a-pattern" class="headerlink" title="Selecting a pattern"></a>Selecting a pattern</h1><p>Choosing a pattern is not easy because we tend to feel a strong connection with one pattern or another. In all honesty, which pattern you select is less important than how you put the pattern to practice.</p>
+<p>The best way to decide which pattern to use is to try a couple of the patterns in your codebase. </p>
+<p>Here are some questions based on some of the pain points I’ve experienced when trying different patterns:</p>
+<ul>
+<li>Do you end up with a lot of boilerplate code? If so, does the boilerplate at least make the code easier to understand?</li>
+<li>Do you end up with a lot of empty files that only proxy method calls to other objects?</li>
+<li>Is the pattern hard to understand?</li>
+<li>How much will you need to refactor to apply the pattern?</li>
+<li>Is the pattern adding a lot of new concepts and vocabulary?</li>
+<li>Will you need to import a library to use the pattern?</li>
+</ul>
+<p>These aren’t necessarily bad things. They’re just things to think about as you survey and compare different patterns.</p>
+<p>All this to say, architecture is more of an art than science. Go experiment, learn and be creative. There’s no right way to do it. Just remember, there are many good ways to architect and there are many not-so-great ways to architect — but not a single right way.</p>
+<h1 id="Putting-patterns-into-practice"><a href="#Putting-patterns-into-practice" class="headerlink" title="Putting patterns into practice"></a>Putting patterns into practice</h1><p>Remember, how you apply a pattern is more important than which pattern you pick. </p>
+<p>Here are some to keep in your back pocket:</p>
+<ul>
+<li><strong>Loosely coupled parts</strong>: Whether you’re using MVC, MVVM, Redux, VIPER, etc. make sure your code is broken down into small loosely coupled parts.</li>
+<li><strong>Cohesive types</strong>: Make sure your types exhibit high cohesion, i.e., the properties and methods that make up each type belong together. If you have small types that have very focused responsibilities, your types probably exhibit high cohesion.</li>
+<li><strong>Multi-module apps</strong>: Make sure your app is broken down into several Swift modules.</li>
+<li><strong>Object dependencies</strong>: Make sure you’re managing object dependencies using patterns such as Dependency Injection containers and Service Locators.</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Advanced-iOS-App-Architecture/" rel="tag"># Advanced iOS App Architecture</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/08/10/iOS%E9%A1%B9%E7%9B%AE%E4%BD%BF%E7%94%A8cocos2d-objc%E9%9B%86%E6%88%90Spine/" rel="prev" title="iOS项目使用cocos2d-objc集成Spine">
+      <i class="fa fa-chevron-left"></i> iOS项目使用cocos2d-objc集成Spine
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Identifying-problems-to-solve"><span class="nav-number">1.</span> <span class="nav-text">Identifying problems to solve</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Boosting-team-velocity-and-strengthening-code-quality"><span class="nav-number">2.</span> <span class="nav-text">Boosting team velocity and strengthening code quality</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Understanding-root-causes"><span class="nav-number">2.1.</span> <span class="nav-text">Understanding root causes</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Highly-interdependent-code"><span class="nav-number">2.1.1.</span> <span class="nav-text">Highly interdependent code</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Large-types"><span class="nav-number">2.1.2.</span> <span class="nav-text">Large types</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Examining-the-problems"><span class="nav-number">3.</span> <span class="nav-text">Examining the problems</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#My-app%E2%80%99s-codebase-is-hard-to-understand"><span class="nav-number">3.1.</span> <span class="nav-text">My app’s codebase is hard to understand</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Changing-my-app%E2%80%99s-codebase-sometimes-causes-regressions"><span class="nav-number">3.2.</span> <span class="nav-text">Changing my app’s codebase sometimes causes regressions</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#My-app-exhibits-fragile-behavior-when-running"><span class="nav-number">3.3.</span> <span class="nav-text">My app exhibits fragile behavior when running</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#My-code-is-hard-to-re-use"><span class="nav-number">3.4.</span> <span class="nav-text">My code is hard to re-use</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Changes-require-large-code-refactors"><span class="nav-number">3.5.</span> <span class="nav-text">Changes require large code refactors</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#My-teammates-step-on-each-other%E2%80%99s-toes"><span class="nav-number">3.6.</span> <span class="nav-text">My teammates step on each other’s toes</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#My-app%E2%80%99s-codebase-is-hard-to-unit-test"><span class="nav-number">3.7.</span> <span class="nav-text">My app’s codebase is hard to unit test</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#My-app-takes-a-long-time-to-compile"><span class="nav-number">3.8.</span> <span class="nav-text">My app takes a long time to compile</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#My-team-has-a-hard-time-breaking-user-stories-into-tasks"><span class="nav-number">3.9.</span> <span class="nav-text">My team has a hard time breaking user stories into tasks</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Increasing-code-agility"><span class="nav-number">4.</span> <span class="nav-text">Increasing code agility</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#I-find-myself-locked-into-a-technology"><span class="nav-number">4.1.</span> <span class="nav-text">I find myself locked into a technology</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#I%E2%80%99m-forced-to-make-big-decisions-early-in-a-project"><span class="nav-number">4.2.</span> <span class="nav-text">I’m forced to make big decisions early in a project</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Adding-feature-flags-is-difficult"><span class="nav-number">4.3.</span> <span class="nav-text">Adding feature flags is difficult</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Surveying-architecture-patterns"><span class="nav-number">5.</span> <span class="nav-text">Surveying architecture patterns</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Selecting-a-pattern"><span class="nav-number">6.</span> <span class="nav-text">Selecting a pattern</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Putting-patterns-into-practice"><span class="nav-number">7.</span> <span class="nav-text">Putting patterns into practice</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">mangox</p>
+  <div class="site-description" itemprop="description">每天进步一点点</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">131</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">35</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/changjianfeishui" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;changjianfeishui" rel="noopener" target="_blank"><i class="fa fa-link fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">mangox</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'Hl5bOvNBmh6xqvMEjzRRWMIP-gzGzoHsz',
+      appKey     : '3n3m7ANssYrw0VgxYu87kQEL',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : true,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>
