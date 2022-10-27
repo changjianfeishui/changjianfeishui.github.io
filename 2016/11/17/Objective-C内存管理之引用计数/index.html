@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-Hans">
+<html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
@@ -26,7 +26,7 @@
 <meta property="og:url" content="http://www.devzhang.cn/2016/11/17/Objective-C%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E4%B9%8B%E5%BC%95%E7%94%A8%E8%AE%A1%E6%95%B0/index.html">
 <meta property="og:site_name" content="做点有意思的事情">
 <meta property="og:description" content="Objective-C中的内存管理,也就是引用计数, 可以用如下方式进行思考:  自己生成的对象, 自己持有. 非自己生成的对象, 自己也能持有. 不再需要自己持有的对象时释放对象 非自己持有的对象无法释放  “生成”, “持有”, “释放”, “废弃”四个词对应的Objective-C方法如下:  生成: alloc&#x2F;new&#x2F;copy&#x2F;mutableCopy 等方法">
-<meta property="og:locale">
+<meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2016-11-17T14:44:59.000Z">
 <meta property="article:modified_time" content="2016-11-17T16:36:07.000Z">
 <meta property="article:author" content="mangox">
@@ -43,7 +43,7 @@
     sidebar: "",
     isHome : false,
     isPost : true,
-    lang   : 'zh-Hans'
+    lang   : 'zh-CN'
   };
 </script>
 
@@ -87,7 +87,7 @@
     <header class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-container">
   <div class="site-nav-toggle">
-    <div class="toggle" aria-label="Toggle navigation bar">
+    <div class="toggle" aria-label="切换导航栏">
       <span class="toggle-line toggle-line-first"></span>
       <span class="toggle-line toggle-line-middle"></span>
       <span class="toggle-line toggle-line-last"></span>
@@ -117,22 +117,22 @@
   <ul id="menu" class="main-menu menu">
         <li class="menu-item menu-item-home">
 
-    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
 
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
 
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
 
   </li>
   </ul>
@@ -162,7 +162,7 @@
     
   
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://www.devzhang.cn/2016/11/17/Objective-C%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E4%B9%8B%E5%BC%95%E7%94%A8%E8%AE%A1%E6%95%B0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -184,33 +184,33 @@
               <span class="post-meta-item-icon">
                 <i class="far fa-calendar"></i>
               </span>
-              <span class="post-meta-item-text">Posted on</span>
+              <span class="post-meta-item-text">发表于</span>
 
-              <time title="Created: 2016-11-17 22:44:59" itemprop="dateCreated datePublished" datetime="2016-11-17T22:44:59+08:00">2016-11-17</time>
+              <time title="创建时间：2016-11-17 22:44:59" itemprop="dateCreated datePublished" datetime="2016-11-17T22:44:59+08:00">2016-11-17</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2016-11-18 00:36:07" itemprop="dateModified" datetime="2016-11-18T00:36:07+08:00">2016-11-18</time>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2016-11-18 00:36:07" itemprop="dateModified" datetime="2016-11-18T00:36:07+08:00">2016-11-18</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
               </span>
-              <span class="post-meta-item-text">In</span>
+              <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/categories/iOS/" itemprop="url" rel="index"><span itemprop="name">iOS</span></a>
                 </span>
             </span>
 
           
-            <span id="/2016/11/17/Objective-C%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E4%B9%8B%E5%BC%95%E7%94%A8%E8%AE%A1%E6%95%B0/" class="post-meta-item leancloud_visitors" data-flag-title="Objective-C内存管理之引用计数" title="Views">
+            <span id="/2016/11/17/Objective-C%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E4%B9%8B%E5%BC%95%E7%94%A8%E8%AE%A1%E6%95%B0/" class="post-meta-item leancloud_visitors" data-flag-title="Objective-C内存管理之引用计数" title="阅读次数">
               <span class="post-meta-item-icon">
                 <i class="fa fa-eye"></i>
               </span>
-              <span class="post-meta-item-text">Views: </span>
+              <span class="post-meta-item-text">阅读次数：</span>
               <span class="leancloud-visitors-count"></span>
             </span>
   
@@ -219,7 +219,7 @@
       <span class="post-meta-item-icon">
         <i class="far fa-comment"></i>
       </span>
-      <span class="post-meta-item-text">Valine: </span>
+      <span class="post-meta-item-text">Valine：</span>
     
     <a title="valine" href="/2016/11/17/Objective-C%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E4%B9%8B%E5%BC%95%E7%94%A8%E8%AE%A1%E6%95%B0/#valine-comments" itemprop="discussionUrl">
       <span class="post-comments-count valine-comment-count" data-xid="/2016/11/17/Objective-C%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E4%B9%8B%E5%BC%95%E7%94%A8%E8%AE%A1%E6%95%B0/" itemprop="commentCount"></span>
@@ -386,10 +386,10 @@ id obj = [NSMutableArray array];
 
       <ul class="sidebar-nav motion-element">
         <li class="sidebar-nav-toc">
-          Table of Contents
+          文章目录
         </li>
         <li class="sidebar-nav-overview">
-          Overview
+          站点概览
         </li>
       </ul>
 
@@ -410,20 +410,20 @@ id obj = [NSMutableArray array];
           <a href="/archives/">
         
           <span class="site-state-item-count">130</span>
-          <span class="site-state-item-name">posts</span>
+          <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
         <span class="site-state-item-count">4</span>
-        <span class="site-state-item-name">categories</span></a>
+        <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
         <span class="site-state-item-count">34</span>
-        <span class="site-state-item-name">tags</span></a>
+        <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
 </div>
@@ -460,7 +460,7 @@ id obj = [NSMutableArray array];
   </span>
   <span class="author" itemprop="copyrightHolder">mangox</span>
 </div>
-  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
   </div>
 
         
