@@ -298,7 +298,7 @@
 <p>示例参数:</p>
 <pre><code>self.param = [NSMutableDictionary dictionaryWithDictionary:@&#123;@&quot;userName&quot;:@&quot;100000@qq.com&quot;,@&quot;nickName&quot;:@&quot;Jack&quot;,@&quot;exp&quot;:@&quot;99999&quot;&#125;];
 </code></pre>
-<p>排序后生成的字符串为:exp&#x3D;99999&amp;nickName&#x3D;Jack&amp;userName&#x3D;<a href="mailto:&#x31;&#48;&#48;&#x30;&#48;&#48;&#x40;&#113;&#x71;&#x2e;&#99;&#x6f;&#109;">&#x31;&#48;&#48;&#x30;&#48;&#48;&#x40;&#113;&#x71;&#x2e;&#99;&#x6f;&#109;</a></p>
+<p>排序后生成的字符串为:exp&#x3D;99999&amp;nickName&#x3D;Jack&amp;userName&#x3D;<a href="mailto:&#49;&#48;&#48;&#x30;&#x30;&#x30;&#x40;&#113;&#x71;&#46;&#x63;&#x6f;&#109;">&#49;&#48;&#48;&#x30;&#x30;&#x30;&#x40;&#113;&#x71;&#46;&#x63;&#x6f;&#109;</a></p>
 <h2 id="2-RSA签名"><a href="#2-RSA签名" class="headerlink" title="2.RSA签名"></a>2.RSA签名</h2><p>为便于测试,提供一个在线生成RSA密钥对的链接:<a target="_blank" rel="noopener" href="http://web.chacuo.net/netrsakeypair">在线生成RSA密钥对</a>.</p>
 <p>签名使用的第三方库链接:<a target="_blank" rel="noopener" href="https://github.com/HustBroventure/iOSRSAHandler">iOSRSAHandler</a>.</p>
 <p>我测试所用的密钥如下:</p>
@@ -332,7 +332,7 @@ userName = &quot;100000@qq.com&quot;;
     NSString *jsonString = [[NSString alloc]initWithData:jsondata encoding:NSUTF8StringEncoding];
     
 </code></pre>
-<p>这一步我得到的jsonString是{“exp”:”99999”,”sign”:”bBK5EXqxyFmxTf5c6uN/g+btpFmtotYd1e+yqSxzvpHUV+ImZLth493WQzDlkeBvX7ejXGed36APs1YEURM9HIdE3PsqQKzvT+0PgdjN+PMch3EmBUwVFN+ce/B7HkUpEZz5HNH2FZZP5Rm/fP2Hru/412IiBuz5r09O258G8gk&#x3D;”,”nickName”:”Jack”,”userName”:”<a href="mailto:&#49;&#48;&#x30;&#48;&#x30;&#x30;&#x40;&#113;&#x71;&#x2e;&#99;&#x6f;&#x6d;">&#49;&#48;&#x30;&#48;&#x30;&#x30;&#x40;&#113;&#x71;&#x2e;&#99;&#x6f;&#x6d;</a>“}</p>
+<p>这一步我得到的jsonString是{“exp”:”99999”,”sign”:”bBK5EXqxyFmxTf5c6uN/g+btpFmtotYd1e+yqSxzvpHUV+ImZLth493WQzDlkeBvX7ejXGed36APs1YEURM9HIdE3PsqQKzvT+0PgdjN+PMch3EmBUwVFN+ce/B7HkUpEZz5HNH2FZZP5Rm/fP2Hru/412IiBuz5r09O258G8gk&#x3D;”,”nickName”:”Jack”,”userName”:”<a href="mailto:&#49;&#x30;&#48;&#48;&#x30;&#48;&#x40;&#113;&#113;&#x2e;&#99;&#x6f;&#x6d;">&#49;&#x30;&#48;&#48;&#x30;&#48;&#x40;&#113;&#113;&#x2e;&#99;&#x6f;&#x6d;</a>“}</p>
 <h2 id="4-生成16位随机串"><a href="#4-生成16位随机串" class="headerlink" title="4.生成16位随机串"></a>4.生成16位随机串</h2><p>为NSString类添加一个生成随机字符串的分类如下:</p>
 <pre><code>//  NSString+RandomString.h
 #import &lt;Foundation/Foundation.h&gt;
