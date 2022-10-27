@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.devzhang.cn","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="自上篇iOS基于MVC的项目重构总结之后,我又思考了下面这个问题: 在UIKit自身的设计中UIViewController是被当做C还是V呢?">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MVC登录示例">
+<meta property="og:url" content="http://www.devzhang.cn/2016/04/17/MVC%E7%99%BB%E5%BD%95%E7%A4%BA%E4%BE%8B/index.html">
+<meta property="og:site_name" content="做点有意思的事情">
+<meta property="og:description" content="自上篇iOS基于MVC的项目重构总结之后,我又思考了下面这个问题: 在UIKit自身的设计中UIViewController是被当做C还是V呢?">
+<meta property="og:locale">
+<meta property="article:published_time" content="2016-04-16T16:00:00.000Z">
+<meta property="article:modified_time" content="2016-06-30T06:34:21.000Z">
+<meta property="article:author" content="mangox">
+<meta property="article:tag" content="架构">
+<meta property="article:tag" content="MVC">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://www.devzhang.cn/2016/04/17/MVC%E7%99%BB%E5%BD%95%E7%A4%BA%E4%BE%8B/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>MVC登录示例 | 做点有意思的事情</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">做点有意思的事情</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">每天进步一点点</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://www.devzhang.cn/2016/04/17/MVC%E7%99%BB%E5%BD%95%E7%A4%BA%E4%BE%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="mangox">
+      <meta itemprop="description" content="每天进步一点点">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="做点有意思的事情">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          MVC登录示例
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-04-17 00:00:00" itemprop="dateCreated datePublished" datetime="2016-04-17T00:00:00+08:00">2016-04-17</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2016-06-30 14:34:21" itemprop="dateModified" datetime="2016-06-30T14:34:21+08:00">2016-06-30</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index"><span itemprop="name">iOS</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2016/04/17/MVC%E7%99%BB%E5%BD%95%E7%A4%BA%E4%BE%8B/" class="post-meta-item leancloud_visitors" data-flag-title="MVC登录示例" title="Views">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2016/04/17/MVC%E7%99%BB%E5%BD%95%E7%A4%BA%E4%BE%8B/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2016/04/17/MVC%E7%99%BB%E5%BD%95%E7%A4%BA%E4%BE%8B/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>自上篇<a target="_blank" rel="noopener" href="http://coderzhang.xyz/2016/04/12/ios%E5%9F%BA%E4%BA%8Emvp%E7%9A%84%E9%A1%B9%E7%9B%AE%E9%87%8D%E6%9E%84%E6%80%BB%E7%BB%93/">iOS基于MVC的项目重构总结</a>之后,我又思考了下面这个问题:</p>
+<p>在<code>UIKit</code>自身的设计中UIViewController是被当做C还是V呢?</p>
+<span id="more"></span>
+
+
+<p>例如我们点击View上某个Button时,可能会使用调用self.navigationController的<code> pushViewController: animated:</code>方法来跳转到一个新的界面.</p>
+<p>在这个场景中,点击事件通过View传递到UIViewController,然后跳转到一个新的MVC.事件的逻辑处理是在UIViewController中完成的,事件的处理者是<code>self</code>(一个UIViewController),可见在<code>UIKit</code>中UIViewController是被视为Controller的.</p>
+<p>那么第二个问题来了,如果需要在一个UIViewController中实现很复杂的View结构或者subViews之间的动画逻辑,那么如何合理设计<code>UIViewController</code>和<code>UIView</code>两者之间的关系呢?</p>
+<p>在上文中说过,我的想法是通过给每一个UIViewController设计一个对应的XXXContainerView,通过这样的方式来强行分离V和C,避免由于V太复杂时出现<code>MassiveViewController</code>.但这样同时也带来了一个坏处:无法像在UIViewController自带的view里添加控件一样,可以将控件的响应方法直接绑定到UIViewController的.m文件中,也无法享受类似<code>viewDidDisappear:</code>生命周期方法带来的便利了.</p>
+<p>当然,对于有一定MVC经验的开发者,也可以通过类似下面的代码来简化XXXContainerView这一层:</p>
+<pre><code>[self.view addSubview:self.topView];
+[self.view addSubview:self.midView];
+[self.view addSubview:self.bottomView];
+</code></pre>
+<p>虽然任何Demo都不可能模拟出实际项目中遇到的问题,但通过不同横向对比还是很容易看出不同架构的区别所在.接下来,我将以我目前对MVC的理解,给出一个简单的登录示例Demo.</p>
+<p><a target="_blank" rel="noopener" href="http://pan.baidu.com/s/1pLTCyEJ">Demo地址:http://pan.baidu.com/s/1pLTCyEJ</a></p>
+<p>Demo十分简单,这里仅做简单说明:</p>
+<ol>
+<li>LoginContainerView:负责创建用户所能看到的界面,以及将向Controller中传递登录事件和登录参数.</li>
+<li>LoginModel:提供接口完成具体的登录业务,Demo中省略了网络层以及存储层.</li>
+<li>LoginController:负责创建LoginContainerView,以及当监听到登录事件时,调用LoginModel中的登录业务方法.</li>
+</ol>
+<p>由于仅为了明确MVC的结构,所以Demo中对很多实际项目设计到的业务没有具体处理,比如网络请求(Demo中通过本地进行了模拟),数据持久化,以及登录成功后rootViewController的切换.</p>
+<p>这里有一点值得谈论的时,对用户输入数据的校验应该放在哪一层来完成呢?为了简化调用,Demo中是直接放在View层来进行判断的.当然,好像放在任何一层都有道理.</p>
+<p>上面也提到过,MVC的一个复杂点在于,当View结构复杂之后,如果一个UIViewcontroller来管理多个的复杂的View,势必会造成View层和Controller层的交互变得复杂,并随着业务增长逐渐膨胀,直至崩溃.</p>
+<p>那么,为每个单独的View构造一个对应的Controller是否可行呢?</p>
+<p>其实UIKit就是这么做的,比如UINavigationController栈中的每一项,都是一个新的MVC,更具体的关于多重MVC的介绍可以参见<a target="_blank" rel="noopener" href="http://open.163.com/movie/2015/2/M/7/MAIKHN60A_MAIPGF0M7.html">斯坦福大学公开课:iOS 8开发-<br>多重 MVC</a>.</p>
+<p>但是实际开发中对于我们自定义的继承自UIView的类,好像我们都并没有对其创建一个Controller的习惯—除非你愿意加班来完成这些额外的代码.苹果也没有强制推荐这么做—否则,只要设置不能单独创建UIView,只有通过UIViewController才能创建UIView就可以了.</p>
+<p>接下来,同样对这个登录示例,我会再给出一个MVP的例子.通过二者横向对比,两者的差异会很明显的体现出来.</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%9E%B6%E6%9E%84/" rel="tag"># 架构</a>
+              <a href="/tags/MVC/" rel="tag"># MVC</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2016/04/17/MVP%E7%99%BB%E5%BD%95%E7%A4%BA%E4%BE%8B/" rel="prev" title="MVP登录示例">
+      <i class="fa fa-chevron-left"></i> MVP登录示例
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2016/04/20/AVAudioPlayer%E4%B8%AD%E6%96%AD%E5%A4%84%E7%90%86/" rel="next" title="AVAudioPlayer中断处理">
+      AVAudioPlayer中断处理 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">mangox</p>
+  <div class="site-description" itemprop="description">每天进步一点点</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">130</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">34</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">mangox</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'Hl5bOvNBmh6xqvMEjzRRWMIP-gzGzoHsz',
+      appKey     : '3n3m7ANssYrw0VgxYu87kQEL',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : true,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.devzhang.cn","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="关于MVC的争论关于MVC的争论已经有很多,对此我的观点是:对于iOS开发中的绝大部分场景来说,MVC本身是没有问题的,你认为的MVC的问题,一定是你自己理解的问题(资深架构师请自动忽略本文). 行文过程中查阅了互联网上的大量文档,其中水平良莠不齐(最常见的就是MVC改个名就当MVVM的),当然也有许多非常有价值的参考资料,在文末会逐一列举,以供参考.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS基于MVC的项目重构总结">
+<meta property="og:url" content="http://www.devzhang.cn/2016/04/12/iOS%E5%9F%BA%E4%BA%8EMVC%E7%9A%84%E9%A1%B9%E7%9B%AE%E9%87%8D%E6%9E%84%E6%80%BB%E7%BB%93/index.html">
+<meta property="og:site_name" content="做点有意思的事情">
+<meta property="og:description" content="关于MVC的争论关于MVC的争论已经有很多,对此我的观点是:对于iOS开发中的绝大部分场景来说,MVC本身是没有问题的,你认为的MVC的问题,一定是你自己理解的问题(资深架构师请自动忽略本文). 行文过程中查阅了互联网上的大量文档,其中水平良莠不齐(最常见的就是MVC改个名就当MVVM的),当然也有许多非常有价值的参考资料,在文末会逐一列举,以供参考.">
+<meta property="og:locale">
+<meta property="og:image" content="https://developer.apple.com/library/mac/documentation/General/Conceptual/CocoaEncyclopedia/Art/cocoa_mvc.gif">
+<meta property="og:image" content="http://cc.cocimg.com/api/uploads/20160107/1452152673569726.png">
+<meta property="og:image" content="http://cc.cocimg.com/api/uploads/20160107/1452153249521047.png">
+<meta property="article:published_time" content="2016-04-11T16:00:00.000Z">
+<meta property="article:modified_time" content="2016-06-30T06:33:59.000Z">
+<meta property="article:author" content="mangox">
+<meta property="article:tag" content="架构">
+<meta property="article:tag" content="MVC">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://developer.apple.com/library/mac/documentation/General/Conceptual/CocoaEncyclopedia/Art/cocoa_mvc.gif">
+
+<link rel="canonical" href="http://www.devzhang.cn/2016/04/12/iOS%E5%9F%BA%E4%BA%8EMVC%E7%9A%84%E9%A1%B9%E7%9B%AE%E9%87%8D%E6%9E%84%E6%80%BB%E7%BB%93/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>iOS基于MVC的项目重构总结 | 做点有意思的事情</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">做点有意思的事情</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">每天进步一点点</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://www.devzhang.cn/2016/04/12/iOS%E5%9F%BA%E4%BA%8EMVC%E7%9A%84%E9%A1%B9%E7%9B%AE%E9%87%8D%E6%9E%84%E6%80%BB%E7%BB%93/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="mangox">
+      <meta itemprop="description" content="每天进步一点点">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="做点有意思的事情">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          iOS基于MVC的项目重构总结
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-04-12 00:00:00" itemprop="dateCreated datePublished" datetime="2016-04-12T00:00:00+08:00">2016-04-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2016-06-30 14:33:59" itemprop="dateModified" datetime="2016-06-30T14:33:59+08:00">2016-06-30</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index"><span itemprop="name">iOS</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2016/04/12/iOS%E5%9F%BA%E4%BA%8EMVC%E7%9A%84%E9%A1%B9%E7%9B%AE%E9%87%8D%E6%9E%84%E6%80%BB%E7%BB%93/" class="post-meta-item leancloud_visitors" data-flag-title="iOS基于MVC的项目重构总结" title="Views">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2016/04/12/iOS%E5%9F%BA%E4%BA%8EMVC%E7%9A%84%E9%A1%B9%E7%9B%AE%E9%87%8D%E6%9E%84%E6%80%BB%E7%BB%93/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2016/04/12/iOS%E5%9F%BA%E4%BA%8EMVC%E7%9A%84%E9%A1%B9%E7%9B%AE%E9%87%8D%E6%9E%84%E6%80%BB%E7%BB%93/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="关于MVC的争论"><a href="#关于MVC的争论" class="headerlink" title="关于MVC的争论"></a>关于MVC的争论</h1><p>关于MVC的争论已经有很多,对此我的观点是:对于iOS开发中的绝大部分场景来说,MVC本身是没有问题的,你认为的MVC的问题,一定是你自己理解的问题(<em><strong>资深架构师请自动忽略本文</strong></em>).</p>
+<p>行文过程中查阅了互联网上的大量文档,其中水平良莠不齐(最常见的就是MVC改个名就当MVVM的),当然也有许多非常有价值的参考资料,在文末会逐一列举,以供参考.</p>
+<span id="more"></span>
+
+<h1 id="iOS中的MVC和MVP"><a href="#iOS中的MVC和MVP" class="headerlink" title="iOS中的MVC和MVP"></a>iOS中的MVC和MVP</h1><h2 id="Cocoa版本的MVC"><a href="#Cocoa版本的MVC" class="headerlink" title="Cocoa版本的MVC"></a>Cocoa版本的MVC</h2><p>根据官网上的描述, Cocoa中的MVC是这样的:</p>
+<p><img src="https://developer.apple.com/library/mac/documentation/General/Conceptual/CocoaEncyclopedia/Art/cocoa_mvc.gif" alt=" Cocoa version of MVC as a compound design pattern"></p>
+<ul>
+<li>Model Objects Encapsulate Data and Basic Behaviors</li>
+<li>View Objects Present Information to the User</li>
+<li>Controller Objects Tie the Model to the View</li>
+</ul>
+<h2 id="C和P的差别"><a href="#C和P的差别" class="headerlink" title="C和P的差别"></a>C和P的差别</h2><p>通过搜索引擎,发现其实MVP其实两种的:</p>
+<ol>
+<li>Passive View</li>
+<li>Supervising Controller</li>
+</ol>
+<p>网上绝对部分谈论MVP的文章谈论的其实都是Passive View,这里放上一张Passive View的示意图:</p>
+<p><img src="http://cc.cocimg.com/api/uploads/20160107/1452152673569726.png" alt="MVP"></p>
+<p>乍一看上去是不是和MVC一样?我也一直一头雾水,直到在<a target="_blank" rel="noopener" href="http://stackoverflow.com/questions/2056/what-are-mvp-and-mvc-and-what-is-the-difference">stackoverflow</a>看到这个答案:</p>
+<hr>
+<blockquote>
+<p>MVP: the view is in charge.<br>The view, in most cases, creates its presenter. The presenter will interact with the model and manipulate the view through an interface. The view will sometimes interact with the presenter, usually through some interface. This comes down to implementation; do you want the view to call methods on the presenter or do you want the view to have events the presenter listens to? It boils down to this: The view knows about the presenter. The view delegates to the presenter.</p>
+</blockquote>
+<hr>
+<blockquote>
+<p>MVC: the controller is in charge.<br>The controller is created or accessed based on some event&#x2F;request. The controller then creates the appropriate view and interacts with the model to further configure the view. It boils down to: the controller creates and manages the view; the view is slave to the controller. The view does not know about the controller.</p>
+</blockquote>
+<hr>
+<p>简而言之,MVP是View驱动的,View层持有一个对应Presenter的引用,View上的交互事件首先会调用Presenter提供的接口,然后Presenter调用Model提供的方法取得数据,最后Presenter将取得的数据传递到View上展示.</p>
+<p>MVC则是由Controller驱动的,Controller持有View,并响应View上的交互事件,根据交互调用不同的Model方法取得反馈数据,再将数据传递给View展示.</p>
+<p>我的理解是,MVP是用户视角:所见即View.MVC则是程序员视角:I control everyone.</p>
+<p>理解MVC和MVP的差别困惑的地方在于,<strong>UIViewController</strong>到底是属于C(P)层还是V层呢?下面将分别具体分析一下这两种观点.</p>
+<h3 id="观点一-UIViewController的归属—-gt-View"><a href="#观点一-UIViewController的归属—-gt-View" class="headerlink" title="观点一:UIViewController的归属—&gt;View"></a>观点一:UIViewController的归属—&gt;View</h3><p>如果把UIViewController视为V层,即上面MVP示意图中的Passive View,那么UIViewController将只负责View布局相关逻辑,不涉及任何与Model层的交互!!</p>
+<p>不涉及任何与Model层的交互!!</p>
+<p>不涉及任何与Model层的交互!!</p>
+<p>所有的业务逻辑交互通过UIViewController持有的Presenter与Model间的调用来完成.</p>
+<h3 id="观点二-UIViewController的归属—-gt-Controller"><a href="#观点二-UIViewController的归属—-gt-Controller" class="headerlink" title="观点二:UIViewController的归属—&gt;Controller"></a>观点二:UIViewController的归属—&gt;Controller</h3><p>那如果把UIViewController视为C层,从MVC设计理念上来说,C层不会负责具体View的布局及展示逻辑,但是由于iOS中UIViewController的特殊设计,导致很多开发者直接就在UIViewController包含了很多具体布局相关的代码,更可怕的情况是不止是View的初始化,包括网络请求及具体业务处理也被包含到UIViewController中,这也许就是有人戏称MVC为:MassiveViewController的原因.</p>
+<p>本次项目架构中对UIViewController的归类将在下文进行说明.</p>
+<h1 id="Model-DataInfo以及对胖瘦Model的争议"><a href="#Model-DataInfo以及对胖瘦Model的争议" class="headerlink" title="Model,DataInfo以及对胖瘦Model的争议"></a>Model,DataInfo以及对胖瘦Model的争议</h1><h2 id="Model和DataInfo的差异"><a href="#Model和DataInfo的差异" class="headerlink" title="Model和DataInfo的差异"></a>Model和DataInfo的差异</h2><p>MVC架构思想中更倾向于Model是一个Layer,而不是一个Object(Java或Android中的bean).</p>
+<p>所以这里的DataInfo我将其定义为一个DTO(Data Transfer Objec),更简单的来说,就是一个数据结构,跟我们在学校学习C语言时写的一个student结构体基本是一个意思.</p>
+<p>我的理解是,Model是用来处理业务逻辑的,可视为传统开发三层架构中的BLL(Bussiness Logic Layer)和DAL(Data Access Layer)的合体,负责所有的具体业务.比如,对一个包含安全认证的App,你可能需要一个AuthModel来负责所有的认证逻辑以及认证信息的本地持久化.这样,Controller中只需要调用AuthModel提供的接口便能完成相应安全认证功能,职责分明.</p>
+<p>Model中的一些方法的产出DTO,用来更新View.例如UserModel会去查询用户信息,然后将服务器返回的用户信息转换成一个本地的UserInfo,将这个UserInfo传递给View进行展示.</p>
+<p><em><strong>因此业界关于胖瘦Model的争议,我更多的理解是对于DataInfo是否需要提供涉及到业务的扩展功能的争议.</strong></em></p>
+<h2 id="业务场景举例"><a href="#业务场景举例" class="headerlink" title="业务场景举例"></a>业务场景举例</h2><p>举例一个业务场景,一个用户信息View上需要展示用户性别,一般来说服务器只会在返回的用户信息中包含一个sex字段(这里用0代表女性,1代表男性),需要使用的时候可能需要使用if语句进行判断然后输出不同的性别文字或图片.</p>
+<p>从个人习惯上来说,很多开发者会将服务器返回的用户信息转换成一个本地的UserInfo DTO,然后将这个DTO传递给要对应需要展示的View,然后在View中进行输出判断.</p>
+<p>当然,开发者可能会使用现在很流行的一些字典转模型框架(YYModel,MJextension等),也可以使用这些框架提供的配置接口在转换时就实现这种输出逻辑的转换,或者直接在UerInfo sex属性的getter方法中进行转换后输出.</p>
+<p>不管怎样,只要在DataInfo这个层级上做了类似的这些转换,那么业务逻辑就已经侵入了DTO的定义.</p>
+<h2 id="一种解决思路"><a href="#一种解决思路" class="headerlink" title="一种解决思路"></a>一种解决思路</h2><p>但是,这种场景几乎又是不可避免的,如何解决呢?<a target="_blank" rel="noopener" href="http://blog.devtang.com/2015/11/02/mvc-and-mvvm/">被误解的 MVC 和被神化的 MVVM</a>提出了一种借鉴MVVM的解决思路,具体做法就是将 ViewController 给 View 传递数据这个过程，抽象成构造 ViewModel 的过程.这样抽象之后，View 只接受 ViewModel，而 Controller 只需要传递 ViewModel 这么一行代码。而另外构造 ViewModel 的过程，我们就可以移动到另外的类中了.</p>
+<p>在我看来,这样ViewModel层其实只是把上文中对DataInfo的扩展单独提炼了出来.这样就将View层完全与业务逻辑完全隔离开.</p>
+<h1 id="本次基于MVC的项目重构步骤"><a href="#本次基于MVC的项目重构步骤" class="headerlink" title="本次基于MVC的项目重构步骤"></a>本次基于MVC的项目重构步骤</h1><h2 id="思考要解决的问题"><a href="#思考要解决的问题" class="headerlink" title="思考要解决的问题"></a>思考要解决的问题</h2><p>回到项目重构的问题上来,我认为项目重构首先要想清楚的问题:</p>
+<ol>
+<li>项目层级如何划分?</li>
+<li>大的业务场景有哪些?</li>
+<li>将UIViewController归类为View还是Controller?</li>
+<li>谁来负责网络请求,Model还是Controller?</li>
+<li>从Model中取得数据后Controller怎么把数据传递给View去展示?按照View层级逐级传递?是否需要使用ViewModel?</li>
+<li>Model的生命周期怎么控制?(全局Model和私有Model的划分)</li>
+<li>View层级结构越来越深时,怎么传递用户的交互操作?(毫无疑问NSNotification)</li>
+</ol>
+<h2 id="UIViewController的层级归类"><a href="#UIViewController的层级归类" class="headerlink" title="UIViewController的层级归类"></a>UIViewController的层级归类</h2><p>本次重构中还是将UIViewController归类为C层,但是为了将UIViewController彻底和UIView分离开,命名上我们直接使用XXXController,我们对每一个XXXController设计了一个对应的名为的XXXContainerView的UIView对象,所有的view布局都会在这个XXXContainerView中完成.</p>
+<p>所有的UIView交互事件由View层发出Notification,Controller层接收通知后调用Model层进行处理,Model处理完成后将结果回调给Controller,再由Controller通过View暴露的接口展示出交互结果.</p>
+<h2 id="项目目录结构"><a href="#项目目录结构" class="headerlink" title="项目目录结构"></a>项目目录结构</h2><p>重构后的项目目录结构如下:</p>
+<table>
+<thead>
+<tr>
+<th>一级目录</th>
+<th align="center">子目录</th>
+<th align="right">目录说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Macro</td>
+<td align="center"></td>
+<td align="right">存放开发过程中所需的一些宏定义</td>
+</tr>
+<tr>
+<td>Category</td>
+<td align="center"></td>
+<td align="right">存放不涉及业务,用来辅助开发的分类</td>
+</tr>
+<tr>
+<td>Tools</td>
+<td align="center">不同的业务工具类</td>
+<td align="right">存放涉及轻量级业务的处理类,比如根据不同业务格式化输出不同的字符串</td>
+</tr>
+<tr>
+<td>Views</td>
+<td align="center">不同的业务模块页面名</td>
+<td align="right">存放不同业务模块页面下的V</td>
+</tr>
+<tr>
+<td>Controllers</td>
+<td align="center">不同的业务模块页面名</td>
+<td align="right">存放不同业务模块页面下的C</td>
+</tr>
+<tr>
+<td>ViewModels</td>
+<td align="center">不同数据模块名</td>
+<td align="right">数据翻译层,将DataInfo数据翻译为View可直接展示的数据,但本次重构中由于时间因素不强制使用</td>
+</tr>
+<tr>
+<td>Model</td>
+<td align="center">PublicModel</td>
+<td align="right">公用的全局Model,比如用户信息UserModel</td>
+</tr>
+<tr>
+<td></td>
+<td align="center">MoudleModel</td>
+<td align="right">单独某个模块使用的私有Model,只负责私有业务</td>
+</tr>
+<tr>
+<td>Services</td>
+<td align="center">不同的Service</td>
+<td align="right">提供底层服务,例如HttpService,SecurityService</td>
+</tr>
+</tbody></table>
+<h2 id="业务场景划分"><a href="#业务场景划分" class="headerlink" title="业务场景划分"></a>业务场景划分</h2><p>由于之前赶进度开发,没有做具体的功能拆分.本次重构之前使用了<a target="_blank" rel="noopener" href="http://staruml.io/">StartUML</a>绘制了主要场景下的UML图,包括类图,时序图,流程图.</p>
+<p>强烈推荐新项目正式编码之前就完成这一步,并由前后端技术负责人主持进行UML评审.所有涉及到的业务Model的property以及public方法,所有DataInfo类的属性,甚至所有的Controller都会在绘制UML的过程中产出.当然,要想绘制所有场景下的UML图可能耗时比较久,一般来说只要绘制出主要交互场景即可.</p>
+<h2 id="网络请求"><a href="#网络请求" class="headerlink" title="网络请求"></a>网络请求</h2><p>在手机端基本上所有的网络请求都是跟业务挂钩的,显然放在Model里更合适.至于请求完成后的回调就看个人习惯了,delegate或者block都是可行的.</p>
+<h1 id="MVVM扩展"><a href="#MVVM扩展" class="headerlink" title="MVVM扩展"></a>MVVM扩展</h1><p>放一张MVVM的示意图:</p>
+<p><img src="http://cc.cocimg.com/api/uploads/20160107/1452153249521047.png" alt="MVVM"></p>
+<p>看上去是不是很像MVP?只是多了View和ViewModel的双向绑定,这里强调一点,RAC不一定登陆MVVM,MVVM也不一定要使用RAC.</p>
+<h1 id="后续"><a href="#后续" class="headerlink" title="后续"></a>后续</h1><p>由于时间原因,并没有写出具体的示例代码,之后会针对一个示例场景,写出我理解中的各个MV(X)模式的参考代码,期待成文后与同行探讨.</p>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ul>
+<li><a target="_blank" rel="noopener" href="http://blog.devtang.com/2015/11/02/mvc-and-mvvm/">被误解的 MVC 和被神化的 MVVM</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.objccn.io/issue-13-1/">objc中国-MVVM 介绍</a></li>
+<li><a target="_blank" rel="noopener" href="http://casatwy.com/iosying-yong-jia-gou-tan-viewceng-de-zu-zhi-he-diao-yong-fang-an.html">iOS应用架构谈系列</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.cocoachina.com/ios/20160108/14916.html">iOS 架构模式–解密 MVC，MVP，MVVM以及VIPER架构</a></li>
+<li><a target="_blank" rel="noopener" href="https://developer.apple.com/library/ios/documentation/General/Conceptual/CocoaEncyclopedia/Model-View-Controller/Model-View-Controller.html#//apple_ref/doc/uid/TP40010810-CH14-SW1">Model-View-Controller</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%9E%B6%E6%9E%84/" rel="tag"># 架构</a>
+              <a href="/tags/MVC/" rel="tag"># MVC</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2016/04/02/%E4%BD%BF%E7%94%A8AVAudioPlayer%E6%92%AD%E6%94%BE%E9%9F%B3%E9%A2%91/" rel="prev" title="使用AVAudioPlayer播放音频">
+      <i class="fa fa-chevron-left"></i> 使用AVAudioPlayer播放音频
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2016/04/17/MVP%E7%99%BB%E5%BD%95%E7%A4%BA%E4%BE%8B/" rel="next" title="MVP登录示例">
+      MVP登录示例 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%B3%E4%BA%8EMVC%E7%9A%84%E4%BA%89%E8%AE%BA"><span class="nav-number">1.</span> <span class="nav-text">关于MVC的争论</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#iOS%E4%B8%AD%E7%9A%84MVC%E5%92%8CMVP"><span class="nav-number">2.</span> <span class="nav-text">iOS中的MVC和MVP</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Cocoa%E7%89%88%E6%9C%AC%E7%9A%84MVC"><span class="nav-number">2.1.</span> <span class="nav-text">Cocoa版本的MVC</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#C%E5%92%8CP%E7%9A%84%E5%B7%AE%E5%88%AB"><span class="nav-number">2.2.</span> <span class="nav-text">C和P的差别</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%82%E7%82%B9%E4%B8%80-UIViewController%E7%9A%84%E5%BD%92%E5%B1%9E%E2%80%94-gt-View"><span class="nav-number">2.2.1.</span> <span class="nav-text">观点一:UIViewController的归属—&gt;View</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%82%E7%82%B9%E4%BA%8C-UIViewController%E7%9A%84%E5%BD%92%E5%B1%9E%E2%80%94-gt-Controller"><span class="nav-number">2.2.2.</span> <span class="nav-text">观点二:UIViewController的归属—&gt;Controller</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Model-DataInfo%E4%BB%A5%E5%8F%8A%E5%AF%B9%E8%83%96%E7%98%A6Model%E7%9A%84%E4%BA%89%E8%AE%AE"><span class="nav-number">3.</span> <span class="nav-text">Model,DataInfo以及对胖瘦Model的争议</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Model%E5%92%8CDataInfo%E7%9A%84%E5%B7%AE%E5%BC%82"><span class="nav-number">3.1.</span> <span class="nav-text">Model和DataInfo的差异</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%9A%E5%8A%A1%E5%9C%BA%E6%99%AF%E4%B8%BE%E4%BE%8B"><span class="nav-number">3.2.</span> <span class="nav-text">业务场景举例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E7%A7%8D%E8%A7%A3%E5%86%B3%E6%80%9D%E8%B7%AF"><span class="nav-number">3.3.</span> <span class="nav-text">一种解决思路</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9C%AC%E6%AC%A1%E5%9F%BA%E4%BA%8EMVC%E7%9A%84%E9%A1%B9%E7%9B%AE%E9%87%8D%E6%9E%84%E6%AD%A5%E9%AA%A4"><span class="nav-number">4.</span> <span class="nav-text">本次基于MVC的项目重构步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%80%83%E8%A6%81%E8%A7%A3%E5%86%B3%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-number">4.1.</span> <span class="nav-text">思考要解决的问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#UIViewController%E7%9A%84%E5%B1%82%E7%BA%A7%E5%BD%92%E7%B1%BB"><span class="nav-number">4.2.</span> <span class="nav-text">UIViewController的层级归类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A1%B9%E7%9B%AE%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84"><span class="nav-number">4.3.</span> <span class="nav-text">项目目录结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%9A%E5%8A%A1%E5%9C%BA%E6%99%AF%E5%88%92%E5%88%86"><span class="nav-number">4.4.</span> <span class="nav-text">业务场景划分</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82"><span class="nav-number">4.5.</span> <span class="nav-text">网络请求</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MVVM%E6%89%A9%E5%B1%95"><span class="nav-number">5.</span> <span class="nav-text">MVVM扩展</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%90%8E%E7%BB%AD"><span class="nav-number">6.</span> <span class="nav-text">后续</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">7.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">mangox</p>
+  <div class="site-description" itemprop="description">每天进步一点点</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">130</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">34</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">mangox</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'Hl5bOvNBmh6xqvMEjzRRWMIP-gzGzoHsz',
+      appKey     : '3n3m7ANssYrw0VgxYu87kQEL',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : true,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

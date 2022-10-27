@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.devzhang.cn","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="本文将前文的继续Kcamera项目,并使用AVCaptureSession获取摄像头采集到的视频.但是实际的视频录制和照片拍摄将在后面的文章中才会实现.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用AVCaptureSession采集视频">
+<meta property="og:url" content="http://www.devzhang.cn/2016/07/13/%E4%BD%BF%E7%94%A8AVCaptureSession%E9%87%87%E9%9B%86%E8%A7%86%E9%A2%91/index.html">
+<meta property="og:site_name" content="做点有意思的事情">
+<meta property="og:description" content="本文将前文的继续Kcamera项目,并使用AVCaptureSession获取摄像头采集到的视频.但是实际的视频录制和照片拍摄将在后面的文章中才会实现.">
+<meta property="og:locale">
+<meta property="og:image" content="https://github.com/changjianfeishui/XBImageStore/raw/master/Hexo/3.png">
+<meta property="article:published_time" content="2016-07-13T15:10:19.000Z">
+<meta property="article:modified_time" content="2016-07-14T07:33:48.000Z">
+<meta property="article:author" content="mangox">
+<meta property="article:tag" content="AVFoundation">
+<meta property="article:tag" content="Kcamera">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://github.com/changjianfeishui/XBImageStore/raw/master/Hexo/3.png">
+
+<link rel="canonical" href="http://www.devzhang.cn/2016/07/13/%E4%BD%BF%E7%94%A8AVCaptureSession%E9%87%87%E9%9B%86%E8%A7%86%E9%A2%91/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>使用AVCaptureSession采集视频 | 做点有意思的事情</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">做点有意思的事情</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">每天进步一点点</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://www.devzhang.cn/2016/07/13/%E4%BD%BF%E7%94%A8AVCaptureSession%E9%87%87%E9%9B%86%E8%A7%86%E9%A2%91/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="mangox">
+      <meta itemprop="description" content="每天进步一点点">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="做点有意思的事情">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          使用AVCaptureSession采集视频
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-07-13 23:10:19" itemprop="dateCreated datePublished" datetime="2016-07-13T23:10:19+08:00">2016-07-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2016-07-14 15:33:48" itemprop="dateModified" datetime="2016-07-14T15:33:48+08:00">2016-07-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index"><span itemprop="name">iOS</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2016/07/13/%E4%BD%BF%E7%94%A8AVCaptureSession%E9%87%87%E9%9B%86%E8%A7%86%E9%A2%91/" class="post-meta-item leancloud_visitors" data-flag-title="使用AVCaptureSession采集视频" title="Views">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2016/07/13/%E4%BD%BF%E7%94%A8AVCaptureSession%E9%87%87%E9%9B%86%E8%A7%86%E9%A2%91/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2016/07/13/%E4%BD%BF%E7%94%A8AVCaptureSession%E9%87%87%E9%9B%86%E8%A7%86%E9%A2%91/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>本文将前文的继续Kcamera项目,并使用AVCaptureSession获取摄像头采集到的视频.但是实际的视频录制和照片拍摄将在后面的文章中才会实现.</p>
+<span id="more"></span>
+
+<h1 id="实现步骤"><a href="#实现步骤" class="headerlink" title="实现步骤"></a>实现步骤</h1><h2 id="创建预览视图类"><a href="#创建预览视图类" class="headerlink" title="创建预览视图类"></a>创建预览视图类</h2><p>新建PreView类继承自UIView,PreView用来展示一个摄像头当前拍摄内容的实时预览视图.更具体的说,我们将使用AVCaptureVedioPreviewLayer方法实现这一预览.</p>
+<p>打开Main.storyboard,修改根view的层次结构如下:<br><img src="https://github.com/changjianfeishui/XBImageStore/raw/master/Hexo/3.png"></p>
+<p>其中preView和controlView与父视图上下左右约束都为0,CameraModeView的约束与之前相同,但其父视图修改为controlView.</p>
+<p>并在preView的identity inspector面板中将Custom Class修改为我们创建的PreView类.</p>
+<p>打开PreView.swift,添加如下代码修改Preview的图层类型:</p>
+<pre><code>override class func layerClass()-&gt;AnyClass
+&#123;
+    return AVCaptureVideoPreviewLayer.self
+&#125;
+</code></pre>
+<p>重写session属性的访问方法,保证采集到的数据直接输出到图层中:</p>
+<pre><code>var session:AVCaptureSession!&#123;
+    get&#123;
+        return (self.layer as! AVCaptureVideoPreviewLayer).session
+    &#125;set(newValue)&#123;
+        (self.layer as! AVCaptureVideoPreviewLayer).session = newValue
+    &#125;
+&#125;
+</code></pre>
+<h2 id="设置音频会话类型"><a href="#设置音频会话类型" class="headerlink" title="设置音频会话类型"></a>设置音频会话类型</h2><p>在AppDelegate的application(application:didFinishLaunchingWithOptions:)方法返回前加入如下代码:</p>
+<pre><code>    let session = AVAudioSession.sharedInstance()
+    try! session.setCategory(AVAudioSessionCategoryPlayAndRecord)
+    try! session.setActive(true)    
+</code></pre>
+<h2 id="创建捕捉模型"><a href="#创建捕捉模型" class="headerlink" title="创建捕捉模型"></a>创建捕捉模型</h2><p>新建CaptureModel类继承自NSObject,用来处理视频采集的具体行为.</p>
+<h2 id="初始化捕捉会话"><a href="#初始化捕捉会话" class="headerlink" title="初始化捕捉会话"></a>初始化捕捉会话</h2><p>在CaptureModel类中添加一个捕捉会话:</p>
+<pre><code>//捕捉会话
+var captureSession:AVCaptureSession!
+</code></pre>
+<p>设置捕捉对话的代码如下:</p>
+<pre><code>//捕捉会话
+func setupSession() -&gt; Bool &#123;
+    //1. 创建捕捉会话
+    self.captureSession = AVCaptureSession()
+    //2. 设置视频采集质量
+    self.captureSession.sessionPreset = AVCaptureSessionPresetHigh
+    //3. 设置视频采集设备(默认返回后置摄像头)
+    let videoDevice = AVCaptureDevice .defaultDeviceWithMediaType(AVMediaTypeVideo)
+    //4. 把采集设备封装为一个AVCaptureDeviceInput对象(这里忽略了错误处理)
+    let videoInput = try? AVCaptureDeviceInput(device: videoDevice)
+    //4. 在捕捉会话中添加AVCaptureDeviceInput对象
+    if videoInput != nil &#123;
+        if self.captureSession.canAddInput(videoInput) &#123;
+            self.captureSession.addInput(videoInput)
+        &#125;
+    &#125;else&#123;
+        return false
+    &#125;
+    
+    //5. 参照设置视频采集输入的步骤,将音频采集输入添加到捕捉会话中
+    let audioDevice = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeAudio)
+    let audioInput = try? AVCaptureDeviceInput(device: audioDevice)
+    if audioInput != nil &#123;
+        if self.captureSession .canAddInput(audioInput) &#123;
+            self.captureSession.addInput(audioInput)
+        &#125;
+    &#125;else&#123;
+        return false
+    &#125;
+    return true
+    
+&#125;
+</code></pre>
+<h2 id="启动捕捉会话"><a href="#启动捕捉会话" class="headerlink" title="启动捕捉会话"></a>启动捕捉会话</h2><p>在设置捕捉会话之后,如果需要进行实际的视频采集,还需要启动会话,用来启动数据流并使其处于准备捕捉图片或视频的状态.</p>
+<p>在CaptureModel类中增加一个属性:</p>
+<pre><code>//由于捕捉会话的启动是一个同步调用,所以需要异步调用
+let globalQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
+</code></pre>
+<p>启动捕捉会话的方法如下:</p>
+<pre><code>//启动捕捉会话
+func startSession() -&gt; Void &#123;
+    if !self.captureSession.running&#123;
+        dispatch_sync(self.globalQueue, &#123; 
+            self.captureSession.startRunning()
+        &#125;)
+    &#125;
+&#125;    
+</code></pre>
+<h2 id="停止捕捉会话"><a href="#停止捕捉会话" class="headerlink" title="停止捕捉会话"></a>停止捕捉会话</h2><pre><code>//停止捕捉会话
+func stopSession() -&gt; Void &#123;
+    if self.captureSession.running &#123;
+        dispatch_sync(self.globalQueue, &#123; 
+            self.captureSession.stopRunning()
+        &#125;)
+    &#125;
+&#125;
+</code></pre>
+<h2 id="处理隐私需求"><a href="#处理隐私需求" class="headerlink" title="处理隐私需求"></a>处理隐私需求</h2><p>当应用程序试图访问麦克风或相机时,系统会弹出一个对话框询问用户是否同意授权.但当对话框出现时,系统并没有中断来等待用户响应,而是立即返回一个设备,比如调用音频设备则返回静音的设备,如果是相机则返回黑白帧.直到用户同意了授权,才会实际开始捕捉视频或音频.如果用户不允许授权,则这个会话期间不会记录任何内容.</p>
+<p>所以我们需要在初始化捕捉会话时,判断当前程序对相机和麦克风的访问状态,在初始化捕捉会话的setupSession()方法最前面加入如下代码:</p>
+<pre><code>    //0. 判断权限
+    let videoAuthStatus = AVCaptureDevice.authorizationStatusForMediaType(AVMediaTypeVideo)
+    if videoAuthStatus == .Denied || videoAuthStatus == .Restricted &#123;
+        UIAlertView(title: &quot;提示&quot;, message: &quot;请在iPhone的“设置-隐私-相机”选项中，允许访问相机 &quot;, delegate: nil, cancelButtonTitle: &quot;确定&quot;).show()
+        
+        return false
+    &#125;
+    let audioAuthStatus = AVCaptureDevice.authorizationStatusForMediaType(AVMediaTypeVideo)
+    if audioAuthStatus == .Denied || audioAuthStatus == .Restricted &#123;
+        UIAlertView(title: &quot;提示&quot;, message: &quot;请在iPhone的“设置-隐私-相机”选项中，允许访问麦克风 &quot;, delegate: nil, cancelButtonTitle: &quot;确定&quot;).show()
+        return false
+    &#125;
+</code></pre>
+<h1 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h1><p>打开Main.storyboard,将preView连接为ViewController的@IBOutlet属性:</p>
+<pre><code>    @IBOutlet weak var preView: PreView!
+</code></pre>
+<p>接着在viewDidLoad()方法中添加如下代码:</p>
+<pre><code>    self.captureModel = CaptureModel()
+    if self.captureModel.setupSession() &#123;
+        self.preView.session = self.captureModel.captureSession
+        self.captureModel.startSession()
+    &#125;
+&#125;
+</code></pre>
+<p>运行程序,就可以看到后置摄像头采集到的视频内容了.</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/AVFoundation/" rel="tag"># AVFoundation</a>
+              <a href="/tags/Kcamera/" rel="tag"># Kcamera</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2016/07/11/%E4%BB%BF%E7%B3%BB%E7%BB%9F%E8%A7%86%E9%A2%91%E5%BD%95%E5%88%B6%E6%8C%89%E9%92%AE%E7%9A%84%E5%AE%9E%E7%8E%B0/" rel="prev" title="仿系统视频录制按钮的实现">
+      <i class="fa fa-chevron-left"></i> 仿系统视频录制按钮的实现
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2016/07/15/%E6%8D%95%E6%8D%89%E9%9D%99%E6%80%81%E5%9B%BE%E7%89%87/" rel="next" title="捕获静态图片">
+      捕获静态图片 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0%E6%AD%A5%E9%AA%A4"><span class="nav-number">1.</span> <span class="nav-text">实现步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E9%A2%84%E8%A7%88%E8%A7%86%E5%9B%BE%E7%B1%BB"><span class="nav-number">1.1.</span> <span class="nav-text">创建预览视图类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AE%E9%9F%B3%E9%A2%91%E4%BC%9A%E8%AF%9D%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.2.</span> <span class="nav-text">设置音频会话类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E6%8D%95%E6%8D%89%E6%A8%A1%E5%9E%8B"><span class="nav-number">1.3.</span> <span class="nav-text">创建捕捉模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96%E6%8D%95%E6%8D%89%E4%BC%9A%E8%AF%9D"><span class="nav-number">1.4.</span> <span class="nav-text">初始化捕捉会话</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8%E6%8D%95%E6%8D%89%E4%BC%9A%E8%AF%9D"><span class="nav-number">1.5.</span> <span class="nav-text">启动捕捉会话</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%81%9C%E6%AD%A2%E6%8D%95%E6%8D%89%E4%BC%9A%E8%AF%9D"><span class="nav-number">1.6.</span> <span class="nav-text">停止捕捉会话</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%84%E7%90%86%E9%9A%90%E7%A7%81%E9%9C%80%E6%B1%82"><span class="nav-number">1.7.</span> <span class="nav-text">处理隐私需求</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95"><span class="nav-number">2.</span> <span class="nav-text">测试</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">mangox</p>
+  <div class="site-description" itemprop="description">每天进步一点点</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">130</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">34</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">mangox</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'Hl5bOvNBmh6xqvMEjzRRWMIP-gzGzoHsz',
+      appKey     : '3n3m7ANssYrw0VgxYu87kQEL',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : true,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

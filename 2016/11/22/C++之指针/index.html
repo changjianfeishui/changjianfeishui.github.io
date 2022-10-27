@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.devzhang.cn","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="很多程序开发语言都不支持指针, 尤其在面向对象思想中, 指针被认为是应当禁止的, 因为它显然与面向对象世界格格不入. 然而尽管如此, C++还是从C语言中继承了指针, 这也是C++收到最多争议的地方.  指针提供了直接操作内存的手段, 但是这在某种程度上也增大了风险, 内存错误往往会导致严重的后果却难以在开发过程中察觉.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++之指针">
+<meta property="og:url" content="http://www.devzhang.cn/2016/11/22/C++%E4%B9%8B%E6%8C%87%E9%92%88/index.html">
+<meta property="og:site_name" content="做点有意思的事情">
+<meta property="og:description" content="很多程序开发语言都不支持指针, 尤其在面向对象思想中, 指针被认为是应当禁止的, 因为它显然与面向对象世界格格不入. 然而尽管如此, C++还是从C语言中继承了指针, 这也是C++收到最多争议的地方.  指针提供了直接操作内存的手段, 但是这在某种程度上也增大了风险, 内存错误往往会导致严重的后果却难以在开发过程中察觉.">
+<meta property="og:locale">
+<meta property="article:published_time" content="2016-11-22T14:23:05.000Z">
+<meta property="article:modified_time" content="2016-11-22T15:52:47.000Z">
+<meta property="article:author" content="mangox">
+<meta property="article:tag" content="学习笔记">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://www.devzhang.cn/2016/11/22/C++%E4%B9%8B%E6%8C%87%E9%92%88/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>C++之指针 | 做点有意思的事情</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">做点有意思的事情</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">每天进步一点点</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://www.devzhang.cn/2016/11/22/C++%E4%B9%8B%E6%8C%87%E9%92%88/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="mangox">
+      <meta itemprop="description" content="每天进步一点点">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="做点有意思的事情">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          C++之指针
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2016-11-22 22:23:05 / Modified: 23:52:47" itemprop="dateCreated datePublished" datetime="2016-11-22T22:23:05+08:00">2016-11-22</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C/" itemprop="url" rel="index"><span itemprop="name">C++</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2016/11/22/C++%E4%B9%8B%E6%8C%87%E9%92%88/" class="post-meta-item leancloud_visitors" data-flag-title="C++之指针" title="Views">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2016/11/22/C++%E4%B9%8B%E6%8C%87%E9%92%88/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2016/11/22/C++%E4%B9%8B%E6%8C%87%E9%92%88/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>很多程序开发语言都不支持指针, 尤其在面向对象思想中, 指针被认为是应当禁止的, 因为它显然与面向对象世界格格不入. 然而尽管如此, C++还是从C语言中继承了指针, 这也是C++收到最多争议的地方. </p>
+<p>指针提供了直接操作内存的手段, 但是这在某种程度上也增大了风险, 内存错误往往会导致严重的后果却难以在开发过程中察觉.</p>
+<span id="more"></span>
+
+<h1 id="指针的概念"><a href="#指针的概念" class="headerlink" title="指针的概念"></a>指针的概念</h1><p>程序的变量和代码都存储在内存中. CPU执行的机器码通过内存地址来操作内存中的数据. 编译器的工作就是将程序中的变量和操作翻译成对内存地址进行操作的机器语言. 而在最终的机器码里其实是不存在变量名或变量类型的.</p>
+<p>内存就是一段连续的存储空间, 数据在内存中按一定顺序连续存放. CPU中对内存中的数据进行操作首先需要通过某种寻址方式来定位并获取数据. 常见的寻址方式包括: 立即寻址, 直接寻址, 间接寻址,基址寄存器寻址, 变址寄存器寻址等.</p>
+<p>一个变量的地址被称为该变量的”指针”. 如果定义一个变量专门用来存放另一个变量的地址, 则这个变量就是一个指针变量.</p>
+<h1 id="指针的语法"><a href="#指针的语法" class="headerlink" title="指针的语法"></a>指针的语法</h1><p>C++中使用”*”来表示指针变量和其所指向的变量之间的关系. 例如:</p>
+<pre><code>int i = 0;
+int *p = &amp;i;
+</code></pre>
+<p>上面的代码表示指针变量p指向了一个变量i, *p就表示p所指向的变量, 也就是i. 一般指针变量的定义形式如下:</p>
+<pre><code>类型 *指针变量名;
+</code></pre>
+<p>如果需要修改指针所指向的内容, 可以使用地址符”&amp;”, 如:</p>
+<pre><code>int i = 0;
+int j = 0;
+int *p = i;
+p = &amp;j
+</code></pre>
+<p>这段代码首先定义了一个指针变量p, 并使它指向变量i, 然后又修改它指向j. 其中<code>int *</code>可以看作为一种类型名, 表示p是一个int型的指针. 但是仅仅是可以看作, 比如下面的代码:</p>
+<pre><code>int *a , b , c;
+</code></pre>
+<p>上述定义中只有a是一个指针变量, b和c都是int型的变量.</p>
+<p>此外, 在定义指针时必须指定其类型, 因为不同类型的变量在内存中所占据的空间是不同的, 这对于只针对移位操作具有很重要的意义. 对于上面代码中int型的指针p, p++的操作表示将指针p移动4字节. 如果类型不匹配很可能得到错误的数据或发生访问越界.</p>
+<h1 id="函数与参数传递"><a href="#函数与参数传递" class="headerlink" title="函数与参数传递"></a>函数与参数传递</h1><p>C++中每个函数有且仅有一个返回值, 返回值类型可以为空, 用void标识. 当返回值不为空时, 函数体中必须含有return语句,否则可以省略return语句.</p>
+<p>C++中,函数的传参方式有三种: 值传递, 指针传递和引用传递.</p>
+<p>当使用值传递时, 函数内部对复制参数, 函数操作的是参数的副本. 当形参的值在函数体内改变时, 实参的值并不会发生改变:</p>
+<pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+void fun(int x)
+&#123;
+    cout &lt;&lt; x &lt;&lt; endl;
+    x++;
+    cout &lt;&lt; x &lt;&lt; endl;
+&#125;
+
+int main(int argc, const char * argv[]) &#123;
+
+    int x = 0;
+    cout &lt;&lt; x &lt;&lt; endl;
+    fun(x);
+    cout &lt;&lt; x &lt;&lt; endl;
+    
+    return 0;
+&#125;
+</code></pre>
+<p>上面的代码输出:0 0 1 0. </p>
+<p>当进行函数参数是一个指针变量时, 就是指针传递:</p>
+<pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+void fun(int *x)
+&#123;
+    cout &lt;&lt; *x &lt;&lt; endl;
+    (*x)++;
+    cout &lt;&lt; *x &lt;&lt; endl;
+&#125;
+
+int main(int argc, const char * argv[]) &#123;
+
+    int x = 0;
+    cout &lt;&lt; x &lt;&lt; endl;
+    fun(&amp;x);
+    cout &lt;&lt; x &lt;&lt; endl;
+
+    return 0;
+&#125;	
+</code></pre>
+<p>上面的代码输出: 0 0 1 1.</p>
+<p>C++中的引用可以理解为变量的一个别名. 引用必须在声明时就进行初始化. 对引用的改变实际上就是对引用目标的改变. 引用运算符”&amp;”只在声明时使用, 任何其他的”&amp;”都是地址操作符. </p>
+<p>引用不是值, 不占用内存空间, 声明引用时目标的存储状态不会改变. </p>
+<p>指针和引用的区别主要有3点:</p>
+<ol>
+<li>存在空指针, 但不存在指向空值的引用. </li>
+<li>使用引用之前不需要判空, 而使用指针时必须判空.</li>
+<li>指针可以被重新赋值, 引用在声明和初始化之后不能改变其指向的目标.</li>
+</ol>
+<p>此外, 不能建议引用的数组. 因为数组是某个数据类型元素的集合, 数组名表示该元素集合空间的起始地址, 数据并不是一个数据类型. 引用本身也不是一个数据类型, 声明引用在概念上不产生内存空间, 因此也没有引用的引用, 也没有引用的指针.</p>
+<pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+void fun(int &amp;x)
+&#123;
+    cout &lt;&lt; x &lt;&lt; endl;
+    x++;
+    cout &lt;&lt; x &lt;&lt; endl;
+&#125;
+
+int main(int argc, const char * argv[]) &#123;
+
+    int x = 0;
+    cout &lt;&lt; x &lt;&lt; endl;
+    fun(x);
+    cout &lt;&lt; x &lt;&lt; endl;
+
+    return 0;
+&#125;
+</code></pre>
+<p>引用传递也用在传递大对象时, 当对象非常大时, 值传递的复制过程会消耗大量时间. 如果传递的引用并不需要被修改, 可以将引用声明为const类型. 例如:</p>
+<pre><code>void fun(const int &amp;x)&#123;...&#125;
+</code></pre>
+<p>此外, 可以采用引用传递方式来传递一个指针. 尤其是当函数需要改变指针所存储的内存地址时.</p>
+<pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+void first_bigger(int *&amp;p, int threshold)
+&#123;
+    while (*p &lt;= threshold) &#123;
+        p++;
+    &#125;
+&#125;
+
+int main(int argc, const char * argv[]) &#123;
+
+    int nums[] = &#123;0,12,32,44,55,66,77,88,99&#125;;
+    int *result = nums;
+    first_bigger(result, 50);
+    cout &lt;&lt; *result &lt;&lt; endl;
+    return 0;
+&#125;
+</code></pre>
+<p>上述代码是从一组数字中找出第一个大于参考值的数字. 函数的第一个参数是一个指针的引用, 并在函数体内修改了指针中存放的地址.	</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="tag"># 学习笔记</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2016/11/21/Objective-C%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E4%B9%8BAutorelease/" rel="prev" title="Objective-C内存管理之Autorelease">
+      <i class="fa fa-chevron-left"></i> Objective-C内存管理之Autorelease
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2016/11/23/C++%E4%B9%8B%E6%95%B0%E7%BB%84/" rel="next" title="C++之数组">
+      C++之数组 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8C%87%E9%92%88%E7%9A%84%E6%A6%82%E5%BF%B5"><span class="nav-number">1.</span> <span class="nav-text">指针的概念</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8C%87%E9%92%88%E7%9A%84%E8%AF%AD%E6%B3%95"><span class="nav-number">2.</span> <span class="nav-text">指针的语法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%87%BD%E6%95%B0%E4%B8%8E%E5%8F%82%E6%95%B0%E4%BC%A0%E9%80%92"><span class="nav-number">3.</span> <span class="nav-text">函数与参数传递</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">mangox</p>
+  <div class="site-description" itemprop="description">每天进步一点点</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">130</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">34</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">mangox</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'Hl5bOvNBmh6xqvMEjzRRWMIP-gzGzoHsz',
+      appKey     : '3n3m7ANssYrw0VgxYu87kQEL',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : true,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

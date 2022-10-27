@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.devzhang.cn","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="接上文SVN+Cocoapods， 使用SVN存放Specs索引库有一个致命缺陷，如果开发组件库的过程中又在podspec文件里使用dependency依赖了其他私有库， 那么之后在使用pod package打包时会报错无法找到依赖的私有库。这是因为pod package默认搜索官方索引库， 而且手动指定–spec-sources并不支持SVN路径。 为解决打包问题，代码依旧托管到SVN，改将Sp">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Cocoapods二进制化方案">
+<meta property="og:url" content="http://www.devzhang.cn/2018/02/01/Cocoapods%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%8C%96%E6%96%B9%E6%A1%88/index.html">
+<meta property="og:site_name" content="做点有意思的事情">
+<meta property="og:description" content="接上文SVN+Cocoapods， 使用SVN存放Specs索引库有一个致命缺陷，如果开发组件库的过程中又在podspec文件里使用dependency依赖了其他私有库， 那么之后在使用pod package打包时会报错无法找到依赖的私有库。这是因为pod package默认搜索官方索引库， 而且手动指定–spec-sources并不支持SVN路径。 为解决打包问题，代码依旧托管到SVN，改将Sp">
+<meta property="og:locale">
+<meta property="og:image" content="https://github.com/changjianfeishui/XBImageStore/raw/master/Hexo/34B0925C-AACF-46AC-BF56-CAF37B776E8C.png">
+<meta property="og:image" content="https://github.com/changjianfeishui/XBImageStore/raw/master/Hexo/WX20180130-112049.png">
+<meta property="og:image" content="https://github.com/changjianfeishui/XBImageStore/raw/master/Hexo/WX20180130-113315.png">
+<meta property="og:image" content="https://github.com/changjianfeishui/XBImageStore/raw/master/Hexo/WX20180130-144607.png">
+<meta property="og:image" content="https://github.com/changjianfeishui/XBImageStore/raw/master/Hexo/WX20180130-150158.png">
+<meta property="og:image" content="https://github.com/changjianfeishui/XBImageStore/raw/master/Hexo/WX20180130-184007.png">
+<meta property="og:image" content="https://github.com/changjianfeishui/XBImageStore/raw/master/Hexo/WX20180130-184827.png">
+<meta property="og:image" content="https://github.com/changjianfeishui/XBImageStore/raw/master/Hexo/WX20180131-142509.png">
+<meta property="og:image" content="https://github.com/changjianfeishui/XBImageStore/raw/master/Hexo/WX20180131-150125.png">
+<meta property="og:image" content="https://github.com/changjianfeishui/XBImageStore/raw/master/Hexo/WX20180131-151033.png">
+<meta property="og:image" content="https://github.com/changjianfeishui/XBImageStore/raw/master/Hexo/1517456703832.jpg">
+<meta property="og:image" content="https://github.com/changjianfeishui/XBImageStore/raw/master/Hexo/WX20180201-114734.png">
+<meta property="og:image" content="https://github.com/changjianfeishui/XBImageStore/raw/master/Hexo//WX20180201-115310.png">
+<meta property="og:image" content="https://github.com/changjianfeishui/XBImageStore/raw/master/Hexo/WX20180201-111344.png">
+<meta property="og:image" content="https://github.com/changjianfeishui/XBImageStore/raw/master/Hexo/WX20180201-112033.png">
+<meta property="og:image" content="https://github.com/changjianfeishui/XBImageStore/raw/master/Hexo/WX20180201-113410.png">
+<meta property="og:image" content="https://github.com/changjianfeishui/XBImageStore/raw/master/Hexo/WX20180201-120916.png">
+<meta property="article:published_time" content="2018-02-01T14:42:29.000Z">
+<meta property="article:modified_time" content="2018-02-01T14:44:04.000Z">
+<meta property="article:author" content="mangox">
+<meta property="article:tag" content="组件化">
+<meta property="article:tag" content="二进制化">
+<meta property="article:tag" content="cocoapods">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://github.com/changjianfeishui/XBImageStore/raw/master/Hexo/34B0925C-AACF-46AC-BF56-CAF37B776E8C.png">
+
+<link rel="canonical" href="http://www.devzhang.cn/2018/02/01/Cocoapods%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%8C%96%E6%96%B9%E6%A1%88/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>Cocoapods二进制化方案 | 做点有意思的事情</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">做点有意思的事情</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">每天进步一点点</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://www.devzhang.cn/2018/02/01/Cocoapods%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%8C%96%E6%96%B9%E6%A1%88/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="mangox">
+      <meta itemprop="description" content="每天进步一点点">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="做点有意思的事情">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Cocoapods二进制化方案
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2018-02-01 22:42:29 / Modified: 22:44:04" itemprop="dateCreated datePublished" datetime="2018-02-01T22:42:29+08:00">2018-02-01</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index"><span itemprop="name">iOS</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2018/02/01/Cocoapods%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%8C%96%E6%96%B9%E6%A1%88/" class="post-meta-item leancloud_visitors" data-flag-title="Cocoapods二进制化方案" title="Views">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2018/02/01/Cocoapods%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%8C%96%E6%96%B9%E6%A1%88/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2018/02/01/Cocoapods%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%8C%96%E6%96%B9%E6%A1%88/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>接上文<a href="http://www.devzhang.cn/2017/12/27/SVN+Cocoapods/">SVN+Cocoapods</a>， 使用SVN存放Specs索引库有一个致命缺陷，如果开发组件库的过程中又在<code>podspec</code>文件里使用dependency依赖了其他私有库， 那么之后在使用<code>pod package</code>打包时会报错无法找到依赖的私有库。这是因为<code>pod package</code>默认搜索官方索引库， 而且手动指定–<code>spec-sources</code>并不支持SVN路径。</p>
+<p>为解决打包问题，代码依旧托管到SVN，改将Specs索引库托管到第三方Git。 详细操作流程见下文。</p>
+<span id="more"></span>
+
+<h1 id="创建远程私有库"><a href="#创建远程私有库" class="headerlink" title="创建远程私有库"></a>创建远程私有库</h1><p>这里使用<a target="_blank" rel="noopener" href="https://coding.net/">码市(https://coding.net)</a>建立远程私有库。注册账号并新建项目:</p>
+<p><img src="https://github.com/changjianfeishui/XBImageStore/raw/master/Hexo/34B0925C-AACF-46AC-BF56-CAF37B776E8C.png"></p>
+<h1 id="绑定远程私有库"><a href="#绑定远程私有库" class="headerlink" title="绑定远程私有库"></a>绑定远程私有库</h1><p>要让<code>pod search</code>也能搜索到我们自己开发的组件库， 与cocoapods官方的公有索引库原理类似， 也需要将刚刚创建的远程私有库同步到本地， 打开终端， 输入：</p>
+<pre><code>pod repo add ComponentSpecsGit https://git.coding.net/mangox/ComponentSpecs.git
+</code></pre>
+<p>命令格式为：</p>
+<pre><code>pod repo add 本地私有库名称 远程私有库地址
+</code></pre>
+<p>同步完成后， 输入以下命令查看本地所有的cocoapods索引库：</p>
+<pre><code>pod repo
+</code></pre>
+<p>结果如图：<br><img src="https://github.com/changjianfeishui/XBImageStore/raw/master/Hexo/WX20180130-112049.png"></p>
+<p>更多私有库相关介绍参见官方文档：<a target="_blank" rel="noopener" href="https://guides.cocoapods.org/making/private-cocoapods.html">Private Pods</a></p>
+<h1 id="创建SVN代码目录"><a href="#创建SVN代码目录" class="headerlink" title="创建SVN代码目录"></a>创建SVN代码目录</h1><p>SVN代码托管目录如图：</p>
+<p><img src="https://github.com/changjianfeishui/XBImageStore/raw/master/Hexo/WX20180130-113315.png" alt="svn catalogue"></p>
+<p>目录说明如下：</p>
+<ul>
+<li>dev： 组件库源码开发目录， 在此目录下进行源码开发， 以及开发完成后的打包工作；</li>
+<li>trunk：用于组件库发布， 此目录下的工程只引用dev打包的framework， 不涉及源码；</li>
+<li>tags：组件库拉取目录，保存组件库的各个版本，供组件使用者拉取使用；</li>
+</ul>
+<p>具体每个目录的使用详见后文。</p>
+<h1 id="创建本地组件"><a href="#创建本地组件" class="headerlink" title="创建本地组件"></a>创建本地组件</h1><p>使用下面的命令创建一个登录组件：</p>
+<pre><code>pod lib create XBLoginUIModule
+</code></pre>
+<p>如图， 可按照个人开发需求对组件进行配置：</p>
+<p><img src="https://github.com/changjianfeishui/XBImageStore/raw/master/Hexo/WX20180130-144607.png" alt="pod lib create"></p>
+<p>由于这里使用SVN进行代码管理，而通过上面命令下载的pod模板时实际上使用的是git， 建议删除掉以下三个隐藏文件：<code>.git</code>,<code>.gitignore</code>和<code>.travis.yml</code>。 并将项目目录调整为下图所示：</p>
+<p><img src="https://github.com/changjianfeishui/XBImageStore/raw/master/Hexo/WX20180130-150158.png" alt="pod lib create SVN"></p>
+<p>创建完成后，将XBLoginUIModule目录整体提交到SVN。</p>
+<p>更多<code>pod lib create</code>介绍参见官方文档<a target="_blank" rel="noopener" href="https://guides.cocoapods.org/making/using-pod-lib-create.html">Using Pod Lib Create</a></p>
+<h1 id="编辑podspec"><a href="#编辑podspec" class="headerlink" title="编辑podspec"></a>编辑podspec</h1><p>打开<code>dev</code>目录下的<code>XBLoginModule.podspec</code>文件，推荐使用<code>Sublime Text</code>，右下角选择语言为<code>Ruby</code>，会出现语法高亮效果。</p>
+<p>这里对几个关键配置进行编辑说明：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">Pod::Spec.new do |s|</span><br><span class="line">  #项目名称， 和文件名保持一致即可</span><br><span class="line">  s.name             = &#x27;XBLoginUIModule&#x27;</span><br><span class="line">  #项目版本号</span><br><span class="line">  s.version          = &#x27;0.1.0&#x27;</span><br><span class="line">  #项目简介</span><br><span class="line">  s.summary          = &#x27;秀吧登录UI组件.&#x27;</span><br><span class="line"></span><br><span class="line">  #项目详细介绍</span><br><span class="line">  s.description      = &lt;&lt;-DESC</span><br><span class="line">秀吧登录UI组件，可通过该组件集成不同样式的登录UI界面.</span><br><span class="line">                       DESC</span><br><span class="line"></span><br><span class="line">  #项目主页， 须为可访问的URL</span><br><span class="line">  s.homepage         = &#x27;http://devzhang.cn&#x27;</span><br><span class="line">  #开源许可证</span><br><span class="line">  s.license          = &#123; :type =&gt; &#x27;MIT&#x27;, :file =&gt; &#x27;LICENSE&#x27; &#125;</span><br><span class="line">  #项目作者</span><br><span class="line">  s.author           = &#123; &#x27;devzhang&#x27; =&gt; &#x27;zhangmiao@xiu8.com&#x27; &#125;</span><br><span class="line">  #项目地址，此处为SVN上开发目录dev地址</span><br><span class="line">  s.source           = &#123; :svn =&gt; &#x27;svn://svn.xiu8.com/mobileLive/front/IOS/ComponentLibrary/ComponentProject/XBLoginUIModule/dev&#x27;&#125;</span><br><span class="line"></span><br><span class="line">  #项目支持的iOS最低版本</span><br><span class="line">  s.ios.deployment_target = &#x27;8.0&#x27;</span><br><span class="line"></span><br><span class="line">  #项目需要包含的源文件地址</span><br><span class="line">  s.source_files = &#x27;XBLoginUIModule/Classes/**/*&#x27;</span><br><span class="line"></span><br><span class="line">  #项目资源文件地址</span><br><span class="line">  # s.resource_bundles = &#123;</span><br><span class="line">  #   &#x27;XBLoginUIModule&#x27; =&gt; [&#x27;XBLoginUIModule/Assets/*&#x27;,&#x27;XBLoginUIModule/Classes/*.xib&#x27;]</span><br><span class="line">  # &#125;</span><br><span class="line"></span><br><span class="line">  #项目public头文件地址</span><br><span class="line">  # s.public_header_files = &#x27;Pod/Classes/**/*.h&#x27;</span><br><span class="line">  #项目所依赖的系统框架</span><br><span class="line">  s.frameworks = &#x27;UIKit&#x27;, &#x27;Foundation&#x27;</span><br><span class="line">  #项目所依赖的系统lib库</span><br><span class="line">  # s.libraries =  &#x27;xml2&#x27;, &#x27;z&#x27;</span><br><span class="line"></span><br><span class="line">  #引用自己或第三方的framework或.a文件, 路径为从.podspec所在目录为根目录的相对路径</span><br><span class="line">  # s.ios.vendored_frameworks = &quot;xxx/**/*.framework&quot;</span><br><span class="line">  # s.ios.vendored_libraries = &quot;xxx/**/*.a”</span><br><span class="line"></span><br><span class="line">  #项目依赖的开源库或私有库</span><br><span class="line">  # s.dependency &#x27;AFNetworking&#x27;, &#x27;~&gt; 3.1&#x27;</span><br><span class="line">  # s.dependency &#x27;YYModel&#x27;</span><br><span class="line"></span><br><span class="line">  #由于私有库依赖与开源库略有不同， 这里加入已开发完成的私有库作为示例</span><br><span class="line">  s.dependency &#x27;XBHTTPService&#x27;, &#x27;~&gt; 1.0.0&#x27;</span><br><span class="line"></span><br><span class="line">end</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>编辑完成后，将改动提交到SVN。</p>
+<p>更多podspec介绍参见官方文档：<a target="_blank" rel="noopener" href="https://guides.cocoapods.org/syntax/podspec.html#specification">Podspec Syntax Reference</a></p>
+<h1 id="安装本地组件依赖"><a href="#安装本地组件依赖" class="headerlink" title="安装本地组件依赖"></a>安装本地组件依赖</h1><p>在开始具体的组件库开发之前，需要对Example工程安装pod依赖。</p>
+<p>cd到<code>Example</code>目录下， 执行：</p>
+<pre><code>pod install
+</code></pre>
+<p>此时会出现一个错误：</p>
+<p><img src="https://github.com/changjianfeishui/XBImageStore/raw/master/Hexo/WX20180130-184007.png" alt="pod lib create SVN"></p>
+<p>这是因为我们在podspec文件中依赖了私有库<code>XBHTTPService</code>, 因此在使用时需要告诉pod在哪个地方拉取我们已开发完成的私有库。</p>
+<p>打开<code>Podfile</code>文件， 在最上部添加两行：</p>
+<pre><code>source &#39;https://github.com/CocoaPods/Specs.git&#39;
+source &#39;https://git.coding.net/mangox/ComponentSpecs.git&#39;
+</code></pre>
+<p>上面的代码指定了pod的索引库地址，前者是cocoapods公有库， 后者是我们自己建立的私有库。</p>
+<p>然后重新执行<code>pod install</code>, 会报错：</p>
+<p><img src="https://github.com/changjianfeishui/XBImageStore/raw/master/Hexo/WX20180130-184827.png" alt="pod lib create SVN"></p>
+<p>这是由于私有库<code>XBHTTPService</code>被打包成了一个静态库，继续打开打开<code>Podfile</code>文件，在指定sources之后添加：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pre_install do |installer| Pod::Installer::Xcode::TargetValidator.send(:define_method, :verify_no_static_framework_transitive_dependencies) &#123;&#125;</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+
+<p>注意, 上面的代码根据cocoapods版本不同略有差异，上述写法针对cocoapods 1.3.1或以上版本。</p>
+<p>再次执行<code>pod install</code>， Pod installation complete!</p>
+<h1 id="开发本地组件"><a href="#开发本地组件" class="headerlink" title="开发本地组件"></a>开发本地组件</h1><p>打开<code>XBLoginUIModule.xcworkspace</code>， 查看到在podspec文件中指定的依赖， <code>Command+B</code>编译， 如果出现错误的话可能是上面的某个步骤出现了问题， 可以根据错误描述进行修改。</p>
+<p>本地组件的开发是在Pods工程下的Development Pods目录下进行， 删除自带的<code>ReplaceMe.m</code>文件， 然后在目录下新建文件进行开发。</p>
+<p>注意，每次只要修改了podspec文件，都必须cd到Example目录下执行命令： <code>pod update</code>。</p>
+<h1 id="校验本地组件"><a href="#校验本地组件" class="headerlink" title="校验本地组件"></a>校验本地组件</h1><p>开发完成后，将本地dev目录提交到SVN，然后cd到dev目录下， 执行命令：</p>
+<pre><code>pod spec lint XBLoginUIModule.podspec --sources=https://github.com/CocoaPods/Specs.git,https://git.coding.net/mangox/ComponentSpecs.git  --use-libraries
+</code></pre>
+<p><img src="https://github.com/changjianfeishui/XBImageStore/raw/master/Hexo/WX20180131-142509.png" alt="pod spec lint"></p>
+<p>参数sources指定索引库地址， 参数–use-libraries表明依赖的库中包含静态库， 另外， 还可以加上参数<code>--allow-warnings</code>忽略警告， 否则存在任何warning的话也无法通过校验。</p>
+<h1 id="打包本地组件"><a href="#打包本地组件" class="headerlink" title="打包本地组件"></a>打包本地组件</h1><p>通过校验之后， 可以将本地组件打包为framework。此时，需确保dev目录下所有改动均已提交到SVN。</p>
+<p>cd到dev目录下， 执行命令：</p>
+<pre><code>pod package XBLoginUIModule.podspec --no-mangle --spec-sources=https://git.coding.net/mangox/ComponentSpecs.git,https://github.com/CocoaPods/Specs.git --force --exclude-deps
+</code></pre>
+<p>参数–no-mangle表明本地组件依赖了静态库，    参数–spec-sources指定索引库地址， –force表明强制覆盖上一次打包生成的文件(同版本), –exclude-deps表明不包含所依赖的符号库，可以减少framework的大小，不加此参数的话如果主工程引入了多个私有库，会抛出<code>duplicate symbol</code>错误。</p>
+<p>打包完成后， 可以在dev目录下找到<code>XBLoginUIModule.framework</code>，如图所示：</p>
+<p><img src="https://github.com/changjianfeishui/XBImageStore/raw/master/Hexo/WX20180131-150125.png" alt="pod spec lint"></p>
+<h1 id="发布本地组件-framework"><a href="#发布本地组件-framework" class="headerlink" title="发布本地组件(framework)"></a>发布本地组件(framework)</h1><p>要以framework的形式发布本地组件， 首先需要在trunk目录下使用<code>pod lib create</code>命令创建一个同名的组件库。 然后将上面打包好的framework复制到trunk-&gt;XBLoginUIModule目录下，<br>并删除掉默认添加的<code>ReplaceMe.m</code> ，最终目录结构如图所示：</p>
+<p><img src="https://github.com/changjianfeishui/XBImageStore/raw/master/Hexo/WX20180131-151033.png" alt="trunk"></p>
+<p>trunk下的podspec文件大部分与dev目录下相同，不同处参见注释：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">Pod::Spec.new do |s|</span><br><span class="line">  s.name             = &#x27;XBLoginUIModule&#x27;</span><br><span class="line">  s.version          = &#x27;0.1.0&#x27;</span><br><span class="line">  s.summary          = &#x27;秀吧登录UI组件.&#x27;</span><br><span class="line">  s.description      = &lt;&lt;-DESC</span><br><span class="line">秀吧登录UI组件，可通过该组件集成不同样式的登录UI界面.</span><br><span class="line">                       DESC</span><br><span class="line"></span><br><span class="line">  s.homepage         = &#x27;http://devzhang.cn&#x27;</span><br><span class="line">  s.license          = &#123; :type =&gt; &#x27;MIT&#x27;, :file =&gt; &#x27;LICENSE&#x27; &#125;</span><br><span class="line">  s.author           = &#123; &#x27;devzhang&#x27; =&gt; &#x27;zhangmiao@xiu8.com&#x27; &#125;</span><br><span class="line">  s.source           = &#123; :svn =&gt; &#x27;svn://svn.xiu8.com/mobileLive/front/IOS/ComponentLibrary/ComponentProject/XBLoginUIModule&#x27;, :tag =&gt; s.version.to_s &#125;</span><br><span class="line"></span><br><span class="line">  s.ios.deployment_target = &#x27;8.0&#x27;</span><br><span class="line"></span><br><span class="line">#由于不包含任何源码，所以也不需要指定s.source_files</span><br><span class="line"></span><br><span class="line">#本地引用的framework</span><br><span class="line">s.ios.vendored_frameworks = &#x27;XBLoginUIModule/XBLoginUIModule.framework&#x27;</span><br><span class="line"></span><br><span class="line">#若是打包发布的framework还依赖其他第三方， 则这里也需要添加依赖</span><br><span class="line">s.dependency &#x27;XBHTTPService&#x27;, &#x27;~&gt; 1.0.0&#x27;</span><br><span class="line"></span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+
+<p>别忘了，要想使用Example工程还需要在Podfile中加入：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">source &#x27;https://github.com/CocoaPods/Specs.git&#x27;</span><br><span class="line">source &#x27;https://git.coding.net/mangox/ComponentSpecs.git&#x27;</span><br><span class="line"></span><br><span class="line">pre_install do |installer| Pod::Installer::Xcode::TargetValidator.send(:define_method, :verify_no_static_framework_transitive_dependencies) &#123;&#125;</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+<p>cd到Example目录下， 执行<code>pod update</code>命令， 这里其实可以加上<code>--no-repo-update</code>参数避免每次检测cocoapods的同步。</p>
+<p>编译Example工程， 编译成功说明没有错误可以发布了， 提交trunk目录改动到SVN。</p>
+<p>在SVN中在trunk的基础上打出与podspec中版本号相同的tag：</p>
+<p><img src="https://github.com/changjianfeishui/XBImageStore/raw/master/Hexo/1517456703832.jpg" alt="pod spec lint"></p>
+<p>tag完成后,cd到trunk目录下，执行命令：</p>
+<pre><code>pod repo push ComponentSpecsGit XBLoginUIModule.podspec
+</code></pre>
+<p><img src="https://github.com/changjianfeishui/XBImageStore/raw/master/Hexo/WX20180201-114734.png" alt="pod spec lint"></p>
+<p>发布成功后可以在之前coding.net上建立的索引库中看到。</p>
+<h1 id="使用已发布的组件"><a href="#使用已发布的组件" class="headerlink" title="使用已发布的组件"></a>使用已发布的组件</h1><p>发布完成后， 可以通过<code>pod search</code>命令搜索刚刚发布的私有组件库：</p>
+<p><img src="https://github.com/changjianfeishui/XBImageStore/raw/master/Hexo//WX20180201-115310.png" alt="pod spec lint"></p>
+<p>如果提示：</p>
+<pre><code>[!] Unable to find a pod with name, author, summary, or description matching `XBLoginUIModule`
+</code></pre>
+<p>可以使用命令清除cocoapods索引文件后重新尝试：</p>
+<pre><code>rm ~/Library/Caches/CocoaPods/search_index.json
+</code></pre>
+<h1 id="其他常见问题"><a href="#其他常见问题" class="headerlink" title="其他常见问题"></a>其他常见问题</h1><h2 id="加载资源bundle"><a href="#加载资源bundle" class="headerlink" title="加载资源bundle"></a>加载资源bundle</h2><p>如果开发的私有库中使用了xib或者图片资源， 开发时(dev目录)就需要在podspec文件中指定：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#项目资源文件地址</span><br><span class="line">s.resource_bundles = &#123;</span><br><span class="line">  &#x27;XBLoginUIModule&#x27; =&gt; [&#x27;XBLoginUIModule/Assets/*&#x27;,&#x27;XBLoginUIModule/Classes/*.xib&#x27;]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>cocoapods会在framework内建立一个<code>XBLoginUIModule.bundle</code>, 包含引入的xib和图片资源。</p>
+<p>开发完成并打包后的framework结构如图：</p>
+<p><img src="https://github.com/changjianfeishui/XBImageStore/raw/master/Hexo/WX20180201-111344.png" alt="framework struct"></p>
+<p>这里明明是存在我们打包包含的bundle资源文件的，然而在实际运行Example项目（trunk目录)时，查看下图所示目录：</p>
+<p><img src="https://github.com/changjianfeishui/XBImageStore/raw/master/Hexo/WX20180201-112033.png" alt="framework struct"></p>
+<p><strong>bundle消失了！！！</strong>， 这是如果尝试使用bundle的xib文件， 会直接crash。</p>
+<p>要解决这个问题， 可以将framework中的bundle文件复制到framework同级目录下：</p>
+<p><img src="https://github.com/changjianfeishui/XBImageStore/raw/master/Hexo/WX20180201-113410.png" alt="framework struct"></p>
+<p>然后编辑podspec文件，增加如下配置：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># 再次引入资源包， 否则系统不会将framework内部的bundle实际拷贝到项目中</span><br><span class="line">s.resource = &#x27;XBLoginUIModule/XBLoginUIModule.bundle&#x27;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>再次执行<code>pod update</code>， bundle成功引入项目。</p>
+<h2 id="非ARC文件"><a href="#非ARC文件" class="headerlink" title="非ARC文件"></a>非ARC文件</h2><p>在实际开发私有库的过程中可能会遇到单独指定某个文件为MRC的情况，可以通过建立subspec的方式解决：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">#这里可以不指定.h文件</span><br><span class="line">  non_arc_files = &#x27;XBSecurityService/Classes/GBEncodeTool/GTMBase64/GTMBase64.m&#x27;,&#x27;XBSecurityService/Classes/GBEncodeTool/GTMBase64/GTMBase64.h&#x27;</span><br><span class="line">  s.exclude_files = non_arc_files</span><br><span class="line"></span><br><span class="line">  s.subspec &#x27;no-arc&#x27; do |sp|</span><br><span class="line">  sp.source_files = non_arc_files</span><br><span class="line">  sp.requires_arc = false</span><br><span class="line">  end</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>效果如图：</p>
+<p><img src="https://github.com/changjianfeishui/XBImageStore/raw/master/Hexo/WX20180201-120916.png" alt="framework struct"></p>
+<p>其中<code>GTMBase64.m</code>已经被指定为<code>-fno-objc-arc</code>。</p>
+<h2 id="symbol-not-found"><a href="#symbol-not-found" class="headerlink" title="symbol not found"></a>symbol not found</h2><p>如果开发私有库的过程中依赖或使用了第三方的静态库， 运行Example工程时可能会出现symbol找不到的情况， 打开Pod工程的<code>Build Settings</code>, 修改<code>Mach-O Type</code>为<code>Static Library</code>。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%BB%84%E4%BB%B6%E5%8C%96/" rel="tag"># 组件化</a>
+              <a href="/tags/%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%8C%96/" rel="tag"># 二进制化</a>
+              <a href="/tags/cocoapods/" rel="tag"># cocoapods</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2017/12/27/SVN+Cocoapods/" rel="prev" title="SVN+Cocoapods">
+      <i class="fa fa-chevron-left"></i> SVN+Cocoapods
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/03/15/%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F%E5%85%A5%E9%97%A8/" rel="next" title="观察者模式入门">
+      观察者模式入门 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E8%BF%9C%E7%A8%8B%E7%A7%81%E6%9C%89%E5%BA%93"><span class="nav-number">1.</span> <span class="nav-text">创建远程私有库</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BB%91%E5%AE%9A%E8%BF%9C%E7%A8%8B%E7%A7%81%E6%9C%89%E5%BA%93"><span class="nav-number">2.</span> <span class="nav-text">绑定远程私有库</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%9B%E5%BB%BASVN%E4%BB%A3%E7%A0%81%E7%9B%AE%E5%BD%95"><span class="nav-number">3.</span> <span class="nav-text">创建SVN代码目录</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E6%9C%AC%E5%9C%B0%E7%BB%84%E4%BB%B6"><span class="nav-number">4.</span> <span class="nav-text">创建本地组件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BC%96%E8%BE%91podspec"><span class="nav-number">5.</span> <span class="nav-text">编辑podspec</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E6%9C%AC%E5%9C%B0%E7%BB%84%E4%BB%B6%E4%BE%9D%E8%B5%96"><span class="nav-number">6.</span> <span class="nav-text">安装本地组件依赖</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BC%80%E5%8F%91%E6%9C%AC%E5%9C%B0%E7%BB%84%E4%BB%B6"><span class="nav-number">7.</span> <span class="nav-text">开发本地组件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%A0%A1%E9%AA%8C%E6%9C%AC%E5%9C%B0%E7%BB%84%E4%BB%B6"><span class="nav-number">8.</span> <span class="nav-text">校验本地组件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%89%93%E5%8C%85%E6%9C%AC%E5%9C%B0%E7%BB%84%E4%BB%B6"><span class="nav-number">9.</span> <span class="nav-text">打包本地组件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%91%E5%B8%83%E6%9C%AC%E5%9C%B0%E7%BB%84%E4%BB%B6-framework"><span class="nav-number">10.</span> <span class="nav-text">发布本地组件(framework)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E5%B7%B2%E5%8F%91%E5%B8%83%E7%9A%84%E7%BB%84%E4%BB%B6"><span class="nav-number">11.</span> <span class="nav-text">使用已发布的组件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98"><span class="nav-number">12.</span> <span class="nav-text">其他常见问题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8A%A0%E8%BD%BD%E8%B5%84%E6%BA%90bundle"><span class="nav-number">12.1.</span> <span class="nav-text">加载资源bundle</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9D%9EARC%E6%96%87%E4%BB%B6"><span class="nav-number">12.2.</span> <span class="nav-text">非ARC文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#symbol-not-found"><span class="nav-number">12.3.</span> <span class="nav-text">symbol not found</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">mangox</p>
+  <div class="site-description" itemprop="description">每天进步一点点</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">130</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">34</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">mangox</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'Hl5bOvNBmh6xqvMEjzRRWMIP-gzGzoHsz',
+      appKey     : '3n3m7ANssYrw0VgxYu87kQEL',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : true,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

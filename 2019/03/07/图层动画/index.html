@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.devzhang.cn","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="Core Animation中的图层动画分为隐式动画和显式动画. 通过Core Animation可以很方便的为图层创建动画. 本文档的示例中包含了一些常见的图层动画.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CoreAnimation编程指南翻译(四):图层动画">
+<meta property="og:url" content="http://www.devzhang.cn/2019/03/07/%E5%9B%BE%E5%B1%82%E5%8A%A8%E7%94%BB/index.html">
+<meta property="og:site_name" content="做点有意思的事情">
+<meta property="og:description" content="Core Animation中的图层动画分为隐式动画和显式动画. 通过Core Animation可以很方便的为图层创建动画. 本文档的示例中包含了一些常见的图层动画.">
+<meta property="og:locale">
+<meta property="og:image" content="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/CoreAnimation_guide/Art/keyframing_2x.png">
+<meta property="article:published_time" content="2019-03-07T08:20:43.000Z">
+<meta property="article:modified_time" content="2019-03-20T03:40:42.180Z">
+<meta property="article:author" content="mangox">
+<meta property="article:tag" content="Core Animation">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/CoreAnimation_guide/Art/keyframing_2x.png">
+
+<link rel="canonical" href="http://www.devzhang.cn/2019/03/07/%E5%9B%BE%E5%B1%82%E5%8A%A8%E7%94%BB/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>CoreAnimation编程指南翻译(四):图层动画 | 做点有意思的事情</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">做点有意思的事情</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">每天进步一点点</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://www.devzhang.cn/2019/03/07/%E5%9B%BE%E5%B1%82%E5%8A%A8%E7%94%BB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="mangox">
+      <meta itemprop="description" content="每天进步一点点">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="做点有意思的事情">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          CoreAnimation编程指南翻译(四):图层动画
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-03-07 16:20:43" itemprop="dateCreated datePublished" datetime="2019-03-07T16:20:43+08:00">2019-03-07</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-03-20 11:40:42" itemprop="dateModified" datetime="2019-03-20T11:40:42+08:00">2019-03-20</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index"><span itemprop="name">iOS</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2019/03/07/%E5%9B%BE%E5%B1%82%E5%8A%A8%E7%94%BB/" class="post-meta-item leancloud_visitors" data-flag-title="CoreAnimation编程指南翻译(四):图层动画" title="Views">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2019/03/07/%E5%9B%BE%E5%B1%82%E5%8A%A8%E7%94%BB/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2019/03/07/%E5%9B%BE%E5%B1%82%E5%8A%A8%E7%94%BB/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><code>Core Animation</code>中的图层动画分为隐式动画和显式动画. 通过<code>Core Animation</code>可以很方便的为图层创建动画. 本文档的示例中包含了一些常见的图层动画. </p>
+<span id="more"></span>
+
+<h1 id="基础动画"><a href="#基础动画" class="headerlink" title="基础动画"></a>基础动画</h1><p>基础动画分为隐式动画或显式动画. 隐式动画使用默认的时间和动画参数, 显式动画则需要手动配置这些参数. </p>
+<p>基础动画只涉及到图层属性的更改, 然后由<code>Core Animation</code>执行动画. 图层定义了许多可以影响其外观样式的属性. 修改其中的任何一个属性都可以触发动画. 例如, 把图层的不透明度由1.0变为0.0会导致图层逐渐淡出, 然后变为透明. </p>
+<p>触发隐式动画只需要修改图层的属性, 此时, 图层属性的值会立即修改, 但图层的外观样式不会立即发生变化. <code>Core Animation</code>会根据修改的属性执行一个或多个隐式动画. Listing 3-1 中的是图层不透明度改变触发隐式动画的示例代码.</p>
+<ul>
+<li><strong>Listing 3-1</strong> 隐式动画</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">theLayer.opacity = 0.0;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>实现相同效果的显式动画首先需要创建<a target="_blank" rel="noopener" href="https://developer.apple.com/documentation/quartzcore/cabasicanimation">CABasicAnimation</a>对象, 然后通过该对象配置动画参数. 在将动画对象添加到图层之前, 可以设置动画的开始值和结束值, 动画持续时间以及其他一些参数. Listing 3-2 中是实现与上面隐式动画相同效果的显式动画代码. 创建动画后, 先要指定要为哪个属性执行动画, 然后再配置动画参数. 配置完成后, 使用<a target="_blank" rel="noopener" href="https://developer.apple.com/documentation/quartzcore/calayer/1410848-addanimation">addAnimation:forKey:</a>方法将动画添加到要执行动画的图层. </p>
+<ul>
+<li><strong>Listing 3-2</strong> 显式动画</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">CABasicAnimation* fadeAnim = [CABasicAnimation animationWithKeyPath:@&quot;opacity&quot;];</span><br><span class="line">fadeAnim.fromValue = [NSNumber numberWithFloat:1.0];</span><br><span class="line">fadeAnim.toValue = [NSNumber numberWithFloat:0.0];</span><br><span class="line">fadeAnim.duration = 1.0;</span><br><span class="line">[theLayer addAnimation:fadeAnim forKey:@&quot;opacity&quot;];</span><br><span class="line"> </span><br><span class="line">//将图层中的实际数据值更改为最终值</span><br><span class="line">theLayer.opacity = 0.0;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>提示: 使用显示动画时, 建议始终通过<a target="_blank" rel="noopener" href="https://developer.apple.com/documentation/quartzcore/cabasicanimation/1412519-fromvalue">fromValue</a>设置动画的开始值. 否则<code>Core Animation</code>会使用图层对应属性的当前值作为动画的开始值. </p>
+</blockquote>
+<p>与隐式动画不同, 显式动画仅生成动画, 并不会修改图层属性的值. 动画结束时, <code>Core Animation</code>将动画对象从图层移除, 然后使用当前数据重绘图层. 如果需要修改属性的值, 必须进行手动更新, 如上例所示. </p>
+<p>隐式动画和显式动画都在当前运行循环(runloop)结束后开始, 并且当前线程必须拥有一个运行循环才能执行动画. 如果同时修改了多个属性, 或者同时添加了多个动画, 所有这些动画都会同时执行. 例如可以在改变图层透明度的同时, 将图层移除屏幕. 另外, 还可以指定动画在某个特定时刻开始, 更多相关信息请参阅: <a target="_blank" rel="noopener" href="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/CoreAnimation_guide/AdvancedAnimationTricks/AdvancedAnimationTricks.html#//apple_ref/doc/uid/TP40004514-CH8-SW2">自定义动画计时</a>.</p>
+<h1 id="关键帧动画"><a href="#关键帧动画" class="headerlink" title="关键帧动画"></a>关键帧动画</h1><p>属性动画只能在属性的开始值和结束值之间生成动画, 而使用<a target="_blank" rel="noopener" href="https://developer.apple.com/documentation/quartzcore/cakeyframeanimation">CAKeyframeAnimation</a>对象可以设置一组目标值, 用于执行线性或非线性动画. 关键帧动画包含一组目标值, 以及一组时间对应每个目标值的到达时间. 最简单的配置是直接使用数组给目标值和时间赋值. 对于位移动画, 也可以使用路径. 动画使用给定的关键帧, 并在给定的时间内在关键帧之间执行. </p>
+<p>Figure 3-1 是一个5秒的位移动画. 位置的变化由一个<a target="_blank" rel="noopener" href="https://developer.apple.com/documentation/coregraphics/cgpath">CGPathRef</a>类型的对象指定. </p>
+<ul>
+<li><strong>Figure 3-1</strong> 5秒的关键帧位移动画</li>
+</ul>
+<p><video src="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/CoreAnimation_guide/Art/keyframepath-anim.m4v" width="640" height="480"
+controls="controls"></video></p>
+<p><img src="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/CoreAnimation_guide/Art/keyframing_2x.png"></p>
+<p>Listing 3-3 是该动画的代码实现. 通过path对象指定了动画的关键帧. </p>
+<ul>
+<li><strong>Listing 3-3</strong> 动画的代码实现.</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">// create a CGPath that implements two arcs (a bounce)</span><br><span class="line">CGMutablePathRef thePath = CGPathCreateMutable();</span><br><span class="line">CGPathMoveToPoint(thePath,NULL,74.0,74.0);</span><br><span class="line">CGPathAddCurveToPoint(thePath,NULL,74.0,500.0,</span><br><span class="line">                                   320.0,500.0,</span><br><span class="line">                                   320.0,74.0);</span><br><span class="line">CGPathAddCurveToPoint(thePath,NULL,320.0,500.0,</span><br><span class="line">                                   566.0,500.0,</span><br><span class="line">                                   566.0,74.0);</span><br><span class="line"> </span><br><span class="line">CAKeyframeAnimation * theAnimation;</span><br><span class="line"> </span><br><span class="line">// Create the animation object, specifying the position property as the key path.</span><br><span class="line">theAnimation=[CAKeyframeAnimation animationWithKeyPath:@&quot;position&quot;];</span><br><span class="line">theAnimation.path=thePath;</span><br><span class="line">theAnimation.duration=5.0;</span><br><span class="line"> </span><br><span class="line">// Add the animation to the layer.</span><br><span class="line">[theLayer addAnimation:theAnimation forKey:@&quot;position&quot;];</span><br></pre></td></tr></table></figure>
+
+<h2 id="指定关键帧的值"><a href="#指定关键帧的值" class="headerlink" title="指定关键帧的值"></a>指定关键帧的值</h2><p>关键帧的值是关键帧动画中最重要的部分. 这些值定义了动画执行的具体行为. 设置关键帧的值最常见的方式是定义一个目标值数组, 但对于使用<code>CGPoint</code>类型的图层属性而言(比如<code>anchorPoint</code>和<code>position</code>), 也可以使用<a target="_blank" rel="noopener" href="https://developer.apple.com/documentation/coregraphics/cgpath">CGPathRef</a>类型. </p>
+<p>当使用目标值数组时, 数组中对象的数据类型取决于属性所需要的数据类型. 但是一些对象必须先转换为<code>id</code>类型后才能被添加到目标值数组中, 而且所有的标量类型和结构题都必须被包装为对象:</p>
+<ul>
+<li><code>CGRect</code>类型需要包装为<code>NSValue</code>对象.</li>
+<li><a target="_blank" rel="noopener" href="https://developer.apple.com/documentation/quartzcore/catransform3d">CATransform3D</a>类型需要包装为<code>NSValue</code>对象.</li>
+<li><a target="_blank" rel="noopener" href="https://developer.apple.com/documentation/coregraphics/cgcolor">CGColorRef</a>类型需要包装为<code>id</code>类型.</li>
+<li><code>CGFloat</code>类型需要包装为<code>NSNumber</code>对象.</li>
+<li>为图层的<code>contents</code>属性添加动画时, 需要使用<a target="_blank" rel="noopener" href="https://developer.apple.com/documentation/coregraphics/cgimageref">CGImageRef</a>对象的数组.</li>
+</ul>
+<h2 id="指定关键帧动画的时间"><a href="#指定关键帧动画的时间" class="headerlink" title="指定关键帧动画的时间"></a>指定关键帧动画的时间</h2><p>相比于基础动画, 关键帧动画的时序和步调更加复杂, 可以使用下面的属性进行控制: </p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://developer.apple.com/documentation/quartzcore/cakeyframeanimation/1412500-calculationmode">calculationMode</a>属性定义了动画的时序算法, 该属性的值会影响其他与动画时序有关的属性.<ul>
+<li><a target="_blank" rel="noopener" href="https://developer.apple.com/documentation/quartzcore/caanimationcalculationmode/1412513-linear">kCAAnimationLinear</a>和<a target="_blank" rel="noopener" href="https://developer.apple.com/documentation/quartzcore/caanimationcalculationmode/1412481-cubic">kCAAnimationCubic</a>可以最大程序的控制动画时序.</li>
+<li><a target="_blank" rel="noopener" href="https://developer.apple.com/documentation/quartzcore/kcaanimationpaced">kCAAnimationPaced</a>和<a target="_blank" rel="noopener" href="https://developer.apple.com/documentation/quartzcore/caanimationcalculationmode/1412452-cubicpaced">kCAAnimationCubicPaced</a>不依赖于<code>keyTimes</code>和<code>timingFunctions</code>提供的时序值, 而是通过隐式计算为动画提供恒定的速度. </li>
+<li><a target="_blank" rel="noopener" href="https://developer.apple.com/documentation/quartzcore/caanimationcalculationmode/1412517-discrete">kCAAnimationDiscrete</a>使得动画不进行插值计算, 而是由一个关键帧直接跳到下一个关键帧, 该计时使用<code>keyTimes</code>, 但不使用<code>timingFunctions</code>.</li>
+</ul>
+</li>
+<li><code>keyTimes</code>属性定义了每个关键帧的时间标记. 该属性只在时序模式为<code>kCAAnimationLinear</code>, <code>kCAAnimationDiscrete</code>或<code>kCAAnimationCubic</code>时才会被使用.</li>
+<li><code>timingFunctions*</code>属性定义了每个关键帧的时序曲线(该属性覆盖了父类中的同名属性), 如果不指定该属性, 则默认动画是线性执行的.</li>
+</ul>
+<p>如果需要自定义动画时序, 可使用<code>kCAAnimationLinear</code>和<code>kCAAnimationCubic</code>模式, 并设置<code>keyTimes</code>和<code>timingFunctions</code>属性. </p>
+<h2 id="停止正在执行的动画"><a href="#停止正在执行的动画" class="headerlink" title="停止正在执行的动画"></a>停止正在执行的动画</h2><p>可以通过下面的方法停止一个正在执行的动画:</p>
+<ul>
+<li>通过<a target="_blank" rel="noopener" href="https://developer.apple.com/documentation/quartzcore/calayer/1410939-removeanimation">removeAnimationForKey:</a>移除图层上的单个动画对象. 该方法与<a target="_blank" rel="noopener" href="https://developer.apple.com/documentation/quartzcore/calayer/1410848-addanimation">addAnimation:forKey:</a>相对应. 指定的key不能为<code>nil</code>.</li>
+<li>通过<code>removeAllAnimations</code>移除图层上的所有动画对象. 该方法立即删除所有动画并重绘内容.</li>
+</ul>
+<blockquote>
+<p>注意: 不能直接移除图层上的隐式动画.</p>
+</blockquote>
+<p>在图层上移除动画时, <code>Core Animation</code>负责重绘图层内容, 此时由于动画未执行完成, 可能会在视觉上造成一个突然的跳跃效果. 如果需要在图层上保留动画的最后一帧, 可以遍历呈现图层树中的相应对象获取动画最终值, 然后赋值给图层. </p>
+<p>关于暂定动画的信息, 参阅<a target="_blank" rel="noopener" href="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/CoreAnimation_guide/AdvancedAnimationTricks/AdvancedAnimationTricks.html#//apple_ref/doc/uid/TP40004514-CH8-SW14">Listing 5-4</a>.</p>
+<h1 id="动画组"><a href="#动画组" class="headerlink" title="动画组"></a>动画组</h1><p>可以使用<a target="_blank" rel="noopener" href="https://developer.apple.com/documentation/quartzcore/caanimationgroup">CAAnimationGroup</a>对象把多个动画组合在一起. 使用动画组能对多个动画对象进行统一配置和管理. 对相同的属性而言, 动画组的配置将会覆盖单个动画的配置. </p>
+<p>Listing 3-4 中的代码示例了使用动画组包含了两个边框相关的动画. </p>
+<ul>
+<li><strong>Listing 3-4</strong> 动画组.</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">// Animation 1</span><br><span class="line">CAKeyframeAnimation* widthAnim = [CAKeyframeAnimation animationWithKeyPath:@&quot;borderWidth&quot;];</span><br><span class="line">NSArray* widthValues = [NSArray arrayWithObjects:@1.0, @10.0, @5.0, @30.0, @0.5, @15.0, @2.0, @50.0, @0.0, nil];</span><br><span class="line">widthAnim.values = widthValues;</span><br><span class="line">widthAnim.calculationMode = kCAAnimationPaced;</span><br><span class="line"> </span><br><span class="line">// Animation 2</span><br><span class="line">CAKeyframeAnimation* colorAnim = [CAKeyframeAnimation animationWithKeyPath:@&quot;borderColor&quot;];</span><br><span class="line">NSArray* colorValues = [NSArray arrayWithObjects:(id)[UIColor greenColor].CGColor,</span><br><span class="line">            (id)[UIColor redColor].CGColor, (id)[UIColor blueColor].CGColor,  nil];</span><br><span class="line">colorAnim.values = colorValues;</span><br><span class="line">colorAnim.calculationMode = kCAAnimationPaced;</span><br><span class="line"> </span><br><span class="line">// Animation group</span><br><span class="line">CAAnimationGroup* group = [CAAnimationGroup animation];</span><br><span class="line">group.animations = [NSArray arrayWithObjects:colorAnim, widthAnim, nil];</span><br><span class="line">group.duration = 5.0;</span><br><span class="line"> </span><br><span class="line">[myLayer addAnimation:group forKey:@&quot;BorderChanges&quot;];</span><br></pre></td></tr></table></figure>
+
+<p>还有一种更高级的方式实现动画组, 那就是使用事务(transaction)对象. 事务可以给动画组中的每个动画分别设置不同的参数, 拥有更大的灵活性. 如何使用事务, 请参阅<a target="_blank" rel="noopener" href="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/CoreAnimation_guide/AdvancedAnimationTricks/AdvancedAnimationTricks.html#//apple_ref/doc/uid/TP40004514-CH8-SW3">Explicit Transactions Let You Change Animation Parameters</a>.</p>
+<h1 id="检测动画结束"><a href="#检测动画结束" class="headerlink" title="检测动画结束"></a>检测动画结束</h1><p><code>Core Animation</code>支持检测动画的开始和结束. 使用这些通知可以在合适的时机处理一些动画相关的任务. 比如, 可以在动画开始时设置一些状态信息, 然后在动画结束时清除这些状态. </p>
+<p>有两种方法可以获取动画的执行状态:</p>
+<ul>
+<li>使用<a target="_blank" rel="noopener" href="https://developer.apple.com/documentation/quartzcore/catransaction/1448281-setcompletionblock">setCompletionBlock:</a>在事务中设置动画完成的block. 当事务中的所有动画执行完成后, 将会调用该block.</li>
+<li>为<code>CAAnimation</code>设置delegate, 并实现<code>animationDidStart:</code>和<code>animationDidStop:finished:</code>方法.</li>
+</ul>
+<p>如果要实现两个动画链式执行, 即一个动画完成后再执行另一个动画, 不要使用上面的方法获取动画状态, 而是使用<a target="_blank" rel="noopener" href="https://developer.apple.com/documentation/quartzcore/camediatiming/1427654-begintime">beginTime</a>属性, 将第二个动画的开始时间设置为第一个动画的结束时间. 更多关于动画和计时值的信息, 请参阅:<a target="_blank" rel="noopener" href="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/CoreAnimation_guide/AdvancedAnimationTricks/AdvancedAnimationTricks.html#//apple_ref/doc/uid/TP40004514-CH8-SW2">Customizing the Timing of an Animation</a>.</p>
+<h1 id="图层支持视图的动画"><a href="#图层支持视图的动画" class="headerlink" title="图层支持视图的动画"></a>图层支持视图的动画</h1><p>对于图层支持视图而言, 更推荐使用UIKit和AppKit提供的基于视图的接口来创建动画. 虽然可以直接通过<code>Core Animation</code>的接口为图层添加动画, 但如何创建动画还是取决于目标平台.</p>
+<h2 id="在iOS中修改图层"><a href="#在iOS中修改图层" class="headerlink" title="在iOS中修改图层"></a>在iOS中修改图层</h2><p>在iOS中所有的视图都包含一个图层, <code>UIView</code>类中有许多属性都是对图层相应属性的封装. 所以对图层的修改也会反映到视图上. 这就是说在iOS同时支持通过<code>Core Animation</code>或者<code>UIView</code>的接口进行修改. </p>
+<p>如果想要通过<code>Core Animation</code>来开始动画, 必须把<code>Core Animation</code>相关调用都放在视图的动画block中. <code>UIView</code>类默认禁用图层动画, 只能在其动画block中使用.  Listing 3-5 示例了一个透明度变化的隐式动画和一个位移变化的显示动画. </p>
+<ul>
+<li><strong>Listing 3-5</strong> 视图中的图层动画</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[UIView animateWithDuration:1.0 animations:^&#123;</span><br><span class="line">   // Change the opacity implicitly.</span><br><span class="line">   myView.layer.opacity = 0.0;</span><br><span class="line"> </span><br><span class="line">   // Change the position explicitly.</span><br><span class="line">   CABasicAnimation* theAnim = [CABasicAnimation animationWithKeyPath:@&quot;position&quot;];</span><br><span class="line">   theAnim.fromValue = [NSValue valueWithCGPoint:myView.layer.position];</span><br><span class="line">   theAnim.toValue = [NSValue valueWithCGPoint:myNewPosition];</span><br><span class="line">   theAnim.duration = 3.0;</span><br><span class="line">   [myView.layer addAnimation:theAnim forKey:@&quot;AnimateFrame&quot;];</span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
+
+<h2 id="在OS-X中修改图层"><a href="#在OS-X中修改图层" class="headerlink" title="在OS X中修改图层"></a>在OS X中修改图层</h2><p>要给OS X中的图层支持视图添加动画, 最好最使用视图自身的动画接口. 不建议直接修改视图的图层对象. AppKit负责创建, 配置和管理这些图层对象. 直接修改图层对象可能会导致图层和视图的状态不同步, 产生意外结果. 对于图层支持视图, 不能直接修改图层的下列属性:</p>
+<ul>
+<li><em>anchorPoint</em></li>
+<li><em>bounds</em></li>
+<li><em>compositingFilter</em></li>
+<li><em>filters</em></li>
+<li><em>frame</em></li>
+<li><em>geometryFlipped</em></li>
+<li><em>hidden</em></li>
+<li><em>position</em></li>
+<li><em>shadowColor</em></li>
+<li><em>shadowOffset</em></li>
+<li><em>shadowOpacity</em></li>
+<li><em>shadowRadius</em></li>
+<li><em>transform</em></li>
+</ul>
+<blockquote>
+<p>注意: 上面的限制不包含图层托管视图. 如果开发者手动创建了图层, 并将其与视图相关联, 则开由开发者负责图层与视图之间的状态同步.</p>
+</blockquote>
+<p>AppKit默认禁用隐式动画. 视图的动画代理对象会自动开启隐式动画. 如果要直接为图层添加动画, 可以将当前<code>NSAnimationContext</code>对象的<a target="_blank" rel="noopener" href="https://developer.apple.com/documentation/appkit/nsanimationcontext/1525870-allowsimplicitanimation">allowsImplicitAnimation</a>属性设置为<code>YES</code>. 再次强调, 不能使用这种方法为上面列表中的图层属性添加动画. </p>
+<h2 id="为动画更新视图约束"><a href="#为动画更新视图约束" class="headerlink" title="为动画更新视图约束"></a>为动画更新视图约束</h2><p>如果视图使用了基于约束的布局方法, 则需要先删除影响动画的约束. 约束会影响任何大小或位置相关的修改, 还会影响视图和其子视图之间的关系. 但是可以在动画执行完成后重新添加约束. </p>
+<p>更多约束相关的信息, 请参阅<a target="_blank" rel="noopener" href="https://developer.apple.com/library/archive/documentation/UserExperience/Conceptual/AutolayoutPG/index.html#//apple_ref/doc/uid/TP40010853">Auto Layout Guide</a>.</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Core-Animation/" rel="tag"># Core Animation</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/03/04/%E8%AE%BE%E7%BD%AE%E5%9B%BE%E5%B1%82%E5%AF%B9%E8%B1%A1/" rel="prev" title="CoreAnimation编程指南翻译(三):设置图层对象">
+      <i class="fa fa-chevron-left"></i> CoreAnimation编程指南翻译(三):设置图层对象
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/03/08/%E6%9E%84%E5%BB%BA%E5%9B%BE%E5%B1%82%E6%A0%91/" rel="next" title="CoreAnimation编程指南翻译(五):构建图层树">
+      CoreAnimation编程指南翻译(五):构建图层树 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9F%BA%E7%A1%80%E5%8A%A8%E7%94%BB"><span class="nav-number">1.</span> <span class="nav-text">基础动画</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%B3%E9%94%AE%E5%B8%A7%E5%8A%A8%E7%94%BB"><span class="nav-number">2.</span> <span class="nav-text">关键帧动画</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8C%87%E5%AE%9A%E5%85%B3%E9%94%AE%E5%B8%A7%E7%9A%84%E5%80%BC"><span class="nav-number">2.1.</span> <span class="nav-text">指定关键帧的值</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8C%87%E5%AE%9A%E5%85%B3%E9%94%AE%E5%B8%A7%E5%8A%A8%E7%94%BB%E7%9A%84%E6%97%B6%E9%97%B4"><span class="nav-number">2.2.</span> <span class="nav-text">指定关键帧动画的时间</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%81%9C%E6%AD%A2%E6%AD%A3%E5%9C%A8%E6%89%A7%E8%A1%8C%E7%9A%84%E5%8A%A8%E7%94%BB"><span class="nav-number">2.3.</span> <span class="nav-text">停止正在执行的动画</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8A%A8%E7%94%BB%E7%BB%84"><span class="nav-number">3.</span> <span class="nav-text">动画组</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%A3%80%E6%B5%8B%E5%8A%A8%E7%94%BB%E7%BB%93%E6%9D%9F"><span class="nav-number">4.</span> <span class="nav-text">检测动画结束</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9B%BE%E5%B1%82%E6%94%AF%E6%8C%81%E8%A7%86%E5%9B%BE%E7%9A%84%E5%8A%A8%E7%94%BB"><span class="nav-number">5.</span> <span class="nav-text">图层支持视图的动画</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%A8iOS%E4%B8%AD%E4%BF%AE%E6%94%B9%E5%9B%BE%E5%B1%82"><span class="nav-number">5.1.</span> <span class="nav-text">在iOS中修改图层</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%A8OS-X%E4%B8%AD%E4%BF%AE%E6%94%B9%E5%9B%BE%E5%B1%82"><span class="nav-number">5.2.</span> <span class="nav-text">在OS X中修改图层</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BA%E5%8A%A8%E7%94%BB%E6%9B%B4%E6%96%B0%E8%A7%86%E5%9B%BE%E7%BA%A6%E6%9D%9F"><span class="nav-number">5.3.</span> <span class="nav-text">为动画更新视图约束</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">mangox</p>
+  <div class="site-description" itemprop="description">每天进步一点点</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">130</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">34</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">mangox</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'Hl5bOvNBmh6xqvMEjzRRWMIP-gzGzoHsz',
+      appKey     : '3n3m7ANssYrw0VgxYu87kQEL',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : true,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

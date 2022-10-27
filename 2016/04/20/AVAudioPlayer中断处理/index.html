@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.devzhang.cn","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="1.配置音频会话1.1处理”铃声&#x2F;静音”开关切换测试上一节使用AVAudioPlayer播放音频的程序,当开始播放音频时切换设备侧面的”铃声&#x2F;静音”开关,会发现音频输出也会在这两种状态下切换.为了让我们的程序在这两种状态下都能正常输出音乐,需要在程序启动时对音频会话进行明确的配置.在)application: didFinishLaunchingWithOptions:中加入如">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AVAudioPlayer中断处理">
+<meta property="og:url" content="http://www.devzhang.cn/2016/04/20/AVAudioPlayer%E4%B8%AD%E6%96%AD%E5%A4%84%E7%90%86/index.html">
+<meta property="og:site_name" content="做点有意思的事情">
+<meta property="og:description" content="1.配置音频会话1.1处理”铃声&#x2F;静音”开关切换测试上一节使用AVAudioPlayer播放音频的程序,当开始播放音频时切换设备侧面的”铃声&#x2F;静音”开关,会发现音频输出也会在这两种状态下切换.为了让我们的程序在这两种状态下都能正常输出音乐,需要在程序启动时对音频会话进行明确的配置.在)application: didFinishLaunchingWithOptions:中加入如">
+<meta property="og:locale">
+<meta property="article:published_time" content="2016-04-19T16:00:00.000Z">
+<meta property="article:modified_time" content="2016-06-30T06:32:00.000Z">
+<meta property="article:author" content="mangox">
+<meta property="article:tag" content="AVFoundation">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://www.devzhang.cn/2016/04/20/AVAudioPlayer%E4%B8%AD%E6%96%AD%E5%A4%84%E7%90%86/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>AVAudioPlayer中断处理 | 做点有意思的事情</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">做点有意思的事情</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">每天进步一点点</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://www.devzhang.cn/2016/04/20/AVAudioPlayer%E4%B8%AD%E6%96%AD%E5%A4%84%E7%90%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="mangox">
+      <meta itemprop="description" content="每天进步一点点">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="做点有意思的事情">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          AVAudioPlayer中断处理
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-04-20 00:00:00" itemprop="dateCreated datePublished" datetime="2016-04-20T00:00:00+08:00">2016-04-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2016-06-30 14:32:00" itemprop="dateModified" datetime="2016-06-30T14:32:00+08:00">2016-06-30</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index"><span itemprop="name">iOS</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2016/04/20/AVAudioPlayer%E4%B8%AD%E6%96%AD%E5%A4%84%E7%90%86/" class="post-meta-item leancloud_visitors" data-flag-title="AVAudioPlayer中断处理" title="Views">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2016/04/20/AVAudioPlayer%E4%B8%AD%E6%96%AD%E5%A4%84%E7%90%86/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2016/04/20/AVAudioPlayer%E4%B8%AD%E6%96%AD%E5%A4%84%E7%90%86/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="1-配置音频会话"><a href="#1-配置音频会话" class="headerlink" title="1.配置音频会话"></a>1.配置音频会话</h1><h2 id="1-1处理”铃声-x2F-静音”开关切换"><a href="#1-1处理”铃声-x2F-静音”开关切换" class="headerlink" title="1.1处理”铃声&#x2F;静音”开关切换"></a>1.1处理”铃声&#x2F;静音”开关切换</h2><p>测试上一节<a target="_blank" rel="noopener" href="http://coderzhang.xyz/2016/04/02/%E4%BD%BF%E7%94%A8avaudioplayer%E6%92%AD%E6%94%BE%E9%9F%B3%E9%A2%91/">使用AVAudioPlayer播放音频</a>的程序,当开始播放音频时切换设备侧面的”铃声&#x2F;静音”开关,会发现音频输出也会在这两种状态下切换.为了让我们的程序在这两种状态下都能正常输出音乐,需要在程序启动时对音频会话进行明确的配置.在<code>)application: didFinishLaunchingWithOptions:</code>中加入如下代码即可:</p>
+<pre><code> AVAudioSession *session = [AVAudioSession sharedInstance];
+[session setCategory:AVAudioSessionCategoryPlayback error:nil];
+[session setActive:YES error:nil];
+</code></pre>
+<span id="more"></span>
+<h2 id="1-2后台播放"><a href="#1-2后台播放" class="headerlink" title="1.2后台播放"></a>1.2后台播放</h2><p>当设备锁定或者应用进入后台时,如果也希望能正常播放音乐,还需要在工程中设置<code> Background Modes</code>,有两种方法进行设置.</p>
+<p>第一种,在Xcode中找到项目的<code>info.plist</code>,新添加一行名为<code>Required background modes</code>的数组,并在其中添加一项<code>App plays audio or streams audio/video using AirPlay</code>.</p>
+<p>第二种,打开<code>TARGETS</code>下的<code>Capabilities</code>的分类,找到<code>Background Modes</code>,并在其子目录中勾选<code>Audio,AirPlay and Picture in Picture</code>.</p>
+<h1 id="2-中断处理"><a href="#2-中断处理" class="headerlink" title="2.中断处理"></a>2.中断处理</h1><p>中断在移动设备中经常出现,比如电话呼入,闹钟响起等情况.对iOS来说,当中断发生时,播放中的音频会慢慢消失和暂停.这一效果是系统自动实现的,不过当中断消失时,音频并不会自动恢复.所以我们需要编写代码解决这个问题.</p>
+<h3 id="2-1中断通知"><a href="#2-1中断通知" class="headerlink" title="2.1中断通知"></a>2.1中断通知</h3><p>中断发生时,应用程序的AVAudioSession会发送通知<code>AVAudioSessionInterruptionNotification</code>,注册通知代码如下:</p>
+<pre><code>        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleInterruption:) name:AVAudioSessionInterruptionNotification object:[AVAudioSession sharedInstance]];
+</code></pre>
+<p>在接收到通知的userInfo中,会包含一个<code>AVAudioSessionInterruptionTypeKey</code>,用来标识中断开始和中断结束.<br>当中断类型为<code>AVAudioSessionInterruptionTypeKeyEnded</code>时,userInfo中还会包含一个<code>AVAudioSessionInterruptionOptions</code>来表明音频会话是否已经重新激活以及是否可以再次播放.示例代码如下:</p>
+<pre><code>- (void)handleInterruption:(NSNotification *)notification
+&#123;
+NSDictionary *info = notification.userInfo;
+AVAudioSessionInterruptionType type = [info[AVAudioSessionInterruptionTypeKey] unsignedIntegerValue];
+if (type == AVAudioSessionInterruptionTypeBegan) &#123;
+    //Handle InterruptionBegan
+&#125;else&#123;
+    AVAudioSessionInterruptionOptions options = [info[AVAudioSessionInterruptionOptionKey] unsignedIntegerValue];
+    if (options == AVAudioSessionInterruptionOptionShouldResume) &#123;
+        //Handle Resume
+
+    &#125;
+&#125;
+&#125;
+</code></pre>
+<h3 id="2-2-线路改变"><a href="#2-2-线路改变" class="headerlink" title="2.2 线路改变"></a>2.2 线路改变</h3><p>在iOS设备上添加或移除音频输入,输出线路时,会发生线路改变,比如用户插入耳机或断开USB麦克风.当这些事件发生时,音频会根据情况改变输入或输入线路,同时AVAudioSession会发送一个相关变化的通知<code>AVAudioSessionRouteChangeNotification</code>.注册通知的相关代码如下:</p>
+<pre><code>        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleRouteChange:) name:AVAudioSessionRouteChangeNotification object:[AVAudioSession sharedInstance]];
+</code></pre>
+<p>根据苹果公司的文档,当用户插入耳机时,隐含的意思是用户不希望外界听到具体的音频了内容,这就意味着当用户断开耳机时,播放的内容可能需要保密,所以我们需要在断开耳机时停止音频播放.</p>
+<p><code>AVAudioSessionRouteChangeNotification</code>通知的userinfo中会带有通知发送的原因信息及前一个线路的描述.线路变更的原因保存在userinfo的<code>AVAudioSessionRouteChangeReasonKey</code>值中,通过返回值可以推断出不同的事件,对于旧音频设备中断对应的reason为<code>AVAudioSessionRouteChangeReasonOldDeviceUnavailable</code>.但光凭这个reason并不能断定是耳机断开,所以还需要使用通过<code>AVAudioSessionRouteChangePreviousRouteKey</code>获得上一线路的描述信息,注意线路的描述信息整合在一个输入NSArray和一个输出NSArray中,数组中的元素都是<code>AVAudioSessionPortDescription</code>对象.我们需要从线路描述中找到第一个输出接口并判断其是否为耳机接口,如果为耳机,则停止播放.<br>具体代码如下:</p>
+<pre><code>- (void)handleRouteChange:(NSNotification *)notification
+&#123;
+NSDictionary *info = notification.userInfo;
+AVAudioSessionRouteChangeReason reason = [info[AVAudioSessionRouteChangeReasonKey] unsignedIntegerValue];
+if (reason == AVAudioSessionRouteChangeReasonOldDeviceUnavailable) &#123;  //旧音频设备断开
+    //获取上一线路描述信息
+    AVAudioSessionRouteDescription *previousRoute = info[AVAudioSessionRouteChangePreviousRouteKey];
+    //获取上一线路的输出设备类型
+    AVAudioSessionPortDescription *previousOutput = previousRoute.outputs[0];
+    NSString *portType = previousOutput.portType;
+    if ([portType isEqualToString:AVAudioSessionPortHeadphones]) &#123;
+    &#125;
+&#125;
+&#125;
+</code></pre>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/AVFoundation/" rel="tag"># AVFoundation</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2016/04/17/MVC%E7%99%BB%E5%BD%95%E7%A4%BA%E4%BE%8B/" rel="prev" title="MVC登录示例">
+      <i class="fa fa-chevron-left"></i> MVC登录示例
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2016/04/25/%E4%BD%BF%E7%94%A8AVAudioRecorder%E5%BD%95%E5%88%B6%E9%9F%B3%E9%A2%91/" rel="next" title="使用AVAudioRecorder录制音频">
+      使用AVAudioRecorder录制音频 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E9%85%8D%E7%BD%AE%E9%9F%B3%E9%A2%91%E4%BC%9A%E8%AF%9D"><span class="nav-number">1.</span> <span class="nav-text">1.配置音频会话</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1%E5%A4%84%E7%90%86%E2%80%9D%E9%93%83%E5%A3%B0-x2F-%E9%9D%99%E9%9F%B3%E2%80%9D%E5%BC%80%E5%85%B3%E5%88%87%E6%8D%A2"><span class="nav-number">1.1.</span> <span class="nav-text">1.1处理”铃声&#x2F;静音”开关切换</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2%E5%90%8E%E5%8F%B0%E6%92%AD%E6%94%BE"><span class="nav-number">1.2.</span> <span class="nav-text">1.2后台播放</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-%E4%B8%AD%E6%96%AD%E5%A4%84%E7%90%86"><span class="nav-number">2.</span> <span class="nav-text">2.中断处理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1%E4%B8%AD%E6%96%AD%E9%80%9A%E7%9F%A5"><span class="nav-number">2.0.1.</span> <span class="nav-text">2.1中断通知</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-%E7%BA%BF%E8%B7%AF%E6%94%B9%E5%8F%98"><span class="nav-number">2.0.2.</span> <span class="nav-text">2.2 线路改变</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">mangox</p>
+  <div class="site-description" itemprop="description">每天进步一点点</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">130</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">34</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">mangox</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'Hl5bOvNBmh6xqvMEjzRRWMIP-gzGzoHsz',
+      appKey     : '3n3m7ANssYrw0VgxYu87kQEL',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : true,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

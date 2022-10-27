@@ -1,0 +1,1108 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.devzhang.cn","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="本章译自Apple官方文档AVFoundation Programming Guide, 是AVFoundation系列译文第六篇, 介绍了AVFoundation框架中对Asset进行二次编码及导出相关内容, 全部译文参见我的GitBook: AVFoundation编程指南.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Asset的重编码及导出">
+<meta property="og:url" content="http://www.devzhang.cn/2016/09/20/Asset%E7%9A%84%E9%87%8D%E7%BC%96%E7%A0%81%E5%8F%8A%E5%AF%BC%E5%87%BA/index.html">
+<meta property="og:site_name" content="做点有意思的事情">
+<meta property="og:description" content="本章译自Apple官方文档AVFoundation Programming Guide, 是AVFoundation系列译文第六篇, 介绍了AVFoundation框架中对Asset进行二次编码及导出相关内容, 全部译文参见我的GitBook: AVFoundation编程指南.">
+<meta property="og:locale">
+<meta property="article:published_time" content="2016-09-20T13:50:21.000Z">
+<meta property="article:modified_time" content="2016-09-21T02:57:29.000Z">
+<meta property="article:author" content="mangox">
+<meta property="article:tag" content="AVFoundation编程指南">
+<meta property="article:tag" content="翻译">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://www.devzhang.cn/2016/09/20/Asset%E7%9A%84%E9%87%8D%E7%BC%96%E7%A0%81%E5%8F%8A%E5%AF%BC%E5%87%BA/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>Asset的重编码及导出 | 做点有意思的事情</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">做点有意思的事情</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">每天进步一点点</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://www.devzhang.cn/2016/09/20/Asset%E7%9A%84%E9%87%8D%E7%BC%96%E7%A0%81%E5%8F%8A%E5%AF%BC%E5%87%BA/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="mangox">
+      <meta itemprop="description" content="每天进步一点点">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="做点有意思的事情">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Asset的重编码及导出
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-09-20 21:50:21" itemprop="dateCreated datePublished" datetime="2016-09-20T21:50:21+08:00">2016-09-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2016-09-21 10:57:29" itemprop="dateModified" datetime="2016-09-21T10:57:29+08:00">2016-09-21</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index"><span itemprop="name">iOS</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2016/09/20/Asset%E7%9A%84%E9%87%8D%E7%BC%96%E7%A0%81%E5%8F%8A%E5%AF%BC%E5%87%BA/" class="post-meta-item leancloud_visitors" data-flag-title="Asset的重编码及导出" title="Views">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2016/09/20/Asset%E7%9A%84%E9%87%8D%E7%BC%96%E7%A0%81%E5%8F%8A%E5%AF%BC%E5%87%BA/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2016/09/20/Asset%E7%9A%84%E9%87%8D%E7%BC%96%E7%A0%81%E5%8F%8A%E5%AF%BC%E5%87%BA/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>本章译自Apple官方文档<a target="_blank" rel="noopener" href="https://developer.apple.com/library/content/documentation/AudioVideo/Conceptual/AVFoundationPG/Articles/00_Introduction.html#//apple_ref/doc/uid/TP40010188-CH1-SW3">AVFoundation Programming Guide</a>, 是AVFoundation系列译文第六篇, 介绍了AVFoundation框架中对Asset进行二次编码及导出相关内容, 全部译文参见我的GitBook: <a target="_blank" rel="noopener" href="https://www.gitbook.com/book/changjianfeishui/avfoundation-programming-guide/details">AVFoundation编程指南</a>. </p>
+<span id="more"></span>
+
+<p>使用AVFoundation提供的导出(export)API可以对音视频资源操作. <a target="_blank" rel="noopener" href="https://developer.apple.com/reference/avfoundation/avassetexportsession">AVAssetExportSession</a>类提供的接口可以实现一些简单的export需求, 比如修改资源文件格式, 对资源进行删减. 对更复杂的需求, 需要使用<a target="_blank" rel="noopener" href="https://developer.apple.com/reference/avfoundation/avassetreader">AVAssetReader</a>和<a target="_blank" rel="noopener" href="https://developer.apple.com/reference/avfoundation/avassetwriter">AVAssetWriter</a>. </p>
+<p>在需要对asset内容进行操作时使用<code>AVAssetReader</code>. 例如, 需要读取audio track绘制音频波形图. 在需要将媒体(比如sample buffers或者静态图像)转换为一个asset时, 使用<code>AVAssetWriter</code>. </p>
+<blockquote>
+<p>注意: 不应实时处理时用到这两个类. <code>AVAssetReader</code>不能用来读取HTTP直播流这样的实时资源. 如果在实时数据处理(比如<a target="_blank" rel="noopener" href="https://developer.apple.com/reference/avfoundation/avcaptureoutput">AVCaptureOutput</a>)中使用了<code>AVAssetWriter</code>, 需要将<code>AVAssetWriter</code>的属性<a target="_blank" rel="noopener" href="https://developer.apple.com/reference/avfoundation/avassetwriterinput/1387827-expectsmediadatainrealtime">expectsMediaDataInRealTime</a>设置为<code>YES</code>, 这样可以保证以正确的顺序写入文件. </p>
+</blockquote>
+<h1 id="读取Asset"><a href="#读取Asset" class="headerlink" title="读取Asset"></a>读取Asset</h1><p>每个<code>AVAssetReader</code>对象只能被关联到一个asset, 但是这个asset可能包含多个track.  因此, 在开始读取之前, 需要配置一个<a target="_blank" rel="noopener" href="https://developer.apple.com/reference/avfoundation/avassetreaderoutput">AVAssetReaderOutput</a>的子类来设置媒体数据的读取方式. <code>AVAssetReaderOutput</code>有三个子类可以用来读取asset: <a target="_blank" rel="noopener" href="https://developer.apple.com/reference/avfoundation/avassetreadertrackoutput">AVAssetReaderTrackOutput</a>, <a target="_blank" rel="noopener" href="https://developer.apple.com/reference/avfoundation/avassetreaderaudiomixoutput">AVAssetReaderAudioMixOutput</a>和<a target="_blank" rel="noopener" href="https://developer.apple.com/reference/avfoundation/avassetreadervideocompositionoutput">AVAssetReaderVideoCompositionOutput</a>. </p>
+<h2 id="创建Asset-Reader"><a href="#创建Asset-Reader" class="headerlink" title="创建Asset Reader"></a>创建Asset Reader</h2><p>创建<code>AVAssetReader</code>对象需要一个asset对象:</p>
+<pre><code>NSError *outError;
+AVAsset *someAsset = &lt;#AVAsset that you want to read#&gt;;
+AVAssetReader *assetReader = [AVAssetReader assetReaderWithAsset:someAsset error:&amp;outError];
+BOOL success = (assetReader != nil);
+</code></pre>
+<blockquote>
+<p>需要检查assetReader是否创建成功, 如果失败, error会包含相关的错误信息.</p>
+</blockquote>
+<h2 id="设置Asset-Reader-Output"><a href="#设置Asset-Reader-Output" class="headerlink" title="设置Asset Reader Output"></a>设置Asset Reader Output</h2><p>成功创建assetReader后, 至少需要设置一个output来接收读取的媒体数据. 确保output的属性<a target="_blank" rel="noopener" href="https://developer.apple.com/reference/avfoundation/avassetreaderoutput/1389189-alwayscopiessampledata">alwaysCopiesSampleData</a>被设置为<code>NO</code>, 这样能提升性能. 本章所有的实例代码中, 该属性都设置为<code>NO</code>.</p>
+<p>如果只是需要从一个或多个track中读取数据并修改其格式, 那么可以使用<code>AVAssetReaderTrackOutput</code>. 要解压一个audio track为Linear PCM, 需要进行如下设置:</p>
+<pre><code>AVAsset *localAsset = assetReader.asset;
+// Get the audio track to read.
+AVAssetTrack *audioTrack = [[localAsset tracksWithMediaType:AVMediaTypeAudio] objectAtIndex:0];
+// Decompression settings for Linear PCM
+NSDictionary *decompressionAudioSettings = @&#123; AVFormatIDKey : [NSNumber numberWithUnsignedInt:kAudioFormatLinearPCM] &#125;;
+// Create the output with the audio track and decompression settings.
+AVAssetReaderOutput *trackOutput = [AVAssetReaderTrackOutput assetReaderTrackOutputWithTrack:audioTrack outputSettings:decompressionAudioSettings];
+// Add the output to the reader if possible.
+if ([assetReader canAddOutput:trackOutput])
+    [assetReader addOutput:trackOutput];
+</code></pre>
+<blockquote>
+<p>要以存储时的格式读取数据, 将参数<code>outputSettings</code>设置为<code>nil</code>.</p>
+</blockquote>
+<p>对于使用<a target="_blank" rel="noopener" href="https://developer.apple.com/reference/avfoundation/avaudiomix">AVAudioMix</a>和<a target="_blank" rel="noopener" href="https://developer.apple.com/reference/avfoundation/avvideocomposition">AVVideoComposition</a>处理过的asset, 需要使用<code>AVAssetReaderAudioMixOutput</code> 和 <code>AVAssetReaderVideoCompositionOutput</code>进行读取. 通常, 当从<a target="_blank" rel="noopener" href="https://developer.apple.com/reference/avfoundation/avcomposition">AVComposition</a>对象中读取数据时, 会使用到这些output对象. </p>
+<p>使用一个<code>AVAssetReaderAudioMixOutput</code>对象, 可以读取asset中的多个audio track. 下面的代码展示了为asset中所有的audio track创建一个<code>AVAssetReaderAudioMixOutput</code>对象, 解压audio track为Linear PCM, 并为output设置音频混合方式(audio mix):</p>
+<pre><code>AVAudioMix *audioMix = &lt;#An AVAudioMix that specifies how the audio tracks from the AVAsset are mixed#&gt;;
+// Assumes that assetReader was initialized with an AVComposition object.
+AVComposition *composition = (AVComposition *)assetReader.asset;
+// Get the audio tracks to read.
+NSArray *audioTracks = [composition tracksWithMediaType:AVMediaTypeAudio];
+// Get the decompression settings for Linear PCM.
+NSDictionary *decompressionAudioSettings = @&#123; AVFormatIDKey : [NSNumber numberWithUnsignedInt:kAudioFormatLinearPCM] &#125;;
+// Create the audio mix output with the audio tracks and decompression setttings.
+AVAssetReaderOutput *audioMixOutput = [AVAssetReaderAudioMixOutput assetReaderAudioMixOutputWithAudioTracks:audioTracks audioSettings:decompressionAudioSettings];
+// Associate the audio mix used to mix the audio tracks being read with the output.
+audioMixOutput.audioMix = audioMix;
+// Add the output to the reader if possible.
+if ([assetReader canAddOutput:audioMixOutput])
+    [assetReader addOutput:audioMixOutput];
+</code></pre>
+<blockquote>
+<p>设置参数<code>audioSettings</code> 为 <code>nil</code>, 将返回未被压缩的样本数据. 对<code>AVAssetReaderVideoCompositionOutput</code>也一样.</p>
+</blockquote>
+<p><code>AVAssetReaderVideoCompositionOutput</code> 的使用方法大致与<code>AVAssetReaderAudioMixOutput</code> 相同, 可以从asset中读取多个video track. 下面的代码示例了如何从多个video track中读取数据, 并解压为ARGB:</p>
+<pre><code>AVVideoComposition *videoComposition = &lt;#An AVVideoComposition that specifies how the video tracks from the AVAsset are composited#&gt;;
+// Assumes assetReader was initialized with an AVComposition.
+AVComposition *composition = (AVComposition *)assetReader.asset;
+// Get the video tracks to read.
+NSArray *videoTracks = [composition tracksWithMediaType:AVMediaTypeVideo];
+// Decompression settings for ARGB.
+NSDictionary *decompressionVideoSettings = @&#123; (id)kCVPixelBufferPixelFormatTypeKey : [NSNumber numberWithUnsignedInt:kCVPixelFormatType_32ARGB], (id)kCVPixelBufferIOSurfacePropertiesKey : [NSDictionary dictionary] &#125;;
+// Create the video composition output with the video tracks and decompression setttings.
+AVAssetReaderOutput *videoCompositionOutput = [AVAssetReaderVideoCompositionOutput assetReaderVideoCompositionOutputWithVideoTracks:videoTracks videoSettings:decompressionVideoSettings];
+// Associate the video composition used to composite the video tracks being read with the output.
+videoCompositionOutput.videoComposition = videoComposition;
+// Add the output to the reader if possible.
+if ([assetReader canAddOutput:videoCompositionOutput])
+    [assetReader addOutput:videoCompositionOutput];
+    
+</code></pre>
+<h2 id="读取Asset中的媒体数据"><a href="#读取Asset中的媒体数据" class="headerlink" title="读取Asset中的媒体数据"></a>读取Asset中的媒体数据</h2><p>按需设置outputs之后, 调用asset reader的方法<a target="_blank" rel="noopener" href="https://developer.apple.com/reference/avfoundation/avassetreader/1390286-startreading">startReading</a>开始读取数据. 然后使用方法<a target="_blank" rel="noopener" href="https://developer.apple.com/reference/avfoundation/avassetreaderoutput/1385732-copynextsamplebuffer">copyNextSampleBuffer</a>从outputs中获取媒体数据. 示例如下:</p>
+<pre><code>// Start the asset reader up.
+[self.assetReader startReading];
+BOOL done = NO;
+while (!done)
+&#123;
+  // Copy the next sample buffer from the reader output.
+  CMSampleBufferRef sampleBuffer = [self.assetReaderOutput copyNextSampleBuffer];
+  if (sampleBuffer)
+  &#123;
+    // Do something with sampleBuffer here.
+    CFRelease(sampleBuffer);
+    sampleBuffer = NULL;
+  &#125;
+  else
+  &#123;
+    // Find out why the asset reader output couldn&#39;t copy another sample buffer.
+    if (self.assetReader.status == AVAssetReaderStatusFailed)
+    &#123;
+      NSError *failureError = self.assetReader.error;
+      // Handle the error here.
+    &#125;
+    else
+    &#123;
+      // The asset reader output has read all of its samples.
+      done = YES;
+    &#125;
+  &#125;
+&#125;
+</code></pre>
+<h1 id="写入Asset"><a href="#写入Asset" class="headerlink" title="写入Asset"></a>写入Asset</h1><p><a target="_blank" rel="noopener" href="https://developer.apple.com/reference/avfoundation/avassetwriter">AVAssetWriter</a>将多个来源的数据以指定格式写入到单个文件中. Asset writer并不与一个特定的asset相关联, 但必须与要输出的文件相关联. 由于一个asset writer可以从多个来源获取数据, 所以需要为每个要写入的track创建对应的<a target="_blank" rel="noopener" href="https://developer.apple.com/reference/avfoundation/avassetwriterinput">AVAssetWriterInput</a>对象. 每个<code>AVAssetWriterInput</code>对象接收<a target="_blank" rel="noopener" href="https://developer.apple.com/reference/coremedia/cmsamplebuffer">CMSampleBufferRef</a>类型的数据, 如果想要添加<a target="_blank" rel="noopener" href="https://developer.apple.com/reference/corevideo/cvpixelbufferref">CVPixelBufferRef</a>类型的数据, 可以使用<a target="_blank" rel="noopener" href="https://developer.apple.com/reference/avfoundation/avassetwriterinputpixelbufferadaptor">AVAssetWriterInputPixelBufferAdaptor</a>.</p>
+<h2 id="创建AVAssetWriter"><a href="#创建AVAssetWriter" class="headerlink" title="创建AVAssetWriter"></a>创建AVAssetWriter</h2><p>创建AVAssetWriter对象需要指定一个文件URL和文件格式. 下面的代码示例了如何初始化一个AVAssetWriter用来创建QuickTime电影.</p>
+<pre><code>NSError *outError;
+NSURL *outputURL = &lt;#NSURL object representing the URL where you want to save the video#&gt;;
+AVAssetWriter *assetWriter = [AVAssetWriter assetWriterWithURL:outputURL
+                                                      fileType:AVFileTypeQuickTimeMovie
+                                                         error:&amp;outError];
+BOOL success = (assetWriter != nil);
+</code></pre>
+<h2 id="设置Asset-Writer-Inputs"><a href="#设置Asset-Writer-Inputs" class="headerlink" title="设置Asset Writer Inputs"></a>设置Asset Writer Inputs</h2><p>要让AVAssetWriter能写入媒体数据, 必须至少设置一个asset writer input.  例如要写入<code>CMSampleBufferRef</code>类型的数据, 需要使用<code>AVAssetWriterInput</code>. 下面的代码示例了将压缩的音频数据写入为128 kbps的AAC格式:</p>
+<pre><code>// Configure the channel layout as stereo.
+AudioChannelLayout stereoChannelLayout = &#123;
+    .mChannelLayoutTag = kAudioChannelLayoutTag_Stereo,
+    .mChannelBitmap = 0,
+    .mNumberChannelDescriptions = 0
+&#125;;
+ 
+// Convert the channel layout object to an NSData object.
+NSData *channelLayoutAsData = [NSData dataWithBytes:&amp;stereoChannelLayout length:offsetof(AudioChannelLayout, mChannelDescriptions)];
+ 
+// Get the compression settings for 128 kbps AAC.
+NSDictionary *compressionAudioSettings = @&#123;
+    AVFormatIDKey         : [NSNumber numberWithUnsignedInt:kAudioFormatMPEG4AAC],
+    AVEncoderBitRateKey   : [NSNumber numberWithInteger:128000],
+    AVSampleRateKey       : [NSNumber numberWithInteger:44100],
+    AVChannelLayoutKey    : channelLayoutAsData,
+    AVNumberOfChannelsKey : [NSNumber numberWithUnsignedInteger:2]
+&#125;;
+ 
+// Create the asset writer input with the compression settings and specify the media type as audio.
+AVAssetWriterInput *assetWriterInput = [AVAssetWriterInput assetWriterInputWithMediaType:AVMediaTypeAudio outputSettings:compressionAudioSettings];
+// Add the input to the writer if possible.
+if ([assetWriter canAddInput:assetWriterInput])
+    [assetWriter addInput:assetWriterInput];
+</code></pre>
+<blockquote>
+<p>只有asset writer初始化时<code>fileType</code>为 <a target="_blank" rel="noopener" href="https://developer.apple.com/reference/avfoundation/avfiletypequicktimemovie">AVFileTypeQuickTimeMovie</a>, 参数<code>outputSettings</code>才能为nil, 意味着写入的文件格式为 QuickTime movie.</p>
+</blockquote>
+<p>使用属性<a target="_blank" rel="noopener" href="https://developer.apple.com/reference/avfoundation/avassetwriterinput/1386328-metadata">metadata</a> 和 <a target="_blank" rel="noopener" href="https://developer.apple.com/reference/avfoundation/avassetwriterinput/1390183-transform">transform</a> 可以为指定的track设置metadata和transform. 当输入源为 video track 时, 可以通过如下方式持有 video track 的原始transform:</p>
+<pre><code>AVAsset *videoAsset = &lt;#AVAsset with at least one video track#&gt;;
+AVAssetTrack *videoAssetTrack = [[videoAsset tracksWithMediaType:AVMediaTypeVideo] objectAtIndex:0];
+assetWriterInput.transform = videoAssetTrack.preferredTransform;
+</code></pre>
+<blockquote>
+<p>注意, 需要在开始写入之前设置这两个属性才会生效.</p>
+</blockquote>
+<p>在写入文件时, 有时候可能会需要分配一个pixel buffer, 这时可以使用<code>AVAssetWriterInputPixelBufferAdaptor</code>类. 为了提高效率, 可以直接使用pixel buffer adaptor 提供的 pixel buffer pool. 下面的代码示例了创建了一个pixel buffer对象处理RGB色域:</p>
+<pre><code>NSDictionary *pixelBufferAttributes = @&#123;
+     kCVPixelBufferCGImageCompatibilityKey : [NSNumber numberWithBool:YES],
+     kCVPixelBufferCGBitmapContextCompatibilityKey : [NSNumber numberWithBool:YES],
+     kCVPixelBufferPixelFormatTypeKey : [NSNumber numberWithInt:kCVPixelFormatType_32ARGB]
+&#125;;
+AVAssetWriterInputPixelBufferAdaptor *inputPixelBufferAdaptor = [AVAssetWriterInputPixelBufferAdaptor assetWriterInputPixelBufferAdaptorWithAssetWriterInput:self.assetWriterInput sourcePixelBufferAttributes:pixelBufferAttributes];
+</code></pre>
+<blockquote>
+<p>注意, 所有的<code>AVAssetWriterInputPixelBufferAdaptor</code>对象都必须与一个asset writer input相关联	. 这个asset writer input对象必须接收<code>AVMediaTypeVideo</code>类型的数据. </p>
+</blockquote>
+<h2 id="写入媒体数据"><a href="#写入媒体数据" class="headerlink" title="写入媒体数据"></a>写入媒体数据</h2><p>当配置完asset writer之后, 就可以)开始写入数据了. 调用方法<a target="_blank" rel="noopener" href="https://developer.apple.com/reference/avfoundation/avassetwriter/1386724-startwriting">startWriting</a>初始化写入过程. 然后调用方法<a target="_blank" rel="noopener" href="https://developer.apple.com/reference/avfoundation/avassetwriter/1389908-startsessionatsourcetime">startSessionAtSourceTime:</a>开启一个写入会话(sample-writing session). Asset writer的所有写入过程都通过这个session完成, 并且sesion的时间范围决定了源媒体数据中哪个时间范围内的数据会被写入到文件中. 例如, 只写入源数据的后一半的示例代码如下:</p>
+<pre><code>CMTime halfAssetDuration = CMTimeMultiplyByFloat64(self.asset.duration, 0.5);
+[self.assetWriter startSessionAtSourceTime:halfAssetDuration];
+//Implementation continues.
+</code></pre>
+<p>一般情况下, 方法<a target="_blank" rel="noopener" href="https://developer.apple.com/reference/avfoundation/avassetwriter/1389921-endsession">endSessionAtSourceTime:</a>用来结束写入会话. 但是如果文件已经写入完毕, 则可以方法<a target="_blank" rel="noopener" href="https://developer.apple.com/reference/avfoundation/avassetwriter/1426644-finishwriting">finishWriting</a>结束写入会话. 下面的代码示例了从一个输入源读取数据并写入所有读取到的数据:</p>
+<pre><code>// Prepare the asset writer for writing.
+[self.assetWriter startWriting];
+// Start a sample-writing session.
+[self.assetWriter startSessionAtSourceTime:kCMTimeZero];
+// Specify the block to execute when the asset writer is ready for media data and the queue to call it on.
+[self.assetWriterInput requestMediaDataWhenReadyOnQueue:myInputSerialQueue usingBlock:^&#123;
+     while ([self.assetWriterInput isReadyForMoreMediaData])
+     &#123;
+          // Get the next sample buffer.
+          CMSampleBufferRef nextSampleBuffer = [self copyNextSampleBufferToWrite];
+          if (nextSampleBuffer)
+          &#123;
+               // If it exists, append the next sample buffer to the output file.
+               [self.assetWriterInput appendSampleBuffer:nextSampleBuffer];
+               CFRelease(nextSampleBuffer);
+               nextSampleBuffer = nil;
+          &#125;
+          else
+          &#123;
+               // Assume that lack of a next sample buffer means the sample buffer source is out of samples and mark the input as finished.
+               [self.assetWriterInput markAsFinished];
+               break;
+          &#125;
+     &#125;
+&#125;];
+</code></pre>
+<p>上面代码中的<code>copyNextSampleBufferToWrite</code>方法仅仅是一个存根(stub). 这个stub需要实现一些逻辑用来返回要写入的<code>CMSampleBufferRef</code>对象. Sample buffers可能来源于一个asset reader output.</p>
+<h1 id="重编码Assets"><a href="#重编码Assets" class="headerlink" title="重编码Assets"></a>重编码Assets</h1><p>可以搭配使用asset reader 和 asset writer进行asset之间的转换. 相比于使用<code>AVAssetExportSession</code>, 使用这些对象可以更好的控制转换细节. 例如, 可以选择导出哪个track, 可以指定导出的文件格式, 还可以指定导出的时间范围. 下面的代码片段示例了如何从一个asset reader output读取数据, 并使用 asset writer input 写入这些数据. </p>
+<pre><code>NSString *serializationQueueDescription = [NSString stringWithFormat:@&quot;%@ serialization queue&quot;, self];
+ 
+// Create a serialization queue for reading and writing.
+dispatch_queue_t serializationQueue = dispatch_queue_create([serializationQueueDescription UTF8String], NULL);
+ 
+// Specify the block to execute when the asset writer is ready for media data and the queue to call it on.
+[self.assetWriterInput requestMediaDataWhenReadyOnQueue:serializationQueue usingBlock:^&#123;
+     while ([self.assetWriterInput isReadyForMoreMediaData])
+     &#123;
+          // Get the asset reader output&#39;s next sample buffer.
+          CMSampleBufferRef sampleBuffer = [self.assetReaderOutput copyNextSampleBuffer];
+          if (sampleBuffer != NULL)
+          &#123;
+               // If it exists, append this sample buffer to the output file.
+               BOOL success = [self.assetWriterInput appendSampleBuffer:sampleBuffer];
+               CFRelease(sampleBuffer);
+               sampleBuffer = NULL;
+               // Check for errors that may have occurred when appending the new sample buffer.
+               if (!success &amp;&amp; self.assetWriter.status == AVAssetWriterStatusFailed)
+               &#123;
+                    NSError *failureError = self.assetWriter.error;
+                    //Handle the error.
+               &#125;
+          &#125;
+          else
+          &#123;
+               // If the next sample buffer doesn&#39;t exist, find out why the asset reader output couldn&#39;t vend another one.
+               if (self.assetReader.status == AVAssetReaderStatusFailed)
+               &#123;
+                    NSError *failureError = self.assetReader.error;
+                    //Handle the error here.
+               &#125;
+               else
+               &#123;
+                    // The asset reader output must have vended all of its samples. Mark the input as finished.
+                    [self.assetWriterInput markAsFinished];
+                    break;
+               &#125;
+          &#125;
+     &#125;
+&#125;];
+</code></pre>
+<h1 id="最终示例-使用Asset-Reader-和-Writer-对-Asset-进行重编码"><a href="#最终示例-使用Asset-Reader-和-Writer-对-Asset-进行重编码" class="headerlink" title="最终示例: 使用Asset Reader 和 Writer 对 Asset 进行重编码"></a>最终示例: 使用Asset Reader 和 Writer 对 Asset 进行重编码</h1><p>下面的代码简要示例了使用asset reader 和 writer 对一个asset中的第一个video 和 audio track 进行重新编码并将结果数据写入到一个新文件中. </p>
+<blockquote>
+<p>提示: 为了将注意力集中在核心代码上, 这份示例省略了某些内容. </p>
+</blockquote>
+<h2 id="初始化设置"><a href="#初始化设置" class="headerlink" title="初始化设置"></a>初始化设置</h2><p>在创建和配置asset reader 和 writer 之前, 需要进行一些初始化设置. 首先需要为读写过程创建三个串行队列.</p>
+<pre><code>NSString *serializationQueueDescription = [NSString stringWithFormat:@&quot;%@ serialization queue&quot;, self];
+ 
+// Create the main serialization queue.
+self.mainSerializationQueue = dispatch_queue_create([serializationQueueDescription UTF8String], NULL);
+NSString *rwAudioSerializationQueueDescription = [NSString stringWithFormat:@&quot;%@ rw audio serialization queue&quot;, self];
+ 
+// Create the serialization queue to use for reading and writing the audio data.
+self.rwAudioSerializationQueue = dispatch_queue_create([rwAudioSerializationQueueDescription UTF8String], NULL);
+NSString *rwVideoSerializationQueueDescription = [NSString stringWithFormat:@&quot;%@ rw video serialization queue&quot;, self];
+ 
+// Create the serialization queue to use for reading and writing the video data.
+self.rwVideoSerializationQueue = dispatch_queue_create([rwVideoSerializationQueueDescription UTF8String], NULL);
+</code></pre>
+<p>队列mainSerializationQueue 用于asset reader 和 writer 的启动,停止和取消. 其他两个队列用于output&#x2F;input的读取和写入. </p>
+<p>接着, 加载asset中的track, 并开始重编码. </p>
+<pre><code>self.asset = &lt;#AVAsset that you want to reencode#&gt;;
+self.cancelled = NO;
+self.outputURL = &lt;#NSURL representing desired output URL for file generated by asset writer#&gt;;
+// Asynchronously load the tracks of the asset you want to read.
+[self.asset loadValuesAsynchronouslyForKeys:@[@&quot;tracks&quot;] completionHandler:^&#123;
+     // Once the tracks have finished loading, dispatch the work to the main serialization queue.
+     dispatch_async(self.mainSerializationQueue, ^&#123;
+          // Due to asynchronous nature, check to see if user has already cancelled.
+          if (self.cancelled)
+               return;
+          BOOL success = YES;
+          NSError *localError = nil;
+          // Check for success of loading the assets tracks.
+          success = ([self.asset statusOfValueForKey:@&quot;tracks&quot; error:&amp;localError] == AVKeyValueStatusLoaded);
+          if (success)
+          &#123;
+               // If the tracks loaded successfully, make sure that no file exists at the output path for the asset writer.
+               NSFileManager *fm = [NSFileManager defaultManager];
+               NSString *localOutputPath = [self.outputURL path];
+               if ([fm fileExistsAtPath:localOutputPath])
+                    success = [fm removeItemAtPath:localOutputPath error:&amp;localError];
+          &#125;
+          if (success)
+               success = [self setupAssetReaderAndAssetWriter:&amp;localError];
+          if (success)
+               success = [self startAssetReaderAndWriter:&amp;localError];
+          if (!success)
+               [self readingAndWritingDidFinishSuccessfully:success withError:localError];
+     &#125;);
+&#125;]; 
+</code></pre>
+<p>剩下的工作就是实现取消的处理, 并实现三个自定义方法.</p>
+<h2 id="初始化Asset-Reader-和-Writer"><a href="#初始化Asset-Reader-和-Writer" class="headerlink" title="初始化Asset Reader 和 Writer"></a>初始化Asset Reader 和 Writer</h2><p>自定义方法<code>setupAssetReaderAndAssetWriter</code>实现了asset Reader 和 writer的初始化和配置. 在这个示例中, audio先被asset reader解压为 Linear PCM, 然后被asset write压缩为128 kbps AAC. video被asset reader 解压为YUV, 然后被asset writer 压缩为H.264:</p>
+<pre><code> - (BOOL)setupAssetReaderAndAssetWriter:(NSError **)outError
+ &#123;
+      // Create and initialize the asset reader.
+      self.assetReader = [[AVAssetReader alloc] initWithAsset:self.asset error:outError];
+      BOOL success = (self.assetReader != nil);
+      if (success)
+      &#123;
+           // If the asset reader was successfully initialized, do the same for the asset writer.
+           self.assetWriter = [[AVAssetWriter alloc] initWithURL:self.outputURL fileType:AVFileTypeQuickTimeMovie error:outError];
+           success = (self.assetWriter != nil);
+      &#125;
+  
+      if (success)
+      &#123;
+           // If the reader and writer were successfully initialized, grab the audio and video asset tracks that will be used.
+           AVAssetTrack *assetAudioTrack = nil, *assetVideoTrack = nil;
+           NSArray *audioTracks = [self.asset tracksWithMediaType:AVMediaTypeAudio];
+           if ([audioTracks count] &gt; 0)
+                assetAudioTrack = [audioTracks objectAtIndex:0];
+           NSArray *videoTracks = [self.asset tracksWithMediaType:AVMediaTypeVideo];
+           if ([videoTracks count] &gt; 0)
+                assetVideoTrack = [videoTracks objectAtIndex:0];
+  
+           if (assetAudioTrack)
+           &#123;
+                // If there is an audio track to read, set the decompression settings to Linear PCM and create the asset reader output.
+                NSDictionary *decompressionAudioSettings = @&#123; AVFormatIDKey : [NSNumber numberWithUnsignedInt:kAudioFormatLinearPCM] &#125;;
+                self.assetReaderAudioOutput = [AVAssetReaderTrackOutput assetReaderTrackOutputWithTrack:assetAudioTrack outputSettings:decompressionAudioSettings];
+                [self.assetReader addOutput:self.assetReaderAudioOutput];
+                // Then, set the compression settings to 128kbps AAC and create the asset writer input.
+                AudioChannelLayout stereoChannelLayout = &#123;
+                     .mChannelLayoutTag = kAudioChannelLayoutTag_Stereo,
+                     .mChannelBitmap = 0,
+                     .mNumberChannelDescriptions = 0
+                &#125;;
+                NSData *channelLayoutAsData = [NSData dataWithBytes:&amp;stereoChannelLayout length:offsetof(AudioChannelLayout, mChannelDescriptions)];
+                NSDictionary *compressionAudioSettings = @&#123;
+                     AVFormatIDKey         : [NSNumber numberWithUnsignedInt:kAudioFormatMPEG4AAC],
+                     AVEncoderBitRateKey   : [NSNumber numberWithInteger:128000],
+                     AVSampleRateKey       : [NSNumber numberWithInteger:44100],
+                     AVChannelLayoutKey    : channelLayoutAsData,
+                     AVNumberOfChannelsKey : [NSNumber numberWithUnsignedInteger:2]
+                &#125;;
+                self.assetWriterAudioInput = [AVAssetWriterInput assetWriterInputWithMediaType:[assetAudioTrack mediaType] outputSettings:compressionAudioSettings];
+                [self.assetWriter addInput:self.assetWriterAudioInput];
+           &#125;
+  
+           if (assetVideoTrack)
+           &#123;
+                // If there is a video track to read, set the decompression settings for YUV and create the asset reader output.
+                NSDictionary *decompressionVideoSettings = @&#123;
+                     (id)kCVPixelBufferPixelFormatTypeKey     : [NSNumber numberWithUnsignedInt:kCVPixelFormatType_422YpCbCr8],
+                     (id)kCVPixelBufferIOSurfacePropertiesKey : [NSDictionary dictionary]
+                &#125;;
+                self.assetReaderVideoOutput = [AVAssetReaderTrackOutput assetReaderTrackOutputWithTrack:assetVideoTrack outputSettings:decompressionVideoSettings];
+                [self.assetReader addOutput:self.assetReaderVideoOutput];
+                CMFormatDescriptionRef formatDescription = NULL;
+                // Grab the video format descriptions from the video track and grab the first one if it exists.
+                NSArray *videoFormatDescriptions = [assetVideoTrack formatDescriptions];
+                if ([videoFormatDescriptions count] &gt; 0)
+                     formatDescription = (__bridge CMFormatDescriptionRef)[formatDescriptions objectAtIndex:0];
+                CGSize trackDimensions = &#123;
+                     .width = 0.0,
+                     .height = 0.0,
+                &#125;;
+                // If the video track had a format description, grab the track dimensions from there. Otherwise, grab them direcly from the track itself.
+                if (formatDescription)
+                     trackDimensions = CMVideoFormatDescriptionGetPresentationDimensions(formatDescription, false, false);
+                else
+                     trackDimensions = [assetVideoTrack naturalSize];
+                NSDictionary *compressionSettings = nil;
+                // If the video track had a format description, attempt to grab the clean aperture settings and pixel aspect ratio used by the video.
+                if (formatDescription)
+                &#123;
+                     NSDictionary *cleanAperture = nil;
+                     NSDictionary *pixelAspectRatio = nil;
+                     CFDictionaryRef cleanApertureFromCMFormatDescription = CMFormatDescriptionGetExtension(formatDescription, kCMFormatDescriptionExtension_CleanAperture);
+                     if (cleanApertureFromCMFormatDescription)
+                     &#123;
+                          cleanAperture = @&#123;
+                               AVVideoCleanApertureWidthKey            : (id)CFDictionaryGetValue(cleanApertureFromCMFormatDescription, kCMFormatDescriptionKey_CleanApertureWidth),
+                               AVVideoCleanApertureHeightKey           : (id)CFDictionaryGetValue(cleanApertureFromCMFormatDescription, kCMFormatDescriptionKey_CleanApertureHeight),
+                               AVVideoCleanApertureHorizontalOffsetKey : (id)CFDictionaryGetValue(cleanApertureFromCMFormatDescription, kCMFormatDescriptionKey_CleanApertureHorizontalOffset),
+                               AVVideoCleanApertureVerticalOffsetKey   : (id)CFDictionaryGetValue(cleanApertureFromCMFormatDescription, kCMFormatDescriptionKey_CleanApertureVerticalOffset)
+                          &#125;;
+                     &#125;
+                     CFDictionaryRef pixelAspectRatioFromCMFormatDescription = CMFormatDescriptionGetExtension(formatDescription, kCMFormatDescriptionExtension_PixelAspectRatio);
+                     if (pixelAspectRatioFromCMFormatDescription)
+                     &#123;
+                          pixelAspectRatio = @&#123;
+                               AVVideoPixelAspectRatioHorizontalSpacingKey : (id)CFDictionaryGetValue(pixelAspectRatioFromCMFormatDescription, kCMFormatDescriptionKey_PixelAspectRatioHorizontalSpacing),
+                               AVVideoPixelAspectRatioVerticalSpacingKey   : (id)CFDictionaryGetValue(pixelAspectRatioFromCMFormatDescription, kCMFormatDescriptionKey_PixelAspectRatioVerticalSpacing)
+                          &#125;;
+                     &#125;
+                     // Add whichever settings we could grab from the format description to the compression settings dictionary.
+                     if (cleanAperture || pixelAspectRatio)
+                     &#123;
+                          NSMutableDictionary *mutableCompressionSettings = [NSMutableDictionary dictionary];
+                          if (cleanAperture)
+                               [mutableCompressionSettings setObject:cleanAperture forKey:AVVideoCleanApertureKey];
+                          if (pixelAspectRatio)
+                               [mutableCompressionSettings setObject:pixelAspectRatio forKey:AVVideoPixelAspectRatioKey];
+                          compressionSettings = mutableCompressionSettings;
+                     &#125;
+                &#125;
+                // Create the video settings dictionary for H.264.
+                NSMutableDictionary *videoSettings = (NSMutableDictionary *) @&#123;
+                     AVVideoCodecKey  : AVVideoCodecH264,
+                     AVVideoWidthKey  : [NSNumber numberWithDouble:trackDimensions.width],
+                     AVVideoHeightKey : [NSNumber numberWithDouble:trackDimensions.height]
+                &#125;;
+                // Put the compression settings into the video settings dictionary if we were able to grab them.
+                if (compressionSettings)
+                     [videoSettings setObject:compressionSettings forKey:AVVideoCompressionPropertiesKey];
+                // Create the asset writer input and add it to the asset writer.
+                self.assetWriterVideoInput = [AVAssetWriterInput assetWriterInputWithMediaType:[videoTrack mediaType] outputSettings:videoSettings];
+                [self.assetWriter addInput:self.assetWriterVideoInput];
+           &#125;
+      &#125;
+      return success;
+ &#125;
+</code></pre>
+<h2 id="重编码Asset"><a href="#重编码Asset" class="headerlink" title="重编码Asset"></a>重编码Asset</h2><p>方法<code>startAssetReaderAndWriter</code>负责读取和写入asset:</p>
+<pre><code> - (BOOL)startAssetReaderAndWriter:(NSError **)outError
+ &#123;
+      BOOL success = YES;
+      // Attempt to start the asset reader.
+      success = [self.assetReader startReading];
+      if (!success)
+           *outError = [self.assetReader error];
+      if (success)
+      &#123;
+           // If the reader started successfully, attempt to start the asset writer.
+           success = [self.assetWriter startWriting];
+           if (!success)
+                *outError = [self.assetWriter error];
+      &#125;
+  
+      if (success)
+      &#123;
+           // If the asset reader and writer both started successfully, create the dispatch group where the reencoding will take place and start a sample-writing session.
+           self.dispatchGroup = dispatch_group_create();
+           [self.assetWriter startSessionAtSourceTime:kCMTimeZero];
+           self.audioFinished = NO;
+           self.videoFinished = NO;
+  
+           if (self.assetWriterAudioInput)
+           &#123;
+                // If there is audio to reencode, enter the dispatch group before beginning the work.
+                dispatch_group_enter(self.dispatchGroup);
+                // Specify the block to execute when the asset writer is ready for audio media data, and specify the queue to call it on.
+                [self.assetWriterAudioInput requestMediaDataWhenReadyOnQueue:self.rwAudioSerializationQueue usingBlock:^&#123;
+                     // Because the block is called asynchronously, check to see whether its task is complete.
+                     if (self.audioFinished)
+                          return;
+                     BOOL completedOrFailed = NO;
+                     // If the task isn&#39;t complete yet, make sure that the input is actually ready for more media data.
+                     while ([self.assetWriterAudioInput isReadyForMoreMediaData] &amp;&amp; !completedOrFailed)
+                     &#123;
+                          // Get the next audio sample buffer, and append it to the output file.
+                          CMSampleBufferRef sampleBuffer = [self.assetReaderAudioOutput copyNextSampleBuffer];
+                          if (sampleBuffer != NULL)
+                          &#123;
+                               BOOL success = [self.assetWriterAudioInput appendSampleBuffer:sampleBuffer];
+                               CFRelease(sampleBuffer);
+                               sampleBuffer = NULL;
+                               completedOrFailed = !success;
+                          &#125;
+                          else
+                          &#123;
+                               completedOrFailed = YES;
+                          &#125;
+                     &#125;
+                     if (completedOrFailed)
+                     &#123;
+                          // Mark the input as finished, but only if we haven&#39;t already done so, and then leave the dispatch group (since the audio work has finished).
+                          BOOL oldFinished = self.audioFinished;
+                          self.audioFinished = YES;
+                          if (oldFinished == NO)
+                          &#123;
+                               [self.assetWriterAudioInput markAsFinished];
+                          &#125;
+                          dispatch_group_leave(self.dispatchGroup);
+                     &#125;
+                &#125;];
+           &#125;
+  
+           if (self.assetWriterVideoInput)
+           &#123;
+                // If we had video to reencode, enter the dispatch group before beginning the work.
+                dispatch_group_enter(self.dispatchGroup);
+                // Specify the block to execute when the asset writer is ready for video media data, and specify the queue to call it on.
+                [self.assetWriterVideoInput requestMediaDataWhenReadyOnQueue:self.rwVideoSerializationQueue usingBlock:^&#123;
+                     // Because the block is called asynchronously, check to see whether its task is complete.
+                     if (self.videoFinished)
+                          return;
+                     BOOL completedOrFailed = NO;
+                     // If the task isn&#39;t complete yet, make sure that the input is actually ready for more media data.
+                     while ([self.assetWriterVideoInput isReadyForMoreMediaData] &amp;&amp; !completedOrFailed)
+                     &#123;
+                          // Get the next video sample buffer, and append it to the output file.
+                          CMSampleBufferRef sampleBuffer = [self.assetReaderVideoOutput copyNextSampleBuffer];
+                          if (sampleBuffer != NULL)
+                          &#123;
+                               BOOL success = [self.assetWriterVideoInput appendSampleBuffer:sampleBuffer];
+                               CFRelease(sampleBuffer);
+                               sampleBuffer = NULL;
+                               completedOrFailed = !success;
+                          &#125;
+                          else
+                          &#123;
+                               completedOrFailed = YES;
+                          &#125;
+                     &#125;
+                     if (completedOrFailed)
+                     &#123;
+                          // Mark the input as finished, but only if we haven&#39;t already done so, and then leave the dispatch group (since the video work has finished).
+                          BOOL oldFinished = self.videoFinished;
+                          self.videoFinished = YES;
+                          if (oldFinished == NO)
+                          &#123;
+                               [self.assetWriterVideoInput markAsFinished];
+                          &#125;
+                          dispatch_group_leave(self.dispatchGroup);
+                     &#125;
+                &#125;];
+           &#125;
+           // Set up the notification that the dispatch group will send when the audio and video work have both finished.
+           dispatch_group_notify(self.dispatchGroup, self.mainSerializationQueue, ^&#123;
+                BOOL finalSuccess = YES;
+                NSError *finalError = nil;
+                // Check to see if the work has finished due to cancellation.
+                if (self.cancelled)
+                &#123;
+                     // If so, cancel the reader and writer.
+                     [self.assetReader cancelReading];
+                     [self.assetWriter cancelWriting];
+                &#125;
+                else
+                &#123;
+                     // If cancellation didn&#39;t occur, first make sure that the asset reader didn&#39;t fail.
+                     if ([self.assetReader status] == AVAssetReaderStatusFailed)
+                     &#123;
+                          finalSuccess = NO;
+                          finalError = [self.assetReader error];
+                     &#125;
+                     // If the asset reader didn&#39;t fail, attempt to stop the asset writer and check for any errors.
+                     if (finalSuccess)
+                     &#123;
+                          finalSuccess = [self.assetWriter finishWriting];
+                          if (!finalSuccess)
+                               finalError = [self.assetWriter error];
+                     &#125;
+                &#125;
+                // Call the method to handle completion, and pass in the appropriate parameters to indicate whether reencoding was successful.
+                [self readingAndWritingDidFinishSuccessfully:finalSuccess withError:finalError];
+           &#125;);
+      &#125;
+      // Return success here to indicate whether the asset reader and writer were started successfully.
+      return success;
+ &#125;
+ 
+</code></pre>
+<p>在重编码过程中, 为了提升性能, 音频处理和视频处理在两个不同队列中进行. 但这两个队列在一个dispatchGroup中, 当每个队列的任务都完成后, 会调用<code>readingAndWritingDidFinishSuccessfully</code>, </p>
+<h2 id="处理编码结果"><a href="#处理编码结果" class="headerlink" title="处理编码结果"></a>处理编码结果</h2><p>对重编码的结果进行处理并同步到UI:</p>
+<pre><code>- (void)readingAndWritingDidFinishSuccessfully:(BOOL)success withError:(NSError *)error
+&#123;
+     if (!success)
+     &#123;
+          // If the reencoding process failed, we need to cancel the asset reader and writer.
+          [self.assetReader cancelReading];
+          [self.assetWriter cancelWriting];
+          dispatch_async(dispatch_get_main_queue(), ^&#123;
+               // Handle any UI tasks here related to failure.
+          &#125;);
+     &#125;
+     else
+     &#123;
+          // Reencoding was successful, reset booleans.
+          self.cancelled = NO;
+          self.videoFinished = NO;
+          self.audioFinished = NO;
+          dispatch_async(dispatch_get_main_queue(), ^&#123;
+               // Handle any UI tasks here related to success.
+          &#125;);
+     &#125;
+&#125;
+ 
+</code></pre>
+<h2 id="取消重编码"><a href="#取消重编码" class="headerlink" title="取消重编码"></a>取消重编码</h2><p>使用多个串行队列, 可以很轻松的取消对asset的重编码. 可以将下面的代码与UI上的”取消”按钮关联起来:</p>
+<pre><code>- (void)cancel
+&#123;
+     // Handle cancellation asynchronously, but serialize it with the main queue.
+     dispatch_async(self.mainSerializationQueue, ^&#123;
+          // If we had audio data to reencode, we need to cancel the audio work.
+          if (self.assetWriterAudioInput)
+          &#123;
+               // Handle cancellation asynchronously again, but this time serialize it with the audio queue.
+               dispatch_async(self.rwAudioSerializationQueue, ^&#123;
+                    // Update the Boolean property indicating the task is complete and mark the input as finished if it hasn&#39;t already been marked as such.
+                    BOOL oldFinished = self.audioFinished;
+                    self.audioFinished = YES;
+                    if (oldFinished == NO)
+                    &#123;
+                         [self.assetWriterAudioInput markAsFinished];
+                    &#125;
+                    // Leave the dispatch group since the audio work is finished now.
+                    dispatch_group_leave(self.dispatchGroup);
+               &#125;);
+          &#125;
+ 
+          if (self.assetWriterVideoInput)
+          &#123;
+               // Handle cancellation asynchronously again, but this time serialize it with the video queue.
+               dispatch_async(self.rwVideoSerializationQueue, ^&#123;
+                    // Update the Boolean property indicating the task is complete and mark the input as finished if it hasn&#39;t already been marked as such.
+                    BOOL oldFinished = self.videoFinished;
+                    self.videoFinished = YES;
+                    if (oldFinished == NO)
+                    &#123;
+                         [self.assetWriterVideoInput markAsFinished];
+                    &#125;
+                    // Leave the dispatch group, since the video work is finished now.
+                    dispatch_group_leave(self.dispatchGroup);
+               &#125;);
+          &#125;
+          // Set the cancelled Boolean property to YES to cancel any work on the main queue as well.
+          self.cancelled = YES;
+     &#125;);
+&#125;
+
+ 
+</code></pre>
+<h1 id="AVOutputSettingsAssistant介绍"><a href="#AVOutputSettingsAssistant介绍" class="headerlink" title="AVOutputSettingsAssistant介绍"></a>AVOutputSettingsAssistant介绍</h1><p><a target="_blank" rel="noopener" href="https://developer.apple.com/reference/avfoundation/avoutputsettingsassistant">AVOutputSettingsAssistant</a>类的功能是为asset reader 或 writer 创建设置信息. 这将简化初始化过程, 特别是在对一个高帧率的H264视频进行参数设置时. 下面的代码是<code>AVOutputSettingsAssistant</code>的使用示例:</p>
+<pre><code>AVOutputSettingsAssistant *outputSettingsAssistant = [AVOutputSettingsAssistant outputSettingsAssistantWithPreset:&lt;some preset&gt;];
+CMFormatDescriptionRef audioFormat = [self getAudioFormat];
+ 
+if (audioFormat != NULL)
+    [outputSettingsAssistant setSourceAudioFormat:(CMAudioFormatDescriptionRef)audioFormat];
+ 
+CMFormatDescriptionRef videoFormat = [self getVideoFormat];
+ 
+if (videoFormat != NULL)
+    [outputSettingsAssistant setSourceVideoFormat:(CMVideoFormatDescriptionRef)videoFormat];
+ 
+CMTime assetMinVideoFrameDuration = [self getMinFrameDuration];
+CMTime averageFrameDuration = [self getAvgFrameDuration]
+ 
+[outputSettingsAssistant setSourceVideoAverageFrameDuration:averageFrameDuration];
+[outputSettingsAssistant setSourceVideoMinFrameDuration:assetMinVideoFrameDuration];
+ 
+AVAssetWriter *assetWriter = [AVAssetWriter assetWriterWithURL:&lt;some URL&gt; fileType:[outputSettingsAssistant outputFileType] error:NULL];
+AVAssetWriterInput *audioInput = [AVAssetWriterInput assetWriterInputWithMediaType:AVMediaTypeAudio outputSettings:[outputSettingsAssistant audioSettings] sourceFormatHint:audioFormat];
+AVAssetWriterInput *videoInput = [AVAssetWriterInput assetWriterInputWithMediaType:AVMediaTypeVideo outputSettings:[outputSettingsAssistant videoSettings] sourceFormatHint:videoFormat];
+ 
+</code></pre>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/AVFoundation%E7%BC%96%E7%A8%8B%E6%8C%87%E5%8D%97/" rel="tag"># AVFoundation编程指南</a>
+              <a href="/tags/%E7%BF%BB%E8%AF%91/" rel="tag"># 翻译</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2016/09/18/%E9%9D%99%E6%80%81%E5%9B%BE%E7%89%87%E5%92%8C%E8%A7%86%E9%A2%91%E6%8D%95%E6%8D%89/" rel="prev" title="静态图片和视频捕捉">
+      <i class="fa fa-chevron-left"></i> 静态图片和视频捕捉
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2016/09/20/%E6%97%B6%E9%97%B4%E5%92%8C%E5%AA%92%E4%BD%93%E7%9A%84%E8%A1%A8%E7%A4%BA/" rel="next" title="时间和媒体的表示">
+      时间和媒体的表示 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AF%BB%E5%8F%96Asset"><span class="nav-number">1.</span> <span class="nav-text">读取Asset</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9B%E5%BB%BAAsset-Reader"><span class="nav-number">1.1.</span> <span class="nav-text">创建Asset Reader</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AEAsset-Reader-Output"><span class="nav-number">1.2.</span> <span class="nav-text">设置Asset Reader Output</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%BB%E5%8F%96Asset%E4%B8%AD%E7%9A%84%E5%AA%92%E4%BD%93%E6%95%B0%E6%8D%AE"><span class="nav-number">1.3.</span> <span class="nav-text">读取Asset中的媒体数据</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%86%99%E5%85%A5Asset"><span class="nav-number">2.</span> <span class="nav-text">写入Asset</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9B%E5%BB%BAAVAssetWriter"><span class="nav-number">2.1.</span> <span class="nav-text">创建AVAssetWriter</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AEAsset-Writer-Inputs"><span class="nav-number">2.2.</span> <span class="nav-text">设置Asset Writer Inputs</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%99%E5%85%A5%E5%AA%92%E4%BD%93%E6%95%B0%E6%8D%AE"><span class="nav-number">2.3.</span> <span class="nav-text">写入媒体数据</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%87%8D%E7%BC%96%E7%A0%81Assets"><span class="nav-number">3.</span> <span class="nav-text">重编码Assets</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9C%80%E7%BB%88%E7%A4%BA%E4%BE%8B-%E4%BD%BF%E7%94%A8Asset-Reader-%E5%92%8C-Writer-%E5%AF%B9-Asset-%E8%BF%9B%E8%A1%8C%E9%87%8D%E7%BC%96%E7%A0%81"><span class="nav-number">4.</span> <span class="nav-text">最终示例: 使用Asset Reader 和 Writer 对 Asset 进行重编码</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96%E8%AE%BE%E7%BD%AE"><span class="nav-number">4.1.</span> <span class="nav-text">初始化设置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96Asset-Reader-%E5%92%8C-Writer"><span class="nav-number">4.2.</span> <span class="nav-text">初始化Asset Reader 和 Writer</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%87%8D%E7%BC%96%E7%A0%81Asset"><span class="nav-number">4.3.</span> <span class="nav-text">重编码Asset</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%84%E7%90%86%E7%BC%96%E7%A0%81%E7%BB%93%E6%9E%9C"><span class="nav-number">4.4.</span> <span class="nav-text">处理编码结果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%96%E6%B6%88%E9%87%8D%E7%BC%96%E7%A0%81"><span class="nav-number">4.5.</span> <span class="nav-text">取消重编码</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#AVOutputSettingsAssistant%E4%BB%8B%E7%BB%8D"><span class="nav-number">5.</span> <span class="nav-text">AVOutputSettingsAssistant介绍</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">mangox</p>
+  <div class="site-description" itemprop="description">每天进步一点点</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">130</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">34</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">mangox</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'Hl5bOvNBmh6xqvMEjzRRWMIP-gzGzoHsz',
+      appKey     : '3n3m7ANssYrw0VgxYu87kQEL',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : true,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

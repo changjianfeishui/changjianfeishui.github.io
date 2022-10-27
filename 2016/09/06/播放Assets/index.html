@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.devzhang.cn","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="本章译自Apple官方文档AVFoundation Programming Guide, 是AVFoundation系列译文第三篇, 介绍了AVFoundation框架中对资源进行播放的相关内容, 全部译文参见我的GitBook: AVFoundation编程指南.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="播放Assets">
+<meta property="og:url" content="http://www.devzhang.cn/2016/09/06/%E6%92%AD%E6%94%BEAssets/index.html">
+<meta property="og:site_name" content="做点有意思的事情">
+<meta property="og:description" content="本章译自Apple官方文档AVFoundation Programming Guide, 是AVFoundation系列译文第三篇, 介绍了AVFoundation框架中对资源进行播放的相关内容, 全部译文参见我的GitBook: AVFoundation编程指南.">
+<meta property="og:locale">
+<meta property="og:image" content="https://developer.apple.com/library/prerelease/content/documentation/AudioVideo/Conceptual/AVFoundationPG/Art/avplayerLayer_2x.png">
+<meta property="og:image" content="https://developer.apple.com/library/prerelease/content/documentation/AudioVideo/Conceptual/AVFoundationPG/Art/playerObjects_2x.png">
+<meta property="article:published_time" content="2016-09-06T13:12:42.000Z">
+<meta property="article:modified_time" content="2016-09-21T02:51:16.000Z">
+<meta property="article:author" content="mangox">
+<meta property="article:tag" content="AVFoundation编程指南">
+<meta property="article:tag" content="翻译">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://developer.apple.com/library/prerelease/content/documentation/AudioVideo/Conceptual/AVFoundationPG/Art/avplayerLayer_2x.png">
+
+<link rel="canonical" href="http://www.devzhang.cn/2016/09/06/%E6%92%AD%E6%94%BEAssets/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>播放Assets | 做点有意思的事情</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">做点有意思的事情</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">每天进步一点点</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://www.devzhang.cn/2016/09/06/%E6%92%AD%E6%94%BEAssets/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="mangox">
+      <meta itemprop="description" content="每天进步一点点">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="做点有意思的事情">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          播放Assets
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-09-06 21:12:42" itemprop="dateCreated datePublished" datetime="2016-09-06T21:12:42+08:00">2016-09-06</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2016-09-21 10:51:16" itemprop="dateModified" datetime="2016-09-21T10:51:16+08:00">2016-09-21</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index"><span itemprop="name">iOS</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2016/09/06/%E6%92%AD%E6%94%BEAssets/" class="post-meta-item leancloud_visitors" data-flag-title="播放Assets" title="Views">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2016/09/06/%E6%92%AD%E6%94%BEAssets/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2016/09/06/%E6%92%AD%E6%94%BEAssets/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>本章译自Apple官方文档<a target="_blank" rel="noopener" href="https://developer.apple.com/library/content/documentation/AudioVideo/Conceptual/AVFoundationPG/Articles/00_Introduction.html#//apple_ref/doc/uid/TP40010188-CH1-SW3">AVFoundation Programming Guide</a>, 是AVFoundation系列译文第三篇, 介绍了AVFoundation框架中对资源进行播放的相关内容, 全部译文参见我的GitBook: <a target="_blank" rel="noopener" href="https://www.gitbook.com/book/changjianfeishui/avfoundation-programming-guide/details">AVFoundation编程指南</a>. </p>
+<span id="more"></span>
+
+<p><code>AVPlayer</code>对象可以控制资源的播放, 在播放过程中, 可以使用<code>AVPlayerItem</code>对象管理资源的播放状态, <code>AVPlayerItemTrack</code>对象则可以用来管理一个独立轨道的播放状态. 要展示一段视频, 可以使用<code>AVPlayerLayer </code>对象.</p>
+<h1 id="播放Asset"><a href="#播放Asset" class="headerlink" title="播放Asset"></a>播放Asset</h1><p><code>AVPlayer</code>对象是一个用来管理资源播放的控制中心, 比如控制播放的开始和停止, 定位到一个指定的时间点进行播放等等. 使用单个<code>AVPlayer</code>对象来播放单个资源, 使用<code>AVQueuePlayer</code>对象顺序播放多个资源(<code>AVQueuePlayer</code>是<code>AVPlayer</code>的子类). 在OS X上, 还可以使用AVKit框架中的<code>AVPlayerView</code>类在view上直接播放一段内容.</p>
+<p><code>AVPlayer</code>对象提供了资源播放状态相关的信息, 你可以根据播放状态的变化来同步更新UI. 通常会将一个<code>AVPlayer</code>对象输出到一个特定的<code>Core Animation layer</code>上进行展示(<code>AVPlayerLayer</code>对象或<code>AVSynchronizedLayer</code>对象). 更多layer相关的信息, 参考 <a target="_blank" rel="noopener" href="https://developer.apple.com/library/prerelease/content/documentation/Cocoa/Conceptual/CoreAnimation_guide/Introduction/Introduction.html#//apple_ref/doc/uid/TP40004514"><em>Core Animation Programming Guide</em></a>.</p>
+<blockquote>
+<p>可以使用一个<code>AVPlayer</code>对象创建多个<code>AVPlayerLayer</code>实例, 但是最后一个被创建的layer才会在屏幕上展示播放的内容.</p>
+</blockquote>
+<p>虽然我们的最终目的是播放某个资源, 但并不需要直接向<code>AVPlayer</code>对象提供要播放的资源, 而是提供一个<code>AVPlayerItem</code>对象. 一个player item管理与其相绑定的资源(asset)的呈现状态. 个player item包含多个player item tracks( <code>AVPlayerItemTrack</code>对象). 这些变量直接的关系如下图:</p>
+<p><img src="https://developer.apple.com/library/prerelease/content/documentation/AudioVideo/Conceptual/AVFoundationPG/Art/avplayerLayer_2x.png" alt="Playing an asset"></p>
+<p>这种抽象意味着你可以使用不同的player来播放给定的asset, 但是每个player又有各自的渲染方式. 下图展示了其中一种可能性, 两个播放器以不同的设置来播放同一个asset. 通过使用item tracks, 可以在播放过程中禁用某些track(比如禁用音频track,即静音).</p>
+<p><img src="https://developer.apple.com/library/prerelease/content/documentation/AudioVideo/Conceptual/AVFoundationPG/Art/playerObjects_2x.png" alt="Playing the same asset in different ways"></p>
+<p>可以使用已存在的asset对player进行初始化, 也可以直接使用URL初始化以便于用来播放某个指定位置的资源. 使用<code>AVAsset</code>时要注意, 初始化一个player item并不意味着就可以直接播放了. 你需要使用KVO监听item的<code>status</code>属性来判断是否为可播放状态.</p>
+<h1 id="处理不同类型的Asset"><a href="#处理不同类型的Asset" class="headerlink" title="处理不同类型的Asset"></a>处理不同类型的Asset</h1><p>asset的播放配置取决于asset的类型. 总的来说, asset有两个主要类型:基于文件的asset(file-based,比如本地文件),以及基于流的asset(stream-based, 比如HLS流媒体).</p>
+<p><strong>要播放一个file-based asset</strong>, 有以下一些步骤:</p>
+<ul>
+<li>创建一个<a target="_blank" rel="noopener" href="https://developer.apple.com/reference/avfoundation/avurlasset"><code>AVURLAsset</code></a></li>
+<li>根据asset创建一个<code>AVPlayerItem</code>对象</li>
+<li>将item关联到一个AVPlayer对象上</li>
+<li>使用KVO监听item的<code>status</code>属性, 当播放准备就绪后,开始播放</li>
+</ul>
+<p><strong>要播放一个HTTP流媒体</strong>, 使用URL初始化一个<code>AVPlayerItem</code>对象(不能直接创建一个AVAsset对象用来代表HTTP直播流媒体).</p>
+<pre><code>NSURL *url = [NSURL URLWithString:@&quot;&lt;#Live stream URL#&gt;];
+// You may find a test stream at &lt;http://devimages.apple.com/iphone/samples/bipbop/bipbopall.m3u8&gt;.
+self.playerItem = [AVPlayerItem playerItemWithURL:url];
+[playerItem addObserver:self forKeyPath:@&quot;status&quot; options:0 context:&amp;ItemStatusContext];
+self.player = [AVPlayer playerWithPlayerItem:playerItem];
+</code></pre>
+<p>当把一个player item关联到一个player对象时, player就开始准备播放了. 当准备就绪后, player item会创建<code>AVAsset</code>和<code>AVAssetTrack</code>对象. </p>
+<p>要获取流媒体的时长, 可以监听player item的<code>duration</code>属性. </p>
+<p>如果只需要简单的播放一个直播流, 可以更快捷的使用URL来创建player:</p>
+<pre><code>self.player = [AVPlayer playerWithURL:&lt;#Live stream URL#&gt;];
+[player addObserver:self forKeyPath:@&quot;status&quot; options:0 context:&amp;PlayerStatusContext];
+</code></pre>
+<p>与使用AVAsset和AVPlayerItem相同, 初始化一个player并不意味了就可以直接播放了, 还是需要监听player的<code>status</code>属性, 当其变为<code> AVPlayerStatusReadyToPlay</code>时才能开始播放. 也可以监听<code> currentItem</code>属性来访问为流媒体创建的AVPlayerItem.</p>
+<p><strong>如果不确定是何种类型的URL</strong>, 参照以下步骤:</p>
+<ol>
+<li>尝试根据URL初始化一个<code>AVURLAsset</code>对象, 然后加载其<code>tracks</code>属性.</li>
+<li>如果上一步失败, 直接根据URL创建AVPlayerItem对象, 监听player的status属性判断是否可以播放</li>
+</ol>
+<h1 id="播放单个AVPlayerItem"><a href="#播放单个AVPlayerItem" class="headerlink" title="播放单个AVPlayerItem"></a>播放单个AVPlayerItem</h1><p>可以向player发送<code>play</code>消息来开始播放:</p>
+<pre><code>- (IBAction)play:sender &#123;
+    [player play];
+&#125;
+</code></pre>
+<p>除了简单的播放, 你还可以控制一些播放的细节. 比如播放速率和播放状态.</p>
+<h2 id="播放速率"><a href="#播放速率" class="headerlink" title="播放速率"></a>播放速率</h2><p>可以通过设置player的<code>rate</code>属性改变播放速率:</p>
+<pre><code>aPlayer.rate = 0.5;
+aPlayer.rate = 2.0;
+</code></pre>
+<p>rate为1.0表示正常速率, 设置为0表示暂停播放(同<code>pause</code>).</p>
+<p>可以将rate设置为一个负值来进行倒放. 通过playerItem的以下属性可以判断是否支持倒放:<code>canPlayReverse</code>(支持rate -1.0), <code>canPlaySlowReverse </code>(支持rate - 1.0 到 0.0),  <code>canPlayFastReverse</code>(支持rate 小于 -1.0).</p>
+<h2 id="定位播放点"><a href="#定位播放点" class="headerlink" title="定位播放点"></a>定位播放点</h2><p>要定位到指定时间点进行播放, 可以使用<a target="_blank" rel="noopener" href="https://developer.apple.com/reference/avfoundation/avplayer/1385953-seek"> seekToTime:</a>如下:</p>
+<pre><code>CMTime fiveSecondsIn = CMTimeMake(5, 1);
+[player seekToTime:fiveSecondsIn];
+</code></pre>
+<p><code>seekToTime:</code>方法牺牲了精确度来优化性能, 如果需要精确定位, 使用<a target="_blank" rel="noopener" href="https://developer.apple.com/reference/avfoundation/avplayer/1387741-seek"> seekToTime:toleranceBefore:toleranceAfter:</a>方法.</p>
+<pre><code>CMTime fiveSecondsIn = CMTimeMake(5, 1);
+[player seekToTime:fiveSecondsIn toleranceBefore:kCMTimeZero toleranceAfter:kCMTimeZero];	
+</code></pre>
+<p>将容忍值设置为0意味着框架会解码大量的数据来保证精确度. 确保只有在真正需要的时候才会如此设置. </p>
+<p>播放完毕之后, 播放点会被设置为item的结束点. 要将播放点重新设置到item开头, 可以注册接收<code> AVPlayerItemDidPlayToEndTimeNotification</code>通知, 在处理通知的方法中, 调用<code>seekToTime:</code>并传入参数kCMTimeZero.</p>
+<pre><code>// Register with the notification center after creating the player item.
+    [[NSNotificationCenter defaultCenter]
+        addObserver:self
+        selector:@selector(playerItemDidReachEnd:)
+        name:AVPlayerItemDidPlayToEndTimeNotification
+        object:&lt;#The player item#&gt;];
+ 
+- (void)playerItemDidReachEnd:(NSNotification *)notification &#123;
+    [player seekToTime:kCMTimeZero];
+&#125;
+</code></pre>
+<h1 id="播放多个AVPlayerItem"><a href="#播放多个AVPlayerItem" class="headerlink" title="播放多个AVPlayerItem"></a>播放多个AVPlayerItem</h1><p>可以使用<code>AVQueuePlayer</code>对象顺序播放多个AVPlayerItem. <code>AVQueuePlayer</code>类是<code>AVPlayer</code>的一个子类. 可以使用一个 player items的数组来初始化一个queue player:</p>
+<pre><code>NSArray *items = &lt;#An array of player items#&gt;;
+AVQueuePlayer *queuePlayer = [[AVQueuePlayer alloc] initWithItems:items];
+</code></pre>
+<p>接下来可以像使用AVPlayer对象一样发送<code>play</code>消息开始播放player items. queue player依次播放每个item, 如果需要跳到下一个item, 可以向queue player发送<code>advanceToNextItem</code>消息.</p>
+<p>可以使用<code> insertItem:afterItem:, removeItem:</code>以及<code>removeAllItems</code>对播放队列进行操作. 添加一个新的item时, 需要使用<code>canInsertItem:afterItem:</code>	第二个参数可以传递<code>nil</code>用来判断该item是否可以被添加到队列中.</p>
+<pre><code>AVPlayerItem *anItem = &lt;#Get a player item#&gt;;
+if ([queuePlayer canInsertItem:anItem afterItem:nil]) &#123;
+    [queuePlayer insertItem:anItem afterItem:nil];
+&#125;
+</code></pre>
+<h1 id="监听播放"><a href="#监听播放" class="headerlink" title="监听播放"></a>监听播放</h1><p>可以监听包括播放状态以及正在被播放的player item在内的许多方面的信息. 当状态变化不可控时, 这一点十分有用. 例如:</p>
+<ul>
+<li>当用户切换的其他应用时, player的rate将会降至0.0</li>
+<li>如果正在播放远程媒体, player的<code>loadedTimeRanges</code>和<code>loadedTimeRanges</code>属性将会随着数据的加载而变化</li>
+<li>播放HTTP流媒体时, 一个player的<code>currentItem</code>属性会被自动创建.</li>
+<li>播放HTTP流媒体时, 一个player的<code>tracks</code>属性可能会随着播放而变化</li>
+<li>由于某些原因导致播放失败时, 一个player或者item的<code>status</code>属性会随之变化</li>
+</ul>
+<p>可以使用KVO来监听这些属性的变化.</p>
+<h2 id="响应播放状态的改变"><a href="#响应播放状态的改变" class="headerlink" title="响应播放状态的改变"></a>响应播放状态的改变</h2><p>当一个player或者item的状态发生改变时, 会发出对应KVO变化的notification. 如果一个资源因为某些原因不能播放, status会变为<code> AVPlayerStatusFailed</code>或者<code> AVPlayerItemStatusFailed</code>. 这种情况下, <code>error</code>对象会包含相关的错误信息. </p>
+<p>AV Foundation并不会指定notification发出的线程. 如果需要更新UI, 你必须手动切换到主线程. 下面是使用<code> dispatch_async</code>切换到主线程的示例代码:</p>
+<pre><code>- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object
+                        change:(NSDictionary *)change context:(void *)context &#123;
+ 
+    if (context == &lt;#Player status context#&gt;) &#123;
+        AVPlayer *thePlayer = (AVPlayer *)object;
+        if ([thePlayer status] == AVPlayerStatusFailed) &#123;
+            NSError *error = [&lt;#The AVPlayer object#&gt; error];
+            // Respond to error: for example, display an alert sheet.
+            return;
+        &#125;
+        // Deal with other status change if appropriate.
+    &#125;
+    // Deal with other change notifications if appropriate.
+    [super observeValueForKeyPath:keyPath ofObject:object
+           change:change context:context];
+    return;
+&#125;
+</code></pre>
+<h2 id="跟踪可视化内容的就绪状态"><a href="#跟踪可视化内容的就绪状态" class="headerlink" title="跟踪可视化内容的就绪状态"></a>跟踪可视化内容的就绪状态</h2><p>可是监听<code>AVPlayerLayer</code>对象的<code>readyForDisplay</code>属性判断当前是否可以展示可视化的内容. 特别是当你只需要在有可视化内容时才将layer插入到视图层级中的情况.</p>
+<h2 id="跟踪播放时间"><a href="#跟踪播放时间" class="headerlink" title="跟踪播放时间"></a>跟踪播放时间</h2><p>要跟踪AVPlayer对象当前的播放位置, 可以使用<code> addPeriodicTimeObserverForInterval:queue:usingBlock:</code>或者<code>addBoundaryTimeObserverForTimes:queue:usingBlock:</code>.</p>
+<p>当你需要进行更新播放时间, 或者其他UI同步操作时可能会用到这些方法. </p>
+<ul>
+<li><code> addPeriodicTimeObserverForInterval:queue:usingBlock:</code>, block会在指定的时间间隔被调用, 哪怕时间发生了跳动,播放开始或结束.</li>
+<li><code> addBoundaryTimeObserverForTimes:queue:usingBlock:</code>, 传递一个包含了<code>CMTime</code>的<code>NSValue</code>对象的数组. 当播放到数组中的时间点时, block会被调用.</li>
+</ul>
+<p>这两个方法都会返回一个不可见的观察者对象, 必须对其保持强引用. 当需要注销这个观察者时, 可以使用<code>removeTimeObserver:</code>.</p>
+<p>对于这两个方法, AV Foundation并不能确保blcok都会被按时调用. 如果有上一个block尚未执行完毕, 那么本次将不会调用block. 所以不要在block中执行复杂的操作.</p>
+<pre><code>// Assume a property: @property (strong) id playerObserver;
+ 
+Float64 durationSeconds = CMTimeGetSeconds([&lt;#An asset#&gt; duration]);
+CMTime firstThird = CMTimeMakeWithSeconds(durationSeconds/3.0, 1);
+CMTime secondThird = CMTimeMakeWithSeconds(durationSeconds*2.0/3.0, 1);
+NSArray *times = @[[NSValue valueWithCMTime:firstThird], [NSValue valueWithCMTime:secondThird]];
+ 
+self.playerObserver = [&lt;#A player#&gt; addBoundaryTimeObserverForTimes:times queue:NULL usingBlock:^&#123;
+ 
+    NSString *timeDescription = (NSString *)
+        CFBridgingRelease(CMTimeCopyDescription(NULL, [self.player currentTime]));
+    NSLog(@&quot;Passed a boundary at %@&quot;, timeDescription);
+&#125;];
+</code></pre>
+<h2 id="播放结束"><a href="#播放结束" class="headerlink" title="播放结束"></a>播放结束</h2><p>可以注册<code> AVPlayerItemDidPlayToEndTimeNotification</code>通知来监听 player item 的结束.</p>
+<pre><code>[[NSNotificationCenter defaultCenter] addObserver:&lt;#The observer, typically self#&gt;
+                                         selector:@selector(&lt;#The selector name#&gt;)
+                                             name:AVPlayerItemDidPlayToEndTimeNotification
+                                           object:&lt;#A player item#&gt;];
+</code></pre>
+<h1 id="使用AVPlayerLayer播放视频文件"><a href="#使用AVPlayerLayer播放视频文件" class="headerlink" title="使用AVPlayerLayer播放视频文件"></a>使用AVPlayerLayer播放视频文件</h1><p>下面的代码简要展示了如何使用<code>AVPlayer</code>对象播放视频文件, 包括:</p>
+<ul>
+<li>使用<code>AVPlayerLayer</code></li>
+<li>创建<code>AVPlayer</code>对象</li>
+<li>创建基于file-based asset的<code>AVPlayerItem</code>对象,并监听其状态</li>
+<li>响应播放状态的变化, 同步改变播放按钮的可用状态</li>
+<li>播放item</li>
+</ul>
+<blockquote>
+<p>提示: 为了展示核心代码, 这份示例省略了某些内容, 比如内存管理和通知的移除等. 使用AV Foundation之前, 你最好已经拥有Cocoa框架的使用经验.</p>
+</blockquote>
+<h2 id="Player-View"><a href="#Player-View" class="headerlink" title="Player View"></a>Player View</h2><p>要播放一个asset的可视部分, 你需要一个包含<code> AVPlayerLayer</code>对象的view, 用来接收<code>AVPlayer</code>对象的输出. 可以简单的定义一个UIView的子类来实现这一功能:</p>
+<pre><code>#import &lt;UIKit/UIKit.h&gt;
+#import &lt;AVFoundation/AVFoundation.h&gt;
+
+@interface PlayerView : UIView
+@property (nonatomic) AVPlayer *player;
+@end
+ 
+@implementation PlayerView
++ (Class)layerClass &#123;
+    return [AVPlayerLayer class];
+&#125;
+- (AVPlayer*)player &#123;
+    return [(AVPlayerLayer *)[self layer] player];
+&#125;
+- (void)setPlayer:(AVPlayer *)player &#123;
+    [(AVPlayerLayer *)[self layer] setPlayer:player];
+&#125;
+@end
+</code></pre>
+<h2 id="View-Controller"><a href="#View-Controller" class="headerlink" title="View Controller"></a>View Controller</h2><p>假设有一个简单的View Controller 声明如下:</p>
+<pre><code>@class PlayerView;
+@interface PlayerViewController : UIViewController
+ 
+@property (nonatomic) AVPlayer *player;
+@property (nonatomic) AVPlayerItem *playerItem;
+@property (nonatomic, weak) IBOutlet PlayerView *playerView;
+@property (nonatomic, weak) IBOutlet UIButton *playButton;
+- (IBAction)loadAssetFromFile:sender;
+- (IBAction)play:sender;
+- (void)syncUI;
+@end
+</code></pre>
+<p><code>syncUI</code>方法用来根据player的状态同步按钮的可用状态:</p>
+<pre><code>- (void)syncUI &#123;
+    if ((self.player.currentItem != nil) &amp;&amp;
+        ([self.player.currentItem status] == AVPlayerItemStatusReadyToPlay)) &#123;
+        self.playButton.enabled = YES;
+    &#125;
+    else &#123;
+        self.playButton.enabled = NO;
+    &#125;
+&#125;
+</code></pre>
+<p>可以在view controller的<code>viewDidLoad</code>方法中就调用<code>syncUI</code>同步按钮的状态:</p>
+<pre><code>- (void)viewDidLoad &#123;
+    [super viewDidLoad];
+    [self syncUI];
+&#125;
+</code></pre>
+<h2 id="创建Asset"><a href="#创建Asset" class="headerlink" title="创建Asset"></a>创建Asset</h2><p>使用<code> AVURLAsset</code>根据URL创建asset.(下面的代码假设项目中包含了一个视频资源)</p>
+<pre><code>- (IBAction)loadAssetFromFile:sender &#123;
+ 
+    NSURL *fileURL = [[NSBundle mainBundle]
+        URLForResource:&lt;#@&quot;VideoFileName&quot;#&gt; withExtension:&lt;#@&quot;extension&quot;#&gt;];
+ 
+    AVURLAsset *asset = [AVURLAsset URLAssetWithURL:fileURL options:nil];
+    NSString *tracksKey = @&quot;tracks&quot;;
+ 
+    [asset loadValuesAsynchronouslyForKeys:@[tracksKey] completionHandler:
+     ^&#123;
+         // The completion block goes here.
+     &#125;];
+&#125;
+</code></pre>
+<p>在completion block中创建	<code>AVPlayerItem</code>, 并设置player view的player. </p>
+<pre><code>// Define this constant for the key-value observation context.
+static const NSString *ItemStatusContext;
+
+// Completion handler block.
+ dispatch_async(dispatch_get_main_queue(),
+    ^&#123;
+        NSError *error;
+        AVKeyValueStatus status = [asset statusOfValueForKey:tracksKey error:&amp;error];
+
+        if (status == AVKeyValueStatusLoaded) &#123;
+            self.playerItem = [AVPlayerItem playerItemWithAsset:asset];
+             // ensure that this is done before the playerItem is associated with the player
+            [self.playerItem addObserver:self forKeyPath:@&quot;status&quot;
+                        options:NSKeyValueObservingOptionInitial context:&amp;ItemStatusContext];
+            [[NSNotificationCenter defaultCenter] addObserver:self
+                                                      selector:@selector(playerItemDidReachEnd:)
+                                                          name:AVPlayerItemDidPlayToEndTimeNotification
+                                                        object:self.playerItem];
+            self.player = [AVPlayer playerWithPlayerItem:self.playerItem];
+            [self.playerView setPlayer:self.player];
+        &#125;
+        else &#123;
+            // You should deal with the error appropriately.
+            NSLog(@&quot;The asset&#39;s tracks were not loaded:\n%@&quot;, [error localizedDescription]);
+        &#125;
+    &#125;);
+</code></pre>
+<h2 id="响应Player-Item的状态改变"><a href="#响应Player-Item的状态改变" class="headerlink" title="响应Player Item的状态改变"></a>响应Player Item的状态改变</h2><pre><code>- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object
+                        change:(NSDictionary *)change context:(void *)context &#123;
+ 
+    if (context == &amp;ItemStatusContext) &#123;
+        dispatch_async(dispatch_get_main_queue(),
+                       ^&#123;
+                           [self syncUI];
+                       &#125;);
+        return;
+    &#125;
+    [super observeValueForKeyPath:keyPath ofObject:object
+           change:change context:context];
+    return;
+&#125;
+</code></pre>
+<h2 id="播放Item"><a href="#播放Item" class="headerlink" title="播放Item"></a>播放Item</h2><pre><code>- (IBAction)play:sender &#123;
+    [player play];
+&#125;
+</code></pre>
+<p>item只被播放一次, 播放结束后, 	播放点会被设置为item的结束点, 这样下一次调用play方法将会失效. 要将播放点设置到item的起始处,参考如下代码:</p>
+<pre><code>// Register with the notification center after creating the player item.
+    [[NSNotificationCenter defaultCenter]
+        addObserver:self
+        selector:@selector(playerItemDidReachEnd:)
+        name:AVPlayerItemDidPlayToEndTimeNotification
+        object:[self.player currentItem]];
+ 
+- (void)playerItemDidReachEnd:(NSNotification *)notification &#123;
+    [self.player seekToTime:kCMTimeZero];
+&#125;
+</code></pre>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/AVFoundation%E7%BC%96%E7%A8%8B%E6%8C%87%E5%8D%97/" rel="tag"># AVFoundation编程指南</a>
+              <a href="/tags/%E7%BF%BB%E8%AF%91/" rel="tag"># 翻译</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2016/08/31/%E4%BD%BF%E7%94%A8Assets/" rel="prev" title="使用Assets">
+      <i class="fa fa-chevron-left"></i> 使用Assets
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2016/09/09/%E7%BC%96%E8%BE%91Assets/" rel="next" title="编辑Assets">
+      编辑Assets <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%92%AD%E6%94%BEAsset"><span class="nav-number">1.</span> <span class="nav-text">播放Asset</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A4%84%E7%90%86%E4%B8%8D%E5%90%8C%E7%B1%BB%E5%9E%8B%E7%9A%84Asset"><span class="nav-number">2.</span> <span class="nav-text">处理不同类型的Asset</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%92%AD%E6%94%BE%E5%8D%95%E4%B8%AAAVPlayerItem"><span class="nav-number">3.</span> <span class="nav-text">播放单个AVPlayerItem</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%92%AD%E6%94%BE%E9%80%9F%E7%8E%87"><span class="nav-number">3.1.</span> <span class="nav-text">播放速率</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9A%E4%BD%8D%E6%92%AD%E6%94%BE%E7%82%B9"><span class="nav-number">3.2.</span> <span class="nav-text">定位播放点</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%92%AD%E6%94%BE%E5%A4%9A%E4%B8%AAAVPlayerItem"><span class="nav-number">4.</span> <span class="nav-text">播放多个AVPlayerItem</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%9B%91%E5%90%AC%E6%92%AD%E6%94%BE"><span class="nav-number">5.</span> <span class="nav-text">监听播放</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%93%8D%E5%BA%94%E6%92%AD%E6%94%BE%E7%8A%B6%E6%80%81%E7%9A%84%E6%94%B9%E5%8F%98"><span class="nav-number">5.1.</span> <span class="nav-text">响应播放状态的改变</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B7%9F%E8%B8%AA%E5%8F%AF%E8%A7%86%E5%8C%96%E5%86%85%E5%AE%B9%E7%9A%84%E5%B0%B1%E7%BB%AA%E7%8A%B6%E6%80%81"><span class="nav-number">5.2.</span> <span class="nav-text">跟踪可视化内容的就绪状态</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B7%9F%E8%B8%AA%E6%92%AD%E6%94%BE%E6%97%B6%E9%97%B4"><span class="nav-number">5.3.</span> <span class="nav-text">跟踪播放时间</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%92%AD%E6%94%BE%E7%BB%93%E6%9D%9F"><span class="nav-number">5.4.</span> <span class="nav-text">播放结束</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8AVPlayerLayer%E6%92%AD%E6%94%BE%E8%A7%86%E9%A2%91%E6%96%87%E4%BB%B6"><span class="nav-number">6.</span> <span class="nav-text">使用AVPlayerLayer播放视频文件</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Player-View"><span class="nav-number">6.1.</span> <span class="nav-text">Player View</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#View-Controller"><span class="nav-number">6.2.</span> <span class="nav-text">View Controller</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9B%E5%BB%BAAsset"><span class="nav-number">6.3.</span> <span class="nav-text">创建Asset</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%93%8D%E5%BA%94Player-Item%E7%9A%84%E7%8A%B6%E6%80%81%E6%94%B9%E5%8F%98"><span class="nav-number">6.4.</span> <span class="nav-text">响应Player Item的状态改变</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%92%AD%E6%94%BEItem"><span class="nav-number">6.5.</span> <span class="nav-text">播放Item</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">mangox</p>
+  <div class="site-description" itemprop="description">每天进步一点点</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">130</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">34</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">mangox</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'Hl5bOvNBmh6xqvMEjzRRWMIP-gzGzoHsz',
+      appKey     : '3n3m7ANssYrw0VgxYu87kQEL',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : true,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

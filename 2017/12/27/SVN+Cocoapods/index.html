@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.devzhang.cn","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="本文主要记录了SVN和Cocoapods的配合使用, 为组件化工作的基础部分. 目录如下：  SVN目录说明 配置ComponentSpecs 配置podspec 推送podspec 发布framework">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SVN+Cocoapods">
+<meta property="og:url" content="http://www.devzhang.cn/2017/12/27/SVN+Cocoapods/index.html">
+<meta property="og:site_name" content="做点有意思的事情">
+<meta property="og:description" content="本文主要记录了SVN和Cocoapods的配合使用, 为组件化工作的基础部分. 目录如下：  SVN目录说明 配置ComponentSpecs 配置podspec 推送podspec 发布framework">
+<meta property="og:locale">
+<meta property="og:image" content="https://raw.githubusercontent.com/changjianfeishui/XBImageStore/master/Hexo/svn+cocoapods1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/changjianfeishui/XBImageStore/master/Hexo/svn+cocoapods2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/changjianfeishui/XBImageStore/master/Hexo/svn+cocoapods3.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/changjianfeishui/XBImageStore/master/Hexo/svn+cocoapods4.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/changjianfeishui/XBImageStore/master/Hexo/svn+cocoapods5.png">
+<meta property="article:published_time" content="2017-12-27T14:55:21.000Z">
+<meta property="article:modified_time" content="2017-12-27T15:51:00.000Z">
+<meta property="article:author" content="mangox">
+<meta property="article:tag" content="组件化">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/changjianfeishui/XBImageStore/master/Hexo/svn+cocoapods1.png">
+
+<link rel="canonical" href="http://www.devzhang.cn/2017/12/27/SVN+Cocoapods/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>SVN+Cocoapods | 做点有意思的事情</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">做点有意思的事情</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">每天进步一点点</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://www.devzhang.cn/2017/12/27/SVN+Cocoapods/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="mangox">
+      <meta itemprop="description" content="每天进步一点点">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="做点有意思的事情">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          SVN+Cocoapods
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2017-12-27 22:55:21 / Modified: 23:51:00" itemprop="dateCreated datePublished" datetime="2017-12-27T22:55:21+08:00">2017-12-27</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index"><span itemprop="name">iOS</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2017/12/27/SVN+Cocoapods/" class="post-meta-item leancloud_visitors" data-flag-title="SVN+Cocoapods" title="Views">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2017/12/27/SVN+Cocoapods/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2017/12/27/SVN+Cocoapods/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>本文主要记录了SVN和Cocoapods的配合使用, 为组件化工作的基础部分. 目录如下：</p>
+<ul>
+<li>SVN目录说明</li>
+<li>配置ComponentSpecs</li>
+<li>配置podspec</li>
+<li>推送podspec</li>
+<li>发布framework</li>
+</ul>
+<span id="more"></span>
+
+<h1 id="SVN目录说明"><a href="#SVN目录说明" class="headerlink" title="SVN目录说明"></a>SVN目录说明</h1><p>SVN上需要两个目录, 一个用来存放具体的开发文件(<code>ComponentProject</code>, 图中该目录下的TestTool为测试项目), 另一个用来存放podSpec文件(<code>ComponentSpecs</code>).</p>
+<p><img src="https://raw.githubusercontent.com/changjianfeishui/XBImageStore/master/Hexo/svn+cocoapods1.png"></p>
+<h1 id="配置ComponentSpecs"><a href="#配置ComponentSpecs" class="headerlink" title="配置ComponentSpecs"></a>配置<code>ComponentSpecs</code></h1><p>要想通过<code>pod search</code>命令搜索到上述目录中我们自己开发的库, 必须将<code>ComponentSpecs</code> 加入cocospods的索引目录. </p>
+<p>通过下面的终端命令安装cocoapods的svn插件:</p>
+<pre><code>`gem install cocoapods-repo-svn `
+</code></pre>
+<p>安装完成后, 终端执行下面的命令:</p>
+<p><code>pod repo-svn add ComponentSpecs your-svn-url</code></p>
+<p>此时终端可能会提示svn报错(E170001), 输入下面的命令然后按照提示输入svn账号密码即可:</p>
+<p><code>svn info --username svnname --password --no-auth-cache your-svn-url</code></p>
+<p>执行add命令成功后, 终端执行:</p>
+<p><code>pod repo</code> </p>
+<p>该命令可以显示本地pod的repo列表, 添加<code>ComponentSpecs </code>成功的话终端输出中会包含:</p>
+<p><img src="https://raw.githubusercontent.com/changjianfeishui/XBImageStore/master/Hexo/svn+cocoapods2.png"></p>
+<h1 id="配置podspec"><a href="#配置podspec" class="headerlink" title="配置podspec"></a>配置podspec</h1><p>按照上面的svn目录图, 我们会在trunk中进行库的开发, 开发完成后通过tag发布供他人使用.</p>
+<p>建议直接通过cocoapods命令完成库的创建, cd至目录<code>ComponentProject</code>下级目录<code>TestTool</code>, 执行:</p>
+<p><code>pod lib create libName</code></p>
+<p>按提示步骤创建完成后, 打开<code>TestTool.podspec</code>文件,重点编辑以下项:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">//本次要发布的版本号</span><br><span class="line">s.version = &#x27;0.3.0&#x27;</span><br><span class="line">//svn路径</span><br><span class="line">s.source = &#123; </span><br><span class="line">	:svn =&gt; &#x27;your-svn-url/ComponentLibrary/ComponentProject/TestTool&#x27;, </span><br><span class="line">	:tag =&gt; s.version.to_s </span><br><span class="line">	&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>注意, 这里需要将目录结构调整为上图中的结构(删除git相关的隐藏文件, 将创建的文件移动至<code>TestTool</code>目录下).</p>
+<p>然后按照cocoapods库的正常开发流程进行开发即可.</p>
+<h1 id="推送podspec"><a href="#推送podspec" class="headerlink" title="推送podspec"></a>推送podspec</h1><p>开发完成后, 提交代码到svn, 然后需要将<code>TestTool.podspec</code>推送到<code>ComponentSpecs</code>以便进行索引, cd到trunk目录下执行以下命令:</p>
+<p><code>pod repo-svn push ComponentSpecs TestTool.podspec </code></p>
+<p>由于之前指定的svn路径中包含了tag版本号, 所以需要在svn中tag出对应的版本:</p>
+<p><img src="https://raw.githubusercontent.com/changjianfeishui/XBImageStore/master/Hexo/svn+cocoapods3.png"></p>
+<p>此时, 在终端中执行搜索:</p>
+<p><code>pod search TestTool</code> </p>
+<p>可以看到:</p>
+<p><img src="https://raw.githubusercontent.com/changjianfeishui/XBImageStore/master/Hexo/svn+cocoapods4.png"></p>
+<p>在需要使用该库的项目的podfile文件中加入<br>    <code>pod &#39;TestTool&#39;, &#39;~&gt; 0.3.0&#39;</code><br>即可.</p>
+<h1 id="发布framework"><a href="#发布framework" class="headerlink" title="发布framework"></a>发布framework</h1><p>通过以下命令安装cocoapods的打包插件:</p>
+<p><code>gem install cocoapods-packager</code></p>
+<p>在库开发完成后, 通过以下命令打包成framework:</p>
+<p><code>pod package TestTool.podspec</code></p>
+<p>大体发布流程与上述相同, 区别在于生成<code>TestTool.framework</code>文件后, 需要通过<code>pod lib create</code>新创建一个专用于发布的lib项目, 然后在其podspec文件中加入:</p>
+<p><code>s.vendored_frameworks = &#39;TestTool/*.&#123;framework&#125;&#39;</code></p>
+<p>然后按照之前的流程推送发布这个新项目即可, 此时其他用户使用该库就只能看到一个framework文件了:</p>
+<p><img src="https://raw.githubusercontent.com/changjianfeishui/XBImageStore/master/Hexo/svn+cocoapods5.png"></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%BB%84%E4%BB%B6%E5%8C%96/" rel="tag"># 组件化</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2017/09/23/iOS%E4%BA%8B%E4%BB%B6%E5%A4%84%E7%90%86%E5%92%8C%E5%93%8D%E5%BA%94%E9%93%BE%E6%A6%82%E8%BF%B0/" rel="prev" title="iOS事件处理和响应链概述">
+      <i class="fa fa-chevron-left"></i> iOS事件处理和响应链概述
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/02/01/Cocoapods%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%8C%96%E6%96%B9%E6%A1%88/" rel="next" title="Cocoapods二进制化方案">
+      Cocoapods二进制化方案 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#SVN%E7%9B%AE%E5%BD%95%E8%AF%B4%E6%98%8E"><span class="nav-number">1.</span> <span class="nav-text">SVN目录说明</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%85%8D%E7%BD%AEComponentSpecs"><span class="nav-number">2.</span> <span class="nav-text">配置ComponentSpecs</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%85%8D%E7%BD%AEpodspec"><span class="nav-number">3.</span> <span class="nav-text">配置podspec</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8E%A8%E9%80%81podspec"><span class="nav-number">4.</span> <span class="nav-text">推送podspec</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%91%E5%B8%83framework"><span class="nav-number">5.</span> <span class="nav-text">发布framework</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">mangox</p>
+  <div class="site-description" itemprop="description">每天进步一点点</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">130</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">34</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">mangox</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'Hl5bOvNBmh6xqvMEjzRRWMIP-gzGzoHsz',
+      appKey     : '3n3m7ANssYrw0VgxYu87kQEL',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : true,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

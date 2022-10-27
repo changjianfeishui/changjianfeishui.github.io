@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.devzhang.cn","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="数组是连续分配的非空的具有特定元素对象类型的对象集合, 组成数组的对象称为该数组的元素. 数组类型由元素类型与元素的数目确定.  相对于整型,浮点型和字符型数据, 数组是最简单最基本的结构型数据类型. 数组名作为数组实体的标识符，具有特殊性，不同于整型、浮点型、指针型或结构类型等变量标识符。这是因为数组是一组元素的聚集，不能把一个聚集看作一个值直接读出（即右值），也不能把一个聚集看作一个地址直接赋">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++之数组">
+<meta property="og:url" content="http://www.devzhang.cn/2016/11/23/C++%E4%B9%8B%E6%95%B0%E7%BB%84/index.html">
+<meta property="og:site_name" content="做点有意思的事情">
+<meta property="og:description" content="数组是连续分配的非空的具有特定元素对象类型的对象集合, 组成数组的对象称为该数组的元素. 数组类型由元素类型与元素的数目确定.  相对于整型,浮点型和字符型数据, 数组是最简单最基本的结构型数据类型. 数组名作为数组实体的标识符，具有特殊性，不同于整型、浮点型、指针型或结构类型等变量标识符。这是因为数组是一组元素的聚集，不能把一个聚集看作一个值直接读出（即右值），也不能把一个聚集看作一个地址直接赋">
+<meta property="og:locale">
+<meta property="article:published_time" content="2016-11-23T12:59:38.000Z">
+<meta property="article:modified_time" content="2016-11-23T15:11:45.000Z">
+<meta property="article:author" content="mangox">
+<meta property="article:tag" content="学习笔记">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://www.devzhang.cn/2016/11/23/C++%E4%B9%8B%E6%95%B0%E7%BB%84/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>C++之数组 | 做点有意思的事情</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">做点有意思的事情</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">每天进步一点点</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://www.devzhang.cn/2016/11/23/C++%E4%B9%8B%E6%95%B0%E7%BB%84/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="mangox">
+      <meta itemprop="description" content="每天进步一点点">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="做点有意思的事情">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          C++之数组
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2016-11-23 20:59:38 / Modified: 23:11:45" itemprop="dateCreated datePublished" datetime="2016-11-23T20:59:38+08:00">2016-11-23</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C/" itemprop="url" rel="index"><span itemprop="name">C++</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2016/11/23/C++%E4%B9%8B%E6%95%B0%E7%BB%84/" class="post-meta-item leancloud_visitors" data-flag-title="C++之数组" title="Views">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2016/11/23/C++%E4%B9%8B%E6%95%B0%E7%BB%84/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2016/11/23/C++%E4%B9%8B%E6%95%B0%E7%BB%84/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>数组是连续分配的非空的具有特定元素对象类型的对象集合, 组成数组的对象称为该数组的元素. 数组类型由元素类型与元素的数目确定. </p>
+<p>相对于整型,浮点型和字符型数据, 数组是最简单最基本的结构型数据类型. 数组名作为数组实体的标识符，具有特殊性，不同于整型、浮点型、指针型或结构类型等变量标识符。这是因为数组是一组元素的聚集，不能把一个聚集看作一个值直接读出（即右值），也不能把一个聚集看作一个地址直接赋值（即左值).</p>
+<span id="more"></span>
+
+<h1 id="数组定义与初始化"><a href="#数组定义与初始化" class="headerlink" title="数组定义与初始化"></a>数组定义与初始化</h1><h2 id="数组的定义"><a href="#数组的定义" class="headerlink" title="数组的定义"></a>数组的定义</h2><p>声明数组的一般形式如下:</p>
+<pre><code>数据类型 数组名[常量表达式1][常量表达式2]...[常量表达式N];
+</code></pre>
+<p>数组名是一个常量, 代表数组元素在内存中的起始地址, 也就是数组中第一个元素的地址. 数组可以是一维数组, 也可以是N维数组. 上述声明中的”常量表达式N”称为下标表达式, 且必须是一个正整数. 数组的下标限定了数组中元素的个数, 也用来标识数组中的元素. 下标从0开始计算. 例如:</p>
+<pre><code>int a[10];
+//表示数组a中有10个元素, a[0]到a[9].
+</code></pre>
+<p>此外, 数组的大小必须在定义时就固定, C++不存在动态定义大小的数组, 例如下面的定义是错误的:</p>
+<pre><code>int num;
+cin&gt;&gt;num&gt;&gt;endl;
+int a[num];
+
+  /*
+ C 和 C++ 是两种不同的语言。
+ C 自 C99 开始，在特定条件下允许使用变量作为数组长度定义数组。
+ C++ 至今不允许这种用法。
+ */		
+</code></pre>
+<h2 id="一维数组的初始化"><a href="#一维数组的初始化" class="headerlink" title="一维数组的初始化"></a>一维数组的初始化</h2><p>一维数组初始化的几种方式:</p>
+<pre><code>//1. 定义数组时对数组元素逐个赋值
+ int a[5];
+for (int i = 0; i &lt; 5; i++) &#123;
+    a[i] = i;
+&#125;
+    
+//2. 将数组元素的初始值依次放在一对大括号内:
+int a[5] = &#123;0,1,2,3,4&#125;;
+
+//3. 当数组容量较大不能逐一赋值时, 可以仅对其中一部分元素进行赋值, 其余元素将默认为0. 下面的代码仅对前3个元素进行了赋值:
+int a[50] = &#123;0,1,2&#125;;
+
+//4. 可以对数组中所有元素统一赋一个初值:
+int a[5] = &#123;0&#125;;
+
+//5. 如果对全部元素进行了赋值, 则可以省略数组长度:
+int a[] = &#123;0,1,2,3,4&#125;;
+</code></pre>
+<p>C++并不提供对数组的边界检查, 因此要特别注意越界访问的处理.</p>
+<h2 id="二维数组的初始化"><a href="#二维数组的初始化" class="headerlink" title="二维数组的初始化"></a>二维数组的初始化</h2><p>另一种常用的数组时二维数组, 相当于平面内的一个二维矩阵. 下面的代码定义了一个二维数组:</p>
+<pre><code>float array[2][3];
+//表示2行3列, 即第一个参数表示行数, 第二个参数表示列数. 下标仍然从0开始计算.	
+</code></pre>
+<p>下面的代码是二维数组的几种初始化方式:</p>
+<pre><code>//1.对元素逐一赋值
+float array[2][3] = &#123;1,2,3,4,5,6&#125;;
+//更直观易懂的写法是:
+float array[2][3] = &#123;&#123;1,2,3&#125;,&#123;4,5,6&#125;&#125;;
+
+//2. 对于数组容量比较大的情况, 可以对部分元素进行赋值:
+float array[2][3] = &#123;&#123;1&#125;,&#123;4&#125;&#125;;
+//上面的语句只对每行首列进行了赋值, 其他元素被默认赋值为0
+
+//3. 当然也可以选择某行中的任意一列或多列来赋值:
+float array[2][3] = &#123;&#123;1&#125;,&#123;0,4&#125;&#125;;
+
+//4. 也可以挑中器重的某行,对其他行进行赋值:
+float array[2][3] = &#123;&#123;&#125;,&#123;0,4&#125;&#125;;
+
+//5. 如果初始化时对二维数组里的全部元素进行了赋值, 则可以省略第一维的长度, 但第二维的长度不能省略:
+float array[][3] = &#123;1,2,3,4,5,6&#125;;
+</code></pre>
+<p>可以通过二维数组的用法推广到更高维数组的用法.</p>
+<h1 id="数组和指针"><a href="#数组和指针" class="headerlink" title="数组和指针"></a>数组和指针</h1><p>任何存储在内存中的变量都有地址, 数组有地址, 数组中的元素也有地址. 所以使用指针也能访问数组中的元素.</p>
+<pre><code>#include &lt;iostream&gt;
+using namespace std;
+int main(int argc, const char * argv[]) &#123;
+
+    int a[5] = &#123;0,1,2,3,4&#125;;
+    int *p = &amp;a[0];
+    cout &lt;&lt; a[0] &lt;&lt; endl;
+    cout &lt;&lt; &amp;a[0] &lt;&lt; endl;
+    cout &lt;&lt; &amp;a &lt;&lt; endl;
+    cout &lt;&lt; a &lt;&lt; endl;
+    cout &lt;&lt; p &lt;&lt; endl;
+    cout &lt;&lt; *p &lt;&lt; endl;
+    
+    return 0;
+&#125;
+
+输出:
+0
+0x7fff5fbff7c0
+0x7fff5fbff7c0
+0x7fff5fbff7c0
+0x7fff5fbff7c0
+0
+</code></pre>
+<p>用指针访问数组时比较高效的, 它无须每次都重新计算地址, 而使用下标符号[]每次都需要进行变址寻址,这样的时间消耗在数组容量较大时是不可忽略的. </p>
+<p>在C++中, <code>++</code>运算和<code>*</code>运算具有相同的优先级, 且运算结合的方向是自右向左, 所以<code>*p++</code>和<code>*(p++)</code>的作用是完全相同的, 即首先得到p所指向的内容,再将p向下移动一位(指向下一个元素).<code>(*p)++</code>则表示p所指向的内容加1.</p>
+<p>特别地, 可以通过指针运算改变指针变量的值, 但是不能将同样的操作运用于a, 即不存在a++之类的运算.因为a表示的数组首元素的地址, 是一个指针常量.</p>
+<p>还需要注意的是, 指向数组的指针并不会做越界检查.</p>
+<p>二维数组可以看做一个特殊的一维数组, 内存中二维数组也是按行收尾相接线性排列的. 例如可以使用下面的代码遍历一个二维数组:</p>
+<pre><code>#include &lt;iostream&gt;
+using namespace std;
+int main(int argc, const char * argv[]) &#123;
+
+    
+    int a[][3] = &#123;0,1,2,3,4,5,6,7,8&#125;;
+    int *p = &amp;a[0][0];
+    for(int i = 0; i &lt; 9; i++)&#123;
+        cout &lt;&lt; *p++ &lt;&lt; endl;
+    &#125;
+    return 0;
+&#125;
+
+
+    
+</code></pre>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="tag"># 学习笔记</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2016/11/22/C++%E4%B9%8B%E6%8C%87%E9%92%88/" rel="prev" title="C++之指针">
+      <i class="fa fa-chevron-left"></i> C++之指针
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2016/11/29/C++%E4%B9%8B%E8%8D%B7%E5%85%B0%E5%9B%BD%E6%97%97%E9%97%AE%E9%A2%98/" rel="next" title="C++之荷兰国旗问题">
+      C++之荷兰国旗问题 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%95%B0%E7%BB%84%E5%AE%9A%E4%B9%89%E4%B8%8E%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="nav-number">1.</span> <span class="nav-text">数组定义与初始化</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E7%BB%84%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="nav-number">1.1.</span> <span class="nav-text">数组的定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E7%BB%B4%E6%95%B0%E7%BB%84%E7%9A%84%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="nav-number">1.2.</span> <span class="nav-text">一维数组的初始化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E7%BB%B4%E6%95%B0%E7%BB%84%E7%9A%84%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="nav-number">1.3.</span> <span class="nav-text">二维数组的初始化</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%95%B0%E7%BB%84%E5%92%8C%E6%8C%87%E9%92%88"><span class="nav-number">2.</span> <span class="nav-text">数组和指针</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">mangox</p>
+  <div class="site-description" itemprop="description">每天进步一点点</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">130</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">34</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">mangox</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'Hl5bOvNBmh6xqvMEjzRRWMIP-gzGzoHsz',
+      appKey     : '3n3m7ANssYrw0VgxYu87kQEL',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : true,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

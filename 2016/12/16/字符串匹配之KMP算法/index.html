@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.devzhang.cn","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="KMP算法是由D.E.Knuth，J.H.Morris和V.R.Pratt于1969年夏天提出的字符串快速匹配算法. KMP算法的关键是利用匹配失败后的信息，尽量减少模式串与主串的匹配次数以达到快速匹配的目的. 下面将分以下几个部分对KMP算法进行介绍:  KMP算法的匹配过程 next数组的解释 next数组的求法 代码实现">
+<meta property="og:type" content="article">
+<meta property="og:title" content="字符串匹配之KMP算法">
+<meta property="og:url" content="http://www.devzhang.cn/2016/12/16/%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8C%B9%E9%85%8D%E4%B9%8BKMP%E7%AE%97%E6%B3%95/index.html">
+<meta property="og:site_name" content="做点有意思的事情">
+<meta property="og:description" content="KMP算法是由D.E.Knuth，J.H.Morris和V.R.Pratt于1969年夏天提出的字符串快速匹配算法. KMP算法的关键是利用匹配失败后的信息，尽量减少模式串与主串的匹配次数以达到快速匹配的目的. 下面将分以下几个部分对KMP算法进行介绍:  KMP算法的匹配过程 next数组的解释 next数组的求法 代码实现">
+<meta property="og:locale">
+<meta property="og:image" content="https://github.com/changjianfeishui/XBImageStore/raw/master/Hexo/kmp1.png">
+<meta property="og:image" content="https://github.com/changjianfeishui/XBImageStore/raw/master/Hexo/kmp2.png">
+<meta property="og:image" content="https://github.com/changjianfeishui/XBImageStore/raw/master/Hexo/kmp5.png">
+<meta property="og:image" content="https://github.com/changjianfeishui/XBImageStore/raw/master/Hexo/kmp3.png">
+<meta property="og:image" content="https://github.com/changjianfeishui/XBImageStore/raw/master/Hexo/kmp4.png">
+<meta property="og:image" content="https://github.com/changjianfeishui/XBImageStore/raw/master/Hexo/kmp6.png">
+<meta property="og:image" content="https://github.com/changjianfeishui/XBImageStore/raw/master/Hexo/kmp7png.png">
+<meta property="og:image" content="https://github.com/changjianfeishui/XBImageStore/raw/master/Hexo/kmp8.png">
+<meta property="og:image" content="https://github.com/changjianfeishui/XBImageStore/raw/master/Hexo/kmp9.png">
+<meta property="article:published_time" content="2016-12-16T07:44:16.000Z">
+<meta property="article:modified_time" content="2022-10-27T13:20:41.488Z">
+<meta property="article:author" content="mangox">
+<meta property="article:tag" content="字符串匹配">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://github.com/changjianfeishui/XBImageStore/raw/master/Hexo/kmp1.png">
+
+<link rel="canonical" href="http://www.devzhang.cn/2016/12/16/%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8C%B9%E9%85%8D%E4%B9%8BKMP%E7%AE%97%E6%B3%95/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>字符串匹配之KMP算法 | 做点有意思的事情</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">做点有意思的事情</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">每天进步一点点</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://www.devzhang.cn/2016/12/16/%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8C%B9%E9%85%8D%E4%B9%8BKMP%E7%AE%97%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="mangox">
+      <meta itemprop="description" content="每天进步一点点">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="做点有意思的事情">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          字符串匹配之KMP算法
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-12-16 15:44:16" itemprop="dateCreated datePublished" datetime="2016-12-16T15:44:16+08:00">2016-12-16</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2022-10-27 21:20:41" itemprop="dateModified" datetime="2022-10-27T21:20:41+08:00">2022-10-27</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Algorithm/" itemprop="url" rel="index"><span itemprop="name">Algorithm</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2016/12/16/%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8C%B9%E9%85%8D%E4%B9%8BKMP%E7%AE%97%E6%B3%95/" class="post-meta-item leancloud_visitors" data-flag-title="字符串匹配之KMP算法" title="Views">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2016/12/16/%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8C%B9%E9%85%8D%E4%B9%8BKMP%E7%AE%97%E6%B3%95/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2016/12/16/%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8C%B9%E9%85%8D%E4%B9%8BKMP%E7%AE%97%E6%B3%95/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>KMP算法是由D.E.Knuth，J.H.Morris和V.R.Pratt于1969年夏天提出的字符串快速匹配算法. KMP算法的关键是利用匹配失败后的信息，尽量减少模式串与主串的匹配次数以达到快速匹配的目的.</p>
+<p>下面将分以下几个部分对KMP算法进行介绍:</p>
+<ol>
+<li>KMP算法的匹配过程</li>
+<li>next数组的解释</li>
+<li>next数组的求法</li>
+<li>代码实现</li>
+</ol>
+<span id="more"></span>
+
+<h1 id="KMP算法的匹配过程"><a href="#KMP算法的匹配过程" class="headerlink" title="KMP算法的匹配过程"></a>KMP算法的匹配过程</h1><p>举例来说, 要判断主串”ABCDABEABCDABCDABDE”是否包含模式串”ABCDABD”, 匹配过程描述如下(索引均从0开始):</p>
+<p>第一轮匹配, 从第一个字符开始, 依次对主串和模式串的字符进行比较, 发现在模式串第6位出现了”失配”情况, 如下图所示:</p>
+<p><img src="https://github.com/changjianfeishui/XBImageStore/raw/master/Hexo/kmp1.png" alt="kmp1"></p>
+<p>如果按照<a href="http://www.devzhang.cn/2016/12/07/%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8C%B9%E9%85%8D%E4%B9%8BBF%E7%AE%97%E6%B3%95/">BF算法</a>的思想, 下面需要使用主串的第二个字符’B’和模式串的第一个字符’A’ 进行比较, 但是通过”肉眼可见”, 这次比较是无意义的. 不止如此, 使用主串接下来的两个字符’C’和’D’和’A’比较也是无意义的:</p>
+<p><img src="https://github.com/changjianfeishui/XBImageStore/raw/master/Hexo/kmp2.png" alt="kmp2"></p>
+<p>但是如何把我们”肉眼可见”的结果告诉程序, 让程序能自动跳过这些无意义的匹配, 对于当前这个例子, 就是跳过主串中”BCD”三个字符, 直接从主串第五个’A’开始与模式串进行下一轮匹配. </p>
+<p>当失配情况发生时, 由于失配位之前的字符已经比较过了, KMP就是要利用已经比较过的信息, 不要把”搜索位置”移回已经比较过的位置，而是继续把它向后移，这样就提高了效率(<em><strong>但是不能保证可以跳过所有无比较意义的字符</strong></em>).</p>
+<p>在这里需要引入一个和模式串P对应的数组next[], 告诉匹配程序当”失配”情况发生时, 可以跳过多少个无比较意义的字符. next[]数组的分析及求法将在下文给出. 对于当前这个例子, 先直接给出next[]数组如下:</p>
+<pre><code>p[]    = &#123;A,B,C,D,A,B,D&#125;
+next[] = &#123;0,0,0,0,1,2,0&#125;;
+</code></pre>
+<p>当模式串p[]中的p[i]处的字符发生”失配”情况时, 根据next[i-1]值, 按照下面的公式就可以算出需要向后移动的位数:</p>
+<p><img src="https://github.com/changjianfeishui/XBImageStore/raw/master/Hexo/kmp5.png" alt="kmp5"></p>
+<p>在上面描述的第一轮的匹配中, 在第6位发生了”失配”情况, 已匹配部分(ABCDAB)的字符数是6,在next数组中对应的值是next[6-1]&#x3D;next[5]&#x3D;2, 按照上面的公式, 需要将主串向后移动(6-2&#x3D;4)位, 移动后的情况如下:</p>
+<p><img src="https://github.com/changjianfeishui/XBImageStore/raw/master/Hexo/kmp3.png" alt="kmp3"></p>
+<p>继续之前的匹配过程, 依次比较, 在第3位发生了”失配”情况, 已匹配部分(AB)的字符数是2, 在next数组中对应的值是next[2-1]&#x3D;next[1]&#x3D;0, 根据移位公式, 需要向后移动(2-0&#x3D;2)位, 移动后的情况如下:</p>
+<p><img src="https://github.com/changjianfeishui/XBImageStore/raw/master/Hexo/kmp4.png" alt="kmp4"></p>
+<p>这里就遇到了上面所说过的情况, <strong>KMP可以跳过一些无意义的比较, 但是不能保证可以跳过所有无意义的比较</strong>, 所以才会有其他又针对KMP进行了优化的字符串匹配算法.</p>
+<p>这时第一位字符就已经不匹配了, 即已匹配的字符数为0, 根据公式需要向后移动一位, 移动后的情况如图:</p>
+<p><img src="https://github.com/changjianfeishui/XBImageStore/raw/master/Hexo/kmp6.png" alt="kmp6"></p>
+<p>跟第一轮匹配的情况相同, 在第7位发生了”失配”情况, 那么, 已匹配的字符数就是6, 且next数组中失配位对应的数是2, 按照上面的公式, 需要向后移动(6-2&#x3D;4)位, 移动后的情况如下:</p>
+<p><img src="https://github.com/changjianfeishui/XBImageStore/raw/master/Hexo/kmp7png.png" alt="kmp7"></p>
+<p>匹配成功.</p>
+<h1 id="next数组的解释"><a href="#next数组的解释" class="headerlink" title="next数组的解释"></a>next数组的解释</h1><p>首先需要引入两个概念, 前缀和后缀. 这里直接借用网上相关文章的定义, “前缀”指除了最后一个字符以外，一个字符串的全部头部组合；”后缀”指除了第一个字符以外，一个字符串的全部尾部组合. </p>
+<p>前缀和后缀的最大公共长度就是”前缀”和”后缀”的最长的共有元素的长度. 以”ABCDABD”为例:</p>
+<ul>
+<li>“A”的前缀和后缀都为空集，共有元素的长度为0；</li>
+<li>“AB”的前缀为[A]，后缀为[B]，共有元素的长度为0；</li>
+<li>“ABC”的前缀为[A, AB]，后缀为[BC, C]，共有元素的长度0；</li>
+<li>“ABCD”的前缀为[A, AB, ABC]，后缀为[BCD, CD, D]，共有元素的长度为0；</li>
+<li>“ABCDA”的前缀为[A, AB, ABC, ABCD]，后缀为[BCDA, CDA, DA, A]，共有元素为”A”，长度为1；</li>
+<li>“ABCDAB”的前缀为[A, AB, ABC, ABCD, ABCDA]，后缀为[BCDAB, CDAB, DAB, AB, B]，共有元素为”AB”，长度为2；</li>
+<li>“ABCDABD”的前缀为[A, AB, ABC, ABCD, ABCDA, ABCDAB]，后缀为[BCDABD, CDABD, DABD, ABD, BD, D]，共有元素的长度为0。</li>
+</ul>
+<p>在KMP算法的匹配过程中, 在匹配至某一位失配时, 其实在失配位之前的字符都已经经过了一轮比较, 通过对模式串自身进行比较计算得到next数组, 就可以跳过那些必然不可能产生匹配的字符. </p>
+<p>那么对于模式串”ABCDABD”而言, 为什么当最后一位’D’失配时, 可以直接后移4位进行比较呢?</p>
+<p>next数组实际上表明了模式串的对称程度, 当依次比较到’D’失配时, 前面所有的字符都已经经过了一轮比较, 主串和模式串的前六个字符其实是相同的, 这时要注意到”ABCDAB”的最长公共前后缀是”AB”, 只有把比较的指针移动一个前缀”AB”与后缀”AB”的距离才能避免没有意义的比较(参见本文第1,2,3张图). </p>
+<h1 id="next数组的求法"><a href="#next数组的求法" class="headerlink" title="next数组的求法"></a>next数组的求法</h1><p>根据上对next数组的解释, next[i]表示已匹配的长度为(i+1)字符串的最大前后缀公共长度. </p>
+<p>同样, 举出一个示例来说明next数组的求法. 下面模拟了一个for循环求出字符数组p[] &#x3D; “agctagcagctagct”的next数组:</p>
+<ul>
+<li>i &#x3D; 0时, p[0] &#x3D; a, 无前后缀, 所以next[0] &#x3D; 0;</li>
+<li>i &#x3D; 1时, p[0…1] &#x3D; ag, p[0] &#x3D; a, p[1] &#x3D; g, 不相等, 所以next[1] &#x3D; 0;</li>
+<li>i &#x3D; 2时, p[0…2] &#x3D; agc, 由于next[1] &#x3D; 0, 所以需要比较p[2]和p[0], p[2] &#x3D; c, p[0] &#x3D; a, 不相等, 所以next[2] &#x3D; 0;</li>
+<li>i &#x3D; 3时, p[0…3] &#x3D; agct, 由于next[2] &#x3D; 0, 所以需要比较p[3]和p[0], p[3] &#x3D; t, p[0] &#x3D; a, 不相等, 所以next[3] &#x3D; 0;</li>
+<li>i &#x3D; 4时, p[0…4] &#x3D; agcta, 由于next[3] &#x3D; 0, 所以需要比较p[4]和p[0], p[3] &#x3D; a, p[0] &#x3D; a, 相等, 所以next[4] &#x3D; 1;</li>
+<li>i &#x3D; 5时, p[0…5] &#x3D; agctag, 由于next[4] &#x3D; 1, 表明前面已经存在一个长度为1的公共序列了, 所以只需要比较p[5]和p[1], p[5] &#x3D; g, p[1] &#x3D; g, 相等, 所以next[5] &#x3D; next[4] + 1 &#x3D; 2;</li>
+<li>i &#x3D; 6时, p[0…6] &#x3D; agctagc, 由于next[5] &#x3D; 2, 表明前面已经存在一个长度为2的公共序列了, 所以只需要比较p[6]和p[2], p[6] &#x3D; c, p[2] &#x3D; c, 相等, 所以next[6] &#x3D; next[5] + 1 &#x3D; 3;</li>
+<li>i &#x3D; 7时, p[0…7] &#x3D; agctagca, 由于next[6] &#x3D; 3, 表明前面已经存在一个长度为3的公共序列了, 所以只需要比较p[7]和p[3], p[7] &#x3D; a, p[3] &#x3D; t, 不相等, 但是前面存在一个长度为3的公共序列, 如果p[0…7]存在公共前后缀, 则这个公共前后缀的对称度必然要小于3, 也就是说字符串abc中必须要存在一个子对称, 但是next[2]&#x3D;0,即abc并不存在一个对称, 所以需要将p[7]与p[0]比较, 相等, 所以next[7]&#x3D;1;</li>
+<li>i &#x3D; 8时, p[0…8] &#x3D; agctagcag, 由于next[7] &#x3D; 1, 表明前面已经存在一个长度为1的公共序列了, 所以只需要比较p[8]和p[1], p[8] &#x3D; g, p[1] &#x3D; g, 相等, 所以next[8] &#x3D; next[7] + 1 &#x3D; 2;</li>
+<li>…</li>
+<li>…</li>
+<li>…</li>
+<li>i &#x3D; 14时, p[0…14] &#x3D; agctagcagctagct, 由于next[13] &#x3D; 7, 表明前面已经存在一个长度为7的公共序列了, 所以只需要比较p[14]和p[7], p[14] &#x3D; t, p[7] &#x3D; a, 不相等, 但是前面存在一个长度为7的公共序列, 如果p[0…14]存在公共前后缀, 则这个公共前后缀的对称度必然要小于7, 也就是说在p[0…6] &#x3D; agctagc中必然存在一个子对称, 之前已经求得next[6] &#x3D; 3, 这时需要将这个对称之后的一位p[3]与p[14]比较, 相等, 所以next[14] &#x3D; next[6] + 1 &#x3D; 4;</li>
+</ul>
+<p>总结上面的规律, 当要求next[i]时, 由于之前已经求出next[i-1]的值, 表明前面p[0…(i-1)]的字符串的最长公共前后缀长度为next[i-1], 这时就需要分别讨论:</p>
+<ul>
+<li>当 p[i] 等于 p[next[i]]时, 如下图所示, 红色部分表示前面已经成立的对称, 这时如果绿色的部分相等, 说明next[i]&#x3D;next[i-1]+1;</li>
+</ul>
+<p><img src="https://github.com/changjianfeishui/XBImageStore/raw/master/Hexo/kmp8.png" alt="kmp8"></p>
+<ul>
+<li>当 p[i] 不等于 p[next[i]]时; 需要在前面已经成立的对称中递归寻找长度更小的对称, 然后比较找到的更小对称的后一位与p[i]的相等性, 即比较p[i] 和 p[next[next[i-1]]-1] 的相等性,  直到对称度为0, 表明确实不存在对称, 那么next[i]&#x3D;0;</li>
+</ul>
+<p><img src="https://github.com/changjianfeishui/XBImageStore/raw/master/Hexo/kmp9.png" alt="kmp9"></p>
+<p>上图第一行中当C和F不相等时, 需要在前面的ABA中寻找子对称, 假如对称情况如第二行所示, 那么需要比对F和B的相等性, 如果相等, 则next[i]的值等于A的长度+1, 否则还要继续在A块中寻找子对称, 一直递归到前面的块不存在子对称为止.</p>
+<h1 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h1><pre><code>//
+//  main.cpp
+//  KMP
+//
+//  Created by XB on 2016/12/15.
+//  Copyright © 2016年 Miu. All rights reserved.
+//
+
+#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+#define NO_MATCH -1
+
+int *getNext(string const p)
+&#123;
+    int length = (int)p.size();
+    int *next = new int[length];
+    next[0] = 0;
+    for (int i = 1; i &lt; length; i++) &#123;
+        //k为前面的对称长度
+        int k = next[i-1];
+        
+        while (p[i] != p[k] &amp;&amp; k!=0) &#123;
+            k = next[k-1];
+        &#125;
+        if (p[i] == p[k]) &#123;
+            next[i] = k + 1;
+        &#125;else
+        &#123;
+            next[i]= 0;
+        &#125;
+        
+    &#125;
+    return next;
+&#125;
+
+int kmp(string const t, string const p, int *next)
+&#123;
+    int i = 0;
+    int j = 0;
+    while (i &lt; t.length()) &#123;
+        if (p[j] == t[i]) &#123;
+            //继续往后匹配
+            j++;
+            i++;
+            if (j == p.length()) &#123;
+                return (int)(i - p.length());
+            &#125;
+        &#125;else&#123;
+            if (next[j-1] == 0) &#123;
+                //后移一位
+                i++;
+                j = 0;
+            &#125;else&#123;
+                //公式:移动位数 = 已匹配的字符数(j) - 对应部分的匹配值(next[j-1])
+                /*
+                 当主串失配位为i时, 模式串失配位为j, 此时起始比较位为(i-j), 即本轮比较的起始索引
+                 计算起始索引是因为移动位数是以起始索引为基准的
+                 移位后的起始比较索引 i = (i-j) + (j-next[j-1]) = i - next[j-1]
+                 */
+                
+                i -= next[j-1];
+                j = 0;
+            &#125;
+        &#125;
+    &#125;
+    return NO_MATCH;
+&#125;
+
+
+
+
+
+int main(int argc, const char * argv[]) &#123;
+    
+    string p = &quot;ABCDABD&quot;;
+    string t = &quot;ABCDABEABCDABCDABDE&quot;;
+    int *next = getNext(p);
+    
+    
+    int index = kmp(t, p, next);
+    if (index == -1) &#123;
+        cout &lt;&lt; &quot;匹配失败&quot; &lt;&lt;endl;
+    &#125;else&#123;
+        cout &lt;&lt; &quot;匹配结果, 索引:&quot; &lt;&lt; index &lt;&lt; endl;
+    &#125;
+    delete [] next;
+    return 0;
+&#125;
+</code></pre>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8C%B9%E9%85%8D/" rel="tag"># 字符串匹配</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2016/12/07/%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8C%B9%E9%85%8D%E4%B9%8BBF%E7%AE%97%E6%B3%95/" rel="prev" title="字符串匹配之BF算法">
+      <i class="fa fa-chevron-left"></i> 字符串匹配之BF算法
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2016/12/23/%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8C%B9%E9%85%8D%E4%B9%8BSunday%E7%AE%97%E6%B3%95/" rel="next" title="字符串匹配之Sunday算法">
+      字符串匹配之Sunday算法 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#KMP%E7%AE%97%E6%B3%95%E7%9A%84%E5%8C%B9%E9%85%8D%E8%BF%87%E7%A8%8B"><span class="nav-number">1.</span> <span class="nav-text">KMP算法的匹配过程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#next%E6%95%B0%E7%BB%84%E7%9A%84%E8%A7%A3%E9%87%8A"><span class="nav-number">2.</span> <span class="nav-text">next数组的解释</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#next%E6%95%B0%E7%BB%84%E7%9A%84%E6%B1%82%E6%B3%95"><span class="nav-number">3.</span> <span class="nav-text">next数组的求法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0"><span class="nav-number">4.</span> <span class="nav-text">代码实现</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">mangox</p>
+  <div class="site-description" itemprop="description">每天进步一点点</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">130</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">34</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">mangox</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'Hl5bOvNBmh6xqvMEjzRRWMIP-gzGzoHsz',
+      appKey     : '3n3m7ANssYrw0VgxYu87kQEL',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : true,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

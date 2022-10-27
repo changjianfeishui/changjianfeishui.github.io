@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.devzhang.cn","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="Grand Central Dispatch是异步执行任务的技术之一. 开发者只需要定义想执行的任务并追加到适当的Dispatch Queue中, GCD就能生成必要的线程并执行计划任务. 由于线程管理是作为系统的一部分来实现的, 因此可以统一进行管理, 这样就比以前的线程效率更高. 也就是说, GCD用难以置信的简洁语法, 实现了极为复杂繁琐的多线程编程.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Objective-C之GCD概要">
+<meta property="og:url" content="http://www.devzhang.cn/2017/01/04/Objective-C%E4%B9%8BGCD%E6%A6%82%E8%A6%81/index.html">
+<meta property="og:site_name" content="做点有意思的事情">
+<meta property="og:description" content="Grand Central Dispatch是异步执行任务的技术之一. 开发者只需要定义想执行的任务并追加到适当的Dispatch Queue中, GCD就能生成必要的线程并执行计划任务. 由于线程管理是作为系统的一部分来实现的, 因此可以统一进行管理, 这样就比以前的线程效率更高. 也就是说, GCD用难以置信的简洁语法, 实现了极为复杂繁琐的多线程编程.">
+<meta property="og:locale">
+<meta property="article:published_time" content="2017-01-04T15:47:32.000Z">
+<meta property="article:modified_time" content="2019-12-23T09:48:01.370Z">
+<meta property="article:author" content="mangox">
+<meta property="article:tag" content="学习笔记">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://www.devzhang.cn/2017/01/04/Objective-C%E4%B9%8BGCD%E6%A6%82%E8%A6%81/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>Objective-C之GCD概要 | 做点有意思的事情</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">做点有意思的事情</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">每天进步一点点</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://www.devzhang.cn/2017/01/04/Objective-C%E4%B9%8BGCD%E6%A6%82%E8%A6%81/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="mangox">
+      <meta itemprop="description" content="每天进步一点点">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="做点有意思的事情">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Objective-C之GCD概要
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-01-04 23:47:32" itemprop="dateCreated datePublished" datetime="2017-01-04T23:47:32+08:00">2017-01-04</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-12-23 17:48:01" itemprop="dateModified" datetime="2019-12-23T17:48:01+08:00">2019-12-23</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index"><span itemprop="name">iOS</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2017/01/04/Objective-C%E4%B9%8BGCD%E6%A6%82%E8%A6%81/" class="post-meta-item leancloud_visitors" data-flag-title="Objective-C之GCD概要" title="Views">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2017/01/04/Objective-C%E4%B9%8BGCD%E6%A6%82%E8%A6%81/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2017/01/04/Objective-C%E4%B9%8BGCD%E6%A6%82%E8%A6%81/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>Grand Central Dispatch是异步执行任务的技术之一. 开发者只需要定义想执行的任务并追加到适当的Dispatch Queue中, GCD就能生成必要的线程并执行计划任务. 由于线程管理是作为系统的一部分来实现的, 因此可以统一进行管理, 这样就比以前的线程效率更高.</p>
+<p>也就是说, GCD用难以置信的简洁语法, 实现了极为复杂繁琐的多线程编程.</p>
+<span id="more"></span>
+
+<h1 id="Dispatch-Queue"><a href="#Dispatch-Queue" class="headerlink" title="Dispatch Queue"></a>Dispatch Queue</h1><p>Dispatch Queue是执行任务的等待队列, 按照先进先出(FIFO)的顺序执行任务.</p>
+<p>存在两种不同的Dispatch Queue, 一种是需要等待当前任务执行完毕的Serial Dispatch Queue, 另一种是不需要等待当前任务执行完毕Concurrent Dispatch Queue.</p>
+<p>有两种方法可以获取Dispatch Queue.</p>
+<h1 id="dispatch-queue-creat"><a href="#dispatch-queue-creat" class="headerlink" title="dispatch_queue_creat"></a>dispatch_queue_creat</h1><p>第一种方法是通过GCD的API生成Dispatch Queue.</p>
+<p>下面的代码创建了一个Serial Dispatch Queue:</p>
+<pre><code>dispatch_queue_t serialDQ = dispatch_queue_create(&quot;com.example.serialDQ&quot;, NULL);
+</code></pre>
+<p>dispatch_queue_create函数的第一个参数指定队列名称, 第二个参数为NULL时生成Serial Dispatch Queue, 若要生成Concurrent Dispatch Queue, 可以将第二个参数指定为DISPATCH_QUEUE_CONCURRENT.	</p>
+<p>使用dispatch_queue_create函数可以创建任意多个Dispatch Queue. 但不建议大量创建.</p>
+<p>需要注意的是, ARC不负责管理生成的Dispatch Queue对象. 通过dispatch_queue_creat生成的Dispatch Queue在使用结束后必须通过dispatch_release函数释放.</p>
+<pre><code>dispatch_release(serialDQ);
+</code></pre>
+<p>同样, 还有dispatch_retain函数. 在通过函数或方法获取Dispatch Queue以及其他名称中含有creat的API生成对象时, 有必要通过dispatch_retain函数持有, 并在不需要时通过dispatch_release函数释放.</p>
+<h1 id="Main-x2F-Global-Dispatch-Queue"><a href="#Main-x2F-Global-Dispatch-Queue" class="headerlink" title="Main&#x2F;Global Dispatch Queue"></a>Main&#x2F;Global Dispatch Queue</h1><p>第二种方法是获取系统提供的Dispatch Queue. </p>
+<p>Main Dispatch Queue是在主线程中执行的Dispatch Queue. 因为主线程只有一个, 所以是Serial Dispatch Queue.</p>
+<p>Global Dispatch Queue是所有应用程序都能使用的Concurrent Dispatch Queue. </p>
+<p>Global Dispatch Queue分为4个执行优先级, 分别是高优先级(High Priority), 默认优先级(Default Priority), 低优先级(Low Priority)和后台优先级(Background Priority). </p>
+<pre><code>dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+</code></pre>
+<p>另外, 对Main&#x2F;Global Dispatch Queue使用	dispatch_retain和dispatch_release不会引起任何变化, 也不会有任何问题.</p>
+<h1 id="dispatch-set-target-queue"><a href="#dispatch-set-target-queue" class="headerlink" title="dispatch_set_target_queue"></a>dispatch_set_target_queue</h1><p>dispatch_queue_creat函数生成的Dispatch Queue都为默认优先级. 要变更生成的Dispatch Queue的优先级可以使用dispatch_set_target_queue函数.</p>
+<pre><code>dispatch_queue_t serialDQ = dispatch_queue_create(&quot;com.example.serialDQ&quot;, NULL);
+
+dispatch_queue_t globalDQ = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0);
+
+dispatch_set_target_queue(serialDQ, globalDQ);
+</code></pre>
+<p>dispatch_set_target_queue函数的第一个参数是要变更的queue, 第二个参数是具有要变更到的优先级的queue. 不能使用Main&#x2F;Global Dispatch Queue作为第一个参数.</p>
+<p>dispatch_set_target_queue函数还可以变更Dispatch Queue的执行优先级. </p>
+<p>比如说有两个队列dispatchA和dispatchB，这时把dispatchA指派到dispatchB：</p>
+<pre><code>dispatch_set_target_queue(dispatchA, dispatchB);
+</code></pre>
+<p>那么dispatchA上还未运行的block会在dispatchB上运行。这时如果暂停dispatchA运行：</p>
+<pre><code>dispatch_suspend(dispatchA);
+</code></pre>
+<p>则只会暂停dispatchA上原来的block的执行，dispatchB的block则不受影响。而如果暂停dispatchB的运行，则会暂停dispatchA的运行.</p>
+<h1 id="dispatch-after"><a href="#dispatch-after" class="headerlink" title="dispatch_after"></a>dispatch_after</h1><p>dispatch_after函数可以再指定时间间隔后执行任务.</p>
+<p>实际上, dispatch_after函数只是在指定时间将任务追加到Dispatch Queue. 与在指定时间后使用dispatch_async函数追加block到Main Dispatch Queue相同.</p>
+<p>因为Main Dispatch Queue在主线程的RunLoop中执行, 由于RunLoop存在执行周期, 所以dispatch_after函数的延迟执行并不十分精确.</p>
+<h1 id="Dispatch-Group"><a href="#Dispatch-Group" class="headerlink" title="Dispatch Group"></a>Dispatch Group</h1><p>如果要在多个任务后完成后执行最终的结束处理, 使用Serial Dispatch Queue时, 可以把结束处理追加到Queue末尾. 但在使用Concurrent Dispatch Queue时, 就需要使用Dispatch Group.</p>
+<p>示例代码如下:</p>
+<pre><code>dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+
+dispatch_group_t group = dispatch_group_create();
+
+dispatch_group_async(group, queue, ^&#123;
+    NSLog(@&quot;blk0&quot;);
+&#125;);
+
+dispatch_group_async(group, queue, ^&#123;
+    NSLog(@&quot;blk1&quot;);
+&#125;);
+
+dispatch_group_async(group, queue, ^&#123;
+    NSLog(@&quot;blk2&quot;);
+&#125;);
+
+dispatch_group_notify(group, dispatch_get_main_queue(), ^&#123;
+    NSLog(@&quot;done&quot;);
+&#125;);
+
+dispatch_release(group);
+</code></pre>
+<p>执行结果blk0,blk1,blk2打印顺序不一定, 但最后打印的肯定是done. </p>
+<p>dispatch_group_sync函数与dispatch_async函数相同, 都追加block到指定的Dispatch Queue中. 与dispatch_async函数不同的是指定的block属于指定的Dispatch Group.</p>
+<p>另外, 与追加block到Dispatch Queue相同, block通过dispatch_retain函数持有Dispatch Group, 从而是该block属于Dispatch Group. 当block执行结束后, 再通过dispatch_release函数释放所持有的Dispatch Group. 一旦Dispatch Group使用结束, 不用考虑属于该Dispatch Group的block, 立即通过dispat_release函数释放即可.</p>
+<p>在追加到Dispatch Group中的任务全部执行完毕后, dispatch_group_notify函数会将参数中的block追加到Dispatch Group中. </p>
+<p>另外, 在Dispatch Group中也可以使用dispatch_group_wait函数指定要等待的时间. </p>
+<pre><code>dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+
+dispatch_group_t group = dispatch_group_create();
+
+dispatch_group_async(group, queue, ^&#123;
+    
+    sleep(2);
+    NSLog(@&quot;blk0&quot;);
+&#125;);
+
+dispatch_group_async(group, queue, ^&#123;
+    NSLog(@&quot;blk1&quot;);
+&#125;);
+
+dispatch_group_async(group, queue, ^&#123;
+    NSLog(@&quot;blk2&quot;);
+&#125;);
+
+dispatch_time_t time = dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC);
+
+long result = dispatch_group_wait(group, time);
+
+if (result == 0) &#123;
+    NSLog(@&quot;全部执行完&quot;);
+&#125;else&#123;
+    NSLog(@&quot;没有全部执行完&quot;);
+&#125;
+
+dispatch_release(group);
+</code></pre>
+<p>如果dispatch_group_wait的返回值不为0, 说明等待了指定的时间后, Dispatch Group中的任务还没有全部执行完.</p>
+<p>这里的”等待”意味着, 一旦调用dispatch_group_wait函数, 该函数就处于调用的状态而不立即返回. 即执行该函数的进程停止, 直到等待了该函数指定的时间, 所在线程才会继续执行. </p>
+<p>第二个参数表示要等待的时间, 指定为DISPATCH_TIME_FOREVER时,意味着永久等待, 直到group中的任务都执行完毕, 中途不能取消; 当指定为DISPATCH_TIME_NOW时, 则表示不用任何等待立即判定group中的任务执行状态.</p>
+<h1 id="dispatch-barrier-async"><a href="#dispatch-barrier-async" class="headerlink" title="dispatch_barrier_async"></a>dispatch_barrier_async</h1><p>dispatch_barrier_async函数会等到追加到Concurrent Dispatch Queue上的并行处理全部结束之后, 再将指定的处理追加到该Concurrent Dispatch Queue中. 然后在等dispatch_barrier_async函数追加的处理执行完成后, Concurrent Dispatch Queue才恢复为一般动作, 开始执行之后追加的并行处理.</p>
+<p>使用Concurrent Dispatch Queue和dispatch_barrier_async可以实现高效率的数据库访问和文件访问.</p>
+<p>相应的也有dispatch_barrier_sync函数, 两者的区别是:</p>
+<p>在将任务插入到queue的时候，dispatch_barrier_sync需要等待自己的任务结束之后才会继续程序，执行在它之后的任务，而dispatch_barrier_async将自己的任务插入到queue之后，不会等待自己的任务结束，而是继续执行之后的任务.</p>
+<h1 id="dispatch-sync"><a href="#dispatch-sync" class="headerlink" title="dispatch_sync"></a>dispatch_sync</h1><p>dispatch_async表明将指定的bloc”非同步”地追加到指定的Dispatch Queue中. dispatch_async函数不做任何等待. 而对应的dispatch_sync函数意味着”同步”, 即在追加的block执行完成之前, dispatch_sync函数会一直等待(线程阻塞, 等待任务完成).</p>
+<h1 id="dispatch-apply"><a href="#dispatch-apply" class="headerlink" title="dispatch_apply"></a>dispatch_apply</h1><p>dispatch_apply函数是dispatch_sync函数和Dispatch Group的关联API. 该函数按指定的次数将指定的block追加到指定的Dispatch Queue中, 并等待全部处理执行结束.</p>
+<pre><code>dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+
+dispatch_apply(10, queue, ^(size_t index) &#123;
+    NSLog(@&quot;%zu&quot;,index);
+&#125;);
+
+NSLog(@&quot;done&quot;);
+</code></pre>
+<p>因为是在Concurrent Dispatch Queue中处理, 所以各个打印任务的执行顺序不确定, 但是”done”必定在在最后打印.</p>
+<p>dispatch_apply函数的第一个参数是任务重复的次数, 第二个参数是任务执行的Dispatch Queue, 第三个参数是任务的block. 例如:</p>
+<pre><code>NSArray *array = @[@&quot;a&quot;,@&quot;b&quot;,@&quot;c&quot;,@&quot;d&quot;];
+dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+dispatch_apply(array.count, queue, ^(size_t index) &#123;
+    NSLog(@&quot;%@&quot;, array[index]);
+&#125;);
+</code></pre>
+<h1 id="dispatch-suspend-x2F-dispatch-resume"><a href="#dispatch-suspend-x2F-dispatch-resume" class="headerlink" title="dispatch_suspend&#x2F;dispatch_resume"></a>dispatch_suspend&#x2F;dispatch_resume</h1><p>dispatch_suspend函数可以用来挂起Dispatch Queue. 当可以执行时再通过dispatch_resume函数恢复.</p>
+<p>这两个函数对已经执行的任务没有影响. 挂起后, Dispatch Queue中未执行的任务会停止执行, 恢复后任务继续执行.</p>
+<h1 id="Dispatch-Semaphore"><a href="#Dispatch-Semaphore" class="headerlink" title="Dispatch Semaphore"></a>Dispatch Semaphore</h1><p>考虑一种情况: 不考虑顺序, 将所有数据添加到NSMutableArray中:</p>
+<pre><code>dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+NSMutableArray *array = [NSMutableArray array];
+
+for (int i = 0; i &lt; 10000; ++i) &#123;
+    dispatch_async(queue, ^&#123;
+        [array addObject:[NSNumber numberWithInt:i]];
+    &#125;);
+&#125;
+</code></pre>
+<p>上面的代码使用Global Dispatch Queue更新NSMutableArray类的对象, 很容易因为内存问题导致崩溃. 此时应该使用Dispatch Semaphore.</p>
+<p>Dispatch Semaphore是持有技术的信号, 该计数是多线程编程中的计数类型信号. 所谓信号, ，类似于过马路时常用的手旗，可以通过时举起手旗，不可通过时放下手旗. 而在Dispatch semaphore，使用计数来实现该功能。计数为0时等待，计数为1或大于1时，减去1而不等待。</p>
+<p>通过dispatch_semaphore_create函数生成Dispatch Semaphore. </p>
+<pre><code>dispatch_semaphore_t semaphore = dispatch_semaphore_create(1);
+//参数表示计数的初始化值
+
+dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
+</code></pre>
+<p>dispatch_semaphore_wait函数等待Dispatch semaphore的计数大于1或等于1, 在计数大于1或等于1后, 对该计数进行减法并返回. 第二个参数是由dispatch_time_t类型值指定等待时间. 上面代码表示永久等待.</p>
+<p>dispatch_semaphore_wait函数返回0时, 可安全地执行需要处理结束时通过dispatch_semaphore_signal函数将Dispatch Semaphore的计数值加1.</p>
+<pre><code>dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+
+//保证同时可访问的NSMutableArray对象的线程只有1个
+dispatch_semaphore_t semaphore = dispatch_semaphore_create(1);
+
+
+NSMutableArray *array = [NSMutableArray array];
+
+for (int i = 0; i &lt; 10000; ++i) &#123;
+    dispatch_async(queue, ^&#123;
+        //大于等于1, 则将semaphore计数减一
+        dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
+        [array addObject:[NSNumber numberWithInt:i]];
+        //排他处理结束, 将semaphore计数加一
+        dispatch_semaphore_signal(semaphore);
+    &#125;);
+&#125;
+    
+dispatch_release(semaphore);
+</code></pre>
+<h1 id="dispatch-once"><a href="#dispatch-once" class="headerlink" title="dispatch_once"></a>dispatch_once</h1><p>dispatch_once函数保证应用程序执行中只执行一次指定任务.</p>
+<pre><code>static dispatch_once_t onceToken;
+dispatch_once(&amp;onceToken, ^&#123;
+    //处理代码只执行一次, 线程安全
+&#125;);
+</code></pre>
+<h1 id="Dispatch-I-x2F-O"><a href="#Dispatch-I-x2F-O" class="headerlink" title="Dispatch I&#x2F;O"></a>Dispatch I&#x2F;O</h1><p>在读取较大文件时, 如果将文件切分为合适大小并使用Global Dispatch Queue并行读取的话, 可以加快读取速度. 通过Dispatch I&#x2F;O和Dispatch Data就能实现这一功能.</p>
+<p>通过Dispatch I&#x2F;O读写文件时，使用Global Dispatch Queue将一个文件按大小read&#x2F;write, 将文件分割为一块一块地进行读取处理。分割读取的数据通过使用Dispatch Data可更为简单地进行结合和分割。 </p>
+<pre><code>dispatch_async(queue,^&#123;/*读取  0~8191字节*/&#125;)；
+dispatch_async(queue,^&#123;/*读取  8191~16383字节*/&#125;)；
+dispatch_async(queue,^&#123;/*读取 16384~24575字节*/&#125;)；
+dispatch_async(queue,^&#123;/*读取 24576~32767字节*/&#125;)；
+dispatch_async(queue,^&#123;/*读取 32768~40959字节*/&#125;)；
+dispatch_async(queue,^&#123;/*读取 40960~49151字节*/&#125;)；
+dispatch_async(queue,^&#123;/*读取 49152~57343字节*/&#125;)；
+dispatch_async(queue,^&#123;/*读取 57344~65535字节*/&#125;)；
+</code></pre>
+<p>以下为苹果中使用Dispatch I&#x2F;O和Dispatch Data的例子:</p>
+<pre><code>pipe_q = dispatch_queue_create(&quot;PipeQ&quot;,NULL);
+pipe_channel = dispatch_io_create(DISPATCH_IO_STREAM,fd,pipe_q,^(int err)&#123;
+   close(fd);
+&#125;);
+
+*out_fd = fdpair[i];
+
+dispatch_io_set_low_water(pipe_channel,SIZE_MAX);
+
+dispatch_io_read(pipe_channel,0,SIZE_MAX,pipe_q, ^(bool done,dispatch_data_t pipe data,int err)&#123;
+   if(err == 0)
+     &#123;
+       size_t len = dispatch_data_get_size(pipe data);
+       if(len &gt; 0)
+       &#123;
+          const char *bytes = NULL;
+          char *encoded;
+
+          dispatch_data_t md = dispatch_data_create_map(pipe data,(const void **)&amp;bytes,&amp;len);
+          asl_set((aslmsg)merged_msg,ASL_KEY_AUX_DATA,encoded);
+          free(encoded);
+          _asl_send_message(NULL,merged_msg,-1,NULL);
+          asl_msg_release(merged_msg);
+          dispatch_release(md);
+       &#125;
+      &#125;
+
+      if(done)
+      &#123;
+         dispatch_semaphore_signal(sem);
+         dispatch_release(pipe_channel);
+         dispatch_release(pipe_q);
+      &#125;
+&#125;);
+</code></pre>
+<p>以上摘自Apple System Log API用的源代码.</p>
+<p>dispatch_io_create函数生成Dispatch I&#x2F;O，并指定发生错误时用来执行处理的Block，以及执行该Block的Dispatch Queue. </p>
+<p>dispatch_io_set_low_water函数设定一次读取的大小(分割大小).</p>
+<p>dispatch_io_read函数使用Global Dispatch Queue开始并列读取。每当各个分割的文件快读取结束时，将含有文件块数据的Dispatch Data传递给dispatch_io_read函数指定的读取结束时回调用的Block。回调用的Block分析传递过来的Dispatch Data并进行结合处理.</p>
+<p>如果想提高文件读取速度，可以尝试使用Dispatch I&#x2F;O.	</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="tag"># 学习笔记</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2017/01/04/Objective-C%E4%B9%8BBlock%E6%A6%82%E8%A6%81/" rel="prev" title="Objective-C之Block概要">
+      <i class="fa fa-chevron-left"></i> Objective-C之Block概要
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2017/01/10/UIKit%E4%B8%8EQuartz%202D%E7%BB%98%E5%9B%BE%E6%8A%80%E6%9C%AF%E6%A6%82%E8%A6%81(swift)/" rel="next" title="UIKit与Quartz 2D绘图技术概要(swift)">
+      UIKit与Quartz 2D绘图技术概要(swift) <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Dispatch-Queue"><span class="nav-number">1.</span> <span class="nav-text">Dispatch Queue</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#dispatch-queue-creat"><span class="nav-number">2.</span> <span class="nav-text">dispatch_queue_creat</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Main-x2F-Global-Dispatch-Queue"><span class="nav-number">3.</span> <span class="nav-text">Main&#x2F;Global Dispatch Queue</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#dispatch-set-target-queue"><span class="nav-number">4.</span> <span class="nav-text">dispatch_set_target_queue</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#dispatch-after"><span class="nav-number">5.</span> <span class="nav-text">dispatch_after</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Dispatch-Group"><span class="nav-number">6.</span> <span class="nav-text">Dispatch Group</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#dispatch-barrier-async"><span class="nav-number">7.</span> <span class="nav-text">dispatch_barrier_async</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#dispatch-sync"><span class="nav-number">8.</span> <span class="nav-text">dispatch_sync</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#dispatch-apply"><span class="nav-number">9.</span> <span class="nav-text">dispatch_apply</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#dispatch-suspend-x2F-dispatch-resume"><span class="nav-number">10.</span> <span class="nav-text">dispatch_suspend&#x2F;dispatch_resume</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Dispatch-Semaphore"><span class="nav-number">11.</span> <span class="nav-text">Dispatch Semaphore</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#dispatch-once"><span class="nav-number">12.</span> <span class="nav-text">dispatch_once</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Dispatch-I-x2F-O"><span class="nav-number">13.</span> <span class="nav-text">Dispatch I&#x2F;O</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">mangox</p>
+  <div class="site-description" itemprop="description">每天进步一点点</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">130</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">34</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">mangox</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'Hl5bOvNBmh6xqvMEjzRRWMIP-gzGzoHsz',
+      appKey     : '3n3m7ANssYrw0VgxYu87kQEL',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : true,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

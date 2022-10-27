@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.devzhang.cn","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="本章译自Apple官方文档AVFoundation Programming Guide, 是AVFoundation系列译文第一篇, 大概的介绍了AVFoundation框架的结构和功能, 全部译文参见我的GitBook: AVFoundation编程指南.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AVFoundation简介">
+<meta property="og:url" content="http://www.devzhang.cn/2016/08/31/AVFoundation%E7%AE%80%E4%BB%8B/index.html">
+<meta property="og:site_name" content="做点有意思的事情">
+<meta property="og:description" content="本章译自Apple官方文档AVFoundation Programming Guide, 是AVFoundation系列译文第一篇, 大概的介绍了AVFoundation框架的结构和功能, 全部译文参见我的GitBook: AVFoundation编程指南.">
+<meta property="og:locale">
+<meta property="og:image" content="https://developer.apple.com/library/prerelease/content/documentation/AudioVideo/Conceptual/AVFoundationPG/Art/frameworksBlockDiagram_2x.png">
+<meta property="og:image" content="https://developer.apple.com/library/prerelease/content/documentation/AudioVideo/Conceptual/AVFoundationPG/Art/frameworksBlockDiagramOSX_2x.png">
+<meta property="article:published_time" content="2016-08-31T14:22:08.000Z">
+<meta property="article:modified_time" content="2016-09-21T02:38:28.000Z">
+<meta property="article:author" content="mangox">
+<meta property="article:tag" content="AVFoundation编程指南">
+<meta property="article:tag" content="翻译">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://developer.apple.com/library/prerelease/content/documentation/AudioVideo/Conceptual/AVFoundationPG/Art/frameworksBlockDiagram_2x.png">
+
+<link rel="canonical" href="http://www.devzhang.cn/2016/08/31/AVFoundation%E7%AE%80%E4%BB%8B/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>AVFoundation简介 | 做点有意思的事情</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">做点有意思的事情</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">每天进步一点点</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://www.devzhang.cn/2016/08/31/AVFoundation%E7%AE%80%E4%BB%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="mangox">
+      <meta itemprop="description" content="每天进步一点点">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="做点有意思的事情">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          AVFoundation简介
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-08-31 22:22:08" itemprop="dateCreated datePublished" datetime="2016-08-31T22:22:08+08:00">2016-08-31</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2016-09-21 10:38:28" itemprop="dateModified" datetime="2016-09-21T10:38:28+08:00">2016-09-21</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index"><span itemprop="name">iOS</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2016/08/31/AVFoundation%E7%AE%80%E4%BB%8B/" class="post-meta-item leancloud_visitors" data-flag-title="AVFoundation简介" title="Views">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2016/08/31/AVFoundation%E7%AE%80%E4%BB%8B/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2016/08/31/AVFoundation%E7%AE%80%E4%BB%8B/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>本章译自Apple官方文档<a target="_blank" rel="noopener" href="https://developer.apple.com/library/content/documentation/AudioVideo/Conceptual/AVFoundationPG/Articles/00_Introduction.html#//apple_ref/doc/uid/TP40010188-CH1-SW3">AVFoundation Programming Guide</a>, 是AVFoundation系列译文第一篇, 大概的介绍了AVFoundation框架的结构和功能, 全部译文参见我的GitBook: <a target="_blank" rel="noopener" href="https://www.gitbook.com/book/changjianfeishui/avfoundation-programming-guide/details">AVFoundation编程指南</a>. </p>
+<span id="more"></span>
+
+<h1 id="关于AVFoundation"><a href="#关于AVFoundation" class="headerlink" title="关于AVFoundation"></a>关于AVFoundation</h1><blockquote>
+<p>重要提示: 本文档中包含的一些API或技术可能随时发生变化,根据本文档开发实现的软件必须在终端操作系统上进行最终测试.</p>
+</blockquote>
+<p>AVFoundation是为数不多的几个媒体框架之一,可以使用它来播放和创建基于时间的音视频资源.AVFoundation提供的接口可以精确地处理基于时间的音视频媒体数据.比如媒体文件的查找、创建、编辑甚至二次编码操作都可以使用AVFoundation框架完成.也可以对从硬件设备获取到的实时视频输入流或者视频回放进行操作处理.</p>
+<p>下图中展示了iOS上媒体框架的层次结构:</p>
+<p><img src="https://developer.apple.com/library/prerelease/content/documentation/AudioVideo/Conceptual/AVFoundationPG/Art/frameworksBlockDiagram_2x.png" alt="iOS上媒体框架的层次结构"></p>
+<p>OS X上媒体框架的层级结构图如下:</p>
+<p><img src="https://developer.apple.com/library/prerelease/content/documentation/AudioVideo/Conceptual/AVFoundationPG/Art/frameworksBlockDiagramOSX_2x.png" alt="OS X上媒体框架的层级结构图"></p>
+<p>在完成具体的开发任务时,你应该尽可能的选择更高层次的抽象框架.</p>
+<ul>
+<li>如果只需要播放视频,可以使用AVKit框架</li>
+<li>如果需要在iOS设备上录制视频,而且并不关心更具体的录制格式,可以使用UIKit中<a target="_blank" rel="noopener" href="https://developer.apple.com/reference/uikit/uiimagepickercontroller">UIImagePickerController</a>类</li>
+</ul>
+<p>需要注意的是,在AVFoundation框架中使用的一些原始数据结构(包括时间相关的数据结构和存储描述媒体数据的底层对象),都在Core Media 框架中声明.</p>
+<hr>
+<h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p>AVFoundation框架包含视频API和音频API两个方面.旧的音频API在中<a target="_blank" rel="noopener" href="https://developer.apple.com/library/prerelease/content/documentation/AudioVideo/Conceptual/MultimediaPG/Introduction/Introduction.html#//apple_ref/doc/uid/TP40009767"><em>Multimedia Programming Guide</em></a>进行了介绍,可以更便捷的处理音频.</p>
+<ul>
+<li>使用<a target="_blank" rel="noopener" href="https://developer.apple.com/reference/avfoundation/avaudioplayer">AVAudioPlayer</a>播放音频文件</li>
+<li>使用<a target="_blank" rel="noopener" href="https://developer.apple.com/reference/avfoundation/avaudiorecorder">AVAudioRecorder</a>录制音频文件</li>
+</ul>
+<p>你也可以使用<a target="_blank" rel="noopener" href="https://developer.apple.com/library/prerelease/content/documentation/Audio/Conceptual/AudioSessionProgrammingGuide/Introduction/Introduction.html#//apple_ref/doc/uid/TP40007875">Audio Session Programming Guide</a>中介绍的<a target="_blank" rel="noopener" href="https://developer.apple.com/reference/avfoundation/avaudiosession">AVAudioSession</a>来对音频进行详细配置.</p>
+<h2 id="媒体资源的表示和使用"><a href="#媒体资源的表示和使用" class="headerlink" title="媒体资源的表示和使用"></a>媒体资源的表示和使用</h2><p>AVFoundation框架中使用<a target="_blank" rel="noopener" href="https://developer.apple.com/reference/avfoundation/avasset">AVAsset</a>类来表示一个媒体资源,AVFoundation框架的设计很大程序上受到了这种表示方式的影响.理解<a target="_blank" rel="noopener" href="https://developer.apple.com/reference/avfoundation/avasset">AVAsset</a>的结构和帮你更好的理解AVFoundation框架.一个AVAsset实例是一个或多个音视频媒体数据的集合,以一个整体的形式提供媒体资源的属性,例如视频标题,时长,尺寸等等.AVAsset是一个抽象类,可以使用它的子类来从URL创建一个asset对象(参加<a target="_blank" rel="noopener" href="https://developer.apple.com/library/prerelease/content/documentation/AudioVideo/Conceptual/AVFoundationPG/Articles/01_UsingAssets.html#//apple_ref/doc/uid/TP40010188-CH7-SW1">Using Assets</a>),或者根据已有的媒体资源创造出一个新的媒体资源(参加<a target="_blank" rel="noopener" href="https://developer.apple.com/library/prerelease/content/documentation/AudioVideo/Conceptual/AVFoundationPG/Articles/00_Introduction.html#//apple_ref/doc/uid/TP40010188-CH1-SW1">Editing</a>).</p>
+<p>asset中每个独立的媒体数据都有一个统一的类型:track. 一个asset中非常典型的情况是,一个track代表音频,另一个track则代表视频.然而,在比较复杂的情况下,可能有多个同时包含音视频的track.Assets同时也可能包含元数据(译者注:元数据可以视为对媒体内容的描述信息).</p>
+<p>AVFoundation框架中一个十分重要的概念是,初始化了一个asset或track并不意味着已经可以使用它们了.即使只是资源的时长信息,框架都可能需要进行一段时间的计算. 为了不阻塞主线程,你可以在子线程中请求一个资源的相关信息,并通过一个block回调异步地获得请求结果.</p>
+<blockquote>
+<p>相关章节: <a target="_blank" rel="noopener" href="https://developer.apple.com/library/prerelease/content/documentation/AudioVideo/Conceptual/AVFoundationPG/Articles/01_UsingAssets.html#//apple_ref/doc/uid/TP40010188-CH7-SW1">Using Assets</a>,<a target="_blank" rel="noopener" href="https://developer.apple.com/library/prerelease/content/documentation/AudioVideo/Conceptual/AVFoundationPG/Articles/06_MediaRepresentations.html#//apple_ref/doc/uid/TP40010188-CH2-SW1">Time and Media Representations</a></p>
+</blockquote>
+<h2 id="回放"><a href="#回放" class="headerlink" title="回放"></a>回放</h2><p>AVFoundation允许开发者以更精确的方式来管理媒体资源的回放. 为了支持这一特性, AVFoundation将资源的呈现状态(presentation state)和资源本身区分开. 这就能让开发者在同一时刻以不同分辨率呈现同一资源的两个不同片段. 一个媒体资源的呈现状态通过一个 _player item_对象进行管理, 而媒体资源中每个track的呈现状态通过一个_player item track_对象进行管理.比如,使用 player item 和 player item tracks 可以设置资源的可视部分在播放时的尺寸, 设置audio的混音参数, 设置或禁用视频回放时的配置信息.</p>
+<p>使用 _player _对象可以播放player items对象, 或者直接指定将其输出(output)到 Core Animation layer 之上. 还可以使用播放队列(_player queue_)来顺序播放多个player items对象.</p>
+<blockquote>
+<p>相关章节: <a target="_blank" rel="noopener" href="https://developer.apple.com/library/prerelease/content/documentation/AudioVideo/Conceptual/AVFoundationPG/Articles/02_Playback.html#//apple_ref/doc/uid/TP40010188-CH3-SW1">Playback</a></p>
+</blockquote>
+<h2 id="资源的读取-写入以及重新编码"><a href="#资源的读取-写入以及重新编码" class="headerlink" title="资源的读取,写入以及重新编码"></a>资源的读取,写入以及重新编码</h2><p>AVFoundation允许开发者通过多种方式创建一个新的资源. 比如对一个已存在的资源进行二次编码, 在iOS 4.1之后的版本中, 还可以操作一个资源的某些内容,并将结果保存为一个新的资源.</p>
+<p>你可以通过一个导出会话(<em>export session_), 直接使用一些已经预设置好的常用格式(commonly-used presets),将一个已存在的资源进行重新编码. 如果需要更多的自定义设置, 则可以协同使用_asset reader <em>和</em> asset writer</em> 对象对资源进行转换. 比如使用这两个对象你可以选择将哪些track输出到文件中, 自定义输出格式, 以及在转换过程中对资源进行修改.</p>
+<p>如果要绘制可视化的音频波形图, 可以使用asset reader对象读取资源的音频轨道(track).</p>
+<blockquote>
+<p>相关章节: <a target="_blank" rel="noopener" href="https://developer.apple.com/library/prerelease/content/documentation/AudioVideo/Conceptual/AVFoundationPG/Articles/01_UsingAssets.html#//apple_ref/doc/uid/TP40010188-CH7-SW1">Using Assets</a></p>
+</blockquote>
+<h2 id="缩略图"><a href="#缩略图" class="headerlink" title="缩略图"></a>缩略图</h2><p>要创建一个视频的缩略图, 需要初始化一个 <a target="_blank" rel="noopener" href="https://developer.apple.com/reference/avfoundation/avassetimagegenerator">AVAssetImageGenerator</a> 对象. AVAssetImageGenerator使用默认的视频轨道生成图片.</p>
+<blockquote>
+<p>相关章节: <a target="_blank" rel="noopener" href="https://developer.apple.com/library/prerelease/content/documentation/AudioVideo/Conceptual/AVFoundationPG/Articles/01_UsingAssets.html#//apple_ref/doc/uid/TP40010188-CH7-SW1">Using Assets</a></p>
+</blockquote>
+<h2 id="编辑"><a href="#编辑" class="headerlink" title="编辑"></a>编辑</h2><p>AVFoundation通过组合器(_compositions_)来从已存在的媒体片段(比如一个或多个音视频轨道)中创建新资源. 通过一个可变的组合器来新增或移除track,并调整它们的时间顺序. 你可以设置一个音频轨道的相对音量和渐变效果; 设置视频轨道的透明度或透明度渐变. 一个组合器是内存中一系列媒体片段的组装, 可以通过_export session_将一个组合器导出到文件.</p>
+<p>你还可以通过一个_asset writer_对象来从媒体(比如一个简单的缓冲区或静态图像)中创建资源.</p>
+<blockquote>
+<p>相关章节: <a target="_blank" rel="noopener" href="https://developer.apple.com/library/prerelease/content/documentation/AudioVideo/Conceptual/AVFoundationPG/Articles/03_Editing.html#//apple_ref/doc/uid/TP40010188-CH8-SW1">Editing</a></p>
+</blockquote>
+<h2 id="静态图像及视频捕捉"><a href="#静态图像及视频捕捉" class="headerlink" title="静态图像及视频捕捉"></a>静态图像及视频捕捉</h2><p>捕捉会话(_capture session_)可以记录摄像头或者麦克风的输入信息. 一个捕捉会话协调设备的数据输入和输出(比如视频文件). 可以在一个捕捉会话中配置多个输入和输出, 哪怕这个捕捉会话当前正处于运行状态. 通过向捕捉会话发送消息来开始或停止数据流.</p>
+<blockquote>
+<p>相关章节: <a target="_blank" rel="noopener" href="https://developer.apple.com/library/prerelease/content/documentation/AudioVideo/Conceptual/AVFoundationPG/Articles/04_MediaCapture.html#//apple_ref/doc/uid/TP40010188-CH5-SW2">Still and Video Media Capture</a></p>
+</blockquote>
+<h1 id="AVFoundation中的并发编程"><a href="#AVFoundation中的并发编程" class="headerlink" title="AVFoundation中的并发编程"></a>AVFoundation中的并发编程</h1><p>AVFoundation中的回调(block,KVO,notification)都不能保证会在特定的线程或队列中被调用. 相反, AVFoundation会在任务执行对应的线程或队列中执行这些回调.</p>
+<p>关于通知和线程有两个基本的准则:</p>
+<ul>
+<li>UI相关的通知必须在主线程中发送</li>
+<li>通知的发送和回调都会在同一个队列中执行</li>
+</ul>
+<p>除了以上两个准则外(例外情况参见引用文档),你不能假设一个通知会在某个特定的线程中执行.<br>如果你正在编写一个多线程的应用程序, 你可以使用NSThread类的isMainThread方法或者[[NSThread currentThread] isEqual:&lt;#A stored thread reference#&gt;]来判断当前是否是你所需要的线程. 你可以使用<code>performSelectorOnMainThread:withObject:waitUntilDone:</code> 或者<code>performSelector:onThread:withObject:waitUntilDone:modes:</code>方法来切换线程. 也可以使用 <code>dispatch_async</code>将回调block放到合适的线程中执行. 更多并发编程的资料参加 _<a target="_blank" rel="noopener" href="https://developer.apple.com/library/prerelease/content/documentation/General/Conceptual/ConcurrencyProgrammingGuide/Introduction/Introduction.html#//apple_ref/doc/uid/TP40008091">Concurrency Programming Guide.</a>_更多block相关资料参见 <em><a target="_blank" rel="noopener" href="https://developer.apple.com/library/prerelease/content/documentation/Cocoa/Conceptual/Blocks/Articles/00_Introduction.html#//apple_ref/doc/uid/TP40007502">Blocks Programming Topics</a></em>. 示例代码 _<a target="_blank" rel="noopener" href="https://developer.apple.com/library/prerelease/content/samplecode/AVCam/Introduction/Intro.html#//apple_ref/doc/uid/DTS40010112">AVCam-iOS: Using AVFoundation to Capture Images and Movies </a>_是AVFoundation的一个基础示例,并展示了一些AVFoundation中线程和队列的用法.</p>
+<h1 id="前提条件"><a href="#前提条件" class="headerlink" title="前提条件"></a>前提条件</h1><p>AVFoundation是一个成熟复杂的Cocoa框架. 为了能有效的使用这一框架,你需要:</p>
+<ul>
+<li>深刻理解Cocao开发工具和技术</li>
+<li>掌握block的基本用法</li>
+<li>理解KVC和KVO编程</li>
+<li>对于回放,还需要理解掌握 Core Animation(参加<a target="_blank" rel="noopener" href="https://developer.apple.com/library/prerelease/content/documentation/Cocoa/Conceptual/CoreAnimation_guide/Introduction/Introduction.html#//apple_ref/doc/uid/TP40004514"><em>Core Animation Programming Guide</em></a>,简单的回放功能参见<a target="_blank" rel="noopener" href="https://developer.apple.com/reference/avkit"><em>AVKit Framework Reference</em></a>)</li>
+</ul>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p>下面是几个使用AVFoundation的例子,其中两个是理解和实现摄像头捕捉功能的关键:</p>
+<p><a target="_blank" rel="noopener" href="https://developer.apple.com/library/prerelease/content/samplecode/AVCam/Introduction/Intro.html#//apple_ref/doc/uid/DTS40010112">_    AVCam-iOS: Using AVFoundation to Capture Images and Movies_</a>是任何使用相机功能程序的优秀示例. 这是一个完整的示例,并且拥有良好的文档说明.</p>
+<p><a target="_blank" rel="noopener" href="https://developer.apple.com/library/prerelease/content/samplecode/AVCamManual/Introduction/Intro.html#//apple_ref/doc/uid/TP40014578"><em>AVCamManual: Extending AVCam to Use Manual Capture API</em></a> 是AVCam的姊妹篇, 它实现了手动管理相机的功能.</p>
+<p><a target="_blank" rel="noopener" href="https://developer.apple.com/library/prerelease/content/samplecode/RosyWriter/Introduction/Intro.html#//apple_ref/doc/uid/DTS40011110"><em>RosyWriter</em></a> 是一个实时处理帧数据的示例,包含了视频的实时滤镜.</p>
+<p><a target="_blank" rel="noopener" href="https://developer.apple.com/library/prerelease/content/samplecode/AVLocationPlayer/Introduction/Intro.html#//apple_ref/doc/uid/TP40014495">_AVLocationPlayer: Using AVFoundation Metadata Reading APIs _</a>是一个元数据API的使用示例.</p>
+<blockquote>
+<p>翻译自Apple官方文档: <a target="_blank" rel="noopener" href="https://developer.apple.com/library/prerelease/content/documentation/AudioVideo/Conceptual/AVFoundationPG/Articles/00_Introduction.html#//apple_ref/doc/uid/TP40010188-CH1-SW3">AVFoundation Programming Guide</a></p>
+</blockquote>
+<blockquote>
+<p>翻译人: <a href="http://www.devzhang.cn/">www.devzhang.cn</a></p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/AVFoundation%E7%BC%96%E7%A8%8B%E6%8C%87%E5%8D%97/" rel="tag"># AVFoundation编程指南</a>
+              <a href="/tags/%E7%BF%BB%E8%AF%91/" rel="tag"># 翻译</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2016/08/30/%E8%A7%86%E9%A2%91%E7%9B%B4%E6%92%AD%E4%B8%93%E4%B8%9A%E5%90%8D%E8%AF%8D%E8%A7%A3%E7%AD%94/" rel="prev" title="视频直播专业名词解答">
+      <i class="fa fa-chevron-left"></i> 视频直播专业名词解答
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2016/08/31/%E4%BD%BF%E7%94%A8Assets/" rel="next" title="使用Assets">
+      使用Assets <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%B3%E4%BA%8EAVFoundation"><span class="nav-number">1.</span> <span class="nav-text">关于AVFoundation</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-number">2.</span> <span class="nav-text">概述</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AA%92%E4%BD%93%E8%B5%84%E6%BA%90%E7%9A%84%E8%A1%A8%E7%A4%BA%E5%92%8C%E4%BD%BF%E7%94%A8"><span class="nav-number">2.1.</span> <span class="nav-text">媒体资源的表示和使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9E%E6%94%BE"><span class="nav-number">2.2.</span> <span class="nav-text">回放</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B5%84%E6%BA%90%E7%9A%84%E8%AF%BB%E5%8F%96-%E5%86%99%E5%85%A5%E4%BB%A5%E5%8F%8A%E9%87%8D%E6%96%B0%E7%BC%96%E7%A0%81"><span class="nav-number">2.3.</span> <span class="nav-text">资源的读取,写入以及重新编码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%A9%E7%95%A5%E5%9B%BE"><span class="nav-number">2.4.</span> <span class="nav-text">缩略图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%96%E8%BE%91"><span class="nav-number">2.5.</span> <span class="nav-text">编辑</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9D%99%E6%80%81%E5%9B%BE%E5%83%8F%E5%8F%8A%E8%A7%86%E9%A2%91%E6%8D%95%E6%8D%89"><span class="nav-number">2.6.</span> <span class="nav-text">静态图像及视频捕捉</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#AVFoundation%E4%B8%AD%E7%9A%84%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B"><span class="nav-number">3.</span> <span class="nav-text">AVFoundation中的并发编程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E6%8F%90%E6%9D%A1%E4%BB%B6"><span class="nav-number">4.</span> <span class="nav-text">前提条件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">5.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">mangox</p>
+  <div class="site-description" itemprop="description">每天进步一点点</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">130</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">34</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">mangox</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'Hl5bOvNBmh6xqvMEjzRRWMIP-gzGzoHsz',
+      appKey     : '3n3m7ANssYrw0VgxYu87kQEL',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : true,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

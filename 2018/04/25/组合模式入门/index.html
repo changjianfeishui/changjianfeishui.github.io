@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.devzhang.cn","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="组合模式允许将对象组合成树形结构来表现”整体&#x2F;部分”的层次结构。组合能让客户以一致的方式处理个别对象以及对象组合。 组合模式牺牲单一责任设计原则换取透明性(transparency), 让组件的接口同时包含一些管理子节点和叶子节点的操作，使用者就可以将组合和叶子结点一视同仁, 也就是说, 一个元素究竟是组合还是叶子节点，对使用者是透明的. 组合模式中涉及到的角色:  Component:">
+<meta property="og:type" content="article">
+<meta property="og:title" content="组合模式入门">
+<meta property="og:url" content="http://www.devzhang.cn/2018/04/25/%E7%BB%84%E5%90%88%E6%A8%A1%E5%BC%8F%E5%85%A5%E9%97%A8/index.html">
+<meta property="og:site_name" content="做点有意思的事情">
+<meta property="og:description" content="组合模式允许将对象组合成树形结构来表现”整体&#x2F;部分”的层次结构。组合能让客户以一致的方式处理个别对象以及对象组合。 组合模式牺牲单一责任设计原则换取透明性(transparency), 让组件的接口同时包含一些管理子节点和叶子节点的操作，使用者就可以将组合和叶子结点一视同仁, 也就是说, 一个元素究竟是组合还是叶子节点，对使用者是透明的. 组合模式中涉及到的角色:  Component:">
+<meta property="og:locale">
+<meta property="og:image" content="https://github.com/changjianfeishui/XBImageStore/raw/master/DesignPattern/CompositePattern.png">
+<meta property="article:published_time" content="2018-04-25T08:17:53.000Z">
+<meta property="article:modified_time" content="2018-04-25T08:58:02.310Z">
+<meta property="article:author" content="mangox">
+<meta property="article:tag" content="设计模式">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://github.com/changjianfeishui/XBImageStore/raw/master/DesignPattern/CompositePattern.png">
+
+<link rel="canonical" href="http://www.devzhang.cn/2018/04/25/%E7%BB%84%E5%90%88%E6%A8%A1%E5%BC%8F%E5%85%A5%E9%97%A8/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>组合模式入门 | 做点有意思的事情</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">做点有意思的事情</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">每天进步一点点</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://www.devzhang.cn/2018/04/25/%E7%BB%84%E5%90%88%E6%A8%A1%E5%BC%8F%E5%85%A5%E9%97%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="mangox">
+      <meta itemprop="description" content="每天进步一点点">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="做点有意思的事情">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          组合模式入门
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2018-04-25 16:17:53 / Modified: 16:58:02" itemprop="dateCreated datePublished" datetime="2018-04-25T16:17:53+08:00">2018-04-25</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index"><span itemprop="name">iOS</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2018/04/25/%E7%BB%84%E5%90%88%E6%A8%A1%E5%BC%8F%E5%85%A5%E9%97%A8/" class="post-meta-item leancloud_visitors" data-flag-title="组合模式入门" title="Views">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2018/04/25/%E7%BB%84%E5%90%88%E6%A8%A1%E5%BC%8F%E5%85%A5%E9%97%A8/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2018/04/25/%E7%BB%84%E5%90%88%E6%A8%A1%E5%BC%8F%E5%85%A5%E9%97%A8/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>组合模式允许将对象组合成树形结构来表现”整体&#x2F;部分”的层次结构。组合能让客户以一致的方式处理个别对象以及对象组合。</p>
+<p>组合模式牺牲单一责任设计原则换取透明性(transparency), 让组件的接口同时包含一些管理子节点和叶子节点的操作，使用者就可以将组合和叶子结点一视同仁, 也就是说, 一个元素究竟是组合还是叶子节点，对使用者是透明的.</p>
+<p>组合模式中涉及到的角色:</p>
+<ul>
+<li>Component: 是组合中的对象声明接口，在适当的情况下，实现所有类共有接口的默认行为</li>
+<li>Leaf: 叶子结点对象，没有子结点</li>
+<li>Composite: 存储Composite和Leaf两种类型的子部件，实现与子部件有关操作，如增加(add)和删除(remove)等</li>
+</ul>
+<p>在以下情形时，考虑使用组合模式:</p>
+<ul>
+<li>想获取对象抽象的树形表示</li>
+<li>想让客户端同意处理组合结构中的所有对象</li>
+</ul>
+<span id="more"></span>
+
+<h1 id="UML类图"><a href="#UML类图" class="headerlink" title="UML类图"></a>UML类图</h1><p><img src="https://github.com/changjianfeishui/XBImageStore/raw/master/DesignPattern/CompositePattern.png"></p>
+<h1 id="代码示例"><a href="#代码示例" class="headerlink" title="代码示例"></a>代码示例</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">/*</span><br><span class="line">  在公司结构中，一个大部门可以直接包含部分直属员工，也可以包含其他子部门</span><br><span class="line">  子部门中同样可以包含直属员工和更细分的子部门</span><br><span class="line">  这就形成了一个树形结构</span><br><span class="line"> */</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">/// 员工类和部门类都需要实现EmployeeComponent接口，调用某些非共有操作需要抛出异常</span><br><span class="line">/// 这样如果员工类和部门类如果不支持某个操作，那它们就不需要做任何事情</span><br><span class="line">enum EmployeeError: Error &#123;</span><br><span class="line">    case UnSupportedOperation</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/// 抽象类，实现了员工类和部门类的所有方法</span><br><span class="line">class EmployeeComponent  &#123;</span><br><span class="line">    /// 组合方法: 新增，删除，获取组件</span><br><span class="line">    func add(component: EmployeeComponent) throws -&gt; Void &#123;</span><br><span class="line">        throw EmployeeError.UnSupportedOperation</span><br><span class="line">    &#125;</span><br><span class="line">    func remove(component: EmployeeComponent) throws -&gt; Void &#123;</span><br><span class="line">        throw EmployeeError.UnSupportedOperation</span><br><span class="line">    &#125;</span><br><span class="line">    func getChild(index: Int) throws -&gt; EmployeeComponent &#123;</span><br><span class="line">        throw EmployeeError.UnSupportedOperation</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    /// 操作方法</span><br><span class="line">    func getName() throws -&gt; String &#123;</span><br><span class="line">        throw EmployeeError.UnSupportedOperation</span><br><span class="line">    &#125;</span><br><span class="line">    func getNumber() throws -&gt; Int &#123;</span><br><span class="line">        throw EmployeeError.UnSupportedOperation</span><br><span class="line">    &#125;</span><br><span class="line">    func introduce() throws -&gt; Void &#123;</span><br><span class="line">        throw EmployeeError.UnSupportedOperation</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">/// 员工类，包含姓名和工号两个属性</span><br><span class="line">class Employee: EmployeeComponent &#123;</span><br><span class="line">    var name: String</span><br><span class="line">    var number: Int</span><br><span class="line">    init(name: String, number: Int) &#123;</span><br><span class="line">        self.name = name</span><br><span class="line">        self.number = number</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    /// 覆盖EmployeeComponent的部分方法</span><br><span class="line">    override func getName() throws -&gt; String &#123;</span><br><span class="line">        return name</span><br><span class="line">    &#125;</span><br><span class="line">    override func getNumber() throws -&gt; Int &#123;</span><br><span class="line">        return number</span><br><span class="line">    &#125;</span><br><span class="line">    override func introduce() throws &#123;</span><br><span class="line">        print(&quot;Hello, My name is &quot; + name + &quot;My job number is \(number)&quot;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/// 部门类</span><br><span class="line">class Department: EmployeeComponent &#123;</span><br><span class="line">    </span><br><span class="line">    /// 部门名称</span><br><span class="line">    var name: String</span><br><span class="line">    </span><br><span class="line">    /// 部门可以有任意数量的子部门和直属员工</span><br><span class="line">    var employees = NSMutableArray()</span><br><span class="line">    </span><br><span class="line">    init(name: String) &#123;</span><br><span class="line">        self.name = name</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    /// 覆盖EmployeeComponent的部分操作方法</span><br><span class="line">    override func getName() throws -&gt; String &#123;</span><br><span class="line">        return name;</span><br><span class="line">    &#125;</span><br><span class="line">    //使用迭代器模式打印出部门所有子信息</span><br><span class="line">    override func introduce() throws &#123;</span><br><span class="line">        print(&quot;This is \(name) department&quot;)</span><br><span class="line">        let iterator = employees.objectEnumerator()</span><br><span class="line">        var obj = iterator.nextObject()</span><br><span class="line">        while obj != nil &#123;</span><br><span class="line">            try (obj as! EmployeeComponent).introduce()</span><br><span class="line">            obj = iterator.nextObject()</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    /// 覆盖EmployeeComponent的组件方法</span><br><span class="line">    override func add(component: EmployeeComponent) throws &#123;</span><br><span class="line">        employees.add(component)</span><br><span class="line">    &#125;</span><br><span class="line">    override func remove(component: EmployeeComponent) throws &#123;</span><br><span class="line">        employees.remove(component)</span><br><span class="line">    &#125;</span><br><span class="line">    override func getChild(index: Int) throws -&gt; EmployeeComponent &#123;</span><br><span class="line">        guard index &lt; employees.count &amp;&amp; index &gt;= 0 else &#123;</span><br><span class="line">            throw EmployeeError.UnSupportedOperation</span><br><span class="line">        &#125;</span><br><span class="line">        return employees[index] as! EmployeeComponent</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>客户端调用:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">//公司，CEO</span><br><span class="line">let company = Department(name: &quot;devzhang.cn&quot;)</span><br><span class="line">let ceo = Employee(name: &quot;zhang&quot;, number: 1)</span><br><span class="line">try company.add(component: ceo)</span><br><span class="line"></span><br><span class="line">//市场部</span><br><span class="line">let marketing = Department(name: &quot;Marketing Department&quot;)</span><br><span class="line">let marketingEmployee1 = Employee(name: &quot;张三&quot;, number: 2)</span><br><span class="line">let marketingEmployee2 = Employee(name: &quot;李四&quot;, number: 3)</span><br><span class="line">try? marketing.add(component: marketingEmployee1)</span><br><span class="line">try? marketing.add(component: marketingEmployee2)</span><br><span class="line">try? marketing.introduce()</span><br><span class="line"></span><br><span class="line">//研发部</span><br><span class="line">let develop = Department(name: &quot;Develop Department&quot;)</span><br><span class="line">let developEmployee1 = Employee(name: &quot;赵六&quot;, number: 4)</span><br><span class="line">let developEmployee2 = Employee(name: &quot;孙七&quot;, number: 5)</span><br><span class="line">try? develop.add(component: developEmployee1)</span><br><span class="line">try? develop.add(component: developEmployee2)</span><br><span class="line">try? develop.introduce()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">/// 异常处理</span><br><span class="line">do &#123;</span><br><span class="line">    try developEmployee1.add(component: developEmployee2)</span><br><span class="line">&#125;catch &#123;</span><br><span class="line">    print(error)</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>输出结果:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">This is Marketing Department department</span><br><span class="line">Hello, My name is 张三My job number is 2</span><br><span class="line">Hello, My name is 李四My job number is 3</span><br><span class="line">This is Develop Department department</span><br><span class="line">Hello, My name is 赵六My job number is 4</span><br><span class="line">Hello, My name is 孙七My job number is 5</span><br><span class="line">UnSupportedOperation</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag"># 设计模式</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/04/24/%E8%BF%AD%E4%BB%A3%E5%99%A8%E6%A8%A1%E5%BC%8F%E5%85%A5%E9%97%A8/" rel="prev" title="迭代器模式入门">
+      <i class="fa fa-chevron-left"></i> 迭代器模式入门
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/04/26/%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F%E5%85%A5%E9%97%A8/" rel="next" title="状态模式入门">
+      状态模式入门 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#UML%E7%B1%BB%E5%9B%BE"><span class="nav-number">1.</span> <span class="nav-text">UML类图</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E7%A4%BA%E4%BE%8B"><span class="nav-number">2.</span> <span class="nav-text">代码示例</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">mangox</p>
+  <div class="site-description" itemprop="description">每天进步一点点</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">130</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">34</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">mangox</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'Hl5bOvNBmh6xqvMEjzRRWMIP-gzGzoHsz',
+      appKey     : '3n3m7ANssYrw0VgxYu87kQEL',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : true,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

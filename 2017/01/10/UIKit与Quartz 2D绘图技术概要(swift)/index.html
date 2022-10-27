@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.devzhang.cn","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="在iOS中绘图技术主要有UIKit, Quartz 2D,Core Animation和OpenGL ES. 其中Core Animation提供动画实现. OpenGL ES是OpenGL针对嵌入式设备的简化版本, 可以绘制高性能的2D和3D图形. 这里重点介绍UIKit和Quartz 2D.  UIKit: 高级别的图形接口, 提供了基于Objective-C和Swift的API. 能够访问绘">
+<meta property="og:type" content="article">
+<meta property="og:title" content="UIKit与Quartz 2D绘图技术概要(swift)">
+<meta property="og:url" content="http://www.devzhang.cn/2017/01/10/UIKit%E4%B8%8EQuartz%202D%E7%BB%98%E5%9B%BE%E6%8A%80%E6%9C%AF%E6%A6%82%E8%A6%81(swift)/index.html">
+<meta property="og:site_name" content="做点有意思的事情">
+<meta property="og:description" content="在iOS中绘图技术主要有UIKit, Quartz 2D,Core Animation和OpenGL ES. 其中Core Animation提供动画实现. OpenGL ES是OpenGL针对嵌入式设备的简化版本, 可以绘制高性能的2D和3D图形. 这里重点介绍UIKit和Quartz 2D.  UIKit: 高级别的图形接口, 提供了基于Objective-C和Swift的API. 能够访问绘">
+<meta property="og:locale">
+<meta property="article:published_time" content="2017-01-10T15:07:38.000Z">
+<meta property="article:modified_time" content="2017-01-12T15:02:56.000Z">
+<meta property="article:author" content="mangox">
+<meta property="article:tag" content="学习笔记">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://www.devzhang.cn/2017/01/10/UIKit%E4%B8%8EQuartz%202D%E7%BB%98%E5%9B%BE%E6%8A%80%E6%9C%AF%E6%A6%82%E8%A6%81(swift)/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>UIKit与Quartz 2D绘图技术概要(swift) | 做点有意思的事情</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">做点有意思的事情</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">每天进步一点点</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://www.devzhang.cn/2017/01/10/UIKit%E4%B8%8EQuartz%202D%E7%BB%98%E5%9B%BE%E6%8A%80%E6%9C%AF%E6%A6%82%E8%A6%81(swift)/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="mangox">
+      <meta itemprop="description" content="每天进步一点点">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="做点有意思的事情">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          UIKit与Quartz 2D绘图技术概要(swift)
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-01-10 23:07:38" itemprop="dateCreated datePublished" datetime="2017-01-10T23:07:38+08:00">2017-01-10</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2017-01-12 23:02:56" itemprop="dateModified" datetime="2017-01-12T23:02:56+08:00">2017-01-12</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index"><span itemprop="name">iOS</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2017/01/10/UIKit%E4%B8%8EQuartz%202D%E7%BB%98%E5%9B%BE%E6%8A%80%E6%9C%AF%E6%A6%82%E8%A6%81(swift)/" class="post-meta-item leancloud_visitors" data-flag-title="UIKit与Quartz 2D绘图技术概要(swift)" title="Views">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2017/01/10/UIKit%E4%B8%8EQuartz%202D%E7%BB%98%E5%9B%BE%E6%8A%80%E6%9C%AF%E6%A6%82%E8%A6%81(swift)/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2017/01/10/UIKit%E4%B8%8EQuartz%202D%E7%BB%98%E5%9B%BE%E6%8A%80%E6%9C%AF%E6%A6%82%E8%A6%81(swift)/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>在iOS中绘图技术主要有UIKit, Quartz 2D,Core Animation和OpenGL ES. 其中Core Animation提供动画实现. OpenGL ES是OpenGL针对嵌入式设备的简化版本, 可以绘制高性能的2D和3D图形. 这里重点介绍UIKit和Quartz 2D.</p>
+<ol>
+<li>UIKit: 高级别的图形接口, 提供了基于Objective-C和Swift的API. 能够访问绘图,动画,字体,图片等内容.</li>
+<li>Quartz 2D: iOS和OSX环境下的2D绘图引擎. 包括基于路径的绘图, 透明度绘图,遮盖, 阴影, 透明层, 颜色管理, 防锯齿渲染, 生成PDF, 以及PDF元数据的相关处理. Quartz 2D也被称为Core Graphics, 缩写前缀为CG.</li>
+</ol>
+<span id="more"></span>
+
+
+<h1 id="绘制视图"><a href="#绘制视图" class="headerlink" title="绘制视图"></a>绘制视图</h1><p>在iOS上无论采用哪种绘图技术,绘制都发生在UIView对象的区域内. 可以在UIView的drawRect方法中实现自定义绘图.</p>
+<h2 id="视图绘制周期"><a href="#视图绘制周期" class="headerlink" title="视图绘制周期"></a>视图绘制周期</h2><p>系统会为视图设置一个重绘标识, 在RunLoop每次循环时, 绘图引擎会检查重绘标识, 以此判断是否有需要更新的内容. 如果需要重绘, 则调用drawRect方法.</p>
+<p>也可以手动设置重绘标识:</p>
+<ul>
+<li>setNeedsDisplay: 重绘整个视图</li>
+<li>setNeedsDisplayInRect:重绘指定区域的视图</li>
+</ul>
+<p>原则上尽量不要重复绘制全部视图, 以降低系统绘制开销.</p>
+<p>以下几种情况会触发视图重绘:</p>
+<ol>
+<li>当遮挡视图的其他视图被移动或删除操作的时候;</li>
+<li>将视图的hidden属性声明设置为NO, 使其从隐藏状态变为可见;</li>
+<li>将视图滚出屏幕, 然后再重新回到屏幕上;</li>
+<li>显式调用视图的setNeedsDisplay或者setNeedsDisplayInRect方法;</li>
+</ol>
+<h2 id="填充与描边"><a href="#填充与描边" class="headerlink" title="填充与描边"></a>填充与描边</h2><p>UIKit提供了基础的绘图功能, 主要API有:</p>
+<ol>
+<li>UIRectFill: 矩形填充;</li>
+<li>UIRectFrame: 矩形描边;</li>
+<li>UIBezierPath: 绘制常见路径, 包括线段, 弧形, 矩形, 圆角矩形和椭圆;</li>
+</ol>
+<p>示例代码如下:</p>
+<pre><code>    override func draw(_ rect: CGRect) &#123;
+        // Drawing code
+        //为当前的图形上下文设置要填充的颜色
+        UIColor.brown.setFill()
+        //填充矩形
+        UIRectFill(rect)
+        
+        //设置描边颜色
+        UIColor.white.setStroke()
+        let frame = CGRect(x: 20, y: 30, width: 100, height: 300)
+        //描边
+        UIRectFrame(frame)
+    &#125;
+</code></pre>
+<h2 id="绘制图像和文本"><a href="#绘制图像和文本" class="headerlink" title="绘制图像和文本"></a>绘制图像和文本</h2><p>UIImage类中绘制图像主要的方法:</p>
+<ol>
+<li>drawAtPoint: 以指定点作为起始点进行绘制;</li>
+<li>drawInRect: 在指定区域内绘制;</li>
+<li>drawAsPatternInRect: 在指定的矩形里平铺图片,如果图片大小超出了指定的矩形, 形式上与drawAtPoint方法类似了, 如果图片大小小于指定的矩形，就会有平铺的效果;</li>
+</ol>
+<p>NSString中绘制文本的主要方法如下:</p>
+<ol>
+<li>draw(at point: CGPoint, withAttributes attrs: [String : Any]?): 在指定点开始绘制文本;</li>
+<li>draw(in rect: CGRect, withAttributes attrs: [String : Any]?): 在制定区域内绘制文本;</li>
+</ol>
+<p>示例如下:</p>
+<pre><code>    override func draw(_ rect: CGRect) &#123;
+
+        let imgPath = Bundle.main.path(forResource: &quot;cat&quot;, ofType: &quot;png&quot;)
+        guard (imgPath != nil)  else &#123;
+            return;
+        &#125;
+        let img = UIImage(contentsOfFile: imgPath!)
+        img?.draw(in: rect)
+
+        let title = &quot;我的小狗&quot; as NSString
+        let font = UIFont.systemFont(ofSize: 34)
+        let attr = [NSFontAttributeName:font]
+        let point = CGPoint(x:100,y:20)
+        title.draw(at: point, withAttributes: attr)
+    &#125;
+</code></pre>
+<h1 id="Quartz图形上下文"><a href="#Quartz图形上下文" class="headerlink" title="Quartz图形上下文"></a>Quartz图形上下文</h1><p>想象在绘画时, 图像上下文便是你的手, 想画红色时，就拿起红色画笔，想画绿色就拿起绿色画笔. 当切换图形上下文的颜色及其它参数时, 就是在替换不同的蜡笔.</p>
+<p>图形上下文包括了绘制命令所需要的信息, 定义了各种基本的绘制参数, 比如绘制使用的颜色、裁剪区域、线段的宽度及风格信息、字体信息、合成选项以及几个其他信息.</p>
+<p>在调用drawRect方法之前, 视图对象会自动配置其绘制环境, 使代码立即执行进行绘制. 作为这些配置的一部分, UIView对象会对当前绘制环境创建一个图形上下文(对应于CGContextRef封装类型). 在前面的实例中就是采用这种默认方式的图形上下文. </p>
+<p>也可以在drawRect方法中通过UIGraphicsGetCurrentContext()方法手动获取到图形上下文对象. 图形上下文仅对当前的drawRect:方法使用有效, 不要把图形上下文对象设置为成员变量.</p>
+<p>下面的代码绘制了一个黑色描边, 红色填充的三角形:</p>
+<pre><code>    override func draw(_ rect: CGRect) &#123;
+        // Drawing code
+        let context = UIGraphicsGetCurrentContext()
+        context?.move(to: CGPoint(x: 75, y: 10))
+        context?.addLine(to: CGPoint(x: 10, y: 150))
+        context?.addLine(to: CGPoint(x:160,y:150))
+        
+        //闭合路径
+        context?.closePath()
+        //设置描边色和填充色
+        UIColor.black.setStroke()
+        UIColor.red.setFill()
+        
+        context?.drawPath(using: .fillStroke)
+
+    &#125;
+    
+</code></pre>
+<h1 id="Quartz路径"><a href="#Quartz路径" class="headerlink" title="Quartz路径"></a>Quartz路径</h1><p>Quartz路径可以用来描述矩形, 圆, 以及其他想要的2D几何图形. 通过路径可以对几何图形进行各种处理. Quartz 2D中有4种基本图元: 点, 线段, 弧和贝塞尔曲线.</p>
+<ol>
+<li>点: 点是二维空间中的一个位置, 不等同于像素, 一个点完全不占空间. 画一个点不会在屏幕上显示任何东西; </li>
+<li>线段: 线段由起点和终点两个点定义. 线段没有面积，所依它们不能被填充.可以用一组线段或者曲线组成一个具有闭合路径的几何图形, 然后进行填充;</li>
+<li>弧: 弧由一个圆心点、半径、起始角和结束角定义. 圆是弧的特例. 弧是占有一定面积的路径, 所以可以被填充、描边和描边填充出来; </li>
+<li>贝塞尔: 任何一条曲线都可以通过与它相切的控制线两端的点的位置来定义. 贝塞尔曲线可以用4个点描述, 其中两个点描述两个端点, 另外两个描述每一端的切线;</li>
+</ol>
+<h1 id="Quartz坐标变换"><a href="#Quartz坐标变换" class="headerlink" title="Quartz坐标变换"></a>Quartz坐标变换</h1><p>不同的绘图系统对坐标系的定义有所区别.</p>
+<h2 id="坐标系"><a href="#坐标系" class="headerlink" title="坐标系"></a>坐标系</h2><p>在iOS中Quartz坐标系和UIKit坐标系有所不同, 具体来说:</p>
+<ul>
+<li>Quartz 2D坐标系: 原点在左下角, x向右为正, y向上为正;</li>
+<li>UIKit坐标系: 原点在左上角, x向右为正, y向下为正;</li>
+</ul>
+<h2 id="2D图形的基本变换"><a href="#2D图形的基本变换" class="headerlink" title="2D图形的基本变换"></a>2D图形的基本变换</h2><p>2D图形的基本变换包括平移, 缩放, 旋转, 反射和仿射几种形式.</p>
+<h3 id="平移变换"><a href="#平移变换" class="headerlink" title="平移变换"></a>平移变换</h3><p>平移是一物体从一个位置到另一个位置所做的直线移动. 如果要把一个位于P(x,y)的点移到新位置p’(x’,y’)时, 只要在原坐标加上平移距离Tx及Ty即可.</p>
+<h3 id="缩放变换"><a href="#缩放变换" class="headerlink" title="缩放变换"></a>缩放变换</h3><p>用来改变一物体大小的变换称为缩放变换. 如果要对一个多边形进行比例变换, 那么可把各顶点的坐标(x,y)均乘以比例因子Sx、Sy可以相等或不等. 如果比例因子数值小于1, 则物体尺寸减小; 大于1, 则使物体放大; Sx及Sy都等于1,则物体大小形状不变.</p>
+<h3 id="旋转变换"><a href="#旋转变换" class="headerlink" title="旋转变换"></a>旋转变换</h3><p>物体上的各点绕一固定点沿圆周路径转动称为旋转变换. 可以用旋转角表示旋转量的大小. 一个点由位置(x,y)旋转到(x’,y’), 从水平轴到(x’,y’)的角度即为旋转角.</p>
+<h3 id="反射变换"><a href="#反射变换" class="headerlink" title="反射变换"></a>反射变换</h3><p>反射是用来产生物体的镜像的一种变换. 物体的镜像一般是相对于一个对称轴产生的, 因此反射变换可以分为x轴对称变换、y轴对称变换和坐标原点的对称变换. </p>
+<p>下面的示例将使用Quartz坐标系绘制的”倒图”调整为正:</p>
+<pre><code>    override func draw(_ rect: CGRect) &#123;
+
+        let imgPath = Bundle.main.path(forResource: &quot;cat&quot;, ofType: &quot;png&quot;)
+        guard (imgPath != nil)  else &#123;
+            return;
+        &#125;
+        let img = UIImage(contentsOfFile: imgPath!)
+        
+        let ctx = UIGraphicsGetCurrentContext()
+        
+        //注释掉下面两句代码, 图片会倒过来
+        //平移变换
+        ctx?.translateBy(x: 0, y: img!.size.height)
+        //反射变换 - y轴对称变换
+        ctx?.scaleBy(x: 1, y: -1)
+        
+        
+        let rect = CGRect(x: 0, y: 0, width: img!.size.width, height: img!.size.height)
+        
+        ctx?.draw(img!.cgImage!, in: rect)
+
+    &#125;
+    
+</code></pre>
+<h1 id="仿射变换"><a href="#仿射变换" class="headerlink" title="仿射变换"></a>仿射变换</h1><p>仿射(affine)变换也是一种2D坐标变换. 它可以重用变换, 经过多次变换(即多次的矩阵相乘), 每一种变换都可以用矩阵表示, 通过多次矩阵相乘得到最后结果.</p>
+<p>例如上例中调整”倒图”的代码, 也可以使用仿射变换达到同样的效果:</p>
+<pre><code>    var myAffine = CGAffineTransform(translationX: 0, y: img!.size.height)
+    myAffine = myAffine.scaledBy(x: 1, y: -1)
+    ctx?.concatenate(myAffine)
+</code></pre>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="tag"># 学习笔记</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2017/01/04/Objective-C%E4%B9%8BGCD%E6%A6%82%E8%A6%81/" rel="prev" title="Objective-C之GCD概要">
+      <i class="fa fa-chevron-left"></i> Objective-C之GCD概要
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2017/03/09/objc%E7%BB%A7%E6%89%BF%E4%B8%AD%E7%9A%84init%E6%96%B9%E6%B3%95/" rel="next" title="objc继承中的init方法">
+      objc继承中的init方法 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BB%98%E5%88%B6%E8%A7%86%E5%9B%BE"><span class="nav-number">1.</span> <span class="nav-text">绘制视图</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%86%E5%9B%BE%E7%BB%98%E5%88%B6%E5%91%A8%E6%9C%9F"><span class="nav-number">1.1.</span> <span class="nav-text">视图绘制周期</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A1%AB%E5%85%85%E4%B8%8E%E6%8F%8F%E8%BE%B9"><span class="nav-number">1.2.</span> <span class="nav-text">填充与描边</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%98%E5%88%B6%E5%9B%BE%E5%83%8F%E5%92%8C%E6%96%87%E6%9C%AC"><span class="nav-number">1.3.</span> <span class="nav-text">绘制图像和文本</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Quartz%E5%9B%BE%E5%BD%A2%E4%B8%8A%E4%B8%8B%E6%96%87"><span class="nav-number">2.</span> <span class="nav-text">Quartz图形上下文</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Quartz%E8%B7%AF%E5%BE%84"><span class="nav-number">3.</span> <span class="nav-text">Quartz路径</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Quartz%E5%9D%90%E6%A0%87%E5%8F%98%E6%8D%A2"><span class="nav-number">4.</span> <span class="nav-text">Quartz坐标变换</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9D%90%E6%A0%87%E7%B3%BB"><span class="nav-number">4.1.</span> <span class="nav-text">坐标系</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2D%E5%9B%BE%E5%BD%A2%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%8F%98%E6%8D%A2"><span class="nav-number">4.2.</span> <span class="nav-text">2D图形的基本变换</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B9%B3%E7%A7%BB%E5%8F%98%E6%8D%A2"><span class="nav-number">4.2.1.</span> <span class="nav-text">平移变换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%A9%E6%94%BE%E5%8F%98%E6%8D%A2"><span class="nav-number">4.2.2.</span> <span class="nav-text">缩放变换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%97%8B%E8%BD%AC%E5%8F%98%E6%8D%A2"><span class="nav-number">4.2.3.</span> <span class="nav-text">旋转变换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%8D%E5%B0%84%E5%8F%98%E6%8D%A2"><span class="nav-number">4.2.4.</span> <span class="nav-text">反射变换</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%BF%E5%B0%84%E5%8F%98%E6%8D%A2"><span class="nav-number">5.</span> <span class="nav-text">仿射变换</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">mangox</p>
+  <div class="site-description" itemprop="description">每天进步一点点</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">130</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">34</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">mangox</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'Hl5bOvNBmh6xqvMEjzRRWMIP-gzGzoHsz',
+      appKey     : '3n3m7ANssYrw0VgxYu87kQEL',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : true,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>
