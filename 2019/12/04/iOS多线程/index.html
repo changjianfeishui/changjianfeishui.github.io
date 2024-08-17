@@ -17,13 +17,13 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"www.devzhang.cn","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+    var CONFIG = {"hostname":"changjianfeishui.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
   <meta name="description" content="iOS中的常见多线程方案 GCDGCD源码地址:https:&#x2F;&#x2F;github.com&#x2F;apple&#x2F;swift-corelibs-libdispatch。 GCD使用概要：Objective-C之GCD概要。 常用函数GCD中有2个用来执行任务的函数：  用同步的方式执行任务  1dispatch_sync(dispatch_queue_t queue, dispatch_block_t block">
 <meta property="og:type" content="article">
 <meta property="og:title" content="iOS多线程">
-<meta property="og:url" content="http://www.devzhang.cn/2019/12/04/iOS%E5%A4%9A%E7%BA%BF%E7%A8%8B/index.html">
+<meta property="og:url" content="https://changjianfeishui.github.io/2019/12/04/iOS%E5%A4%9A%E7%BA%BF%E7%A8%8B/index.html">
 <meta property="og:site_name" content="做点有意思的事情">
 <meta property="og:description" content="iOS中的常见多线程方案 GCDGCD源码地址:https:&#x2F;&#x2F;github.com&#x2F;apple&#x2F;swift-corelibs-libdispatch。 GCD使用概要：Objective-C之GCD概要。 常用函数GCD中有2个用来执行任务的函数：  用同步的方式执行任务  1dispatch_sync(dispatch_queue_t queue, dispatch_block_t block">
 <meta property="og:locale" content="zh_CN">
@@ -37,7 +37,7 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1575457842516&di=35000b2066fc9cf8fbbb8055a2c1c766&imgtype=0&src=http://aliyunzixunbucket.oss-cn-beijing.aliyuncs.com/jpg/ab944ef4ead2e4408af24310dc2f4a73.jpg?x-oss-process=image/resize,p_100/auto-orient,1/quality,q_90/format,jpg/watermark,image_eXVuY2VzaGk=,t_100">
 
-<link rel="canonical" href="http://www.devzhang.cn/2019/12/04/iOS%E5%A4%9A%E7%BA%BF%E7%A8%8B/">
+<link rel="canonical" href="https://changjianfeishui.github.io/2019/12/04/iOS%E5%A4%9A%E7%BA%BF%E7%A8%8B/">
 
 
 <script id="page-configurations">
@@ -166,7 +166,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://www.devzhang.cn/2019/12/04/iOS%E5%A4%9A%E7%BA%BF%E7%A8%8B/">
+    <link itemprop="mainEntityOfPage" href="https://changjianfeishui.github.io/2019/12/04/iOS%E5%A4%9A%E7%BA%BF%E7%A8%8B/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -242,7 +242,7 @@
       
         <h1 id="iOS中的常见多线程方案"><a href="#iOS中的常见多线程方案" class="headerlink" title="iOS中的常见多线程方案"></a>iOS中的常见多线程方案</h1><p><img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1575457842516&di=35000b2066fc9cf8fbbb8055a2c1c766&imgtype=0&src=http://aliyunzixunbucket.oss-cn-beijing.aliyuncs.com/jpg/ab944ef4ead2e4408af24310dc2f4a73.jpg?x-oss-process=image/resize,p_100/auto-orient,1/quality,q_90/format,jpg/watermark,image_eXVuY2VzaGk=,t_100"></p>
 <h1 id="GCD"><a href="#GCD" class="headerlink" title="GCD"></a>GCD</h1><p>GCD源码地址:<a target="_blank" rel="noopener" href="https://github.com/apple/swift-corelibs-libdispatch">https://github.com/apple/swift-corelibs-libdispatch</a>。</p>
-<p>GCD使用概要：<a href="http://www.devzhang.cn/2017/01/04/Objective-C%E4%B9%8BGCD%E6%A6%82%E8%A6%81/">Objective-C之GCD概要</a>。</p>
+<p>GCD使用概要：<a target="_blank" rel="noopener" href="http://www.devzhang.cn/2017/01/04/Objective-C%E4%B9%8BGCD%E6%A6%82%E8%A6%81/">Objective-C之GCD概要</a>。</p>
 <h2 id="常用函数"><a href="#常用函数" class="headerlink" title="常用函数"></a>常用函数</h2><p>GCD中有2个用来执行任务的函数：</p>
 <ol>
 <li>用同步的方式执行任务</li>
@@ -272,7 +272,7 @@
 <p>各种队列的执行效果：</p>
 <p><img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1575458497368&di=6a2615d86e810300b17b458b4f95c564&imgtype=0&src=http://blog.cocoachina.com/uploads/attachments/473781/20181102/d0bafb006f34e478052f8f92d2ef7aaf.png"></p>
 <p>使用sync函数往当前串行队列中添加任务，会卡住当前的串行队列（产生死锁）。</p>
-<h2 id="队列组"><a href="#队列组" class="headerlink" title="队列组"></a>队列组</h2><p>参见GCD使用概要：<a href="http://www.devzhang.cn/2017/01/04/Objective-C%E4%B9%8BGCD%E6%A6%82%E8%A6%81/">Objective-C之GCD概要</a>。</p>
+<h2 id="队列组"><a href="#队列组" class="headerlink" title="队列组"></a>队列组</h2><p>参见GCD使用概要：<a target="_blank" rel="noopener" href="http://www.devzhang.cn/2017/01/04/Objective-C%E4%B9%8BGCD%E6%A6%82%E8%A6%81/">Objective-C之GCD概要</a>。</p>
 <h1 id="iOS中的线程同步方案"><a href="#iOS中的线程同步方案" class="headerlink" title="iOS中的线程同步方案"></a>iOS中的线程同步方案</h1><p>性能从高到低排序:</p>
 <ul>
 <li>os_unfair_lock</li>
@@ -502,7 +502,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2022</span>
+  <span itemprop="copyrightYear">2024</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

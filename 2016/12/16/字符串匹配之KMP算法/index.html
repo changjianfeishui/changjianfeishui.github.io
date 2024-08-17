@@ -17,13 +17,13 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"www.devzhang.cn","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+    var CONFIG = {"hostname":"changjianfeishui.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
   <meta name="description" content="KMP算法是由D.E.Knuth，J.H.Morris和V.R.Pratt于1969年夏天提出的字符串快速匹配算法. KMP算法的关键是利用匹配失败后的信息，尽量减少模式串与主串的匹配次数以达到快速匹配的目的. 下面将分以下几个部分对KMP算法进行介绍:  KMP算法的匹配过程 next数组的解释 next数组的求法 代码实现">
 <meta property="og:type" content="article">
 <meta property="og:title" content="字符串匹配之KMP算法">
-<meta property="og:url" content="http://www.devzhang.cn/2016/12/16/%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8C%B9%E9%85%8D%E4%B9%8BKMP%E7%AE%97%E6%B3%95/index.html">
+<meta property="og:url" content="https://changjianfeishui.github.io/2016/12/16/%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8C%B9%E9%85%8D%E4%B9%8BKMP%E7%AE%97%E6%B3%95/index.html">
 <meta property="og:site_name" content="做点有意思的事情">
 <meta property="og:description" content="KMP算法是由D.E.Knuth，J.H.Morris和V.R.Pratt于1969年夏天提出的字符串快速匹配算法. KMP算法的关键是利用匹配失败后的信息，尽量减少模式串与主串的匹配次数以达到快速匹配的目的. 下面将分以下几个部分对KMP算法进行介绍:  KMP算法的匹配过程 next数组的解释 next数组的求法 代码实现">
 <meta property="og:locale" content="zh_CN">
@@ -43,7 +43,7 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://github.com/changjianfeishui/XBImageStore/raw/master/Hexo/kmp1.png">
 
-<link rel="canonical" href="http://www.devzhang.cn/2016/12/16/%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8C%B9%E9%85%8D%E4%B9%8BKMP%E7%AE%97%E6%B3%95/">
+<link rel="canonical" href="https://changjianfeishui.github.io/2016/12/16/%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8C%B9%E9%85%8D%E4%B9%8BKMP%E7%AE%97%E6%B3%95/">
 
 
 <script id="page-configurations">
@@ -172,7 +172,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://www.devzhang.cn/2016/12/16/%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8C%B9%E9%85%8D%E4%B9%8BKMP%E7%AE%97%E6%B3%95/">
+    <link itemprop="mainEntityOfPage" href="https://changjianfeishui.github.io/2016/12/16/%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8C%B9%E9%85%8D%E4%B9%8BKMP%E7%AE%97%E6%B3%95/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -259,7 +259,7 @@
 <h1 id="KMP算法的匹配过程"><a href="#KMP算法的匹配过程" class="headerlink" title="KMP算法的匹配过程"></a>KMP算法的匹配过程</h1><p>举例来说, 要判断主串”ABCDABEABCDABCDABDE”是否包含模式串”ABCDABD”, 匹配过程描述如下(索引均从0开始):</p>
 <p>第一轮匹配, 从第一个字符开始, 依次对主串和模式串的字符进行比较, 发现在模式串第6位出现了”失配”情况, 如下图所示:</p>
 <p><img src="https://github.com/changjianfeishui/XBImageStore/raw/master/Hexo/kmp1.png" alt="kmp1"></p>
-<p>如果按照<a href="http://www.devzhang.cn/2016/12/07/%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8C%B9%E9%85%8D%E4%B9%8BBF%E7%AE%97%E6%B3%95/">BF算法</a>的思想, 下面需要使用主串的第二个字符’B’和模式串的第一个字符’A’ 进行比较, 但是通过”肉眼可见”, 这次比较是无意义的. 不止如此, 使用主串接下来的两个字符’C’和’D’和’A’比较也是无意义的:</p>
+<p>如果按照<a target="_blank" rel="noopener" href="http://www.devzhang.cn/2016/12/07/%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8C%B9%E9%85%8D%E4%B9%8BBF%E7%AE%97%E6%B3%95/">BF算法</a>的思想, 下面需要使用主串的第二个字符’B’和模式串的第一个字符’A’ 进行比较, 但是通过”肉眼可见”, 这次比较是无意义的. 不止如此, 使用主串接下来的两个字符’C’和’D’和’A’比较也是无意义的:</p>
 <p><img src="https://github.com/changjianfeishui/XBImageStore/raw/master/Hexo/kmp2.png" alt="kmp2"></p>
 <p>但是如何把我们”肉眼可见”的结果告诉程序, 让程序能自动跳过这些无意义的匹配, 对于当前这个例子, 就是跳过主串中”BCD”三个字符, 直接从主串第五个’A’开始与模式串进行下一轮匹配. </p>
 <p>当失配情况发生时, 由于失配位之前的字符已经比较过了, KMP就是要利用已经比较过的信息, 不要把”搜索位置”移回已经比较过的位置，而是继续把它向后移，这样就提高了效率(<em><strong>但是不能保证可以跳过所有无比较意义的字符</strong></em>).</p>
@@ -553,7 +553,7 @@ int main(int argc, const char * argv[]) &#123;
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2022</span>
+  <span itemprop="copyrightYear">2024</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

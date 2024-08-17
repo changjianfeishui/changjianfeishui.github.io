@@ -17,13 +17,13 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"www.devzhang.cn","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+    var CONFIG = {"hostname":"changjianfeishui.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
   <meta name="description" content="关于MVC的争论关于MVC的争论已经有很多,对此我的观点是:对于iOS开发中的绝大部分场景来说,MVC本身是没有问题的,你认为的MVC的问题,一定是你自己理解的问题(资深架构师请自动忽略本文). 行文过程中查阅了互联网上的大量文档,其中水平良莠不齐(最常见的就是MVC改个名就当MVVM的),当然也有许多非常有价值的参考资料,在文末会逐一列举,以供参考.">
 <meta property="og:type" content="article">
 <meta property="og:title" content="iOS基于MVC的项目重构总结">
-<meta property="og:url" content="http://www.devzhang.cn/2016/04/12/iOS%E5%9F%BA%E4%BA%8EMVC%E7%9A%84%E9%A1%B9%E7%9B%AE%E9%87%8D%E6%9E%84%E6%80%BB%E7%BB%93/index.html">
+<meta property="og:url" content="https://changjianfeishui.github.io/2016/04/12/iOS%E5%9F%BA%E4%BA%8EMVC%E7%9A%84%E9%A1%B9%E7%9B%AE%E9%87%8D%E6%9E%84%E6%80%BB%E7%BB%93/index.html">
 <meta property="og:site_name" content="做点有意思的事情">
 <meta property="og:description" content="关于MVC的争论关于MVC的争论已经有很多,对此我的观点是:对于iOS开发中的绝大部分场景来说,MVC本身是没有问题的,你认为的MVC的问题,一定是你自己理解的问题(资深架构师请自动忽略本文). 行文过程中查阅了互联网上的大量文档,其中水平良莠不齐(最常见的就是MVC改个名就当MVVM的),当然也有许多非常有价值的参考资料,在文末会逐一列举,以供参考.">
 <meta property="og:locale" content="zh_CN">
@@ -38,7 +38,7 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://developer.apple.com/library/mac/documentation/General/Conceptual/CocoaEncyclopedia/Art/cocoa_mvc.gif">
 
-<link rel="canonical" href="http://www.devzhang.cn/2016/04/12/iOS%E5%9F%BA%E4%BA%8EMVC%E7%9A%84%E9%A1%B9%E7%9B%AE%E9%87%8D%E6%9E%84%E6%80%BB%E7%BB%93/">
+<link rel="canonical" href="https://changjianfeishui.github.io/2016/04/12/iOS%E5%9F%BA%E4%BA%8EMVC%E7%9A%84%E9%A1%B9%E7%9B%AE%E9%87%8D%E6%9E%84%E6%80%BB%E7%BB%93/">
 
 
 <script id="page-configurations">
@@ -167,7 +167,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://www.devzhang.cn/2016/04/12/iOS%E5%9F%BA%E4%BA%8EMVC%E7%9A%84%E9%A1%B9%E7%9B%AE%E9%87%8D%E6%9E%84%E6%80%BB%E7%BB%93/">
+    <link itemprop="mainEntityOfPage" href="https://changjianfeishui.github.io/2016/04/12/iOS%E5%9F%BA%E4%BA%8EMVC%E7%9A%84%E9%A1%B9%E7%9B%AE%E9%87%8D%E6%9E%84%E6%80%BB%E7%BB%93/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -515,7 +515,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2022</span>
+  <span itemprop="copyrightYear">2024</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
